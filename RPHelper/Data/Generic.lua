@@ -1,0 +1,5 @@
+RPHelper.RegisterGeneric("crit", { type = "emote", text = "flashes a satisfied grin as the strike lands cleanly." })
+RPHelper.RegisterGeneric("crit", { type = "say", text = "That one hurt, didn't it?" })
+RPHelper.RegisterGeneric("dodge", { type = "emote", text = "shifts aside just before the blow lands." })
+RPHelper.RegisterGeneric("parry", { type = "emote", text = "turns the incoming strike aside with a sharp movement." })
+RPHelper.RegisterGeneric("block", { type = "emote", text = "braces and catches the blow on their guard." })

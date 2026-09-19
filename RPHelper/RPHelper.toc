@@ -1,0 +1,12 @@
+## Title: RPHelper
+## Notes: Contextual roleplaying flavour through triggered sayings and emotes.
+## Author: Wiubiki
+## Version: 0.1.0-prealpha
+## SavedVariablesPerCharacter: RPHelperDB
+
+Core/Defaults.lua
+Core/Database.lua
+Core/Content.lua
+Core/Commands.lua
+Data/Generic.lua
+RPHelper.lua
