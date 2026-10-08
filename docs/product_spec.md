@@ -13,6 +13,37 @@ RPHelper adds occasional contextual sayings and emotes in response to character 
 5. Game-version-dependent event handling is isolated from content and settings.
 6. Any behaviour that depends on WoW Forever restrictions must remain explicitly testable until verified in-game.
 
+## Output behaviour by context
+
+RPHelper distinguishes between custom emotes, spoken sayings, and local-only sayings.
+
+### Open world
+
+Default:
+- Custom emotes: enabled
+- Local sayings: enabled
+- Party-channel sayings: disabled
+- Automated /say: not used
+
+Local sayings are displayed only to the player through RPHelper's UI and are not transmitted to a WoW chat channel.
+
+An optional setting may allow sayings to be redirected to party chat while grouped.
+
+### 5-player instances
+
+Default:
+- Custom emotes: enabled
+- /say sayings: enabled
+
+This represents RPHelper's full immersive behaviour where automated /say is permitted.
+
+### Raids
+
+Default:
+- RPHelper output: disabled
+
+Raids are communication-heavy environments and RPHelper should not add unsolicited chat or emote traffic unless explicitly enabled by the user.
+
 ## Trigger families
 
 ### Passive event triggers
@@ -32,15 +63,25 @@ Candidates for V1, subject to API verification:
 
 ### Active macro triggers
 
-Ability-specific RP may be requested explicitly from a player macro, for example:
+Ability-specific RP triggered through player macros is deferred beyond V1.
 
-```
+Earlier designs considered macros such as:
+
+```text
 #showtooltip Rebirth
 /cast [@mouseover,help,dead] Rebirth
 /rph spell rebirth
 ```
 
-Exact WoW Forever behaviour, especially /say behaviour and spell success/failure semantics, must be tested before V1 is declared stable.
+as a way to associate player-initiated abilities with RP sayings while retaining a hardware-event context.
+
+For V1, RPHelper will instead prioritise automatic trigger detection where available and route sayings according to activity context:
+
+- open world -> local sayings
+- 5-player instances -> `/say`
+- raids -> disabled by default
+
+Macro-triggered ability RP may be revisited in a later release where it provides useful behaviour that cannot be achieved reliably through normal event detection.
 
 ## Content resolution
 
@@ -57,6 +98,18 @@ A layer may:
 - add to a lower-priority pool;
 - replace it;
 - suppress the trigger.
+
+## Output routing
+
+Trigger detection and content selection must be independent from output routing.
+
+A selected entry may be routed according to context:
+
+- `say` -> real /say, local display, optional party chat, or suppressed
+- `customemote` -> /e when enabled
+- `emote` -> Blizzard built-in emote where permitted/enabled
+
+The content catalogue must not hard-code the destination channel.
 
 ## Anti-spam
 
@@ -87,3 +140,5 @@ V1 target:
 - Complex profile sharing
 - Spec-specific content packs
 - Full in-game content editor unless implementation proves small and robust
+- Local speech-bubble display for sayings (Investigate as a post-V1 alternative to the local sayings feed, not as a replacement.)
+- Player-macro-triggered ability sayings
