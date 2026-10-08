@@ -85,19 +85,36 @@ Macro-triggered ability RP may be revisited in a later release where it provides
 
 ## Content resolution
 
-Runtime content is assembled in this order:
+Runtime content follows this character-content hierarchy, from lowest to highest priority:
 
 1. Generic
 2. Race
 3. Class
-4. Race + class, if present
-5. Ability-specific
-6. User custom content
+4. Exceptional race + class combination, if authored
+5. User custom content
+
+Personality may become a future layer, but is not part of V1. Ability-specific content may further refine the pool for an ability trigger without changing the character-content hierarchy above.
+
+Race/class combination files are exceptions, not a matrix to complete. Do not create a file for every valid pairing. A dedicated combination is appropriate only when the interaction needs additions, replacements, or suppression that neither layer expresses well on its own. Forsaken/Undead Paladin is the primary example: it may require dedicated lines, replacement of normal Paladin lines, or suppression of class content that does not fit that combination.
+
+Missing race content is valid. Unsupported or unauthored races fall back gracefully to Generic + Class content; empty placeholder race files are not required. Skyborne-specific authored content is explicitly out of scope for V1. Skyborne characters still receive Generic + Class content and user custom content, and future community contributions may add a Skyborne race layer.
 
 A layer may:
 - add to a lower-priority pool;
 - replace it;
 - suppress the trigger.
+
+Content entries should eventually have stable identifiers so a higher layer or user setting can suppress or replace a specific inherited entry without matching its display text. The identifier system is not required for the initial content migration and should be designed before runtime implementation.
+
+## English content migration
+
+Existing `RPhelper_twow` English content is source material, not a catalogue to copy unchanged:
+
+- `ANY.lua` maps to the Generic layer.
+- Race files map to the Race layer.
+- Class files map to the Class layer.
+- Exceptional material may move to a race/class combination layer.
+- Every candidate line should be reviewed and may be kept, rewritten, dropped, moved to a combination layer, or reserved for a possible future Personality layer.
 
 ## Output routing
 
