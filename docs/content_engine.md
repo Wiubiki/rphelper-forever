@@ -86,6 +86,8 @@ Keywords declare required dynamic values for a content candidate:
 
 For example, `"Die, TARGET!"` must not be selected without a safe, relevant target name. Content requiring a pet, pet target, target class, target guild, or similar context is skipped when that context cannot be safely obtained. RPHelper must not attempt to bypass modern WoW information restrictions.
 
+Forever content uses explicit braced tokens such as `{PLAYER}`, `{TARGET}`, and `{RINSULT}`. This prevents overlapping names such as `PTSP`, `TSP`, and `SP` from corrupting one another. Tokens are data only and never evaluate Lua expressions.
+
 ## Legacy behavior not to reproduce
 
 - `TARGET_RACE` reads `UnitRace("player")` in the legacy resolver. Forever must query the intended target only when allowed.
@@ -103,7 +105,7 @@ For example, `"Die, TARGET!"` must not be selected without a safe, relevant targ
 
 The legacy random system stores a phrase containing ordered `BLANK` markers and numbered choice pools. Each marker is replaced, in order, by a random value from its corresponding independent pool. Empty strings are valid choices, allowing optional fragments. Chosen fragments may contain ordinary keywords such as `RINSULT`, which are resolved after template expansion. One template can therefore produce many variants without duplicating static lines.
 
-Forever need not retain the `BLANK` syntax. A possible future schema is:
+Forever does not retain the `BLANK` syntax. Template entries use numbered braced placeholders:
 
 ```lua
 {
@@ -115,7 +117,7 @@ Forever need not retain the `BLANK` syntax. A possible future schema is:
 }
 ```
 
-This schema is illustrative only. Random-template support is intended for the Forever content engine, but the final representation must be defined and implemented before template-dependent legacy content is migrated.
+Each numbered placeholder uses its corresponding choice pool. Template-dependent legacy content should still be reviewed before migration rather than copied mechanically.
 
 ## Content-processing contract
 

@@ -6,6 +6,8 @@
 
 Core/Defaults.lua
 Core/Database.lua
+Core/KeywordResolvers.lua
+Core/ContentEngine.lua
 Core/Content.lua
 Core/Commands.lua
 Data/Generic.lua
