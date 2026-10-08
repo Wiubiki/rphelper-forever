@@ -18,9 +18,16 @@ Pre-alpha. The game-integration layer is intentionally thin until WoW Forever ca
 
 ## Historical credits
 
-- Talyn & Overlord-Q — original RoleplayingHelper authors.
-- Mithyk — contributor of default RP content.
-- Duerma — developer of RPHelper 2 / The Burning Crusade version.
-- Wiubiki — Turtle WoW adaptation and WoW Forever rewrite.
+Full credit and many thanks to the original authors and contributors of the add-on:
 
-This is an unofficial fan project and is not affiliated with or endorsed by Blizzard Entertainment, Turtle WoW, or their respective teams.
+- **Talyn & Overlord-Q** – The original authors of RoleplayingHelper.
+- **Mithyk** – Contributor of many default RPs.
+- **Duerma** – Developer of RPHelper 2 (The Burning Crusade version).
+- **Wiubiki** (yours truly) - Turtle WoW adaptation and WoW Forever rewrite.
+
+I did my best to track down the history of this add-on, but since it’s a **very old and discontinued project**, it was difficult to find all contributors.  
+If I missed someone, I sincerely apologize -it wasn’t intentional! Feel free to reach out if you have more info.
+
+
+---
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/V7V71A0D8Q)
