@@ -51,8 +51,7 @@ Raids are communication-heavy environments and RPHelper should not add unsolicit
 Candidates for V1, subject to API verification:
 - Enter combat
 - Leave combat
-- Melee critical hit
-- Spell critical hit
+- Offensive critical hit (`youcrit`: melee, ranged, or damaging spell; not healing)
 - Dodge
 - Parry
 - Block
@@ -84,6 +83,8 @@ For V1, RPHelper will instead prioritise automatic trigger detection where avail
 Macro-triggered ability RP may be revisited in a later release where it provides useful behaviour that cannot be achieved reliably through normal event detection.
 
 ## Content resolution
+
+The content engine's keyword contract, candidate eligibility rules, future template model, and reactive-trigger semantics are specified in [Content Engine](content_engine.md).
 
 Runtime content follows this character-content hierarchy, from lowest to highest priority:
 
