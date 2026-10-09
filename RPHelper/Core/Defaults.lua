@@ -8,6 +8,7 @@ RPHelper.Defaults = {
         frequencyPreset = "normal",
         globalCooldown = 10,
         maxAutomaticOutputsPerCombat = 2,
+        suppressSayInForms = true,
     },
     triggers = {
         enter_combat = { enabled = true, chance = 0.20, cooldown = 30 },

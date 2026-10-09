@@ -32,7 +32,10 @@ local function poolContainsText(pool, expected)
 end
 
 RPHelper = {}
+dofile("RPHelper/Core/Defaults.lua")
+dofile("RPHelper/Core/Database.lua")
 dofile("RPHelper/Core/KeywordResolvers.lua")
+dofile("RPHelper/Core/DruidForms.lua")
 dofile("RPHelper/Core/ContentEngine.lua")
 dofile("RPHelper/Core/Content.lua")
 dofile("RPHelper/Data/Generic.lua")
@@ -545,6 +548,183 @@ test("race content functions without a class layer", function()
 
     truthy(#pool > 0)
     truthy(poolContainsText(pool, "For my ancestors!"))
+end)
+
+test("Druid form detection uses stable form IDs", function()
+    local Forms = RPHelper.DruidForms
+    equal(Forms.GetCurrentForm({ getShapeshiftFormID = function() return nil end }), Forms.Form.HUMANOID)
+    equal(Forms.GetCurrentForm({ getShapeshiftFormID = function() return 1 end }), Forms.Form.CAT)
+    equal(Forms.GetCurrentForm({ getShapeshiftFormID = function() return 5 end }), Forms.Form.BEAR)
+    equal(Forms.GetCurrentForm({ getShapeshiftFormID = function() return 8 end }), Forms.Form.DIRE_BEAR)
+    equal(Forms.GetCurrentForm({ getShapeshiftFormID = function() return 31 end }), Forms.Form.MOONKIN)
+    equal(Forms.GetCurrentForm({ getShapeshiftFormID = function() return 3 end }), Forms.Form.TRAVEL)
+    equal(Forms.GetCurrentForm({ getShapeshiftFormID = function() return 4 end }), Forms.Form.AQUATIC)
+    equal(Forms.GetCurrentForm({ getShapeshiftFormID = function() return 99 end }), Forms.Form.UNKNOWN)
+    equal(Forms.GetCurrentForm({ getShapeshiftFormID = "unavailable" }), Forms.Form.UNKNOWN)
+    equal(Forms.GetCurrentForm({ getShapeshiftFormID = function() error("unavailable") end }), Forms.Form.UNKNOWN)
+end)
+
+test("Druid speech is suppressed in recognised and unknown forms", function()
+    for _, form in ipairs({ "CAT", "BEAR", "DIRE_BEAR", "MOONKIN", "TRAVEL", "AQUATIC", "UNKNOWN" }) do
+        equal(Engine.PrepareCandidate(
+            { type = "say", text = "Spoken." },
+            { class = RPHelper.Class.DRUID, form = form, resolvers = {} }
+        ), nil)
+    end
+end)
+
+test("Druid speech returns in humanoid form and can be configured later", function()
+    local humanoid = Engine.PrepareCandidate(
+        { type = "say", text = "Spoken." },
+        { class = RPHelper.Class.DRUID, form = "HUMANOID", resolvers = {} }
+    )
+    equal(humanoid.text, "Spoken.")
+
+    local optedOut = Engine.PrepareCandidate(
+        { type = "say", text = "Spoken." },
+        { class = RPHelper.Class.DRUID, form = "CAT", suppressSayInForms = false, resolvers = {} }
+    )
+    equal(optedOut.text, "Spoken.")
+end)
+
+test("Druid speech suppression follows initialized saved settings", function()
+    local previousDatabase = RPHelperDB
+    RPHelperDB = nil
+    RPHelper.InitializeDatabase()
+    equal(RPHelperDB.settings.suppressSayInForms, true)
+
+    RPHelperDB.settings.suppressSayInForms = false
+    local candidate = Engine.PrepareCandidate(
+        { type = "say", text = "Spoken." },
+        { class = RPHelper.Class.DRUID, form = "CAT", resolvers = {} }
+    )
+    equal(candidate.text, "Spoken.")
+    RPHelperDB = previousDatabase
+end)
+
+test("Cat and Bear use separate form content while Dire Bear shares Bear", function()
+    local Forms = RPHelper.DruidForms.Form
+    local cat = RPHelper.GetDruidFormPool(Forms.CAT, "entercombat")
+    local bear = RPHelper.GetDruidFormPool(Forms.BEAR, "entercombat")
+    local direBear = RPHelper.GetDruidFormPool(Forms.DIRE_BEAR, "entercombat")
+    truthy(poolContainsText(cat, "lowers its body, muscles tightening beneath its fur."))
+    truthy(not poolContainsText(cat, "digs its claws into the earth and lowers its head."))
+    truthy(poolContainsText(bear, "digs its claws into the earth and lowers its head."))
+    equal(direBear, bear)
+end)
+
+test("authored Druid form events replace incompatible humanoid content", function()
+    local pool = RPHelper.GetContentPool(
+        "entercombat", RPHelper.Race.TAUREN, RPHelper.Class.DRUID, { form = "CAT" }
+    )
+    truthy(poolContainsText(pool, "fixes its gaze upon its adversary, perfectly still."))
+    truthy(not poolContainsText(pool, "For my ancestors!"))
+    truthy(not poolContainsText(pool, "For nature's survival!"))
+end)
+
+test("emotes and custom emotes remain eligible in Druid forms", function()
+    local prepared = Engine.PrepareCandidatePool({
+        { type = "say", text = "Suppressed." },
+        { type = "emote", text = "SNARL" },
+        { type = "customemote", text = "bares its fangs." },
+    }, { class = RPHelper.Class.DRUID, form = "CAT", resolvers = {} })
+    equal(#prepared, 2)
+    equal(prepared[1].type, "emote")
+    equal(prepared[2].type, "customemote")
+end)
+
+test("speech suppression applies uniformly to every content source", function()
+    local options = { class = RPHelper.Class.DRUID, form = "BEAR", resolvers = {} }
+    local sources = {
+        RPHelper.GetGenericPool("entercombat"),
+        RPHelper.GetRacePool(RPHelper.Race.TAUREN, "entercombat"),
+        RPHelper.GetClassPool(RPHelper.Class.DRUID, "entercombat"),
+        RPHelper.GetAbilityPool(RPHelper.Class.DRUID, RPHelper.Ability.DRUID.ENTANGLING_ROOTS),
+        { { type = "say", text = "User-authored speech." } },
+    }
+    for _, source in ipairs(sources) do
+        local prepared = Engine.PrepareCandidatePool(source, options)
+        for _, entry in ipairs(prepared) do
+            truthy(entry.type ~= "say")
+        end
+    end
+end)
+
+test("form-restricted Druid abilities contain no spoken sayings", function()
+    for _, ability in ipairs({
+        RPHelper.Ability.DRUID.DEMORALIZING_ROAR,
+        RPHelper.Ability.DRUID.ENRAGE,
+        RPHelper.Ability.DRUID.TIGERS_FURY,
+        RPHelper.Ability.DRUID.CHALLENGING_ROAR,
+        RPHelper.Ability.DRUID.DIRE_BEAR_FORM,
+    }) do
+        local pool = RPHelper.GetAbilityPool(RPHelper.Class.DRUID, ability)
+        truthy(#pool > 0)
+        for _, entry in ipairs(pool) do
+            truthy(entry.type == "emote" or entry.type == "customemote")
+        end
+    end
+end)
+
+test("unknown or unavailable form information fails safely", function()
+    local unknown = Engine.PrepareCandidate(
+        { type = "say", text = "Suppressed." },
+        { class = RPHelper.Class.DRUID, getShapeshiftFormID = function() return 777 end, resolvers = {} }
+    )
+    equal(unknown, nil)
+
+    local unavailable = Engine.PrepareCandidate(
+        { type = "say", text = "Suppressed." },
+        { class = RPHelper.Class.DRUID, getShapeshiftFormID = function() error("unavailable") end, resolvers = {} }
+    )
+    equal(unavailable, nil)
+end)
+
+test("non-Druid speech is unchanged by form information", function()
+    local candidate = Engine.PrepareCandidate(
+        { type = "say", text = "Still spoken." },
+        { class = RPHelper.Class.HUNTER, form = "CAT", resolvers = {} }
+    )
+    equal(candidate.text, "Still spoken.")
+end)
+
+test("form-aware pooling does not alter other character content", function()
+    local ordinary = RPHelper.GetContentPool("entercombat", RPHelper.Race.TAUREN, RPHelper.Class.HUNTER)
+    local withForm = RPHelper.GetContentPool(
+        "entercombat", RPHelper.Race.TAUREN, RPHelper.Class.HUNTER, { form = "CAT" }
+    )
+    equal(#withForm, #ordinary)
+    truthy(poolContainsText(withForm, "So be it."))
+    truthy(poolContainsText(withForm, "For my ancestors!"))
+    truthy(poolContainsText(withForm, "The hunt begins."))
+end)
+
+test("ineligible Druid speech is removed before random selection", function()
+    local selected = Engine.ChooseCandidate({
+        { type = "say", text = "Suppressed." },
+        { type = "customemote", text = "remains alert." },
+    }, {
+        class = RPHelper.Class.DRUID,
+        form = "CAT",
+        resolvers = {},
+        randomIndex = function(size)
+            equal(size, 1)
+            return 1
+        end,
+    })
+    equal(selected.text, "remains alert.")
+end)
+
+test("Druid form transitions are read without stale state", function()
+    local formID = 1
+    local options = {
+        class = RPHelper.Class.DRUID,
+        getShapeshiftFormID = function() return formID end,
+        resolvers = {},
+    }
+    equal(Engine.PrepareCandidate({ type = "say", text = "Spoken." }, options), nil)
+    formID = nil
+    equal(Engine.PrepareCandidate({ type = "say", text = "Spoken." }, options).text, "Spoken.")
 end)
 
 if failures > 0 then

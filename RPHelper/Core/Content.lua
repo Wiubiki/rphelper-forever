@@ -1,9 +1,10 @@
 RPHelper = RPHelper or {}
-RPHelper.Content = RPHelper.Content or { generic = {}, race = {}, class = {}, ability = {} }
+RPHelper.Content = RPHelper.Content or { generic = {}, race = {}, class = {}, ability = {}, druidForm = {} }
 RPHelper.Content.generic = RPHelper.Content.generic or {}
 RPHelper.Content.race = RPHelper.Content.race or {}
 RPHelper.Content.class = RPHelper.Content.class or {}
 RPHelper.Content.ability = RPHelper.Content.ability or {}
+RPHelper.Content.druidForm = RPHelper.Content.druidForm or {}
 RPHelper.Race = RPHelper.Race or {
     TAUREN = "TAUREN",
     ORC = "ORC",
@@ -106,6 +107,20 @@ function RPHelper.GetClassPool(class, trigger)
     return classContent and classContent[trigger] or {}
 end
 
+function RPHelper.RegisterDruidForm(form, trigger, entry)
+    RPHelper.Content.druidForm[form] = RPHelper.Content.druidForm[form] or {}
+    RPHelper.Content.druidForm[form][trigger] = RPHelper.Content.druidForm[form][trigger] or {}
+    table.insert(RPHelper.Content.druidForm[form][trigger], entry)
+end
+
+function RPHelper.GetDruidFormPool(form, trigger)
+    if form == RPHelper.DruidForms.Form.DIRE_BEAR then
+        form = RPHelper.DruidForms.Form.BEAR
+    end
+    local formContent = RPHelper.Content.druidForm[form]
+    return formContent and formContent[trigger] or {}
+end
+
 function RPHelper.RegisterAbility(class, ability, entry)
     RPHelper.Content.ability[class] = RPHelper.Content.ability[class] or {}
     RPHelper.Content.ability[class][ability] = RPHelper.Content.ability[class][ability] or {}
@@ -118,16 +133,32 @@ function RPHelper.GetAbilityPool(class, ability)
 end
 
 function RPHelper.GetPreparedAbilityPool(class, ability, options)
+    options = options or {}
+    options.class = options.class or class
     return RPHelper.ContentEngine.PrepareCandidatePool(RPHelper.GetAbilityPool(class, ability), options)
 end
 
 function RPHelper.ChooseAbilityCandidate(class, ability, options)
+    options = options or {}
+    options.class = options.class or class
     return RPHelper.ContentEngine.ChooseCandidate(RPHelper.GetAbilityPool(class, ability), options)
 end
 
 -- Character pools are additive: authored Race and Class content supplement Generic.
 -- A fresh table prevents callers from changing any registered layer.
-function RPHelper.GetContentPool(trigger, race, class)
+function RPHelper.GetContentPool(trigger, race, class, options)
+    if class == RPHelper.Class.DRUID and RPHelper.DruidForms then
+        local form = RPHelper.DruidForms.GetCurrentForm(options)
+        local formPool = RPHelper.GetDruidFormPool(form, trigger)
+        if #formPool > 0 then
+            local pool = {}
+            for _, entry in ipairs(formPool) do
+                table.insert(pool, entry)
+            end
+            return pool
+        end
+    end
+
     local pool = {}
     for _, entry in ipairs(RPHelper.GetGenericPool(trigger)) do
         table.insert(pool, entry)
@@ -142,9 +173,13 @@ function RPHelper.GetContentPool(trigger, race, class)
 end
 
 function RPHelper.GetPreparedContentPool(trigger, race, class, options)
-    return RPHelper.ContentEngine.PrepareCandidatePool(RPHelper.GetContentPool(trigger, race, class), options)
+    options = options or {}
+    options.class = options.class or class
+    return RPHelper.ContentEngine.PrepareCandidatePool(RPHelper.GetContentPool(trigger, race, class, options), options)
 end
 
 function RPHelper.ChooseContentCandidate(trigger, race, class, options)
-    return RPHelper.ContentEngine.ChooseCandidate(RPHelper.GetContentPool(trigger, race, class), options)
+    options = options or {}
+    options.class = options.class or class
+    return RPHelper.ContentEngine.ChooseCandidate(RPHelper.GetContentPool(trigger, race, class, options), options)
 end
