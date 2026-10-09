@@ -139,6 +139,11 @@ end
 
 function ContentEngine.PrepareCandidate(entry, options)
     options = options or {}
+    if entry and entry.type == "say"
+        and RPHelper.DruidForms
+        and RPHelper.DruidForms.ShouldSuppressSay(options) then
+        return nil
+    end
     local expanded = ContentEngine.ExpandTemplate(entry, options.randomIndex)
     local resolved = expanded and ContentEngine.ResolveKeywords(expanded, options)
     if not resolved or resolved == "" then
