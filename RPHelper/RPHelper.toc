@@ -11,4 +11,12 @@ Core/ContentEngine.lua
 Core/Content.lua
 Core/Commands.lua
 Data/Generic.lua
+Data/Races/Tauren.lua
+Data/Races/Orc.lua
+Data/Races/NightElf.lua
+Data/Races/Human.lua
+Data/Races/Gnome.lua
+Data/Races/Dwarf.lua
+Data/Races/Undead.lua
+Data/Races/Troll.lua
 RPHelper.lua

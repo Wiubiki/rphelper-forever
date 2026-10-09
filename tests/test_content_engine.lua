@@ -22,10 +22,28 @@ local function truthy(value)
     end
 end
 
+local function poolContainsText(pool, expected)
+    for _, entry in ipairs(pool) do
+        if entry.text == expected then
+            return true
+        end
+    end
+    return false
+end
+
 RPHelper = {}
 dofile("RPHelper/Core/KeywordResolvers.lua")
 dofile("RPHelper/Core/ContentEngine.lua")
 dofile("RPHelper/Core/Content.lua")
+dofile("RPHelper/Data/Generic.lua")
+dofile("RPHelper/Data/Races/Tauren.lua")
+dofile("RPHelper/Data/Races/Orc.lua")
+dofile("RPHelper/Data/Races/NightElf.lua")
+dofile("RPHelper/Data/Races/Human.lua")
+dofile("RPHelper/Data/Races/Gnome.lua")
+dofile("RPHelper/Data/Races/Dwarf.lua")
+dofile("RPHelper/Data/Races/Undead.lua")
+dofile("RPHelper/Data/Races/Troll.lua")
 
 local Engine = RPHelper.ContentEngine
 
@@ -217,6 +235,88 @@ test("existing generic entries remain compatible", function()
     })
     truthy(selected)
     equal(selected.text, "Too slow.")
+end)
+
+test("generic-only content resolves normally through the combined pool", function()
+    local generic = RPHelper.GetGenericPool("absorb")
+    local prepared = RPHelper.GetPreparedContentPool("absorb", "SKYBORNE", { resolvers = {} })
+    equal(#prepared, #generic)
+    truthy(poolContainsText(prepared, "Didn't even scratch me!"))
+end)
+
+test("authored races supplement generic content", function()
+    local races = {
+        { id = RPHelper.Race.TAUREN, raceText = "For my ancestors!" },
+        { id = RPHelper.Race.ORC, raceText = "Strength and honor!" },
+        { id = RPHelper.Race.NIGHTELF, raceText = "For Cenarius!" },
+        { id = RPHelper.Race.HUMAN, raceText = "Stand your ground!" },
+        { id = RPHelper.Race.GNOME, raceText = "For Gnomeregan!" },
+        { id = RPHelper.Race.DWARF, raceText = "For Khaz Modan!" },
+        { id = RPHelper.Race.UNDEAD, raceText = "Tremble before the Forsaken!" },
+        { id = RPHelper.Race.TROLL, raceText = "Tas'dingo!" },
+    }
+    for _, race in ipairs(races) do
+        local pool = RPHelper.GetContentPool("entercombat", race.id)
+        truthy(poolContainsText(pool, "So be it."))
+        truthy(poolContainsText(pool, race.raceText))
+    end
+end)
+
+test("Forsaken content uses the canonical UNDEAD key", function()
+    equal(RPHelper.Race.UNDEAD, "UNDEAD")
+    equal(RPHelper.Race.FORSAKEN, nil)
+    truthy(poolContainsText(
+        RPHelper.GetRacePool(RPHelper.Race.UNDEAD, "entercombat"),
+        "Tremble before the Forsaken!"
+    ))
+end)
+
+test("unauthored races fall back to generic content", function()
+    local generic = RPHelper.GetGenericPool("entercombat")
+    local pool = RPHelper.GetContentPool("entercombat", "SKYBORNE")
+    equal(#pool, #generic)
+    truthy(poolContainsText(pool, "So be it."))
+end)
+
+test("race registration appends without overwriting other content", function()
+    RPHelper.RegisterRace(RPHelper.Race.TAUREN, "test_append", { type = "say", text = "First." })
+    RPHelper.RegisterRace(RPHelper.Race.TAUREN, "test_append", { type = "say", text = "Second." })
+    RPHelper.RegisterRace(RPHelper.Race.ORC, "test_append", { type = "say", text = "Other race." })
+
+    local tauren = RPHelper.GetRacePool(RPHelper.Race.TAUREN, "test_append")
+    local orc = RPHelper.GetRacePool(RPHelper.Race.ORC, "test_append")
+    equal(#tauren, 2)
+    equal(tauren[1].text, "First.")
+    equal(tauren[2].text, "Second.")
+    equal(#orc, 1)
+    equal(orc[1].text, "Other race.")
+end)
+
+test("keyword and template entries remain eligible through the race layer", function()
+    RPHelper.RegisterGeneric("test_dynamic", { type = "say", text = "Generic dynamic fallback." })
+    RPHelper.RegisterRace(RPHelper.Race.TAUREN, "test_dynamic", {
+        type = "say",
+        template = "{1}, {PLAYER}.",
+        choices = { { "Rise" } },
+    })
+
+    local prepared = RPHelper.GetPreparedContentPool("test_dynamic", RPHelper.Race.TAUREN, {
+        resolvers = { PLAYER = function() return "Ari" end },
+        randomIndex = function() return 1 end,
+    })
+    equal(#prepared, 2)
+    equal(prepared[1].text, "Generic dynamic fallback.")
+    equal(prepared[2].text, "Rise, Ari.")
+end)
+
+test("race content functions without a class layer", function()
+    local previousClass = RPHelper.Content.class
+    RPHelper.Content.class = nil
+    local pool = RPHelper.GetContentPool("entercombat", RPHelper.Race.TAUREN)
+    RPHelper.Content.class = previousClass
+
+    truthy(#pool > 0)
+    truthy(poolContainsText(pool, "For my ancestors!"))
 end)
 
 if failures > 0 then
