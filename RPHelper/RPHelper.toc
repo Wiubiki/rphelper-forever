@@ -10,6 +10,9 @@ Core/KeywordResolvers.lua
 Core/DruidForms.lua
 Core/ContentEngine.lua
 Core/Content.lua
+Core/RuntimeAPI.lua
+Core/Output.lua
+Core/Runtime.lua
 Core/Commands.lua
 Data/Generic.lua
 Data/Races/Tauren.lua

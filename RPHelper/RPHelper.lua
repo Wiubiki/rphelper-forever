@@ -8,6 +8,10 @@ frame:SetScript("OnEvent", function(_, event, addonName)
         RPHelper.InitializeDatabase()
 
         SLASH_RPHELPER1 = "/rph"
+        SlashCmdList = SlashCmdList or {}
         SlashCmdList.RPHELPER = RPHelper.HandleSlashCommand
+        RPHelper.Runtime.Initialize(frame)
+    elseif event == "PLAYER_REGEN_DISABLED" or event == "PLAYER_REGEN_ENABLED" then
+        RPHelper.Runtime.HandleEvent(event)
     end
 end)
