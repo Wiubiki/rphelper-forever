@@ -179,3 +179,46 @@ add("HELLFIRE", "say", "I shall set this world aflame!")
 -- ---------------------------------------------------------------------
 add("SOUL_FIRE", "say", "Your soul shall BURN!")
 add("SOUL_FIRE", "say", "Feel the fire with your VERY SOUL!")
+
+-- Historical ability definitions are independent of authored reactions.
+-- Forever availability and automatic detection remain separately audited.
+for _, ability in ipairs({
+    "AMPLIFY_CURSE",
+    "CONFLAGRATE",
+    "CORRUPTION",
+    "CREATE_FIRESTONE",
+    "CREATE_HEALTHSTONE",
+    "CREATE_SOULSTONE",
+    "CREATE_SPELLSTONE",
+    "DARK_HARVEST",
+    "DARK_PACT",
+    "DEATH_COIL",
+    "DEMONIC_SACRIFICE",
+    "DEMON_ARMOR",
+    "DEMON_PORTAL",
+    "DEMON_SKIN",
+    "DETECT_GREATER_INVISIBILITY",
+    "DETECT_INVISIBILITY",
+    "DETECT_LESSER_INVISIBILITY",
+    "EYE_OF_KILROGG",
+    "FEL_DOMINATION",
+    "HOWL_OF_TERROR",
+    "INFERNO",
+    "LIFE_TAP",
+    "MANA_FUNNEL",
+    "RITUAL_OF_DOOM",
+    "SHADOWBURN",
+    "SHADOW_BOLT",
+    "SHADOW_WARD",
+    "SIPHON_LIFE",
+    "SOUL_LINK",
+    "SUMMON_DREADSTEED",
+    "SUMMON_FELHUNTER",
+    "SUMMON_FELSTEED",
+}) do
+    RPHelper.RegisterAbility(C, ability)
+end
+
+-- Recovered from the malformed historical Banish random-string pool.
+-- Legacy random phrases were sayings; retain that route rather than invent /e.
+add("BANISH", "customemote", "banishes {TARGET} from this plane briefly.")

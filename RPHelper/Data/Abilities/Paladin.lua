@@ -503,3 +503,14 @@ add("HAND_OF_RECKONING", "say", "The Light compels you to battle!")
 -- HAND_OF_RECKONING
 -- ---------------------------------------------------------------------
 add("HAND_OF_RECKONING", "customemote", "raises {PP} hand, calling {TARGET} to face divine judgment.")
+
+-- Historical ability definitions are independent of authored reactions.
+-- Forever availability and automatic detection remain separately audited.
+for _, ability in ipairs({
+    "GREATER_BLESSING_OF_KINGS",
+    "GREATER_BLESSING_OF_LIGHT",
+    "GREATER_BLESSING_OF_SALVATION",
+    "GREATER_BLESSING_OF_WISDOM",
+}) do
+    RPHelper.RegisterAbility(C, ability)
+end

@@ -670,3 +670,16 @@ add("HEX", "say", "You best be learnin’ to hop, mon!")
 -- HEX
 -- ---------------------------------------------------------------------
 add("HEX", "customemote", "cackles as they weave a hex, transforming {TARGET} into a helpless frog.")
+
+-- Historical ability definitions are independent of authored reactions.
+-- Forever availability and automatic detection remain separately audited.
+for _, ability in ipairs({
+    "ASTRAL_RECALL",
+    "ELEMENTAL_FOCUS",
+    "ELEMENTAL_MASTERY",
+    "FAR_SIGHT",
+    "WATER_BREATHING",
+    "WATER_WALKING",
+}) do
+    RPHelper.RegisterAbility(C, ability)
+end

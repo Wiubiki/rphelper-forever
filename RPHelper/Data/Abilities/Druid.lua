@@ -108,3 +108,52 @@ add("INNERVATE", "customemote", "glances at {TARGET}'s mana, sighs, and casts In
 -- GIFT_OF_THE_WILD
 -- ---------------------------------------------------------------------
 add("GIFT_OF_THE_WILD", "customemote", "gives {PP} friends the Gift of the Wild.")
+
+-- Historical ability definitions are independent of authored reactions.
+-- Forever availability and automatic detection remain separately audited.
+for _, ability in ipairs({
+    "ABOLISH_POISON",
+    "BARKSKIN",
+    "BASH",
+    "BERSERK",
+    "CAT_FORM",
+    "CLAW",
+    "COWER",
+    "CURE_POISON",
+    "DASH",
+    "FAERIE_FIRE",
+    "FAERIE_FIRE_FERAL",
+    "FERAL_CHARGE",
+    "FEROCIOUS_BITE",
+    "FRENZIED_REGENERATION",
+    "HEALING_TOUCH",
+    "INSECT_SWARM",
+    "MARK_OF_THE_WILD",
+    "MAUL",
+    "MOONKIN_FORM",
+    "MOON_FIRE",
+    "NATURES_GRASP",
+    "NATURES_SWIFTNESS",
+    "OMEN_OF_CLARITY",
+    "POUNCE",
+    "PROWL",
+    "RAKE",
+    "RAVAGE",
+    "REGROWTH",
+    "REJUVENATION",
+    "REMOVE_CURSE",
+    "RIP",
+    "SAVAGE_BITE",
+    "SHRED",
+    "SOOTHE_ANIMAL",
+    "STARFIRE",
+    "SWIFTMEND",
+    "SWIPE",
+    "THORNS",
+    "TRACK_HUMANOIDS",
+    "TRAVEL_FORM",
+    "TREE_OF_LIFE_FORM",
+    "WRATH",
+}) do
+    RPHelper.RegisterAbility(C, ability)
+end

@@ -85,3 +85,41 @@ add("SHIELD_BASH", "customemote", "bashes {PP} shield into {TARGET}'s face.")
 -- SHIELD_SLAM
 -- ---------------------------------------------------------------------
 add("SHIELD_SLAM", "customemote", "slams {PP} shield into {TARGET}'s face.")
+
+-- Historical ability definitions are independent of authored reactions.
+-- Forever availability and automatic detection remain separately audited.
+for _, ability in ipairs({
+    "ANGER_MANAGEMENT",
+    "BERSERKER_RAGE",
+    "BLOODTHIRST",
+    "CLEAVE",
+    "CONCUSSION_BLOW",
+    "COUNTERATTACK",
+    "DEATH_WISH",
+    "DECISIVE_STRIKE",
+    "DISARM",
+    "EXECUTE",
+    "HEROIC_STRIKE",
+    "INTERCEPT",
+    "INTERVENE",
+    "LAST_STAND",
+    "MORTAL_STRIKE",
+    "OVERPOWER",
+    "PIERCING_HOWL",
+    "PUMMEL",
+    "RECKLESSNESS",
+    "RETALIATION",
+    "REVENGE",
+    "SHIELD_BLOCK",
+    "SHIELD_WALL",
+    "SHOOT_BOW",
+    "SHOOT_CROSSBOW",
+    "SHOOT_GUN",
+    "SUNDER_ARMOR",
+    "SWEEPING_STRIKES",
+    "THROW",
+    "THUNDER_CLAP",
+    "WHIRLWIND",
+}) do
+    RPHelper.RegisterAbility(C, ability)
+end

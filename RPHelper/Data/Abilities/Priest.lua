@@ -415,3 +415,17 @@ add("SHADOWFORM", "say", "Darkness claims me as its own!")
 -- SHADOWFORM
 -- ---------------------------------------------------------------------
 add("SHADOWFORM", "customemote", "becomes engulfed entirely in pure shadow.")
+
+-- Historical ability definitions are independent of authored reactions.
+-- Forever availability and automatic detection remain separately audited.
+for _, ability in ipairs({
+    "CHAMPIONS_BOND",
+    "CHAMPIONS_RESOLVE",
+    "CHASTICE",
+    "EMPOWER_CHAMPION",
+    "PAIN_SPIKE",
+    "PROCLAIM_CHAMPION",
+    "REVIVE_CHAMPION",
+}) do
+    RPHelper.RegisterAbility(C, ability)
+end
