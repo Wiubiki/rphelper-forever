@@ -240,13 +240,14 @@ test("historical catalogue: repeated definition registration neither duplicates 
     equal(#existing, count);equal(existing[1].defaultID, id)
 end)
 
-test("historical catalogue: Banish literal recovers say route and requires relevant target", function()
+test("historical catalogue: Banish custom emote preserves its type and requires relevant target", function()
     local pool = RPHelper.GetAbilityPool("WARLOCK", "BANISH")
-    equal(#pool, 1);equal(pool[1].type, "say")
+    equal(#pool, 1);equal(pool[1].type, "customemote")
     equal(pool[1].text, "banishes {TARGET} from this plane briefly.")
     equal(RPHelper.ChooseAbilityCandidate("WARLOCK", "BANISH", { resolvers = {} }), nil)
     local candidate = RPHelper.ChooseAbilityCandidate("WARLOCK", "BANISH", {
         resolvers = { TARGET = function() return "Demon" end } })
+    equal(candidate.type, "customemote")
     equal(candidate.text, "banishes Demon from this plane briefly.")
 end)
 
