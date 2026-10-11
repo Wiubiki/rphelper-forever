@@ -141,7 +141,11 @@ Defaults should be conservative.
 
 ### Implemented minimal runtime policy
 
-The current runtime still detects only combat entry and exit. It evaluates each
+The current runtime detects combat entry/exit and player defensive DODGE, PARRY,
+and direct BLOCK feedback through `UNIT_COMBAT`. Defensive detection requires
+readable unit/action fields and an active runtime encounter; live Forever
+verification remains pending (see [Combat trigger API audit](combat_trigger_api_audit.md)).
+It evaluates each
 supported trigger in this order:
 
 1. Check master and individual trigger enabled settings, then activity permission.
@@ -174,8 +178,8 @@ update encounter state.
 Outside an encounter, trigger attempts obey the same enabled, activity,
 probability, and cooldown policies, but neither check nor consume the combat
 quota (even when it is zero). They still record successful output cooldowns.
-Only combat entry and exit events are currently detected; this policy does not
-add out-of-combat event detection.
+Defensive triggers are accepted only during an active encounter, including direct
+trigger attempts. No additional out-of-combat event detection is implemented.
 
 Open-world sayings use a prefixed `[RPHelper]` message in the player's existing
 chat display via `AddMessage`; no chat message is transmitted. Dungeon sayings

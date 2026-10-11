@@ -6,6 +6,9 @@ local Runtime = RPHelper.Runtime
 Runtime.TriggerConfigKey = {
     entercombat = "enter_combat",
     leavecombat = "leave_combat",
+    dodge = "dodge",
+    parry = "parry",
+    block = "block",
 }
 
 Runtime.EventTrigger = {
@@ -15,6 +18,8 @@ Runtime.EventTrigger = {
 
 local api = RPHelper.RuntimeAPI
 local inCombat = false
+local defensiveEventsRegistered = false
+local defensiveTriggers = { dodge = true, parry = true, block = true }
 
 local lastGlobal, lastObserved
 local lastTrigger = {}
@@ -66,6 +71,7 @@ function Runtime.SetAPI(adapter)
 end
 
 function Runtime.HandleTrigger(trigger)
+    if defensiveTriggers[trigger] and not inCombat then return false end
     local key = Runtime.TriggerConfigKey[trigger]
     if not key or not setting("enabled") or not setting("enabled", key) then return false end
     local activity = call("GetActivity")
@@ -112,7 +118,13 @@ function Runtime.HandleTrigger(trigger)
     return true
 end
 
-function Runtime.HandleEvent(event)
+function Runtime.HandleEvent(event, ...)
+    if event == "UNIT_COMBAT" then
+        if not inCombat or not defensiveEventsRegistered then return false end
+        local defensive = call("ClassifyUnitCombat", ...)
+        if not defensiveTriggers[defensive] then return false end
+        return Runtime.HandleTrigger(defensive)
+    end
     local trigger = Runtime.EventTrigger[event]
     if trigger == "entercombat" then
         if inCombat then
@@ -137,6 +149,7 @@ end
 
 function Runtime.Initialize(frame, adapter)
     Runtime.SetAPI(adapter)
+    defensiveEventsRegistered = false
     lastGlobal, lastObserved = nil, nil
     lastTrigger = {}
     combatOutputs = 0
@@ -148,6 +161,7 @@ function Runtime.Initialize(frame, adapter)
     end
     frame:RegisterEvent("PLAYER_REGEN_DISABLED")
     frame:RegisterEvent("PLAYER_REGEN_ENABLED")
+    defensiveEventsRegistered = call("RegisterDefensiveEvents", frame) == true
     return true
 end
 

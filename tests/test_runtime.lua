@@ -50,6 +50,8 @@ end
 
 local function newAdapter(class, race, formID)
     local adapter = { output = {}, combat = false, now = 0, activity = "dungeon", roll = 0 }
+    adapter.ClassifyUnitCombat = RPHelper.RuntimeAPI.ClassifyUnitCombat
+    adapter.RegisterDefensiveEvents = RPHelper.RuntimeAPI.RegisterDefensiveEvents
     function adapter.GetTime() return adapter.now end
     function adapter.GetActivity() return adapter.activity end
     function adapter.Random() return adapter.roll end
@@ -661,6 +663,293 @@ test("activity adapter rejects missing inconsistent and unsupported context", fu
     IsInInstance = function() error("restricted") end
     equal(RPHelper.RuntimeAPI.GetActivity(), nil)
     IsInInstance = previous
+end)
+
+-- Exercise the real classifier/registration with scoped secret-inspection mocks.
+local function defensiveTest(name, callback)
+    test(name, function()
+        local previousInspect = issecretvalue
+        issecretvalue = function() return false end
+        local a = newAdapter("WARRIOR", "DEFENSIVE_TEST", nil)
+        local frame = initialize(a)
+        RPHelperDB.triggers.enter_combat.enabled = false
+        RPHelperDB.triggers.leave_combat.chance = 1
+        RPHelperDB.settings.maxAutomaticOutputsPerCombat = 10
+        for _, trigger in ipairs({ "dodge", "parry", "block" }) do
+            RPHelperDB.triggers[trigger].chance = 1
+            RPHelperDB.triggers[trigger].cooldown = 0
+        end
+        local previousPools = {}
+        for _, trigger in ipairs({ "dodge", "parry", "block", "leavecombat" }) do
+            previousPools[trigger] = RPHelper.Content.generic[trigger]
+            RPHelper.Content.generic[trigger] = { { type = "say", text = trigger } }
+        end
+        local ok, err = pcall(callback, a, frame)
+        issecretvalue = previousInspect
+        for trigger, pool in pairs(previousPools) do RPHelper.Content.generic[trigger] = pool end
+        if not ok then error(err, 2) end
+    end)
+end
+
+local function defend(action, unit, ...)
+    return RPHelper.Runtime.HandleEvent("UNIT_COMBAT", unit or "player", action, ...)
+end
+
+defensiveTest("exact player defensive actions map through the policy path", function(a, frame)
+    truthy(frame.registered.UNIT_COMBAT)
+    equal(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"), false)
+    for index, action in ipairs({ "DODGE", "PARRY", "BLOCK" }) do
+        truthy(defend(action, "player", "", 0, 1))
+        equal(a.output[index].text, string.lower(action))
+    end
+    equal(#a.output, 3)
+    equal(RPHelper.Runtime.IsInCombat(), true)
+end)
+
+defensiveTest("non-player units and unsupported actions never react", function(a)
+    RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
+    for _, unit in ipairs({ "target", "targettarget", "pet", "vehicle", "nameplate1", "party1", "Player", "" }) do
+        for _, action in ipairs({ "DODGE", "PARRY", "BLOCK" }) do equal(defend(action, unit), false) end
+    end
+    for _, action in ipairs({ "WOUND", "HEAL", "MISS", "ABSORB", "RESIST", "dodge", "", "CRITICAL" }) do
+        equal(defend(action, "player", "BLOCK", 0, 1), false)
+        equal(defend(action, "player", "BLOCK_REDUCED", 10, 1), false)
+        equal(defend(action, "player", "CRITICAL", 10, 1), false)
+    end
+    equal(RPHelper.Runtime.HandleEvent("COMBAT_TEXT_UPDATE", "PARRY"), false)
+    equal(#a.output, 0)
+end)
+
+defensiveTest("required fields are inspected before malformed payloads are rejected", function(a)
+    RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
+    local bad = setmetatable({}, { __tostring = function() error("must not stringify") end })
+    for _, value in ipairs({ false, true, 1, bad, function() end }) do
+        equal(RPHelper.Runtime.HandleEvent("UNIT_COMBAT", value, "DODGE"), false)
+        equal(RPHelper.Runtime.HandleEvent("UNIT_COMBAT", "player", value), false)
+    end
+    equal(RPHelper.Runtime.HandleEvent("UNIT_COMBAT"), false)
+    equal(RPHelper.Runtime.HandleEvent("UNIT_COMBAT", nil, "PARRY"), false)
+    equal(RPHelper.Runtime.HandleEvent("UNIT_COMBAT", "player", nil), false)
+    equal(#a.output, 0)
+    truthy(defend("DODGE"))
+end)
+
+defensiveTest("secret required fields fail closed without spending policies", function(a)
+    RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
+    RPHelperDB.settings.maxAutomaticOutputsPerCombat = 1
+    RPHelperDB.settings.globalCooldown = 10
+    RPHelperDB.triggers.dodge.cooldown = 20
+    -- Mark otherwise valid strings secret: type checks alone would accept them.
+    issecretvalue = function(value) return value == "player" end
+    equal(defend("DODGE"), false)
+    issecretvalue = function(value) return value == "DODGE" end
+    equal(defend("DODGE"), false)
+    equal(#a.output, 0)
+    issecretvalue = function() return false end
+    truthy(defend("DODGE"))
+    equal(defend("PARRY"), false)
+end)
+
+defensiveTest("missing failing or invalid secret inspection disables only defense", function(a)
+    RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
+    issecretvalue = nil
+    equal(defend("DODGE"), false)
+    issecretvalue = false
+    equal(defend("PARRY"), false)
+    issecretvalue = function() error("unavailable") end
+    equal(defend("BLOCK"), false)
+    for _, value in ipairs({ "false", 0, {} }) do
+        issecretvalue = function() return value end
+        equal(defend("BLOCK"), false)
+    end
+    issecretvalue = function() return nil end
+    equal(defend("BLOCK"), false)
+    truthy(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_ENABLED"))
+    equal(a.output[1].text, "leavecombat")
+end)
+
+defensiveTest("unused secret fields are never inspected or used", function(a)
+    RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
+    local unused = setmetatable({}, { __tostring = function() error("unused secret") end })
+    local inspected = 0
+    issecretvalue = function(value)
+        if value == unused then error("must not inspect unused fields") end
+        inspected = inspected + 1
+        return false
+    end
+    truthy(defend("BLOCK", "player", unused, unused, unused))
+    truthy(defend("PARRY")) -- absent unused fields are also irrelevant
+    equal(inspected, 4)
+    equal(#a.output, 2)
+end)
+
+defensiveTest("missing or failing classifier adapters suppress only defensive events", function(a)
+    RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
+    a.ClassifyUnitCombat = nil
+    equal(defend("DODGE"), false)
+    a.ClassifyUnitCombat = function() error("adapter failed") end
+    equal(defend("PARRY"), false)
+    truthy(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_ENABLED"))
+    equal(#a.output, 1)
+end)
+
+defensiveTest("defensive individual toggles and master switch preserve encounter state", function(a)
+    RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
+    for _, action in ipairs({ "DODGE", "PARRY", "BLOCK" }) do
+        local trigger = string.lower(action)
+        RPHelperDB.triggers[trigger].enabled = false
+        equal(defend(action), false)
+        RPHelperDB.triggers[trigger].enabled = true
+        RPHelperDB.settings.enabled = false
+        equal(defend(action), false)
+        RPHelperDB.settings.enabled = true
+        truthy(defend(action))
+    end
+    equal(#a.output, 3)
+    equal(RPHelper.Runtime.IsInCombat(), true)
+end)
+
+defensiveTest("defensive probability frequency and cooldowns retain exact boundaries", function(a)
+    RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
+    RPHelperDB.triggers.dodge.chance = 0.2
+    RPHelperDB.settings.frequencyPreset = "low"
+    a.roll = 0.1
+    equal(defend("DODGE"), false)
+    a.roll = 0.099
+    RPHelperDB.settings.globalCooldown = 10
+    RPHelperDB.triggers.dodge.cooldown = 30
+    truthy(defend("DODGE"))
+    a.now = 9
+    equal(defend("PARRY"), false)
+    a.now = 10
+    truthy(defend("PARRY"))
+    a.now = 29
+    equal(defend("DODGE"), false)
+    a.now = 30
+    truthy(defend("DODGE"))
+    equal(#a.output, 3)
+end)
+
+defensiveTest("defenses share entry and exit quota without resetting it", function(a)
+    RPHelperDB.triggers.enter_combat.enabled = true
+    RPHelperDB.triggers.enter_combat.chance = 1
+    RPHelperDB.settings.maxAutomaticOutputsPerCombat = 2
+    truthy(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"))
+    truthy(defend("DODGE"))
+    equal(defend("PARRY"), false)
+    equal(defend("BLOCK"), false)
+    equal(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"), false)
+    equal(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_ENABLED"), false)
+    equal(RPHelper.Runtime.IsInCombat(), false)
+    equal(#a.output, 2)
+    RPHelperDB.triggers.enter_combat.enabled = false
+    RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
+    truthy(defend("BLOCK"))
+    truthy(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_ENABLED"))
+    equal(#a.output, 4)
+end)
+
+defensiveTest("failed defensive dispatch and ineligible content spend no cooldown or quota", function(a)
+    RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
+    RPHelperDB.settings.globalCooldown = 10
+    RPHelperDB.triggers.dodge.cooldown = 20
+    RPHelperDB.settings.maxAutomaticOutputsPerCombat = 1
+    local send = a.SendSay
+    a.SendSay = function() return false end
+    equal(defend("DODGE"), false)
+    a.SendSay = function() error("restricted") end
+    equal(defend("DODGE"), false)
+    a.SendSay = send
+    RPHelper.Content.generic.dodge = { { type = "say", text = "{TARGET}" } }
+    equal(defend("DODGE"), false)
+    RPHelper.Content.generic.dodge = { { type = "say", text = "safe" } }
+    truthy(defend("DODGE"))
+    equal(defend("BLOCK"), false)
+    equal(#a.output, 1)
+end)
+
+defensiveTest("defenses require an active encounter including direct trigger attempts", function(a)
+    for _, action in ipairs({ "DODGE", "PARRY", "BLOCK" }) do
+        equal(defend(action), false)
+        equal(RPHelper.Runtime.HandleTrigger(string.lower(action)), false)
+    end
+    a.combat = true
+    RPHelper.Runtime.Initialize(newFrame(), a)
+    equal(#a.output, 0) -- reload in combat invents no entry reaction
+    truthy(defend("PARRY"))
+    truthy(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_ENABLED"))
+    equal(defend("BLOCK"), false) -- late delivery cannot escape quota
+    equal(RPHelper.Runtime.HandleTrigger("block"), false)
+    RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
+    truthy(defend("BLOCK"))
+    equal(#a.output, 3)
+end)
+
+defensiveTest("defensive routing and Druid suppression use existing preparation", function(a)
+    RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
+    a.activity = "raid"
+    equal(defend("DODGE"), false)
+    a.activity = "unsupported"
+    equal(defend("DODGE"), false)
+    a.activity = "world"
+    truthy(defend("DODGE"))
+    equal(a.output[1].type, "local")
+    a.GetPlayerClass = function() return "DRUID" end
+    a.GetShapeshiftFormID = function() return 3 end
+    equal(defend("DODGE"), false)
+    RPHelper.Content.generic.dodge = { { type = "customemote", text = "sidesteps." } }
+    truthy(defend("DODGE"))
+    equal(a.output[2].type, "customemote")
+    RPHelper.Content.generic.block = { { type = "emote", text = "ROAR" } }
+    truthy(defend("BLOCK"))
+    equal(a.output[3].type, "emote")
+    equal(#a.output, 3)
+end)
+
+defensiveTest("failed defensive registration leaves combat transitions usable", function(a)
+    for _, mode in ipairs({ "false", "error", "missing adapter", "failing adapter" }) do
+        local frame = newFrame()
+        local register = frame.RegisterEvent
+        function frame:RegisterEvent(event)
+            if event == "UNIT_COMBAT" then
+                if mode == "error" then error("unsupported") end
+                return false
+            end
+            register(self, event)
+        end
+        a.RegisterDefensiveEvents = RPHelper.RuntimeAPI.RegisterDefensiveEvents
+        if mode == "missing adapter" then a.RegisterDefensiveEvents = nil end
+        if mode == "failing adapter" then a.RegisterDefensiveEvents = function() error("unsupported") end end
+        truthy(RPHelper.Runtime.Initialize(frame, a))
+        truthy(frame.registered.PLAYER_REGEN_DISABLED)
+        truthy(frame.registered.PLAYER_REGEN_ENABLED)
+        RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
+        equal(defend("DODGE"), false)
+        truthy(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_ENABLED"))
+    end
+    equal(#a.output, 4)
+end)
+
+defensiveTest("addon frame forwards defensive payloads and introduces no deduplication", function(a)
+    local previousCreateFrame = CreateFrame
+    local frame = newFrame()
+    CreateFrame = function() return frame end
+    local ok, err = pcall(dofile, "RPHelper/RPHelper.lua")
+    CreateFrame = previousCreateFrame
+    if not ok then error(err) end
+    frame.OnEvent(frame, "ADDON_LOADED", "RPHelper")
+    RPHelper.Runtime.SetAPI(a)
+    frame.OnEvent(frame, "PLAYER_REGEN_DISABLED")
+    frame.OnEvent(frame, "UNIT_COMBAT", "targettarget", "DODGE", "", 0, 1)
+    frame.OnEvent(frame, "UNIT_COMBAT", "player", "DODGE", "", 0, 1)
+    frame.OnEvent(frame, "UNIT_COMBAT", "player", "DODGE", "", 0, 1)
+    equal(#a.output, 2) -- identical valid attempts still obey configured policies only
+    equal(a.output[1].text, "dodge")
+    equal(a.output[2].text, "dodge")
+    for event in pairs(frame.registered) do
+        truthy(event == "ADDON_LOADED" or event == "PLAYER_REGEN_DISABLED"
+            or event == "PLAYER_REGEN_ENABLED" or event == "UNIT_COMBAT")
+    end
 end)
 
 test("local display is prefixed and reports unavailable UI", function()
