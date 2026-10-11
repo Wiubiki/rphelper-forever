@@ -157,3 +157,20 @@ These are candidates, not committed V1 functionality:
 - Successful player interrupt
 
 A successful interrupt is especially promising because it represents a clear player action. Generic cast and channel reactions could become spammy, so they may require cast-duration, spell-type, cooldown, or other filtering. Available spell, unit, and combat information must be tested under WoW Forever restrictions before any design is committed.
+
+## Implemented user/default candidate integration
+
+Registered shipped entries expose `defaultID`; selections exclude IDs saved as
+`disabledDefaults[id] == true` before preparation. Matching saved custom entries
+are additive and use the same template expansion, keyword eligibility, Druid
+speech suppression and candidate selection. Ability pools match both class and
+canonical ability key. Shipped form pools retain their existing replacement
+semantics, while custom entries still undergo form suppression. Raw catalogue
+getters remain available for editors; `GetContentPool` and
+`GetAbilityContentPool` combine applicable candidates.
+
+`ContentEngine.ValidateEntry` centralizes custom structure/type/placeholder
+validation independently of live keyword availability. Unsupported saved records
+are preserved and omitted, not migrated. See [User content runtime](user_content_runtime.md)
+for scope shapes, stable identity limitations and the programmatic API. Custom
+content introduces no additional trigger coverage or output path.

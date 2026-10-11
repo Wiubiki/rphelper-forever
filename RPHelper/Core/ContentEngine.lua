@@ -21,6 +21,64 @@ local function copyEntry(entry)
     return result
 end
 
+-- Structural validation is independent of currently available target/pet values.
+-- Unsupported saved entries are retained, but omitted until validation succeeds.
+function ContentEngine.ValidateEntry(entry)
+    if type(entry) ~= "table" then return false, "invalid_entry" end
+    if entry.type ~= "say" and entry.type ~= "emote" and entry.type ~= "customemote" then
+        return false, "invalid_type"
+    end
+    local keywords = RPHelper.KeywordResolvers.Create()
+    keywords.RINSULT = true
+    local function validText(text, numbered)
+        if type(text) ~= "string" then return false end
+        local validTokens = true
+        local stripped = string.gsub(text, "{([^{}]*)}", function(token)
+            if numbered and string.match(token, "^[1-9]%d*$") then return "" end
+            local name = token == "RINSULT!" and "RINSULT" or token
+            if not keywords[name] then validTokens = false end
+            return ""
+        end)
+        return validTokens and not string.find(stripped, "[{}]")
+    end
+    if entry.type == "emote" then
+        if entry.template ~= nil or entry.choices ~= nil or type(entry.text) ~= "string"
+            or not string.match(entry.text, "^[A-Z][A-Z_]*$") then
+            return false, "invalid_emote"
+        end
+        return true
+    end
+    if entry.template == nil then
+        if entry.choices ~= nil or not validText(entry.text, false)
+            or not string.find(entry.text, "%S") then return false, "invalid_text" end
+        return true
+    end
+    if entry.text ~= nil or not validText(entry.template, true)
+        or not string.find(entry.template, "%S") or type(entry.choices) ~= "table" then
+        return false, "invalid_template"
+    end
+    local count = #entry.choices
+    for key, choices in pairs(entry.choices) do
+        if type(key) ~= "number" or key % 1 ~= 0 or key < 1 or key > count
+            or type(choices) ~= "table" or #choices == 0 then return false, "invalid_choices" end
+        for index = 1, #choices do
+            if not validText(choices[index], false) then return false, "invalid_choices" end
+        end
+        for index, text in pairs(choices) do
+            if type(index) ~= "number" or index % 1 ~= 0 or index < 1 or index > #choices
+                or not validText(text, false) then return false, "invalid_choices" end
+        end
+    end
+    for index = 1, count do
+        if type(entry.choices[index]) ~= "table" then return false, "invalid_choices" end
+    end
+    for index in string.gmatch(entry.template, "{(%d+)}") do
+        local choices = entry.choices[tonumber(index)]
+        if type(choices) ~= "table" or #choices == 0 then return false, "invalid_choices" end
+    end
+    return true
+end
+
 function ContentEngine.SetInsultProvider(provider)
     if provider ~= nil and type(provider) ~= "function" then
         error("insult provider must be a function or nil")
@@ -139,7 +197,9 @@ end
 
 function ContentEngine.PrepareCandidate(entry, options)
     options = options or {}
-    if entry and entry.type == "say"
+    if type(entry) ~= "table" or (entry.type ~= "say" and entry.type ~= "emote"
+        and entry.type ~= "customemote") then return nil end
+    if entry.type == "say"
         and RPHelper.DruidForms
         and RPHelper.DruidForms.ShouldSuppressSay(options) then
         return nil

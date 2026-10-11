@@ -56,5 +56,9 @@ reactions (active encounters only), and the two mapped Paladin abilities through
 guarded cast-success events. RPHelper verification remains mocked only.
 Offensive criticals, partial-block flags, and combat-text/combat-log fallbacks
 remain unimplemented. Interface metadata,
-other triggers, user-content pooling, disabled-default integration, a settings
-editor, and general migrations remain outside this branch.
+other triggers, a graphical settings editor, and general migrations remain
+unimplemented. User-content pooling and disabled-default filtering are now
+implemented through the existing selection/policy path; see
+[User content runtime](user_content_runtime.md). Customization adds no game APIs
+or events. Actual SavedVariables persistence across logout/reload and addon
+updates still requires live Forever verification.

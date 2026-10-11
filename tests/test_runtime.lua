@@ -29,6 +29,7 @@ dofile("RPHelper/Core/KeywordResolvers.lua")
 dofile("RPHelper/Core/DruidForms.lua")
 dofile("RPHelper/Core/ContentEngine.lua")
 dofile("RPHelper/Core/Content.lua")
+dofile("RPHelper/Core/UserContent.lua")
 dofile("RPHelper/Core/RuntimeAPI.lua")
 dofile("RPHelper/Core/Output.lua")
 dofile("RPHelper/Core/Runtime.lua")
@@ -1323,6 +1324,191 @@ test("local display is prefixed and reports unavailable UI", function()
     truthy(string.find(text, "[RPHelper]", 1, true))
     truthy(string.find(text, "hello", 1, true))
     DEFAULT_CHAT_FRAME = previous
+end)
+
+local function disableShippedTrigger(trigger, class, race, options)
+    for _, entry in ipairs(RPHelper.GetContentPool(trigger, race, class, options)) do
+        if entry.defaultID then truthy(RPHelper.UserContent.SetDefaultDisabled(entry.defaultID, true)) end
+    end
+end
+local function customAbilityOnly(ability, entry)
+    for _, shipped in ipairs(RPHelper.GetAbilityPool("PALADIN", ability)) do
+        truthy(RPHelper.UserContent.SetDefaultDisabled(shipped.defaultID, true))
+    end
+    return RPHelper.UserContent.Add({ layer = "ability", class = "PALADIN", ability = ability }, entry)
+end
+
+abilityTest("saved custom ability content is selected by guarded successful activation", function(a)
+    local id = customAbilityOnly("FLASH_OF_LIGHT", { type = "say", text = "Custom blessing." })
+    truthy(id)
+    equal(activate(19750, "target"), false)
+    equal(activate(999999), false)
+    truthy(activate(19750))
+    equal(a.output[1].text, "Custom blessing.")
+    RPHelper.InitializeDatabase()
+    truthy(activate(19750))
+    equal(a.output[2].text, "Custom blessing.")
+    truthy(RPHelper.UserContent.Remove(id))
+    equal(activate(19750), false)
+end)
+
+abilityTest("custom ability respects master individual chance and frequency settings", function(a)
+    truthy(customAbilityOnly("FLASH_OF_LIGHT", { type = "say", text = "Mine." }))
+    RPHelperDB.settings.enabled = false
+    equal(activate(19750), false)
+    RPHelperDB.settings.enabled = true
+    local settings = RPHelperDB.abilities.PALADIN.FLASH_OF_LIGHT
+    settings.enabled = false
+    equal(activate(19750), false)
+    settings.enabled = true
+    settings.chance = 0.4
+    RPHelperDB.settings.frequencyPreset = "low"
+    a.roll = 0.2;equal(activate(19750), false)
+    a.roll = 0.199;truthy(activate(19750))
+    RPHelperDB.settings.frequencyPreset = "high"
+    a.roll = 0.8;equal(activate(19750), false)
+    a.roll = 0.799;truthy(activate(19750))
+    equal(#a.output, 2)
+end)
+
+abilityTest("custom global and per-ability cooldown boundaries stay independent", function(a)
+    truthy(customAbilityOnly("FLASH_OF_LIGHT", { type = "say", text = "First." }))
+    truthy(customAbilityOnly("SEAL_OF_RIGHTEOUSNESS", { type = "say", text = "Second." }))
+    RPHelperDB.settings.globalCooldown = 5
+    RPHelperDB.abilities.PALADIN.FLASH_OF_LIGHT.cooldown = 10
+    truthy(activate(19750))
+    a.now = 4.999;equal(activate(20288), false)
+    a.now = 5;truthy(activate(20288))
+    a.now = 9.999;equal(activate(19750), false)
+    a.now = 10;truthy(activate(19750))
+    equal(#a.output, 3)
+end)
+
+abilityTest("custom activations share encounter quota with defensive and exit reactions", function(a)
+    truthy(customAbilityOnly("FLASH_OF_LIGHT", { type = "say", text = "Cast." }))
+    RPHelperDB.triggers.dodge.chance, RPHelperDB.triggers.dodge.cooldown = 1, 0
+    disableShippedTrigger("dodge", "PALADIN", "HUMAN")
+    truthy(RPHelper.UserContent.Add({ layer = "generic", trigger = "dodge" }, { type = "customemote", text = "sidesteps." }))
+    equal(RPHelper.Runtime.HandleEvent("UNIT_COMBAT", "player", "DODGE"), false)
+    equal(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"), false)
+    truthy(activate(19750))
+    truthy(RPHelper.Runtime.HandleEvent("UNIT_COMBAT", "player", "DODGE"))
+    equal(activate(19750), false)
+    equal(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_ENABLED"), false)
+    truthy(activate(19750))
+    truthy(activate(19750))
+    equal(#a.output, 4)
+end)
+
+abilityTest("failed custom dispatch consumes neither quota nor cooldown", function(a)
+    truthy(customAbilityOnly("FLASH_OF_LIGHT", { type = "say", text = "Mine." }))
+    RPHelperDB.settings.globalCooldown = 100
+    RPHelperDB.abilities.PALADIN.FLASH_OF_LIGHT.cooldown = 100
+    RPHelperDB.settings.maxAutomaticOutputsPerCombat = 1
+    RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
+    local send = a.SendSay
+    a.SendSay = function() return false end
+    equal(activate(19750), false)
+    a.SendSay = function() error("blocked") end
+    equal(activate(19750), false)
+    a.SendSay = send
+    truthy(activate(19750))
+    equal(activate(19750), false)
+    equal(#a.output, 1)
+end)
+
+abilityTest("custom say emote and customemote use existing activity routes", function(a)
+    local id = customAbilityOnly("FLASH_OF_LIGHT", { type = "say", text = "Speech." })
+    local scope = { layer = "ability", class = "PALADIN", ability = "FLASH_OF_LIGHT" }
+    a.activity = "world";truthy(activate(19750));equal(a.output[1].type, "local")
+    a.activity = "dungeon";truthy(activate(19750));equal(a.output[2].type, "say")
+    a.activity = "raid";equal(activate(19750), false)
+    RPHelperDB.settings.enableInRaids = true
+    truthy(activate(19750));equal(a.output[3].type, "local")
+    truthy(RPHelper.UserContent.Edit(id, scope, { type = "emote", text = "ROAR" }))
+    a.activity = "world";truthy(activate(19750));equal(a.output[4].type, "emote")
+    truthy(RPHelper.UserContent.Edit(id, scope, { type = "customemote", text = "gestures." }))
+    truthy(activate(19750));equal(a.output[5].type, "customemote")
+    a.activity = "unknown";equal(activate(19750), false)
+end)
+
+abilityTest("missing custom target pet and invalid saved content do not consume quota", function(a)
+    local id = customAbilityOnly("FLASH_OF_LIGHT", { type = "say", text = "Hello {TARGET}." })
+    local scope = { layer = "ability", class = "PALADIN", ability = "FLASH_OF_LIGHT" }
+    RPHelperDB.settings.maxAutomaticOutputsPerCombat = 1
+    RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
+    equal(activate(19750), false)
+    truthy(RPHelper.UserContent.Edit(id, scope, { type = "say", text = "Hello {PNAME}." }))
+    equal(activate(19750), false)
+    RPHelperDB.custom.entries[id].entry.type = "invalid"
+    RPHelper.UserContent.Invalidate()
+    equal(activate(19750), false)
+    truthy(RPHelper.UserContent.Edit(id, scope, { type = "say", text = "Safe." }))
+    truthy(activate(19750))
+    equal(#a.output, 1)
+end)
+
+abilityTest("custom defensive and combat-entry settings remain enforced", function(a)
+    a.RandomIndex = function(size) return size end
+    RPHelperDB.triggers.enter_combat.enabled = true
+    RPHelperDB.triggers.enter_combat.chance = 1
+    disableShippedTrigger("entercombat", "PALADIN", "HUMAN")
+    truthy(RPHelper.UserContent.Add({ layer = "class", class = "PALADIN", trigger = "entercombat" }, { type = "say", text = "Ready." }))
+    truthy(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"))
+    equal(a.output[1].text, "Ready.")
+    disableShippedTrigger("block", "PALADIN", "HUMAN")
+    truthy(RPHelper.UserContent.Add({ layer = "generic", trigger = "block" }, { type = "emote", text = "ROAR" }))
+    RPHelperDB.triggers.block.enabled = false
+    equal(RPHelper.Runtime.HandleEvent("UNIT_COMBAT", "player", "BLOCK"), false)
+    RPHelperDB.triggers.block.enabled = true
+    RPHelperDB.triggers.block.chance = 1
+    truthy(RPHelper.Runtime.HandleEvent("UNIT_COMBAT", "player", "BLOCK"))
+    equal(a.output[2].type, "emote")
+end)
+
+abilityTest("secret spell payloads cannot reach custom content selection", function(a)
+    truthy(customAbilityOnly("FLASH_OF_LIGHT", { type = "say", text = "Mine." }))
+    issecretvalue = function(value) return value == 19750 end
+    equal(activate(19750), false)
+    issecretvalue = nil
+    equal(activate(19750), false)
+    issecretvalue = function() error("inspection failure") end
+    equal(activate(19750), false)
+    equal(#a.output, 0)
+end)
+
+abilityTest("default toggles affect live ability selection without catalogue mutation", function(a)
+    local pool = RPHelper.GetAbilityPool("PALADIN", "FLASH_OF_LIGHT")
+    local count = #pool
+    for _, entry in ipairs(pool) do truthy(RPHelper.UserContent.SetDefaultDisabled(entry.defaultID, true)) end
+    equal(activate(19750), false)
+    equal(#pool, count)
+    truthy(RPHelper.UserContent.SetDefaultDisabled(pool[1].defaultID, false))
+    truthy(activate(19750))
+    equal(a.output[1].text, pool[1].text)
+end)
+
+abilityTest("custom-only unknown abilities do not expand automatic spell coverage", function(a)
+    truthy(RPHelper.UserContent.Add({ layer = "ability", class = "PALADIN", ability = "FUTURE_ABILITY" }, { type = "say", text = "Future." }))
+    equal(activate(900999), false)
+    equal(RPHelper.Runtime.HandleTrigger("future_trigger"), false)
+    equal(#a.output, 0)
+end)
+
+test("customization: Druid custom content cannot bypass form speech suppression", function()
+    local a = newAdapter("DRUID", "TAUREN", 1)
+    initialize(a)
+    RPHelperDB.triggers.enter_combat.chance = 1
+    disableShippedTrigger("entercombat", "DRUID", "TAUREN", { class = "DRUID", form = "CAT" })
+    local scope = { layer = "generic", trigger = "entercombat" }
+    local id = RPHelper.UserContent.Add(scope, { type = "say", text = "Forbidden speech." })
+    truthy(id)
+    equal(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"), false)
+    RPHelperDB.triggers.leave_combat.enabled = false
+    RPHelper.Runtime.HandleEvent("PLAYER_REGEN_ENABLED")
+    truthy(RPHelper.UserContent.Edit(id, scope, { type = "customemote", text = "bares its fangs." }))
+    truthy(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"))
+    equal(a.output[1].type, "customemote")
 end)
 
 if failures > 0 then

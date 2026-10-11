@@ -38,6 +38,7 @@ dofile("RPHelper/Core/KeywordResolvers.lua")
 dofile("RPHelper/Core/DruidForms.lua")
 dofile("RPHelper/Core/ContentEngine.lua")
 dofile("RPHelper/Core/Content.lua")
+dofile("RPHelper/Core/UserContent.lua")
 dofile("RPHelper/Data/Generic.lua")
 dofile("RPHelper/Data/Races/Tauren.lua")
 dofile("RPHelper/Data/Races/Orc.lua")
@@ -725,6 +726,353 @@ test("Druid form transitions are read without stale state", function()
     equal(Engine.PrepareCandidate({ type = "say", text = "Spoken." }, options), nil)
     formID = nil
     equal(Engine.PrepareCandidate({ type = "say", text = "Spoken." }, options).text, "Spoken.")
+end)
+
+local User = RPHelper.UserContent
+local function customTest(name, callback)
+    test("customization: " .. name, function()
+        local saved = RPHelperDB
+        RPHelperDB = nil
+        RPHelper.InitializeDatabase()
+        local ok, err = pcall(callback)
+        RPHelperDB = saved
+        User.Invalidate()
+        if not ok then error(err, 2) end
+    end)
+end
+local function customScope(layer, trigger, owner)
+    local scope = { layer = layer, trigger = trigger }
+    if layer == "race" then scope.race = owner end
+    if layer == "class" then scope.class = owner end
+    if layer == "druidForm" then scope.form = owner end
+    return scope
+end
+
+customTest("CRUD persists copies and never reuses deleted IDs", function()
+    local scope, entry = customScope("generic", "test_custom"), { type = "say", text = "Mine." }
+    local id = User.Add(scope, entry)
+    truthy(id)
+    entry.text, scope.trigger = "Changed externally", "other"
+    equal(User.List()[1].entry.text, "Mine.")
+    local list = User.List()
+    list[1].entry.text = "Changed list"
+    equal(User.List()[1].entry.text, "Mine.")
+    local db = RPHelperDB
+    RPHelper.InitializeDatabase()
+    equal(RPHelperDB, db)
+    equal(User.List()[1].id, id)
+    truthy(User.Edit(id, customScope("generic", "test_custom"), { type = "say", text = "Edited." }))
+    equal(User.List()[1].entry.text, "Edited.")
+    truthy(User.Remove(id))
+    equal(#User.List(), 0)
+    equal(User.Edit(id, customScope("generic", "test_custom"), entry), false)
+    equal(User.Remove(id), false)
+    equal(User.IsCustomEligible(id, customScope("generic", "test_custom")), false)
+    truthy(User.Add(customScope("generic", "test_custom"), entry) ~= id)
+end)
+
+customTest("all layers and output types share selection without scope leakage", function()
+    local trigger = "test_custom_layers"
+    truthy(User.Add(customScope("generic", trigger), { type = "say", text = "Generic." }))
+    truthy(User.Add(customScope("race", trigger, "TAUREN"), { type = "emote", text = "ROAR" }))
+    truthy(User.Add(customScope("class", trigger, "WARRIOR"), { type = "customemote", text = "stands tall." }))
+    equal(#RPHelper.GetPreparedContentPool(trigger, "TAUREN", "WARRIOR", { resolvers = {} }), 3)
+    equal(#RPHelper.GetPreparedContentPool(trigger, "HUMAN", "MAGE", { resolvers = {} }), 1)
+    equal(#RPHelper.GetContentPool("other", "TAUREN", "WARRIOR"), 0)
+    local scope = { layer = "ability", class = "WARRIOR", ability = "TEST_CUSTOM" }
+    truthy(User.Add(scope, { type = "say", text = "Ability." }))
+    equal(#RPHelper.GetPreparedAbilityPool("WARRIOR", "TEST_CUSTOM", { resolvers = {} }), 1)
+    equal(#RPHelper.GetAbilityContentPool("MAGE", "TEST_CUSTOM"), 0)
+    equal(#RPHelper.GetAbilityContentPool("WARRIOR", "OTHER"), 0)
+end)
+
+customTest("missing target and pet data filter custom entries before selection", function()
+    local scope = customScope("generic", "test_custom_context")
+    local target = User.Add(scope, { type = "say", text = "Hello {TARGET}." })
+    truthy(User.Add(scope, { type = "customemote", text = "pets {PNAME}." }))
+    truthy(User.Add(scope, { type = "say", text = "Fallback." }))
+    equal(User.IsCustomEligible(target, scope, { resolvers = {} }), false)
+    equal(User.IsCustomEligible(target, customScope("generic", "other")), false)
+    local pool = RPHelper.GetPreparedContentPool(scope.trigger, nil, nil, { resolvers = {} })
+    equal(#pool, 1)
+    equal(pool[1].text, "Fallback.")
+    local options = { resolvers = { TARGET = function() return "Friend" end, PNAME = function() return "Wolf" end } }
+    equal(#RPHelper.GetPreparedContentPool(scope.trigger, nil, nil, options), 3)
+    truthy(User.IsCustomEligible(target, scope, options))
+end)
+
+customTest("templates use existing expansion and keyword preparation", function()
+    local scope = customScope("generic", "test_custom_template")
+    truthy(User.Add(scope, { type = "say", template = "{1} {PLAYER}!", choices = { { "Hello", "Welcome" } } }))
+    local candidate = RPHelper.ChooseGenericCandidate(scope.trigger, {
+        randomIndex = function() return 1 end, resolvers = { PLAYER = function() return "Ari" end } })
+    equal(candidate.text, "Hello Ari!")
+    equal(candidate.template, nil)
+end)
+
+customTest("invalid entries are rejected without mutation", function()
+    local scope = customScope("generic", "test_custom_invalid")
+    for _, entry in ipairs({ false, "bad", {}, { type = "unknown", text = "x" },
+        { type = "say", text = "" }, { type = "say", text = "   " },
+        { type = "say", text = "{UNKNOWN}" }, { type = "say", text = "{TARGET" },
+        { type = "emote", text = "hello world" }, { type = "emote", template = "ROAR", choices = {} },
+        { type = "say", template = "{1}", choices = {} },
+        { type = "say", template = "{1}", choices = { { false } } },
+        { type = "say", template = "{1}", choices = { { "{1}" } } },
+        { type = "say", text = "both", template = "{1}", choices = { { "x" } } },
+        { type = "say", template = "{0}", choices = { { "x" } } } }) do
+        local id, err = User.Add(scope, entry)
+        equal(id, nil); truthy(err)
+    end
+    equal(User.Add({ layer = "other", trigger = "x" }, { type = "say", text = "x" }), nil)
+    equal(#User.List(), 0)
+    equal(RPHelperDB.custom.nextID, 1)
+end)
+
+customTest("malformed and unsupported saved entries remain preserved and ineligible", function()
+    local scope = customScope("generic", "test_custom_bad_saved")
+    local saved = { [1] = "old", ["custom:1"] = false,
+        ["custom:2"] = { scope = scope, entry = { type = "say", text = "{FUTURE}" }, unknown = 5 },
+        ["custom:3"] = { scope = false, entry = { type = "say", text = "x" } },
+        ["custom:4"] = { scope = scope, entry = false } }
+    RPHelperDB.custom.entries = saved
+    User.Invalidate()
+    equal(#RPHelper.GetPreparedContentPool(scope.trigger), 0)
+    RPHelper.InitializeDatabase()
+    equal(RPHelperDB.custom.entries, saved)
+    equal(saved["custom:2"].unknown, 5)
+    truthy(saved["custom:2"].entry.text == "{FUTURE}")
+    equal(Engine.PrepareCandidate(false), nil)
+end)
+
+customTest("duplicate custom text is independently editable and removable", function()
+    local scope = customScope("generic", "test_custom_duplicate")
+    local first = User.Add(scope, { type = "say", text = "Same." })
+    local second = User.Add(scope, { type = "say", text = "Same." })
+    truthy(first ~= second)
+    equal(#RPHelper.GetContentPool(scope.trigger), 2)
+    truthy(User.Remove(first))
+    equal(#RPHelper.GetContentPool(scope.trigger), 1)
+    equal(User.List()[1].id, second)
+end)
+
+customTest("disabled default is removed from mixed pool and restored", function()
+    local trigger = "test_custom_mix"
+    RPHelper.RegisterGeneric(trigger, { type = "say", text = "Shipped." })
+    local entry = RPHelper.GetGenericPool(trigger)[1]
+    truthy(User.Add(customScope("generic", trigger), { type = "say", text = "Custom." }))
+    equal(#RPHelper.GetContentPool(trigger), 2)
+    truthy(User.SetDefaultDisabled(entry.defaultID, true))
+    truthy(User.IsDefaultDisabled(entry.defaultID))
+    equal(#RPHelper.GetPreparedContentPool(trigger), 1)
+    equal(RPHelper.ChooseGenericCandidate(trigger).text, "Custom.")
+    truthy(User.SetDefaultDisabled(entry.defaultID, false))
+    equal(#RPHelper.GetPreparedGenericPool(trigger), 2)
+    equal(#RPHelper.GetGenericPool(trigger), 1)
+end)
+
+customTest("shipped duplicate text and reused input table have independent IDs", function()
+    local entry = { type = "say", text = "Same default." }
+    RPHelper.RegisterGeneric("test_default_duplicate", entry)
+    RPHelper.RegisterGeneric("test_default_duplicate", entry)
+    local pool = RPHelper.GetGenericPool("test_default_duplicate")
+    truthy(pool[1].defaultID ~= pool[2].defaultID)
+    truthy(User.SetDefaultDisabled(pool[1].defaultID, true))
+    local selected = RPHelper.GetContentPool("test_default_duplicate")
+    equal(#selected, 1)
+    equal(selected[1].defaultID, pool[2].defaultID)
+    equal(entry.defaultID, nil)
+end)
+
+customTest("identities distinguish scope type and template choices", function()
+    local trigger = "test_default_identity"
+    RPHelper.RegisterGeneric(trigger, { type = "say", text = "Same." })
+    RPHelper.RegisterRace("TAUREN", trigger, { type = "say", text = "Same." })
+    RPHelper.RegisterClass("WARRIOR", trigger, { type = "say", text = "Same." })
+    RPHelper.RegisterAbility("WARRIOR", "TEST_IDENTITY", { type = "say", text = "Same." })
+    RPHelper.RegisterGeneric(trigger, { type = "customemote", text = "Same." })
+    RPHelper.RegisterGeneric(trigger, { type = "say", template = "{1}", choices = { { "x" } } })
+    RPHelper.RegisterGeneric(trigger, { type = "say", template = "{1}", choices = { { "y" } } })
+    local seen = {}
+    local pool = RPHelper.GetContentPool(trigger, "TAUREN", "WARRIOR")
+    pool[#pool + 1] = RPHelper.GetAbilityPool("WARRIOR", "TEST_IDENTITY")[1]
+    for _, entry in ipairs(pool) do truthy(not seen[entry.defaultID]);seen[entry.defaultID] = true end
+end)
+
+customTest("reload and unrelated additions preserve IDs while text edits get new identities", function()
+    local previous = RPHelper.Content
+    local ok, err = pcall(function()
+        RPHelper.Content = nil; dofile("RPHelper/Core/Content.lua")
+        RPHelper.RegisterGeneric("test_reload", { type = "say", text = "Original." })
+        local id = RPHelper.GetGenericPool("test_reload")[1].defaultID
+        truthy(User.SetDefaultDisabled(id, true))
+        RPHelper.Content = nil; dofile("RPHelper/Core/Content.lua")
+        RPHelper.RegisterGeneric("test_reload", { type = "say", text = "New addition." })
+        RPHelper.RegisterGeneric("test_reload", { type = "say", text = "Original." })
+        equal(RPHelper.GetGenericPool("test_reload")[2].defaultID, id)
+        RPHelper.RegisterGeneric("test_reload", { type = "say", text = "Edited original." })
+        equal(#RPHelper.GetContentPool("test_reload"), 2)
+        RPHelper.InitializeDatabase()
+        truthy(User.IsDefaultDisabled(id))
+    end)
+    RPHelper.Content = previous
+    if not ok then error(err) end
+end)
+
+customTest("obsolete IDs are harmless and custom defaultID spoofing cannot filter custom content", function()
+    local obsolete = "default:v1:removed:1"
+    truthy(User.SetDefaultDisabled(obsolete, true))
+    local scope = customScope("generic", "test_custom_spoof")
+    local id = User.Add(scope, { type = "say", text = "Mine.", defaultID = obsolete })
+    RPHelperDB.custom.entries[id].entry.defaultID = obsolete
+    User.Invalidate()
+    equal(#RPHelper.GetContentPool(scope.trigger), 1)
+    equal(RPHelper.GetContentPool(scope.trigger)[1].defaultID, nil)
+    truthy(User.IsDefaultDisabled(obsolete))
+    equal(User.SetDefaultDisabled(id, true), false)
+end)
+
+customTest("form replacement and speech suppression apply to custom content", function()
+    local trigger = "test_custom_form"
+    RPHelper.RegisterGeneric(trigger, { type = "say", text = "Humanoid." })
+    RPHelper.RegisterDruidForm("CAT", trigger, { type = "emote", text = "ROAR" })
+    local scope = customScope("generic", trigger)
+    truthy(User.Add(scope, { type = "say", text = "Custom speech." }))
+    truthy(User.Add(scope, { type = "customemote", text = "bares its fangs." }))
+    truthy(User.Add(customScope("druidForm", trigger, "CAT"), { type = "emote", text = "GROWL" }))
+    local options = { class = "DRUID", form = "CAT", resolvers = {} }
+    local pool = RPHelper.GetPreparedContentPool(trigger, "TAUREN", "DRUID", options)
+    equal(#pool, 3)
+    for _, entry in ipairs(pool) do truthy(entry.type ~= "say") end
+    truthy(User.SetDefaultDisabled(RPHelper.GetDruidFormPool("CAT", trigger)[1].defaultID, true))
+    equal(#RPHelper.GetPreparedContentPool(trigger, nil, "DRUID", options), 2)
+    RPHelperDB.settings.suppressSayInForms = false
+    equal(#RPHelper.GetPreparedContentPool(trigger, nil, "DRUID", options), 3)
+end)
+
+customTest("index is reused and edits invalidate it", function()
+    local scope = customScope("generic", "test_custom_cache")
+    local id = User.Add(scope, { type = "say", text = "First." })
+    local previous, calls = Engine.ValidateEntry, 0
+    Engine.ValidateEntry = function(...) calls = calls + 1;return previous(...) end
+    local ok, err = pcall(function()
+        RPHelper.GetContentPool(scope.trigger)
+        local first = calls
+        truthy(first > 0)
+        RPHelper.GetContentPool(scope.trigger)
+        equal(calls, first)
+        truthy(User.Edit(id, scope, { type = "say", text = "Edited." }))
+        equal(RPHelper.GetContentPool(scope.trigger)[1].text, "Edited.")
+        truthy(calls > first)
+    end)
+    Engine.ValidateEntry = previous
+    if not ok then error(err) end
+end)
+
+customTest("fresh partial and repeated initialization preserve choices and unknown fields", function()
+    local settings, triggers = { enabled = false, future = 7 }, { dodge = { enabled = false, chance = 0.7 } }
+    local abilities = { PALADIN = { FLASH_OF_LIGHT = { enabled = false, cooldown = 99 } }, FUTURE = { x = 1 } }
+    local custom = { authored = { "Legacy data." }, entries = {}, nextID = 9, future = 4 }
+    RPHelperDB = { schemaVersion = 7, settings = settings, triggers = triggers, abilities = abilities,
+        custom = custom, disabledDefaults = { ["default:v1:obsolete"] = true }, future = { x = 3 } }
+    local root = RPHelperDB
+    RPHelper.InitializeDatabase();RPHelper.InitializeDatabase()
+    equal(RPHelperDB, root);equal(root.settings, settings);equal(root.custom, custom)
+    equal(settings.enabled, false);equal(settings.future, 7)
+    equal(triggers.dodge.chance, 0.7);equal(abilities.PALADIN.FLASH_OF_LIGHT.cooldown, 99)
+    equal(abilities.FUTURE.x, 1);equal(custom.nextID, 9);equal(custom.authored[1], "Legacy data.")
+    equal(root.schemaVersion, 7);equal(root.future.x, 3)
+    truthy(root.disabledDefaults["default:v1:obsolete"])
+    local id = User.Add(customScope("generic", "future_trigger"), { type = "say", text = "Future." })
+    RPHelper.InitializeDatabase()
+    equal(User.List()[1].id, id)
+end)
+
+customTest("malformed root and custom containers survive initialization and API calls", function()
+    for _, value in ipairs({ false, true, 42, "bad" }) do
+        for _, kind in ipairs({ "root", "custom", "entries", "disabledDefaults" }) do
+            RPHelperDB = {}
+            if kind == "root" then RPHelperDB = value
+            elseif kind == "entries" then RPHelperDB.custom = { entries = value }
+            else RPHelperDB[kind] = value end
+            RPHelper.InitializeDatabase()
+            if kind == "root" then equal(RPHelperDB, value)
+            elseif kind == "entries" then equal(RPHelperDB.custom.entries, value)
+            else equal(RPHelperDB[kind], value) end
+            if kind ~= "disabledDefaults" then
+                equal(User.Add(customScope("generic", "test_malformed"), { type = "say", text = "x" }), nil)
+                equal(User.List(), nil)
+                equal(User.Edit("custom:1", customScope("generic", "test_malformed"), { type = "say", text = "x" }), false)
+                equal(User.Remove("custom:1"), false)
+            else equal(User.SetDefaultDisabled("default:v1:x", true), false) end
+            equal(#RPHelper.GetPreparedContentPool("test_malformed", nil, "DRUID", { form = "CAT" }), 0)
+        end
+    end
+end)
+
+customTest("unknown fields survive edits and malformed counter is never replaced", function()
+    local scope = customScope("generic", "test_custom_unknown")
+    local id = User.Add(scope, { type = "say", text = "First." })
+    local record = RPHelperDB.custom.entries[id]
+    record.future, record.entry.future, record.scope.future = 4, 5, 6
+    truthy(User.Edit(id, scope, { type = "customemote", text = "Edited." }))
+    equal(record.future, 4);equal(record.entry.future, 5);equal(record.scope.future, 6)
+    RPHelperDB.custom.nextID = false
+    RPHelper.InitializeDatabase()
+    equal(RPHelperDB.custom.nextID, false)
+    equal(User.Add(scope, { type = "say", text = "x" }), nil)
+    equal(User.List()[1].id, id)
+end)
+
+customTest("secret context uses shared keyword guards without leaking values", function()
+    local scope = customScope("generic", "test_custom_secret")
+    local id = User.Add(scope, { type = "say", text = "Hello {TARGET}." })
+    local inspect = issecretvalue
+    local ok, err = pcall(function()
+        issecretvalue = function(value) return value == "secret" end
+        equal(User.IsCustomEligible(id, scope, { resolvers = { TARGET = function() return "secret" end } }), false)
+        equal(#RPHelper.GetPreparedContentPool(scope.trigger, nil, nil,
+            { resolvers = { TARGET = function() error("restricted") end } }), 0)
+    end)
+    issecretvalue = inspect
+    if not ok then error(err) end
+end)
+
+customTest("database replacement and reinitialization never reuse another character's cache", function()
+    local scope = customScope("generic", "test_custom_character")
+    truthy(User.Add(scope, { type = "say", text = "First character." }))
+    equal(RPHelper.GetContentPool(scope.trigger)[1].text, "First character.")
+    local first = RPHelperDB
+    RPHelperDB = nil; RPHelper.InitializeDatabase()
+    equal(#RPHelper.GetContentPool(scope.trigger), 0)
+    truthy(User.Add(scope, { type = "say", text = "Second character." }))
+    equal(RPHelper.GetContentPool(scope.trigger)[1].text, "Second character.")
+    RPHelperDB = first
+    equal(RPHelper.GetContentPool(scope.trigger)[1].text, "First character.")
+    first.custom.entries["custom:1"].entry.text = "Direct repair."
+    RPHelper.InitializeDatabase()
+    equal(RPHelper.GetContentPool(scope.trigger)[1].text, "Direct repair.")
+end)
+
+customTest("schema values and malformed nested overrides are preserved during upgrades", function()
+    for _, schema in ipairs({ false, 0, 9 }) do
+        RPHelperDB = { schemaVersion = schema, settings = false, triggers = { dodge = "future" },
+            abilities = { PALADIN = false }, custom = { entries = {}, nextID = 1, future = "preserved" } }
+        RPHelper.InitializeDatabase();RPHelper.InitializeDatabase()
+        equal(RPHelperDB.schemaVersion, schema)
+        equal(RPHelperDB.settings, false);equal(RPHelperDB.triggers.dodge, "future")
+        equal(RPHelperDB.abilities.PALADIN, false);equal(RPHelperDB.custom.future, "preserved")
+    end
+end)
+
+customTest("invalid edits leave a valid entry and cache unchanged", function()
+    local scope = customScope("generic", "test_custom_invalid_edit")
+    local id = User.Add(scope, { type = "say", text = "Original." })
+    equal(RPHelper.GetContentPool(scope.trigger)[1].text, "Original.")
+    equal(User.Edit(id, scope, { type = "say", text = "{UNKNOWN}" }), false)
+    equal(User.Edit(id, { layer = "bad" }, { type = "say", text = "Replacement." }), false)
+    equal(User.List()[1].entry.text, "Original.")
+    equal(RPHelper.GetContentPool(scope.trigger)[1].text, "Original.")
 end)
 
 if failures > 0 then
