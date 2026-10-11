@@ -17,3 +17,36 @@ The minimal runtime core isolates every WoW API dependency in `Core/RuntimeAPI.l
 | `DoEmote(token)` | Blizzard built-in emote output | Established WoW API; automatic use may be restricted | Confirm token support and automatic-event permission. |
 
 Adapter methods fail safely when their underlying global is unavailable. The shapeshift adapter deliberately raises on API failure so the existing protected form detector can distinguish failure (`UNKNOWN`) from a legitimate humanoid `nil`/`0` result. Automated tests replace the adapter entirely; live Forever testing remains a separate verification stage.
+
+
+## Runtime policy adapter additions
+
+| API | Use | Live verification still required |
+| --- | --- | --- |
+| `IsInInstance()` | Strict `false, "none"` → world; `true, "party"` → dungeon; `true, "raid"` → raid. Other or failing results are unknown and suppress output. | Confirm Forever return values and instance classification. Raid grouping outside an instance retains world routing. |
+| `GetTime()` | Session monotonic cooldown clock, injectable through the adapter. | Confirm availability and readable values during combat. Backward/nonfinite readings suppress attempts. |
+| `DEFAULT_CHAT_FRAME:AddMessage(text)` | Minimal local-only sayings display with an RPHelper prefix. | Confirm visibility and availability; no public fallback exists. |
+| `math.random()`, `math.random(size)` | Probability rolls and content selection, separately injectable. | Standard Lua assumptions; no random seed changes. |
+
+Output adapter success means the API invocation completed without an exception
+or explicit false result, not that the server acknowledged delivery. WoW output
+APIs commonly return nil on successful invocation; silent server rejection cannot
+be observed here. No restriction bypass or automatic retry is attempted.
+Automatic chat/emote permissions still require live Forever verification.
+
+## Remediation tracking: feat/runtime-policies
+
+This section supplements the historical runtime wiring audit without changing its
+findings. No commit has been created for this work.
+
+| Audit remediation | Implementation / automated verification | Live Forever |
+| --- | --- | --- |
+| Enabled state, chance, frequency, cooldowns, encounter cap | Implemented; mocked boundary, interaction, exhaustion/reset and malformed-setting tests pass. All output routes share the encounter quota through exit; out-of-combat attempts retain chance/cooldowns without consuming quota. | Pending |
+| Evaluation and state-consumption order | Implemented; failed dispatch and rejected candidates consume no cooldown/quota. | Pending |
+| Activity-aware routing | Implemented; world local sayings, dungeon SAY, default raid suppression, separate emote routes and unknown-context suppression tested. | Pending |
+| Preserve preparation, keyword safety and Druid suppression | Existing content-engine and runtime suites pass. | Pending |
+| Malformed saved settings | Startup and registered slash-command tests cover malformed root/settings containers and preservation of recoverable user data. Status uses the effective enabled default; on/off report unsavable settings without replacing malformed containers. General migrations remain deferred. | Pending |
+
+Gameplay event coverage remains combat entry/exit only. Interface metadata,
+additional triggers, user-content pooling, disabled-default integration, a settings
+editor, and general migrations remain outside this branch.

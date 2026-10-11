@@ -5,6 +5,7 @@ RPHelper.CURRENT_SCHEMA_VERSION = 1
 RPHelper.Defaults = {
     settings = {
         enabled = true,
+        enableInRaids = false,
         frequencyPreset = "normal",
         globalCooldown = 10,
         maxAutomaticOutputsPerCombat = 2,

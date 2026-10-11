@@ -139,6 +139,71 @@ V1 should support:
 
 Defaults should be conservative.
 
+### Implemented minimal runtime policy
+
+The current runtime still detects only combat entry and exit. It evaluates each
+supported trigger in this order:
+
+1. Check master and individual trigger enabled settings, then activity permission.
+2. Read monotonic time; check global cooldown, per-trigger cooldown, and encounter quota.
+3. Apply the trigger probability multiplied by the frequency preset.
+4. Prepare and select eligible content using the existing keyword and Druid-form safeguards.
+5. Route and dispatch the selected candidate.
+6. Record cooldown timestamps and increment the encounter count only on successful dispatch.
+
+Frequency presets are `low` (0.5×), `normal` (1×), and `high` (2×). They multiply
+probability only, capped at 1; they do not shorten cooldowns or raise quotas.
+Existing default probabilities remain unchanged (combat entry 0.20, exit 0.15).
+A uniform roll in [0, 1) succeeds strictly below the effective probability;
+zero always rejects and one always passes without drawing a roll.
+
+Cooldowns use seconds and allow output at the exact expiry boundary. Both global
+and per-trigger cooldowns must expire. Defaults remain 10 seconds globally,
+30 seconds for each combat transition, and two automatic outputs per encounter.
+Zero cooldown permits immediate reuse; zero quota prevents all encounter output.
+All successfully dispatched types, including local sayings, count equally.
+
+An encounter begins before the entry reaction and ends after the exit reaction,
+so both share its quota. Duplicate combat events neither emit nor reset the
+counter. Initialization while already in combat starts an empty session quota
+without inventing an entry reaction. Exit clears the counter, and the next entry
+starts a new encounter. Cooldowns persist across encounters but are session-only;
+reloading resets cooldowns and quota. Disabled or suppressed reactions still
+update encounter state.
+
+Outside an encounter, trigger attempts obey the same enabled, activity,
+probability, and cooldown policies, but neither check nor consume the combat
+quota (even when it is zero). They still record successful output cooldowns.
+Only combat entry and exit events are currently detected; this policy does not
+add out-of-combat event detection.
+
+Open-world sayings use a prefixed `[RPHelper]` message in the player's existing
+chat display via `AddMessage`; no chat message is transmitted. Dungeon sayings
+use `SAY`. Custom emotes use `EMOTE`; built-in emotes use `DoEmote`.
+The additive boolean setting `enableInRaids` defaults to false. When explicitly
+enabled, raid sayings remain local and both emote types are permitted.
+Unknown, inconsistent, or unsupported activity contexts suppress all output.
+Missing local display never falls back to public chat. Optional party redirection
+is not implemented.
+
+Runtime settings are validated without rewriting saved values. Missing or invalid
+values fall back to shipped defaults: toggles must be booleans, probabilities
+finite numbers in [0, 1], cooldowns finite nonnegative numbers, quotas finite
+nonnegative integers, and presets one of the three names above. Database startup
+preserves malformed existing containers and skips default merging into them.
+No schema version change or migration is introduced.
+`/rph status` reports the effective enabled value, falling back to the default
+for invalid saved values. `/rph on` and `/rph off` update a valid settings table;
+if the root or settings container is malformed, they report that the setting
+cannot be saved and preserve the existing data.
+
+The injected runtime API supplies `GetTime()` (finite, nonnegative monotonic
+seconds), `Random()` (probability rolls), and `RandomIndex(size)` (content/template
+selection). Missing, failing, invalid, or backward-moving clock readings suppress
+output; invalid probability rolls suppress that attempt. Class detection failure
+also suppresses output to avoid bypassing Druid speech restrictions.
+
+
 ## User-facing configuration
 
 V1 target:

@@ -9,20 +9,31 @@ local function printHelp()
     print("/rph spell <ability-key>  (reserved for Forever testing)")
 end
 
+local function savedSettings()
+    if type(RPHelperDB) == "table" and type(RPHelperDB.settings) == "table" then
+        return RPHelperDB.settings
+    end
+end
+
 function RPHelper.HandleSlashCommand(message)
     local command, rest = string.match(message or "", "^(%S*)%s*(.-)$")
     command = string.lower(command or "")
 
     if command == "" or command == "help" then
         printHelp()
-    elseif command == "on" then
-        RPHelperDB.settings.enabled = true
-        print("RPHelper enabled.")
-    elseif command == "off" then
-        RPHelperDB.settings.enabled = false
-        print("RPHelper disabled.")
+    elseif command == "on" or command == "off" then
+        local settings = savedSettings()
+        if not settings then
+            print("RPHelper cannot save this setting: SavedVariables root or settings container is invalid.")
+            return
+        end
+        settings.enabled = command == "on"
+        print("RPHelper " .. (settings.enabled and "enabled" or "disabled") .. ".")
     elseif command == "status" then
-        print("RPHelper is " .. (RPHelperDB.settings.enabled and "enabled" or "disabled") .. ".")
+        local settings = savedSettings()
+        local enabled = settings and settings.enabled
+        if type(enabled) ~= "boolean" then enabled = RPHelper.Defaults.settings.enabled end
+        print("RPHelper is " .. (enabled and "enabled" or "disabled") .. ".")
     elseif command == "spell" then
         print("RPHelper pre-alpha spell trigger requested: " .. (rest ~= "" and rest or "<missing>"))
     else
