@@ -12,7 +12,8 @@ frame:SetScript("OnEvent", function(_, event, ...)
         SlashCmdList = SlashCmdList or {}
         SlashCmdList.RPHELPER = RPHelper.HandleSlashCommand
         RPHelper.Runtime.Initialize(frame)
-    elseif event == "PLAYER_REGEN_DISABLED" or event == "PLAYER_REGEN_ENABLED" or event == "UNIT_COMBAT" then
+    elseif event == "PLAYER_REGEN_DISABLED" or event == "PLAYER_REGEN_ENABLED"
+        or event == "UNIT_COMBAT" or event == "UNIT_SPELLCAST_SUCCEEDED" then
         RPHelper.Runtime.HandleEvent(event, ...)
     end
 end)

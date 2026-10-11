@@ -29,6 +29,8 @@ Adapter methods fail safely when their underlying global is unavailable. The sha
 | `math.random()`, `math.random(size)` | Probability rolls and content selection, separately injectable. | Standard Lua assumptions; no random seed changes. |
 | `UNIT_COMBAT` / `RegisterDefensiveEvents(frame)` | Protected ordinary registration; failure leaves combat transitions functional. | Confirm registration and delivery on the actual Forever build. |
 | `issecretvalue` / `ClassifyUnitCombat(unitTarget, action)` | Required fields must inspect as nonsecret strings; exact player DODGE/PARRY/direct BLOCK only. Missing/failing inspection rejects detection; unused fields are ignored. | Confirm readability and attribution in ordinary addon execution, restricted contexts, and encounter-boundary ordering. See [combat audit](combat_trigger_api_audit.md). |
+| `UNIT_SPELLCAST_SUCCEEDED` / `RegisterAbilityEvents(frame)` | Protected ordinary registration; failure disables only ability detection. | Confirm ordinary-addon registration and delivery across activities; no unit-filtered registration assumption. |
+| `issecretvalue` / `ClassifySpellcastSucceeded(unitTarget, castGUID, spellID, class)` | Exact readable player unit, valid readable positive integer ID and readable class; two explicit Paladin mappings. GUID/cast-bar fields ignored. | Verify readability across restricted contexts, rank IDs and duplicate delivery. ID evidence is third-party, not RPHelper live verification; see [spellcasting audit](spell_casting_api_audit.md#6-first-runtime-increment). |
 
 Output adapter success means the API invocation completed without an exception
 or explicit false result, not that the server acknowledged delivery. WoW output
@@ -49,8 +51,9 @@ findings. No commit has been created for this work.
 | Preserve preparation, keyword safety and Druid suppression | Existing content-engine and runtime suites pass. | Pending |
 | Malformed saved settings | Startup and registered slash-command tests cover malformed root/settings containers and preservation of recoverable user data. Status uses the effective enabled default; on/off report unsavable settings without replacing malformed containers. General migrations remain deferred. | Pending |
 
-Gameplay event coverage now includes combat entry/exit and the three audited
-defensive reactions, with active-encounter gating and mocked verification only.
+Gameplay event coverage includes combat entry/exit, the three audited defensive
+reactions (active encounters only), and the two mapped Paladin abilities through
+guarded cast-success events. RPHelper verification remains mocked only.
 Offensive criticals, partial-block flags, and combat-text/combat-log fallbacks
 remain unimplemented. Interface metadata,
 other triggers, user-content pooling, disabled-default integration, a settings

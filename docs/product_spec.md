@@ -192,7 +192,38 @@ Outside an encounter, trigger attempts obey the same enabled, activity,
 probability, and cooldown policies, but neither check nor consume the combat
 quota (even when it is zero). They still record successful output cooldowns.
 Defensive triggers are accepted only during an active encounter, including direct
-trigger attempts. No additional out-of-combat event detection is implemented.
+trigger attempts. Supported ability activations may also react outside combat.
+
+### Implemented first ability increment
+
+`UNIT_SPELLCAST_SUCCEEDED` is the sole ability-activation signal. The adapter
+requires an exact readable `player` unit, a readable positive integer spell ID
+and a readable player class. Missing/failing secret inspection rejects detection;
+unused GUID and cast-bar fields are ignored. Registration failure disables only
+ability detection. No cast-start notification or combat-outcome check is required.
+
+Only Paladin Flash of Light (`19750`) and Seal of Righteousness (`20288`) are
+mapped, based on attributable third-party Forever observations. Other ranks and
+variants are not inferred. See the [spellcasting audit](spell_casting_api_audit.md#6-first-runtime-increment)
+for evidence and pending live checks; this is not RPHelper live verification.
+
+Each mapped ability defaults to enabled, 3% chance and a 30-second cooldown.
+Individual overrides live at `RPHelperDB.abilities[class][canonicalAbility]`,
+with `enabled`, `chance` and `cooldown` fields. Missing/malformed values use
+these defaults without overwriting recoverable data. There is no ability settings
+editor in this increment.
+
+Ability reactions use existing ability-content preparation, keyword eligibility
+and Druid speech suppression. They share the master switch, frequency multiplier,
+global cooldown, activity routing and combat encounter quota with generic
+reactions; ability cooldowns are distinct. Only successful dispatch spends
+cooldowns/quota. Outside combat, no encounter quota applies. Target context is
+not guessed.
+
+Channels, form transitions, passive procs, auto-attacks, queued melee exceptions,
+empower/reticle behaviour and pets remain unsupported. No pending-cast state or
+duplicate suppression is introduced; duplicate delivery remains a live-validation
+question. Generic combat reactions retain their existing semantics.
 
 Open-world sayings use a prefixed `[RPHelper]` message in the player's existing
 chat display via `AddMessage`; no chat message is transmitted. Dungeon sayings

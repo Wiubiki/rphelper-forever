@@ -31,6 +31,35 @@ function API.RegisterDefensiveEvents(frame)
     return ok and result ~= false
 end
 
+-- Exact Forever observations only; no inferred ranks or retail normalization.
+-- Evidence: docs/spell_casting_api_audit.md, first runtime increment.
+API.AbilitySpellIDs = {
+    PALADIN = {
+        [19750] = "FLASH_OF_LIGHT",
+        [20288] = "SEAL_OF_RIGHTEOUSNESS",
+    },
+}
+
+-- GUID and cast-bar fields are intentionally unused, including when secret.
+function API.ClassifySpellcastSucceeded(unitTarget, castGUID, spellID, class)
+    local unitOK, unitSecret = call(issecretvalue, unitTarget)
+    if not unitOK or unitSecret ~= false then return nil end
+    if type(unitTarget) ~= "string" or unitTarget ~= "player" then return nil end
+    local spellOK, spellSecret = call(issecretvalue, spellID)
+    if not spellOK or spellSecret ~= false then return nil end
+    if type(spellID) ~= "number" or spellID <= 0 or spellID >= math.huge
+        or spellID ~= spellID or spellID % 1 ~= 0 then return nil end
+    local classOK, classSecret = call(issecretvalue, class)
+    if not classOK or classSecret ~= false or type(class) ~= "string" then return nil end
+    local spells = API.AbilitySpellIDs[class]
+    return spells and spells[spellID] or nil
+end
+
+function API.RegisterAbilityEvents(frame)
+    local ok, result = pcall(function() return frame:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED") end)
+    return ok and result ~= false
+end
+
 -- These APIs are established WoW addon APIs but still require live Forever
 -- verification. Keeping them behind this adapter makes every assumption
 -- replaceable in tests and revisable without changing runtime coordination.

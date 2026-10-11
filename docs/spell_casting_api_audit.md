@@ -1,6 +1,6 @@
 # Spellcasting and ability API compatibility audit
 
-Research date: 2026-10-11. Status: research only; no RPHelper live-client verification or implementation. This audit complements [the combat API audit](combat_trigger_api_audit.md); it does not change generic combat triggers or the deferred status of `youcrit`.
+Research date: 2026-10-11. The research findings remain unverified by RPHelper in the live client; §6 records the first runtime increment. This audit complements [the combat API audit](combat_trigger_api_audit.md); it does not change generic combat triggers or the deferred status of `youcrit`.
 
 ## Evidence and boundaries
 
@@ -107,7 +107,7 @@ Cooldown/action-bar notifications report refreshes, including shared/global cool
 This architecture is conditional on live verification of readable player-success payloads. If that gate fails in a context, automatic ability detection remains disabled there.
 
 1. Keep registration, payload secret inspection, player filtering, optional spell API calls and Forever-specific event assumptions in `RuntimeAPI.lua`. Validate readable unit and positive finite integer spell ID before classification. Return only a canonical ability identity and safely usable cast identity; never pass unchecked payloads into content or policy code.
-2. Extend the existing runtime policy path narrowly to accept ability identities and choose `ChooseAbilityCandidate(class, ability, options)`. Today `HandleTrigger` accepts only its five generic keys and calls `ChooseContentCandidate`; simply sending a new ability string would be rejected. Ability pools already have preparation/selection helpers. A future change needs explicit ability enable/chance/cooldown settings, not accidental defaults borrowed from an unrelated generic trigger.
+2. Extend the existing runtime policy path narrowly to accept ability identities and choose `ChooseAbilityCandidate(class, ability, options)`. At initial audit time, `HandleTrigger` accepted only its five generic keys and called `ChooseContentCandidate`; simply sending a new ability string would be rejected. Ability pools already have preparation/selection helpers. Ability detection needs explicit ability enable/chance/cooldown settings, not accidental defaults borrowed from an unrelated generic trigger.
 3. Preserve global cooldown, frequency scaling, activity gating/routing and the shared encounter quota. Count only successfully dispatched output. Ability uses outside combat may be valid, obeying settings/probability/cooldowns without an encounter quota; do not impose the defensive reactions' combat-only rule on buffs. Keep combat entry/exit unchanged, and ensure an in-combat ability cannot bypass encounter accounting.
 4. Pass the same Druid suppression/form-query options through content preparation. Ability content must not bypass form suppression or invent generic form reactions. Unknown/unreadable forms remain conservative. First scope excludes shapeshift transitions until ordering is verified. Do not expand or rewrite content pools.
 5. First scope supplies only safely established player context. Omit cast-target values; candidates requiring missing relevant target/pet data stay ineligible. The current target at success can differ from a mouseover/self/ground cast's target.
@@ -132,4 +132,51 @@ Record build/interface, class, spell rank/ID, activity, event sequence and secre
 - Check target-dependent candidates remain ineligible for mouseover/self/ground casts without safe relevant context. Confirm success does not falsely imply hit, heal, crit or effect application.
 - Verify disabled ability/global settings, probability, per-ability/global cooldowns, shared encounter quota including leave-combat, out-of-combat buffs, failed dispatch and activity routing. Check at most one policy attempt per verified execution and no interference with generic combat reactions.
 
-Implementation status: **none**. Exported contracts and third-party captures support a limited guarded success-event proposal; universal Forever coverage, exact IDs and client behaviour remain unverified by RPHelper.
+## 6. First runtime increment
+
+Implemented: protected ordinary registration of `UNIT_SPELLCAST_SUCCEEDED`, a
+single adapter classifier and shared runtime policy evaluation with separate
+ability-content selection. Only the exact nonsecret player unit, valid nonsecret
+spell ID and nonsecret class are used. Inspection must return exactly false for
+each required field; missing/failing inspection suppresses detection. GUID and
+cast-bar values are untouched. No START/SENT requirement, outcome reconstruction,
+pending-cast state or duplicate cache exists. The recommendations in §4 describe
+the pre-implementation runtime; generic `HandleTrigger` still accepts its five
+keys, while the internal ability path now shares its policy evaluation.
+
+### Production ID evidence
+
+| Class | Exact spell ID | Existing canonical ability | Evidence and limits |
+| --- | --- | --- | --- |
+| PALADIN | 19750 | FLASH_OF_LIGHT | Library author's §4.3 Paladin dungeon SUCCEEDED observation names this readable Flash of Light ID. Ordinary cast-time ability; other ranks/instant variants not inferred. |
+| PALADIN | 20288 | SEAL_OF_RIGHTEOUSNESS | Same Paladin observation names this readable Seal of Righteousness ID. Instant buff activation; other ranks not inferred. |
+
+Source: [Forever API findings, §4.3 and its correction](https://github.com/Ralgathor/LibClassicSwingTimerAPI/blob/main/docs/FOREVER_API_FINDINGS.md).
+These are documented **third-party Forever observations**, not RPHelper client
+tests, retail-ID assumptions or guarantees across builds/contexts. The source
+separately identifies another unit's Rend and an attack toggle; neither is
+included. Only these two exact IDs enter production. A synthetic Druid ID appears
+solely in a scoped mocked fixture to verify form restrictions, not in the
+production allowlist. Catalogue membership never enables detection by itself.
+
+Defaults are enabled/3%/30 seconds for each mapped ability, overridden through
+`RPHelperDB.abilities.PALADIN[canonicalAbility]`. Defaults merge only into valid
+containers and missing fields; malformed/recoverable data is preserved and
+runtime validation falls back without rewriting it. No migration or schema bump
+is introduced. Master enable, frequency, global cooldown, activity rules and
+encounter quotas are shared with generic reactions. Ability cooldowns are
+independent; out-of-combat activations do not spend an encounter quota.
+
+Existing ability preparation discards candidates with unresolved target context
+and applies Druid speech suppression. No current-target correlation is added.
+Channels, form transitions, queued abilities, passive procs, automatic attacks,
+empower/reticle behaviour and pets remain outside the allowlist.
+
+No evidence here establishes that cast GUIDs are readable, populated and unique
+for every supported activation, or that repeated SUCCEEDED delivery needs
+suppression. Therefore no deduplication infrastructure is implemented; repeated
+valid notifications are ordinary policy attempts. Live captures must establish
+duplicate delivery/identity before adding an exact-GUID safeguard. The checklist
+in §5 remains open, especially player payload readability across restricted
+contexts, exact rank IDs, registration/delivery, output permission and duplicate
+behaviour. Automated coverage is mocked and makes no live compatibility claim.

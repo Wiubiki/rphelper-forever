@@ -36,6 +36,8 @@ dofile("RPHelper/Core/Commands.lua")
 dofile("RPHelper/Data/Generic.lua")
 dofile("RPHelper/Data/Races/Tauren.lua")
 dofile("RPHelper/Data/Classes/Druid.lua")
+dofile("RPHelper/Data/Abilities/Paladin.lua")
+dofile("RPHelper/Data/Abilities/Druid.lua")
 
 local function newFrame()
     local frame = { registered = {} }
@@ -52,6 +54,8 @@ local function newAdapter(class, race, formID)
     local adapter = { output = {}, combat = false, now = 0, activity = "dungeon", roll = 0 }
     adapter.ClassifyUnitCombat = RPHelper.RuntimeAPI.ClassifyUnitCombat
     adapter.RegisterDefensiveEvents = RPHelper.RuntimeAPI.RegisterDefensiveEvents
+    adapter.ClassifySpellcastSucceeded = RPHelper.RuntimeAPI.ClassifySpellcastSucceeded
+    adapter.RegisterAbilityEvents = RPHelper.RuntimeAPI.RegisterAbilityEvents
     function adapter.GetTime() return adapter.now end
     function adapter.GetActivity() return adapter.activity end
     function adapter.Random() return adapter.roll end
@@ -948,8 +952,365 @@ defensiveTest("addon frame forwards defensive payloads and introduces no dedupli
     equal(a.output[2].text, "dodge")
     for event in pairs(frame.registered) do
         truthy(event == "ADDON_LOADED" or event == "PLAYER_REGEN_DISABLED"
-            or event == "PLAYER_REGEN_ENABLED" or event == "UNIT_COMBAT")
+            or event == "PLAYER_REGEN_ENABLED" or event == "UNIT_COMBAT"
+            or event == "UNIT_SPELLCAST_SUCCEEDED")
     end
+end)
+
+local function abilityTest(name, callback)
+    test("ability: " .. name, function()
+        local inspect = issecretvalue
+        issecretvalue = function() return false end
+        local a = newAdapter("PALADIN", "HUMAN", nil)
+        local frame = initialize(a)
+        RPHelperDB.triggers.enter_combat.enabled = false
+        RPHelperDB.triggers.leave_combat.chance = 1
+        for _, settings in pairs(RPHelperDB.abilities.PALADIN) do
+            settings.chance, settings.cooldown = 1, 0
+        end
+        local ok, err = pcall(callback, a, frame)
+        issecretvalue = inspect
+        if not ok then error(err, 2) end
+    end)
+end
+
+local function activate(id, unit, guid)
+    return RPHelper.Runtime.HandleEvent("UNIT_SPELLCAST_SUCCEEDED", unit or "player", guid, id)
+end
+
+abilityTest("success alone selects existing cast-time and instant content", function(a, frame)
+    truthy(frame.registered.UNIT_SPELLCAST_SUCCEEDED)
+    truthy(activate(19750))
+    equal(a.output[1].text, "A swift blessing of the Light!")
+    truthy(activate(20288))
+    equal(a.output[2].text, "My strikes are guided by divine will!")
+    equal(RPHelper.Runtime.IsInCombat(), false)
+    for _, event in ipairs({ "UNIT_SPELLCAST_START", "UNIT_SPELLCAST_SENT",
+        "UNIT_SPELLCAST_STOP", "UNIT_SPELLCAST_FAILED", "UNIT_SPELLCAST_CHANNEL_START",
+        "UNIT_SPELLCAST_EMPOWER_STOP", "UNIT_SPELLCAST_RETICLE_TARGET" }) do
+        equal(RPHelper.Runtime.HandleEvent(event, "player", "guid", 19750), false)
+        equal(frame.registered[event], nil)
+    end
+    equal(#a.output, 2)
+end)
+
+abilityTest("addon frame forwards successful activations to runtime", function(a)
+    local frame = newFrame()
+    local previousCreateFrame = CreateFrame
+    CreateFrame = function() return frame end
+    local ok, err = pcall(function() dofile("RPHelper/RPHelper.lua") end)
+    CreateFrame = previousCreateFrame
+    if not ok then error(err) end
+    frame.OnEvent(frame, "ADDON_LOADED", "RPHelper")
+    RPHelper.Runtime.SetAPI(a)
+    truthy(frame.registered.UNIT_SPELLCAST_SUCCEEDED)
+    frame.OnEvent(frame, "UNIT_SPELLCAST_SUCCEEDED", "pet", nil, 19750)
+    frame.OnEvent(frame, "UNIT_SPELLCAST_START", "player", nil, 19750)
+    equal(#a.output, 0)
+    frame.OnEvent(frame, "UNIT_SPELLCAST_SUCCEEDED", "player", nil, 19750)
+    equal(#a.output, 1)
+    equal(a.output[1].text, "A swift blessing of the Light!")
+end)
+
+abilityTest("other units unknown IDs and unsupported variants reject before selection", function(a)
+    local choose = RPHelper.ChooseAbilityCandidate
+    RPHelper.ChooseAbilityCandidate = function() error("selection should not run") end
+    local ok, err = pcall(function()
+        for _, unit in ipairs({ "pet", "target", "party1", "vehicle", "Player", "" }) do
+            equal(activate(19750, unit), false)
+        end
+        for _, id in ipairs({ 1, 19751, 6603, 6803, 2973, 20271 }) do
+            equal(activate(id), false)
+        end
+    end)
+    RPHelper.ChooseAbilityCandidate = choose
+    if not ok then error(err) end
+    equal(#a.output, 0)
+end)
+
+abilityTest("malformed required fields cannot enter the policy path", function(a)
+    local bad = setmetatable({}, { __tostring = function() error("no stringify") end })
+    for _, value in ipairs({ false, true, "19750", bad, function() end, 0, -1, 1.5, math.huge, -math.huge, 0/0 }) do
+        equal(activate(value), false)
+        equal(RPHelper.Runtime.HandleEvent("UNIT_SPELLCAST_SUCCEEDED", value, nil, 19750), false)
+    end
+    equal(RPHelper.Runtime.HandleEvent("UNIT_SPELLCAST_SUCCEEDED"), false)
+    equal(RPHelper.Runtime.HandleEvent("UNIT_SPELLCAST_SUCCEEDED", nil, nil, 19750), false)
+    equal(activate(nil), false)
+    equal(#a.output, 0)
+    truthy(activate(19750))
+end)
+
+abilityTest("secret unit spell and class fields fail closed without spending cooldown", function(a)
+    RPHelperDB.settings.globalCooldown = 10
+    for _, fieldValue in ipairs({ "player", 19750, "PALADIN" }) do
+        issecretvalue = function(value) return value == fieldValue end
+        equal(activate(19750), false)
+    end
+    issecretvalue = function() return false end
+    truthy(activate(19750))
+    equal(#a.output, 1)
+end)
+
+abilityTest("missing failing and invalid inspection disables detection", function(a)
+    issecretvalue = nil
+    equal(activate(19750), false)
+    issecretvalue = function() error("inspection unavailable") end
+    equal(activate(19750), false)
+    for _, invalid in ipairs({ true, "false", 0, {} }) do
+        issecretvalue = function() return invalid end
+        equal(activate(19750), false)
+    end
+    issecretvalue = function() return nil end
+    equal(activate(19750), false)
+    equal(#a.output, 0)
+    -- Generic combat functionality does not depend on the new inspector.
+    RPHelperDB.triggers.enter_combat.enabled = true
+    RPHelperDB.triggers.enter_combat.chance = 1
+    truthy(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"))
+end)
+
+abilityTest("unused GUID and cast-bar fields are never inspected", function(a)
+    local unused = setmetatable({}, { __tostring = function() error("unused secret") end })
+    local count = 0
+    issecretvalue = function(value)
+        if value == unused then error("unused field inspected") end
+        count = count + 1
+        return false
+    end
+    equal(RPHelper.RuntimeAPI.ClassifySpellcastSucceeded("player", unused, 19750, "PALADIN"), "FLASH_OF_LIGHT")
+    equal(count, 3)
+    truthy(RPHelper.Runtime.HandleEvent("UNIT_SPELLCAST_SUCCEEDED", "player", unused, 19750, unused))
+    truthy(activate(20288, "player", nil))
+    -- No speculative deduplication, including repeated opaque GUIDs.
+    truthy(activate(19750, "player", "same"))
+    truthy(activate(19750, "player", "same"))
+    equal(#a.output, 4)
+end)
+
+abilityTest("mapping is class specific and class adapter failures are safe", function(a)
+    for _, class in ipairs({ "WARRIOR", "DRUID", "", false, {} }) do
+        a.GetPlayerClass = function() return class end
+        equal(activate(19750), false)
+    end
+    a.GetPlayerClass = function() error("class unavailable") end
+    equal(activate(19750), false)
+    a.GetPlayerClass = nil
+    equal(activate(20288), false)
+    equal(#a.output, 0)
+end)
+
+abilityTest("master and individual switches reject before content selection", function(a)
+    local choose = RPHelper.ChooseAbilityCandidate
+    RPHelper.ChooseAbilityCandidate = function() error("disabled selection") end
+    RPHelperDB.settings.enabled = false
+    local first = activate(19750)
+    RPHelperDB.settings.enabled = true
+    RPHelperDB.abilities.PALADIN.FLASH_OF_LIGHT.enabled = false
+    local second = activate(19750)
+    RPHelper.ChooseAbilityCandidate = choose
+    equal(first, false)
+    equal(second, false)
+    truthy(activate(20288))
+    equal(#a.output, 1)
+end)
+
+abilityTest("chance frequency and cooldown boundaries use the shared policy", function(a)
+    local settings = RPHelperDB.abilities.PALADIN.FLASH_OF_LIGHT
+    settings.chance, settings.cooldown = 0.2, 30
+    RPHelperDB.settings.frequencyPreset = "low"
+    RPHelperDB.settings.globalCooldown = 10
+    a.roll = 0.1
+    equal(activate(19750), false)
+    a.roll = 0.099
+    truthy(activate(19750))
+    a.now = 9
+    equal(activate(20288), false)
+    a.now = 10
+    truthy(activate(20288))
+    a.now = 29
+    equal(activate(19750), false)
+    a.now = 30
+    truthy(activate(19750))
+    equal(#a.output, 3)
+    settings.chance = 0
+    a.now = 100
+    equal(activate(19750), false)
+end)
+
+abilityTest("entry abilities defenses and exit share encounter quota", function(a)
+    RPHelperDB.settings.maxAutomaticOutputsPerCombat = 3
+    RPHelperDB.triggers.enter_combat.enabled = true
+    RPHelperDB.triggers.enter_combat.chance = 1
+    RPHelperDB.triggers.dodge.chance = 1
+    truthy(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"))
+    truthy(activate(19750))
+    truthy(defend("DODGE"))
+    equal(activate(20288), false)
+    equal(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_ENABLED"), false)
+    equal(#a.output, 3)
+    truthy(activate(20288)) -- quota ended, cooldowns still apply normally
+    RPHelperDB.triggers.enter_combat.enabled = false
+    RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
+    truthy(activate(19750))
+    truthy(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_ENABLED"))
+    equal(#a.output, 6)
+end)
+
+abilityTest("outside combat has no quota and initialization inside combat does", function(a)
+    RPHelperDB.settings.maxAutomaticOutputsPerCombat = 0
+    truthy(activate(19750))
+    truthy(activate(20288))
+    a.combat = true
+    RPHelper.Runtime.Initialize(newFrame(), a)
+    equal(activate(19750), false)
+    equal(#a.output, 2)
+    RPHelper.Runtime.HandleEvent("PLAYER_REGEN_ENABLED")
+    truthy(activate(19750))
+end)
+
+abilityTest("failed dispatch and ineligible content spend no cooldown or quota", function(a)
+    RPHelperDB.settings.globalCooldown = 10
+    RPHelperDB.settings.maxAutomaticOutputsPerCombat = 1
+    RPHelperDB.abilities.PALADIN.FLASH_OF_LIGHT.cooldown = 30
+    RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
+    local send = a.SendSay
+    a.SendSay = function() return false end
+    equal(activate(19750), false)
+    a.SendSay = function() error("restricted") end
+    equal(activate(19750), false)
+    a.SendSay = send
+    local pool = RPHelper.Content.ability.PALADIN.FLASH_OF_LIGHT
+    RPHelper.Content.ability.PALADIN.FLASH_OF_LIGHT = { { type = "say", text = "{TARGET}" } }
+    local rejected = activate(19750)
+    RPHelper.Content.ability.PALADIN.FLASH_OF_LIGHT = pool
+    equal(rejected, false)
+    truthy(activate(19750))
+    equal(activate(20288), false)
+    equal(#a.output, 1)
+end)
+
+abilityTest("ability and generic outputs share the global cooldown both ways", function(a)
+    RPHelperDB.settings.globalCooldown = 10
+    truthy(activate(19750))
+    RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
+    equal(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_ENABLED"), false)
+    a.now = 10
+    RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
+    truthy(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_ENABLED"))
+    a.now = 19
+    equal(activate(20288), false)
+    a.now = 20
+    truthy(activate(20288))
+end)
+
+abilityTest("activity routing uses local sayings world and raid opt in", function(a)
+    a.activity = "world"
+    truthy(activate(19750))
+    equal(a.output[1].type, "local")
+    a.activity = "raid"
+    equal(activate(19750), false)
+    RPHelperDB.settings.enableInRaids = true
+    truthy(activate(19750))
+    equal(a.output[2].type, "local")
+    a.activity = "unknown"
+    equal(activate(19750), false)
+end)
+
+abilityTest("Druid fixture keeps speech suppression and eligible emotes", function(a)
+    -- Synthetic ID is test-only: no production Druid IDs are established.
+    local mapping = RPHelper.RuntimeAPI.AbilitySpellIDs.DRUID
+    local defaults = RPHelper.Defaults.abilities.DRUID
+    local pool = RPHelper.Content.ability.DRUID.INNERVATE
+    RPHelper.RuntimeAPI.AbilitySpellIDs.DRUID = { [900001] = "INNERVATE" }
+    RPHelper.Defaults.abilities.DRUID = { INNERVATE = { enabled = true, chance = 1, cooldown = 0 } }
+    RPHelper.Content.ability.DRUID.INNERVATE = { { type = "say", text = "speech" } }
+    a.GetPlayerClass = function() return "DRUID" end
+    local ok, err = pcall(function()
+        for _, form in ipairs({ 1, 5, 31, 999 }) do
+            a.GetShapeshiftFormID = function() return form end
+            equal(activate(900001), false)
+        end
+        a.GetShapeshiftFormID = function() error("form unreadable") end
+        equal(activate(900001), false)
+        table.insert(RPHelper.Content.ability.DRUID.INNERVATE, { type = "customemote", text = "emote" })
+        truthy(activate(900001))
+        equal(a.output[1].type, "customemote")
+        RPHelperDB.settings.suppressSayInForms = false
+        truthy(activate(900001))
+        equal(a.output[2].type, "say")
+        RPHelperDB.settings.suppressSayInForms = true
+        a.GetShapeshiftFormID = function() return 0 end
+        truthy(activate(900001))
+        equal(a.output[3].type, "say")
+    end)
+    RPHelper.RuntimeAPI.AbilitySpellIDs.DRUID = mapping
+    RPHelper.Defaults.abilities.DRUID = defaults
+    RPHelper.Content.ability.DRUID.INNERVATE = pool
+    if not ok then error(err) end
+end)
+
+abilityTest("registration failures disable abilities and preserve generic events", function(a)
+    for _, mode in ipairs({ "throw", "false", "missing" }) do
+        local frame = newFrame()
+        local register = frame.RegisterEvent
+        frame.RegisterEvent = function(self, event)
+            if event == "UNIT_SPELLCAST_SUCCEEDED" then
+                if mode == "throw" then error("unsupported event") end
+                return false
+            end
+            return register(self, event)
+        end
+        a.RegisterAbilityEvents = mode ~= "missing" and RPHelper.RuntimeAPI.RegisterAbilityEvents or nil
+        truthy(RPHelper.Runtime.Initialize(frame, a))
+        truthy(frame.registered.PLAYER_REGEN_DISABLED)
+        truthy(frame.registered.PLAYER_REGEN_ENABLED)
+        truthy(frame.registered.UNIT_COMBAT)
+        equal(activate(19750), false)
+        RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
+        truthy(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_ENABLED"))
+    end
+end)
+
+abilityTest("missing failing and unsupported classifier adapters fail safely", function(a)
+    a.ClassifySpellcastSucceeded = nil
+    equal(activate(19750), false)
+    a.ClassifySpellcastSucceeded = function() error("classifier unavailable") end
+    equal(activate(19750), false)
+    a.ClassifySpellcastSucceeded = function() return "UNKNOWN" end
+    equal(activate(19750), false)
+    a.RegisterAbilityEvents = function() error("registration adapter unavailable") end
+    truthy(RPHelper.Runtime.Initialize(newFrame(), a))
+    equal(activate(19750), false)
+    equal(#a.output, 0)
+end)
+
+abilityTest("malformed saved ability settings preserve data and use conservative defaults", function(a)
+    for _, malformed in ipairs({ "broken", false, 42 }) do
+        RPHelperDB.abilities = malformed
+        RPHelper.InitializeDatabase()
+        equal(RPHelperDB.abilities, malformed)
+        a.roll = 0.03
+        equal(activate(19750), false) -- conservative chance boundary
+    end
+    for _, container in ipairs({
+        { PALADIN = false },
+        { PALADIN = { FLASH_OF_LIGHT = "broken" } },
+        { PALADIN = { FLASH_OF_LIGHT = { enabled = "yes", chance = 0/0, cooldown = -1 } } },
+    }) do
+        RPHelperDB.abilities = container
+        RPHelper.InitializeDatabase()
+        equal(RPHelperDB.abilities, container)
+        a.roll = 0.03
+        equal(activate(19750), false)
+    end
+    local saved = { enabled = false, chance = 0.7, cooldown = 55, extra = "keep" }
+    RPHelperDB.abilities = { PALADIN = { FLASH_OF_LIGHT = saved } }
+    RPHelper.InitializeDatabase()
+    equal(RPHelperDB.abilities.PALADIN.FLASH_OF_LIGHT, saved)
+    equal(saved.chance, 0.7)
+    equal(saved.extra, "keep")
+    equal(activate(19750), false)
 end)
 
 test("local display is prefixed and reports unavailable UI", function()
