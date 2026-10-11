@@ -27,6 +27,8 @@ Adapter methods fail safely when their underlying global is unavailable. The sha
 | `GetTime()` | Session monotonic cooldown clock, injectable through the adapter. | Confirm availability and readable values during combat. Backward/nonfinite readings suppress attempts. |
 | `DEFAULT_CHAT_FRAME:AddMessage(text)` | Minimal local-only sayings display with an RPHelper prefix. | Confirm visibility and availability; no public fallback exists. |
 | `math.random()`, `math.random(size)` | Probability rolls and content selection, separately injectable. | Standard Lua assumptions; no random seed changes. |
+| `UNIT_COMBAT` / `RegisterDefensiveEvents(frame)` | Protected ordinary registration; failure leaves combat transitions functional. | Confirm registration and delivery on the actual Forever build. |
+| `issecretvalue` / `ClassifyUnitCombat(unitTarget, action)` | Required fields must inspect as nonsecret strings; exact player DODGE/PARRY/direct BLOCK only. Missing/failing inspection rejects detection; unused fields are ignored. | Confirm readability and attribution in ordinary addon execution, restricted contexts, and encounter-boundary ordering. See [combat audit](combat_trigger_api_audit.md). |
 
 Output adapter success means the API invocation completed without an exception
 or explicit false result, not that the server acknowledged delivery. WoW output
@@ -47,6 +49,9 @@ findings. No commit has been created for this work.
 | Preserve preparation, keyword safety and Druid suppression | Existing content-engine and runtime suites pass. | Pending |
 | Malformed saved settings | Startup and registered slash-command tests cover malformed root/settings containers and preservation of recoverable user data. Status uses the effective enabled default; on/off report unsavable settings without replacing malformed containers. General migrations remain deferred. | Pending |
 
-Gameplay event coverage remains combat entry/exit only. Interface metadata,
-additional triggers, user-content pooling, disabled-default integration, a settings
+Gameplay event coverage now includes combat entry/exit and the three audited
+defensive reactions, with active-encounter gating and mocked verification only.
+Offensive criticals, partial-block flags, and combat-text/combat-log fallbacks
+remain unimplemented. Interface metadata,
+other triggers, user-content pooling, disabled-default integration, a settings
 editor, and general migrations remain outside this branch.

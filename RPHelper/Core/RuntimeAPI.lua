@@ -10,6 +10,27 @@ local function call(api, ...)
     return pcall(api, ...)
 end
 
+-- Forever defensive feedback only. Unused flag/amount/school fields are never read.
+function API.ClassifyUnitCombat(unitTarget, action)
+    local unitOK, unitSecret = call(issecretvalue, unitTarget)
+    local actionOK, actionSecret = call(issecretvalue, action)
+    if not unitOK or unitSecret ~= false or not actionOK or actionSecret ~= false then
+        return nil
+    end
+    if type(unitTarget) ~= "string" or type(action) ~= "string" then return nil end
+    if unitTarget ~= "player" then return nil end
+    if action == "DODGE" then return "dodge" end
+    if action == "PARRY" then return "parry" end
+    if action == "BLOCK" then return "block" end
+end
+
+-- Ordinary registration avoids assuming unit-filtered registration is supported.
+-- Registration/delivery and payload readability still need live Forever tests.
+function API.RegisterDefensiveEvents(frame)
+    local ok, result = pcall(function() return frame:RegisterEvent("UNIT_COMBAT") end)
+    return ok and result ~= false
+end
+
 -- These APIs are established WoW addon APIs but still require live Forever
 -- verification. Keeping them behind this adapter makes every assumption
 -- replaceable in tests and revisable without changing runtime coordination.

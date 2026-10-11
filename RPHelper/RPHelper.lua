@@ -3,7 +3,8 @@ RPHelper = RPHelper or {}
 local frame = CreateFrame("Frame")
 frame:RegisterEvent("ADDON_LOADED")
 
-frame:SetScript("OnEvent", function(_, event, addonName)
+frame:SetScript("OnEvent", function(_, event, ...)
+    local addonName = ...
     if event == "ADDON_LOADED" and addonName == "RPHelper" then
         RPHelper.InitializeDatabase()
 
@@ -11,7 +12,7 @@ frame:SetScript("OnEvent", function(_, event, addonName)
         SlashCmdList = SlashCmdList or {}
         SlashCmdList.RPHELPER = RPHelper.HandleSlashCommand
         RPHelper.Runtime.Initialize(frame)
-    elseif event == "PLAYER_REGEN_DISABLED" or event == "PLAYER_REGEN_ENABLED" then
-        RPHelper.Runtime.HandleEvent(event)
+    elseif event == "PLAYER_REGEN_DISABLED" or event == "PLAYER_REGEN_ENABLED" or event == "UNIT_COMBAT" then
+        RPHelper.Runtime.HandleEvent(event, ...)
     end
 end)
