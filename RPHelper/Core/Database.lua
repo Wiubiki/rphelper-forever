@@ -23,13 +23,18 @@ local function applyMissing(target, defaults)
 end
 
 function RPHelper.InitializeDatabase()
-    RPHelperDB = RPHelperDB or {}
+    if RPHelperDB == nil then RPHelperDB = {} end
+    if type(RPHelperDB) ~= "table" then return end
     RPHelperDB.schemaVersion = RPHelperDB.schemaVersion or RPHelper.CURRENT_SCHEMA_VERSION
-    RPHelperDB.settings = RPHelperDB.settings or {}
-    RPHelperDB.triggers = RPHelperDB.triggers or {}
-    RPHelperDB.custom = RPHelperDB.custom or {}
-    RPHelperDB.disabledDefaults = RPHelperDB.disabledDefaults or {}
+    if RPHelperDB.settings == nil then RPHelperDB.settings = {} end
+    if RPHelperDB.triggers == nil then RPHelperDB.triggers = {} end
+    if RPHelperDB.custom == nil then RPHelperDB.custom = {} end
+    if RPHelperDB.disabledDefaults == nil then RPHelperDB.disabledDefaults = {} end
 
-    applyMissing(RPHelperDB.settings, RPHelper.Defaults.settings)
-    applyMissing(RPHelperDB.triggers, RPHelper.Defaults.triggers)
+    if type(RPHelperDB.settings) == "table" then
+        applyMissing(RPHelperDB.settings, RPHelper.Defaults.settings)
+    end
+    if type(RPHelperDB.triggers) == "table" then
+        applyMissing(RPHelperDB.triggers, RPHelper.Defaults.triggers)
+    end
 end

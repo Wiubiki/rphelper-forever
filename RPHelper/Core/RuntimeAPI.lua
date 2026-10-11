@@ -43,16 +43,51 @@ function API.IsPlayerInCombat()
 end
 
 function API.SendSay(text)
-    local ok = call(SendChatMessage, text, "SAY")
-    return ok
+    local ok, result = call(SendChatMessage, text, "SAY")
+    return ok and result ~= false
 end
 
 function API.RunEmote(token)
-    local ok = call(DoEmote, token)
-    return ok
+    local ok, result = call(DoEmote, token)
+    return ok and result ~= false
 end
 
 function API.SendCustomEmote(text)
-    local ok = call(SendChatMessage, text, "EMOTE")
-    return ok
+    local ok, result = call(SendChatMessage, text, "EMOTE")
+    return ok and result ~= false
+end
+
+-- Unknown/unsupported activities never imply permission to transmit.
+function API.GetActivity()
+    local ok, activity = pcall(function()
+        if type(IsInInstance) ~= "function" then return nil end
+        local inside, kind = IsInInstance()
+        if inside == false and kind == "none" then return "world" end
+        if inside == true and kind == "party" then return "dungeon" end
+        if inside == true and kind == "raid" then return "raid" end
+    end)
+    return ok and activity or nil
+end
+
+function API.GetTime()
+    local ok, value = call(GetTime)
+    return ok and value or nil
+end
+
+function API.Random()
+    return math.random()
+end
+
+function API.RandomIndex(size)
+    return math.random(size)
+end
+
+-- AddMessage is a local UI operation, never a chat transmission.
+function API.DisplayLocal(text)
+    local ok, result = pcall(function()
+        if not DEFAULT_CHAT_FRAME or type(DEFAULT_CHAT_FRAME.AddMessage) ~= "function" then return false end
+        DEFAULT_CHAT_FRAME:AddMessage("|cffb8a0df[RPHelper]|r " .. text)
+        return true
+    end)
+    return ok and result == true
 end
