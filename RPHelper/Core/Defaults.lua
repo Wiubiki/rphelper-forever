@@ -23,4 +23,10 @@ RPHelper.Defaults = {
         resurrect = { enabled = true, chance = 1.00, cooldown = 0 },
         level_up = { enabled = true, chance = 1.00, cooldown = 0 },
     },
+    abilities = {
+        PALADIN = {
+            FLASH_OF_LIGHT = { enabled = true, chance = 0.03, cooldown = 30 },
+            SEAL_OF_RIGHTEOUSNESS = { enabled = true, chance = 0.03, cooldown = 30 },
+        },
+    },
 }

@@ -28,6 +28,7 @@ function RPHelper.InitializeDatabase()
     RPHelperDB.schemaVersion = RPHelperDB.schemaVersion or RPHelper.CURRENT_SCHEMA_VERSION
     if RPHelperDB.settings == nil then RPHelperDB.settings = {} end
     if RPHelperDB.triggers == nil then RPHelperDB.triggers = {} end
+    if RPHelperDB.abilities == nil then RPHelperDB.abilities = {} end
     if RPHelperDB.custom == nil then RPHelperDB.custom = {} end
     if RPHelperDB.disabledDefaults == nil then RPHelperDB.disabledDefaults = {} end
 
@@ -36,5 +37,8 @@ function RPHelper.InitializeDatabase()
     end
     if type(RPHelperDB.triggers) == "table" then
         applyMissing(RPHelperDB.triggers, RPHelper.Defaults.triggers)
+    end
+    if type(RPHelperDB.abilities) == "table" then
+        applyMissing(RPHelperDB.abilities, RPHelper.Defaults.abilities)
     end
 end
