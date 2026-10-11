@@ -12,6 +12,19 @@ RPHelper adds occasional contextual sayings and emotes in response to character 
 4. Generic content provides coverage; race/class/ability content adds or replaces flavour.
 5. Game-version-dependent event handling is isolated from content and settings.
 6. Any behaviour that depends on WoW Forever restrictions must remain explicitly testable until verified in-game.
+7. Lightweight detection and unobtrusive output take priority over exhaustive combat accuracy or trigger coverage.
+
+## Detection philosophy
+
+RPHelper is a roleplaying flavour addon, not a combat analysis or reporting addon. Detection should be sufficiently reliable to support occasional contextual reactions, with low processing overhead and low public chat volume.
+
+React to relevant game events rather than continuously polling game state. Reject irrelevant events, unknown ability identifiers and disabled triggers before content selection or other expensive work. Maintain only the state needed for detection and runtime policies; combat-log reconstruction, combat histories, damage records, target correlations and elaborate casting state machines are outside V1's detection scope.
+
+For an ability-use reaction, a safely readable, player-attributed `UNIT_SPELLCAST_SUCCEEDED` notification is sufficient once its behaviour is verified for the supported ability. Detection does not need to establish whether the spell subsequently hit, healed or applied its effect. Missing a reaction, or occasionally reacting to a successful cast whose attack later misses, is acceptable. This tolerance concerns the eventual outcome; it does not justify unsafe payload inspection, speculative player attribution or content claiming an outcome that detection cannot establish.
+
+When detection is uncertain, prefer a simple conservative implementation, or defer the trigger, over a complex approximation. A trigger that requires substantial combat parsing merely to produce an occasional emote does not belong in V1. Existing API restrictions, content eligibility checks and Druid-form safeguards still apply.
+
+Ordinary addon event processing does not inherently generate network traffic. Its main costs are CPU and memory; actual public chat messages also create server traffic and affect other players. Optimise for avoiding unnecessary processing and excessive public output, rather than an assumed API-related ping cost.
 
 ## Output behaviour by context
 
