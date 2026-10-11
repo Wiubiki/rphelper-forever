@@ -180,3 +180,15 @@ duplicate delivery/identity before adding an exact-GUID safeguard. The checklist
 in §5 remains open, especially player payload readability across restricted
 contexts, exact rank IDs, registration/delivery, output permission and duplicate
 behaviour. Automated coverage is mocked and makes no live compatibility claim.
+
+## Historical catalogue scope clarification
+
+The original ability-spell discovery inventory covered the **297 pre-reconciliation,
+authored-content-driven class/ability pairs**, not every historical definition.
+[Historical catalogue reconciliation](ability_catalogue_reconciliation.md) now
+accounts for 492 historical keys and 465 canonical definitions, including empty
+abilities. Its additional definitions do not imply new verified spell IDs,
+production mappings, event support or enabled ability settings. The original
+spell-ID inventory remains a dated research snapshot; it is not automatically
+extended by catalogue existence. A separate official Forever comparison and
+per-ID validation remain necessary.

@@ -96,6 +96,27 @@ local function initialize(adapter)
     return frame
 end
 
+test("historical reconciliation does not enable additional production ability mappings", function()
+    local mappings = RPHelper.RuntimeAPI.AbilitySpellIDs
+    local count = 0
+    for class, spells in pairs(mappings) do
+        equal(class, "PALADIN")
+        for id, ability in pairs(spells) do
+            count = count + 1
+            truthy((id == 19750 and ability == "FLASH_OF_LIGHT")
+                or (id == 20288 and ability == "SEAL_OF_RIGHTEOUSNESS"))
+        end
+    end
+    equal(count, 2)
+    equal(RPHelper.Defaults.abilities.ROGUE, nil)
+    local a = newAdapter("ROGUE", "HUMAN", nil)
+    initialize(a)
+    truthy(RPHelper.UserContent.Add({ layer = "ability", class = "ROGUE", ability = "EVISCERATE" },
+        { type = "say", text = "My custom ability." }))
+    equal(RPHelper.Runtime.HandleEvent("UNIT_SPELLCAST_SUCCEEDED", "player", nil, 2098), false)
+    equal(#a.output, 0)
+end)
+
 test("addon initialization registers combat events", function()
     local frame = newFrame()
     local previousCreateFrame = CreateFrame

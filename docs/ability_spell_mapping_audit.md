@@ -149,3 +149,15 @@ No cast GUID deduplication or pending-cast state is justified by these datasets.
 - Independently establish current learnability of Carve/Earth Shield and the unresolved mount/race, tracking and ranged categories. Recheck reported removals against the tested build. Keep deferred mechanisms disabled during these investigations.
 - Measure events per one physical activation; test spam-clicking, queued input, cancel/fail and repeated activations. Capture duplicate identities without inferring outcomes from timing or target state.
 - Verify existing policy behavior: enabled/disabled settings, probability/cooldowns, shared combat quota and no encounter quota out of combat, failed dispatch, content preparation, activity routing and Druid speech suppression. No combat parser, target correlation, polling, macro fallback or restricted API workaround is proposed.
+
+## Historical catalogue scope clarification
+
+The original ability-spell discovery inventory covered the **297 pre-reconciliation,
+authored-content-driven class/ability pairs**, not every historical definition.
+[Historical catalogue reconciliation](ability_catalogue_reconciliation.md) now
+accounts for 492 historical keys and 465 canonical definitions, including empty
+abilities. Its additional definitions do not imply new verified spell IDs,
+production mappings, event support or enabled ability settings. The original
+spell-ID inventory remains a dated research snapshot; it is not automatically
+extended by catalogue existence. A separate official Forever comparison and
+per-ID validation remain necessary.

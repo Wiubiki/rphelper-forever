@@ -163,11 +163,17 @@ function RPHelper.GetDruidFormPool(form, trigger)
     return formContent and formContent[trigger] or {}
 end
 
+-- A nil entry registers an ability definition with an empty shipped pool.
+-- Definition registration never consumes a shipped reaction identity.
 function RPHelper.RegisterAbility(class, ability, entry)
-    entry = identify("ability", class, ability, entry)
+    RPHelper.Ability[class] = RPHelper.Ability[class] or {}
+    RPHelper.Ability[class][ability] = ability
     RPHelper.Content.ability[class] = RPHelper.Content.ability[class] or {}
     RPHelper.Content.ability[class][ability] = RPHelper.Content.ability[class][ability] or {}
-    table.insert(RPHelper.Content.ability[class][ability], entry)
+    if entry ~= nil then
+        entry = identify("ability", class, ability, entry)
+        table.insert(RPHelper.Content.ability[class][ability], entry)
+    end
 end
 
 function RPHelper.GetAbilityPool(class, ability)
