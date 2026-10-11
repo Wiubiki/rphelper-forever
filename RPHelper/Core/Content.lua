@@ -67,7 +67,46 @@ RPHelper.Ability = RPHelper.Ability or {
     WARLOCK = {},
 }
 
+-- Length-prefixed components avoid hash collisions and delimiter ambiguity.
+-- Occurrence numbers distinguish only identical entries in the same scope.
+local identityCounts = {}
+local function encode(value)
+    if value == nil then return "n" end
+    if type(value) == "table" then
+        local parts = { "a", tostring(#value), ":" }
+        for _, child in ipairs(value) do parts[#parts + 1] = encode(child) end
+        return table.concat(parts)
+    end
+    value = tostring(value)
+    return "s" .. #value .. ":" .. value
+end
+
+local function identify(layer, owner, key, entry)
+    local registered = {}
+    for field, value in pairs(entry) do registered[field] = value end
+    entry = registered
+    local base = "default:v1:" .. encode(layer) .. encode(owner) .. encode(key)
+        .. encode(entry.type) .. encode(entry.text) .. encode(entry.template) .. encode(entry.choices)
+    identityCounts[base] = (identityCounts[base] or 0) + 1
+    entry.defaultID = base .. ":" .. identityCounts[base]
+    return entry
+end
+
+local function appendDefaults(pool, entries)
+    local disabled = type(RPHelperDB) == "table" and RPHelperDB.disabledDefaults
+    for _, entry in ipairs(entries) do
+        if type(disabled) ~= "table" or not entry.defaultID or disabled[entry.defaultID] ~= true then
+            pool[#pool + 1] = entry
+        end
+    end
+end
+
+local function appendCustom(pool, scope)
+    if RPHelper.UserContent then RPHelper.UserContent.AppendCandidates(pool, scope) end
+end
+
 function RPHelper.RegisterGeneric(trigger, entry)
+    entry = identify("generic", nil, trigger, entry)
     RPHelper.Content.generic[trigger] = RPHelper.Content.generic[trigger] or {}
     table.insert(RPHelper.Content.generic[trigger], entry)
 end
@@ -77,14 +116,15 @@ function RPHelper.GetGenericPool(trigger)
 end
 
 function RPHelper.GetPreparedGenericPool(trigger, options)
-    return RPHelper.ContentEngine.PrepareCandidatePool(RPHelper.GetGenericPool(trigger), options)
+    return RPHelper.ContentEngine.PrepareCandidatePool(RPHelper.GetContentPool(trigger, nil, nil, options), options)
 end
 
 function RPHelper.ChooseGenericCandidate(trigger, options)
-    return RPHelper.ContentEngine.ChooseCandidate(RPHelper.GetGenericPool(trigger), options)
+    return RPHelper.ContentEngine.ChooseCandidate(RPHelper.GetContentPool(trigger, nil, nil, options), options)
 end
 
 function RPHelper.RegisterRace(race, trigger, entry)
+    entry = identify("race", race, trigger, entry)
     RPHelper.Content.race[race] = RPHelper.Content.race[race] or {}
     RPHelper.Content.race[race][trigger] = RPHelper.Content.race[race][trigger] or {}
     table.insert(RPHelper.Content.race[race][trigger], entry)
@@ -96,6 +136,7 @@ function RPHelper.GetRacePool(race, trigger)
 end
 
 function RPHelper.RegisterClass(class, trigger, entry)
+    entry = identify("class", class, trigger, entry)
     RPHelper.Content.class = RPHelper.Content.class or {}
     RPHelper.Content.class[class] = RPHelper.Content.class[class] or {}
     RPHelper.Content.class[class][trigger] = RPHelper.Content.class[class][trigger] or {}
@@ -108,6 +149,7 @@ function RPHelper.GetClassPool(class, trigger)
 end
 
 function RPHelper.RegisterDruidForm(form, trigger, entry)
+    entry = identify("druidForm", form, trigger, entry)
     RPHelper.Content.druidForm[form] = RPHelper.Content.druidForm[form] or {}
     RPHelper.Content.druidForm[form][trigger] = RPHelper.Content.druidForm[form][trigger] or {}
     table.insert(RPHelper.Content.druidForm[form][trigger], entry)
@@ -122,6 +164,7 @@ function RPHelper.GetDruidFormPool(form, trigger)
 end
 
 function RPHelper.RegisterAbility(class, ability, entry)
+    entry = identify("ability", class, ability, entry)
     RPHelper.Content.ability[class] = RPHelper.Content.ability[class] or {}
     RPHelper.Content.ability[class][ability] = RPHelper.Content.ability[class][ability] or {}
     table.insert(RPHelper.Content.ability[class][ability], entry)
@@ -132,43 +175,48 @@ function RPHelper.GetAbilityPool(class, ability)
     return classAbilities and classAbilities[ability] or {}
 end
 
+function RPHelper.GetAbilityContentPool(class, ability)
+    local pool = {}
+    appendDefaults(pool, RPHelper.GetAbilityPool(class, ability))
+    appendCustom(pool, { layer = "ability", class = class, ability = ability })
+    return pool
+end
+
 function RPHelper.GetPreparedAbilityPool(class, ability, options)
     options = options or {}
     options.class = options.class or class
-    return RPHelper.ContentEngine.PrepareCandidatePool(RPHelper.GetAbilityPool(class, ability), options)
+    return RPHelper.ContentEngine.PrepareCandidatePool(RPHelper.GetAbilityContentPool(class, ability), options)
 end
 
 function RPHelper.ChooseAbilityCandidate(class, ability, options)
     options = options or {}
     options.class = options.class or class
-    return RPHelper.ContentEngine.ChooseCandidate(RPHelper.GetAbilityPool(class, ability), options)
+    return RPHelper.ContentEngine.ChooseCandidate(RPHelper.GetAbilityContentPool(class, ability), options)
 end
 
 -- Character pools are additive: authored Race and Class content supplement Generic.
 -- A fresh table prevents callers from changing any registered layer.
 function RPHelper.GetContentPool(trigger, race, class, options)
-    if class == RPHelper.Class.DRUID and RPHelper.DruidForms then
-        local form = RPHelper.DruidForms.GetCurrentForm(options)
-        local formPool = RPHelper.GetDruidFormPool(form, trigger)
-        if #formPool > 0 then
-            local pool = {}
-            for _, entry in ipairs(formPool) do
-                table.insert(pool, entry)
-            end
-            return pool
-        end
-    end
-
     local pool = {}
-    for _, entry in ipairs(RPHelper.GetGenericPool(trigger)) do
-        table.insert(pool, entry)
+    local form
+    local formPool = {}
+    if class == RPHelper.Class.DRUID and RPHelper.DruidForms then
+        form = RPHelper.DruidForms.GetCurrentForm(options)
+        if form == RPHelper.DruidForms.Form.DIRE_BEAR then form = RPHelper.DruidForms.Form.BEAR end
+        formPool = RPHelper.GetDruidFormPool(form, trigger)
     end
-    for _, entry in ipairs(RPHelper.GetRacePool(race, trigger)) do
-        table.insert(pool, entry)
+    -- Authored form pools still replace shipped humanoid layers, even when disabled.
+    if #formPool > 0 then
+        appendDefaults(pool, formPool)
+    else
+        appendDefaults(pool, RPHelper.GetGenericPool(trigger))
+        appendDefaults(pool, RPHelper.GetRacePool(race, trigger))
+        appendDefaults(pool, RPHelper.GetClassPool(class, trigger))
     end
-    for _, entry in ipairs(RPHelper.GetClassPool(class, trigger)) do
-        table.insert(pool, entry)
-    end
+    appendCustom(pool, { layer = "generic", trigger = trigger })
+    if race then appendCustom(pool, { layer = "race", race = race, trigger = trigger }) end
+    if class then appendCustom(pool, { layer = "class", class = class, trigger = trigger }) end
+    if form then appendCustom(pool, { layer = "druidForm", form = form, trigger = trigger }) end
     return pool
 end
 

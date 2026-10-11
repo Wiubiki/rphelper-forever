@@ -273,3 +273,17 @@ V1 target:
 - Full in-game content editor unless implementation proves small and robust
 - Local speech-bubble display for sayings (Investigate as a post-V1 alternative to the local sayings feed, not as a replacement.)
 - Player-macro-triggered ability sayings
+
+## Implemented user-content persistence
+
+User-authored generic, race, class, ability and Druid-form entries now participate
+in the ordinary content and runtime policy path. Shipped entries have stable
+content-derived identities and can be individually disabled without editing the
+catalogue. Per-character SavedVariables preserve custom content, exclusions,
+settings and unknown fields through repeated initialization and normal code
+updates; malformed containers are retained rather than reset. Editing shipped
+text creates a new identity, and exact duplicate groups have documented occurrence
+limits. The internal management API is implemented; graphical editing remains
+deferred. See [User content runtime](user_content_runtime.md) for storage,
+validation, identity rules, API errors and upgrade guarantees. Live Forever
+persistence/output verification remains pending.

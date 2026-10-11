@@ -76,7 +76,7 @@ function DruidForms.ShouldSuppressSay(options)
     end
 
     local enabled = options.suppressSayInForms
-    if enabled == nil and RPHelperDB and RPHelperDB.settings then
+    if enabled == nil and type(RPHelperDB) == "table" and type(RPHelperDB.settings) == "table" then
         enabled = RPHelperDB.settings.suppressSayInForms
     end
     if enabled == nil and RPHelper.Defaults and RPHelper.Defaults.settings then
