@@ -130,6 +130,18 @@ Existing `RPhelper_twow` English content is source material, not a catalogue to 
 - Exceptional material may move to a race/class combination layer.
 - Every candidate line should be reviewed and may be kept, rewritten, dropped, moved to a combination layer, or reserved for a possible future Personality layer.
 
+## V1 localization policy
+
+The V1 UI and bundled default content are English-only. Users may author
+reactions in any language supported by their WoW client, and community-authored
+language-specific content is welcome. Canonical ability identifiers must remain
+stable and must not depend on localized display names.
+
+A lightweight contribution mechanism may be supported in V1 if it fits the
+existing architecture with minimal effort. Full UI localization, translation
+management and comprehensive language-pack infrastructure are outside V1 scope.
+UTF-8 compatibility for authored content should be verified where appropriate.
+
 ## Output routing
 
 Trigger detection and content selection must be independent from output routing.
@@ -267,7 +279,7 @@ V1 target:
 
 - Personality packs
 - TRP3/MRP integration
-- Localization beyond English
+- Full UI localization, translation management and comprehensive language packs
 - Complex profile sharing
 - Spec-specific content packs
 - Full in-game content editor unless implementation proves small and robust
