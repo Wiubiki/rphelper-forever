@@ -3,6 +3,12 @@
 Research snapshot: 2026-10-11. Branch: `research/forever-ability-coverage`.
 Research only; no catalogue, authored content, production mappings, runtime, defaults or SavedVariables changes. A subsequent owner-authorized test correction aligns Banish expectations with its intentional custom-emote content type.
 
+> **Status:** This October 11, 2026 audit remains valuable supporting research,
+> but its merged-source inventory is neither a definitive Forever beta spellbook
+> nor an implementation allowlist. The [Forever ability reconciliation](forever_ability_reconciliation.md)
+> specification now defines the Milestone 2B methodology. The original findings,
+> counts, classifications and comparison CSV remain intact.
+
 ## Finding and scope
 
 **No genuinely official, complete, versioned catalogue of all learnable Forever player abilities and their spell IDs was established.** Blizzard's Forever class previews provide the strongest evidence for specific identities, changes and removals. Community client extracts provide the broadest numerical coverage, but retain effects, obsolete records and SoD-labelled entries. Their union is a review inventory, not an official spellbook or a production allowlist.
