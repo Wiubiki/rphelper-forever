@@ -107,6 +107,18 @@ local historicalExclusions = {
     ["HUNTER:ASPECT_OF_THE_WOLF"] = true,
     ["HUNTER:CARVE"] = true,
     ["HUNTER:STEADY_SHOT"] = true,
+    ["WARLOCK:CURSE_OF_AGONY"] = true,
+    ["WARLOCK:CURSE_OF_DOOM"] = true,
+    ["WARLOCK:CURSE_OF_SHADOW"] = true,
+    ["WARLOCK:DARK_HARVEST"] = true,
+    ["WARLOCK:DARK_PACT"] = true,
+    ["WARLOCK:DEMON_PORTAL"] = true,
+    ["WARLOCK:DETECT_GREATER_INVISIBILITY"] = true,
+    ["WARLOCK:DETECT_LESSER_INVISIBILITY"] = true,
+    ["WARLOCK:ENSLAVE_DEMON"] = true,
+    ["WARLOCK:MANA_FUNNEL"] = true,
+    ["WARLOCK:SUMMON_DREADSTEED"] = true,
+    ["WARLOCK:SUMMON_FELSTEED"] = true,
     ["MAGE:DETECT_MAGIC"] = true,
     ["MAGE:ICICLES"] = true,
     ["PALADIN:GREATER_BLESSING_OF_SANCTUARY"] = true,
@@ -147,6 +159,7 @@ local catalogueAdditions = {
     MAGE = "ARCANE_BLAST ARCANE_WRATH FROSTFIRE_BOLT FROST_BLAST ICE_LANCE POLYMORPH_PIG POLYMORPH_TURTLE TELEPORT_DALARAN",
     SHAMAN = "CALL_OF_THE_ANCESTORS CALL_OF_THE_ELEMENTS CALL_OF_THE_SPIRITS FIRE_NOVA LAVA_BURST RAGE_OF_THE_FARSEER RIPTIDE TOTEMIC_PROJECTION",
     WARRIOR = "BATTLE_STANCE BERSERKER_STANCE DEFENSIVE_STANCE SPEARING_STRIKE TAUNT VICTORY_RUSH",
+    WARLOCK = "BANE_OF_AGONY BANE_OF_DOOM BANE_OF_HAVOC INCINERATE SUBJUGATE_DEMON SUMMON_INCUBUS WRACK",
 }
 local preReconciliationKeys = {
     DRUID = "CHALLENGING_ROAR DEMORALIZING_ROAR DIRE_BEAR_FORM ENRAGE ENTANGLING_ROOTS GIFT_OF_THE_WILD HIBERNATE HURRICANE INNERVATE REBIRTH SHIFTING_POWER TELEPORT_MOONGLADE TRANQUILITY",
@@ -156,7 +169,7 @@ local preReconciliationKeys = {
     PRIEST = "ABOLISH_DISEASE CURE_DISEASE DISPEL_MAGIC DIVINE_SPIRIT FADE FLASH_HEAL GREATER_HEAL HEAL HOLY_FIRE HOLY_NOVA INNER_FIRE INNER_FOCUS LESSER_HEAL LEVITATE LIGHTWELL MANA_BURN MIND_BLAST MIND_CONTROL MIND_FLAY MIND_SOOTHE MIND_VISION POWER_INFUSION POWER_WORD_FORTITUDE POWER_WORD_SHIELD PRAYER_OF_FORTITUDE PRAYER_OF_HEALING PSYCHIC_SCREAM RENEW RESURRECTION SHACKLE_UNDEAD SHADOWFORM SHADOW_PROTECTION SHADOW_WORD_PAIN SILENCE SMITE SPIRIT_OF_REDEMPTION VAMPIRIC_EMBRACE",
     ROGUE = "DISARM_TRAP SHOOT_BOW SPRINT THROW",
     SHAMAN = "ANCESTRAL_SPIRIT CHAIN_HEAL CHAIN_LIGHTNING CURE_DISEASE CURE_POISON DISEASE_CLEANSING_TOTEM EARTHBIND_TOTEM EARTH_SHOCK FIRE_NOVA FIRE_RESISTANCE_TOTEM FLAMETONGUE_TOTEM FLAMETONGUE_WEAPON FLAME_SHOCK FROSTBRAND_WEAPON FROST_RESISTANCE_TOTEM FROST_SHOCK GHOST_WOLF GRACE_OF_AIR_TOTEM GROUNDING_TOTEM HEALING_STREAM_TOTEM HEALING_WAVE LESSER_HEALING_WAVE LIGHTNING_BOLT LIGHTNING_SHIELD MAGMA_TOTEM MANA_SPRING_TOTEM MANA_TIDE_TOTEM NATURES_SWIFTNESS NATURE_RESISTANCE_TOTEM POISON_CLEANSING_TOTEM PURGE REINCARNATION ROCKBITER_WEAPON SEARING_TOTEM SENTRY_TOTEM STONECLAW_TOTEM STONESKIN_TOTEM STORMSTRIKE STRENGTH_OF_EARTH_TOTEM TOTEMIC_RECALL TREMOR_TOTEM WATER_SHIELD WINDFURY_TOTEM WINDFURY_WEAPON WINDWALL_TOTEM",
-    WARLOCK = "CURSE_OF_AGONY CURSE_OF_DOOM CURSE_OF_EXHAUSTION CURSE_OF_RECKLESSNESS CURSE_OF_SHADOW CURSE_OF_THE_ELEMENTS CURSE_OF_TONGUES CURSE_OF_WEAKNESS DRAIN_LIFE DRAIN_MANA DRAIN_SOUL ENSLAVE_DEMON FEAR HEALTH_FUNNEL HELLFIRE IMMOLATE RAIN_OF_FIRE RITUAL_OF_SUMMONING SEARING_PAIN SENSE_DEMONS SOUL_FIRE SUMMON_IMP SUMMON_SUCCUBUS SUMMON_VOIDWALKER UNENDING_BREATH",
+    WARLOCK = "BANE_OF_AGONY BANE_OF_DOOM BANISH CURSE_OF_EXHAUSTION CURSE_OF_RECKLESSNESS CURSE_OF_THE_ELEMENTS CURSE_OF_TONGUES CURSE_OF_WEAKNESS DRAIN_LIFE DRAIN_MANA DRAIN_SOUL FEAR HEALTH_FUNNEL HELLFIRE IMMOLATE RAIN_OF_FIRE RITUAL_OF_SUMMONING SEARING_PAIN SENSE_DEMONS SOUL_FIRE SUBJUGATE_DEMON SUMMON_IMP SUMMON_SUCCUBUS SUMMON_VOIDWALKER UNENDING_BREATH",
     WARRIOR = "BATTLE_SHOUT BLOODRAGE CHALLENGING_SHOUT CHARGE DEMORALIZING_SHOUT HAMSTRING INTIMIDATING_SHOUT MOCKING_BLOW REND SHIELD_BASH SHIELD_SLAM SLAM",
 }
 local reactionBaseline = {
@@ -167,7 +180,7 @@ local reactionBaseline = {
     PRIEST = { count = 111, checksum = 41110586 },
     ROGUE = { count = 4, checksum = 232101562 },
     SHAMAN = { count = 188, checksum = 460885902 },
-    WARLOCK = { count = 55, checksum = 110763460 },
+    WARLOCK = { count = 54, checksum = 370228227 },
     WARRIOR = { count = 21, checksum = 662592189 },
 }
 local function catalogueChecksum(text)
@@ -198,8 +211,7 @@ for class, keys in pairs(historicalKeys) do
         local previous = {}
         for key in string.gmatch(preReconciliationKeys[class], "%S+") do previous[key] = true end
         for key in pairs(expected) do
-            if not previous[key] and not (class == "WARLOCK" and key == "BANISH")
-                and not (class == "SHAMAN" and key == "FIRE_NOVA") then
+            if not previous[key] and not (class == "SHAMAN" and key == "FIRE_NOVA") then
                 equal(#RPHelper.GetAbilityPool(class, key), 0)
                 equal(RPHelper.ChooseAbilityCandidate(class, key, { resolvers = {} }), nil)
             end
@@ -241,7 +253,7 @@ test("historical catalogue: class files register each empty definition once", fu
         for _, class in ipairs({ "Druid", "Hunter", "Mage", "Paladin", "Priest", "Rogue", "Shaman", "Warlock", "Warrior" }) do
             dofile("RPHelper/Data/Abilities/" .. class .. ".lua")
         end
-        equal(count, 194)
+        equal(count, 190)
     end)
     RPHelper = previous
     if not ok then error(err) end
@@ -518,6 +530,256 @@ test("Hunter class reactions and pet-event pools remain unchanged", function()
     equal(#RPHelper.GetClassPool("HUNTER", "petattackstart"), 12)
     equal(#RPHelper.GetClassPool("HUNTER", "petattackstop"), 8)
     equal(#RPHelper.GetClassPool("HUNTER", "petdies"), 7)
+end)
+
+test("Warlock reconciliation registers the approved active catalogue", function()
+    local count = 0
+    for _ in pairs(RPHelper.Ability.WARLOCK) do count = count + 1 end
+    equal(count, 53)
+
+    for _, key in ipairs({ "WRACK", "SUMMON_INCUBUS", "BANE_OF_HAVOC", "INCINERATE" }) do
+        equal(RPHelper.Ability.WARLOCK[key], key)
+        equal(#RPHelper.GetAbilityPool("WARLOCK", key), 0)
+    end
+
+    local renamed = {
+        BANE_OF_AGONY = {
+            { "say", "You shall know pain and agony, {TARGET}!" },
+        },
+        BANE_OF_DOOM = {
+            { "say", "I bring DOOM upon you!" },
+            { "emote", "WRATH" },
+            { "customemote", "threatens {TARGET} with the wrath of doom." },
+        },
+        SUBJUGATE_DEMON = { { "emote", "GRIN" } },
+    }
+    for _, key in ipairs({ "BANE_OF_AGONY", "BANE_OF_DOOM", "SUBJUGATE_DEMON" }) do
+        local pool = RPHelper.GetAbilityPool("WARLOCK", key)
+        equal(#pool, #renamed[key])
+        for index, entry in ipairs(pool) do
+            equal(entry.type, renamed[key][index][1])
+            equal(entry.text, renamed[key][index][2])
+        end
+    end
+
+    for _, key in ipairs({
+        "CURSE_OF_AGONY", "CURSE_OF_DOOM", "ENSLAVE_DEMON", "CURSE_OF_SHADOW",
+        "DARK_HARVEST", "DARK_PACT", "DEMON_PORTAL", "DETECT_GREATER_INVISIBILITY",
+        "DETECT_LESSER_INVISIBILITY", "MANA_FUNNEL", "SUMMON_DREADSTEED", "SUMMON_FELSTEED",
+        "ATTACK", "SHOOT", "ARMOR_PROFICIENCY", "DODGE", "LANGUAGES",
+        "DEMONIC_BRAND", "DEMONIC_PACT", "BLOOD_PACT", "CONSUME_SHADOWS",
+        "DEVOUR_MAGIC", "FIRE_SHIELD", "FIREBOLT", "LASH_OF_PAIN", "LESSER_INVISIBILITY",
+        "PARANOIA", "PHASE_SHIFT", "SACRIFICE", "SEDUCTION", "SOOTHING_KISS",
+        "SPELL_LOCK", "SUFFERING", "TAINTED_BLOOD", "TORMENT",
+    }) do
+        equal(RPHelper.Ability.WARLOCK[key], nil)
+        equal(#RPHelper.GetAbilityPool("WARLOCK", key), 0)
+    end
+    equal(#RPHelper.GetAbilityPool("WARLOCK", "CURSE_OF_THE_ELEMENTS"), 1)
+end)
+
+test("Warlock source is grouped and alphabetized by Forever specialization", function()
+    local source = assert(io.open("RPHelper/Data/Abilities/Warlock.lua", "r")):read("*a")
+    local specializations = {
+        "AMPLIFY_CURSE BANE_OF_AGONY BANE_OF_DOOM CORRUPTION CURSE_OF_EXHAUSTION CURSE_OF_RECKLESSNESS CURSE_OF_THE_ELEMENTS CURSE_OF_TONGUES CURSE_OF_WEAKNESS DEATH_COIL DRAIN_LIFE DRAIN_MANA DRAIN_SOUL FEAR HOWL_OF_TERROR LIFE_TAP SIPHON_LIFE WRACK",
+        "BANISH CREATE_FIRESTONE CREATE_HEALTHSTONE CREATE_SOULSTONE CREATE_SPELLSTONE DEMONIC_SACRIFICE DEMON_ARMOR DEMON_SKIN DETECT_INVISIBILITY EYE_OF_KILROGG FEL_DOMINATION HEALTH_FUNNEL INFERNO RITUAL_OF_DOOM RITUAL_OF_SUMMONING SENSE_DEMONS SHADOW_WARD SOUL_LINK SUBJUGATE_DEMON SUMMON_FELHUNTER SUMMON_IMP SUMMON_INCUBUS SUMMON_SUCCUBUS SUMMON_VOIDWALKER UNENDING_BREATH",
+        "BANE_OF_HAVOC CONFLAGRATE HELLFIRE IMMOLATE INCINERATE RAIN_OF_FIRE SEARING_PAIN SHADOWBURN SHADOW_BOLT SOUL_FIRE",
+    }
+    local expected, actual, headingCounts = {}, {}, {}
+    for _, group in ipairs(specializations) do
+        for key in string.gmatch(group, "%S+") do expected[#expected + 1] = key end
+    end
+    for key in string.gmatch(source, "\n%-%- ([A-Z][A-Z0-9_]*)\n") do
+        actual[#actual + 1] = key
+        headingCounts[key] = (headingCounts[key] or 0) + 1
+    end
+    equal(#actual, 53)
+    for index, key in ipairs(expected) do
+        equal(actual[index], key)
+        equal(headingCounts[key], 1)
+    end
+    equal(string.find(source, "for _, ability in ipairs", 1, true), nil)
+    for _, key in ipairs(expected) do
+        if #RPHelper.GetAbilityPool("WARLOCK", key) == 0 then
+            truthy(string.find(source, 'RPHelper.RegisterAbility(C, "' .. key .. '")', 1, true))
+            for _, kind in ipairs({ "say", "emote", "customemote" }) do
+                truthy(string.find(source, '-- add("' .. key .. '", "' .. kind .. '", "")', 1, true))
+            end
+        else
+            equal(string.find(source, '-- add("' .. key .. '",', 1, true), nil)
+        end
+    end
+end)
+
+test("Warlock legacy archive preserves identities and Curse of Shadow reactions", function()
+    local archive = dofile("RPHelper/Data/Abilities/WarlockArchive.lua")
+    local keys = {
+        "CURSE_OF_SHADOW", "DARK_HARVEST", "DARK_PACT", "DEMON_PORTAL",
+        "DETECT_GREATER_INVISIBILITY", "DETECT_LESSER_INVISIBILITY", "MANA_FUNNEL",
+        "SUMMON_DREADSTEED", "SUMMON_FELSTEED",
+    }
+    local archiveCount = 0
+    for _, key in ipairs(keys) do
+        truthy(type(archive[key]) == "table")
+        archiveCount = archiveCount + 1
+        equal(RPHelper.Ability.WARLOCK[key], nil)
+    end
+    equal(archiveCount, 9)
+    equal(#archive.CURSE_OF_SHADOW, 2)
+    equal(archive.CURSE_OF_SHADOW[1].type, "say")
+    equal(archive.CURSE_OF_SHADOW[1].text, "Embrace the Shadow.")
+    equal(archive.CURSE_OF_SHADOW[2].type, "customemote")
+    equal(archive.CURSE_OF_SHADOW[2].text, "grins wickedly at {TARGET}.")
+    for index = 2, #keys do equal(#archive[keys[index]], 0) end
+
+    local toc = assert(io.open("RPHelper/RPHelper.toc", "r")):read("*a")
+    equal(string.find(toc, "WarlockArchive.lua", 1, true), nil)
+end)
+
+test("Warlock canonical migrations preserve settings custom content and disabled defaults", function()
+    local saved = RPHelperDB
+    local mappings = {
+        { old = "CURSE_OF_AGONY", new = "BANE_OF_AGONY" },
+        { old = "CURSE_OF_DOOM", new = "BANE_OF_DOOM" },
+        { old = "ENSLAVE_DEMON", new = "SUBJUGATE_DEMON" },
+    }
+    local oldOnly = { enabled = false, future = "agony", nested = { keep = true } }
+    local doomOld = { chance = 0.25, future = "historical" }
+    local doomNew = { enabled = true, future = "destination" }
+    local disabled, expectedNewIDs = {}, {}
+    for _, mapping in ipairs(mappings) do
+        local newPool = RPHelper.GetAbilityPool("WARLOCK", mapping.new)
+        for _, entry in ipairs(newPool) do
+            local newPrefix = "default:v1:s7:abilitys7:WARLOCKs" .. #mapping.new .. ":" .. mapping.new
+            local oldPrefix = "default:v1:s7:abilitys7:WARLOCKs" .. #mapping.old .. ":" .. mapping.old
+            truthy(string.sub(entry.defaultID, 1, #newPrefix) == newPrefix)
+            local oldID = oldPrefix .. string.sub(entry.defaultID, #newPrefix + 1)
+            disabled[oldID] = true
+            expectedNewIDs[#expectedNewIDs + 1] = { old = oldID, new = entry.defaultID }
+        end
+    end
+    RPHelperDB = {
+        abilities = { WARLOCK = {
+            CURSE_OF_AGONY = oldOnly,
+            CURSE_OF_DOOM = doomOld,
+            BANE_OF_DOOM = doomNew,
+            ENSLAVE_DEMON = "malformed-old",
+        }, MAGE = { ARCANE_BLAST = { future = "other-class" } } },
+        custom = { nextID = 6, entries = {
+            ["custom:1"] = { scope = { layer = "ability", class = "WARLOCK", ability = "CURSE_OF_AGONY", future = "keep" }, entry = { type = "say", text = "Old agony." }, future = "one" },
+            ["custom:2"] = { scope = { layer = "ability", class = "WARLOCK", ability = "CURSE_OF_DOOM" }, entry = { type = "emote", text = "DOOM" }, future = "two" },
+            ["custom:3"] = { scope = { layer = "ability", class = "WARLOCK", ability = "ENSLAVE_DEMON" }, entry = { type = "customemote", text = "commands a demon." }, future = "three" },
+            ["custom:4"] = { scope = { layer = "ability", class = "WARLOCK", ability = "BANE_OF_AGONY" }, entry = { type = "say", text = "Existing bane." }, future = "four" },
+            ["custom:5"] = { scope = { layer = "ability", class = "MAGE", ability = "ARCANE_BLAST" }, entry = { type = "say", text = "Other class." }, future = "five" },
+        } },
+        disabledDefaults = disabled,
+    }
+    local ok, err = pcall(function()
+        for iteration = 1, 2 do
+            RPHelper.InitializeDatabase()
+            equal(RPHelperDB.abilities.WARLOCK.BANE_OF_AGONY, oldOnly)
+            equal(RPHelperDB.abilities.WARLOCK.CURSE_OF_AGONY, nil)
+            equal(RPHelperDB.abilities.WARLOCK.BANE_OF_DOOM, doomNew)
+            equal(RPHelperDB.abilities.WARLOCK.CURSE_OF_DOOM, doomOld)
+            equal(RPHelperDB.abilities.WARLOCK.ENSLAVE_DEMON, "malformed-old")
+            equal(RPHelperDB.abilities.WARLOCK.SUBJUGATE_DEMON, nil)
+            equal(RPHelperDB.abilities.MAGE.ARCANE_BLAST.future, "other-class")
+            for _, ids in ipairs(expectedNewIDs) do
+                equal(RPHelperDB.disabledDefaults[ids.old], nil)
+                equal(RPHelperDB.disabledDefaults[ids.new], true)
+            end
+            for index, mapping in ipairs(mappings) do
+                local records = RPHelper.UserContent.List({
+                    layer = "ability", class = "WARLOCK", ability = mapping.new,
+                })
+                equal(#records, index == 1 and 2 or 1)
+            end
+            equal(RPHelperDB.custom.entries["custom:1"].scope.future, "keep")
+            equal(RPHelperDB.custom.entries["custom:1"].future, "one")
+            equal(RPHelperDB.custom.entries["custom:1"].entry.text, "Old agony.")
+            equal(RPHelperDB.custom.entries["custom:5"].scope.class, "MAGE")
+        end
+    end)
+    RPHelperDB = saved;RPHelper.UserContent.Invalidate()
+    if not ok then error(err) end
+end)
+
+test("Warlock disabled-default migration leaves similar IDs and existing destination state stable", function()
+    local saved = RPHelperDB
+    local destinationID = RPHelper.GetAbilityPool("WARLOCK", "BANE_OF_AGONY")[1].defaultID
+    local destinationPrefix = "default:v1:s7:abilitys7:WARLOCKs13:BANE_OF_AGONY"
+    local historicalPrefix = "default:v1:s7:abilitys7:WARLOCKs14:CURSE_OF_AGONY"
+    truthy(string.sub(destinationID, 1, #destinationPrefix) == destinationPrefix)
+    local suffix = string.sub(destinationID, #destinationPrefix + 1)
+    local historicalID = historicalPrefix .. suffix
+    local similarID = "default:v1:s7:abilitys7:WARLOCKs20:CURSE_OF_AGONY_EXTRA" .. suffix
+    RPHelperDB = { disabledDefaults = {
+        [historicalID] = true,
+        [destinationID] = true,
+        [similarID] = true,
+    } }
+    local ok, err = pcall(function()
+        for _ = 1, 2 do
+            RPHelper.InitializeDatabase()
+            equal(RPHelperDB.disabledDefaults[historicalID], nil)
+            equal(RPHelperDB.disabledDefaults[destinationID], true)
+            equal(RPHelperDB.disabledDefaults[similarID], true)
+        end
+    end)
+    RPHelperDB = saved;RPHelper.UserContent.Invalidate()
+    if not ok then error(err) end
+end)
+
+test("Warlock archived saved records remain untouched", function()
+    local saved = RPHelperDB
+    local keys = {
+        "CURSE_OF_SHADOW", "DARK_HARVEST", "DARK_PACT", "DEMON_PORTAL",
+        "DETECT_GREATER_INVISIBILITY", "DETECT_LESSER_INVISIBILITY", "MANA_FUNNEL",
+        "SUMMON_DREADSTEED", "SUMMON_FELSTEED",
+    }
+    local abilities, entries = {}, {}
+    for index, key in ipairs(keys) do
+        abilities[key] = { enabled = false, future = key }
+        entries["custom:" .. index] = {
+            scope = { layer = "ability", class = "WARLOCK", ability = key, future = "keep" },
+            entry = { type = "say", text = "Preserve " .. key }, future = "keep",
+        }
+    end
+    RPHelperDB = { abilities = { WARLOCK = abilities }, custom = { nextID = 10, entries = entries } }
+    local ok, err = pcall(function()
+        for _ = 1, 2 do
+            RPHelper.InitializeDatabase()
+            for index, key in ipairs(keys) do
+                equal(RPHelperDB.abilities.WARLOCK[key], abilities[key])
+                local records = RPHelper.UserContent.List({ layer = "ability", class = "WARLOCK", ability = key })
+                equal(#records, 1)
+                equal(records[1].id, "custom:" .. index)
+                equal(records[1].scope.future, "keep")
+            end
+        end
+    end)
+    RPHelperDB = saved;RPHelper.UserContent.Invalidate()
+    if not ok then error(err) end
+end)
+
+test("Warlock class reactions and demon-event pools remain unchanged", function()
+    local triggers = "absorb entercombat npctalksenemy npctalksfriend petattackstart petattackstop petdies resurrect"
+    local parts, count = {}, 0
+    for trigger in string.gmatch(triggers, "%S+") do
+        parts[#parts + 1] = trigger
+        for _, entry in ipairs(RPHelper.GetClassPool("WARLOCK", trigger)) do
+            count = count + 1
+            for _, field in ipairs({ "type", "text", "defaultID", "template" }) do
+                local value = entry[field] or ""
+                parts[#parts + 1] = #value .. ":" .. value
+            end
+        end
+    end
+    equal(count, 38)
+    equal(catalogueChecksum(table.concat(parts, "\n")), 1380124042)
+    equal(#RPHelper.GetClassPool("WARLOCK", "petattackstart"), 7)
+    equal(#RPHelper.GetClassPool("WARLOCK", "petattackstop"), 6)
+    equal(#RPHelper.GetClassPool("WARLOCK", "petdies"), 6)
 end)
 
 test("Warrior reconciliation registers the approved active catalogue", function()

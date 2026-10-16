@@ -157,6 +157,63 @@ local function migrateDruidShiftingPower()
     end
 end
 
+-- Approved Warlock canonical renames. This remains deliberately limited to
+-- the three reviewed mappings rather than becoming a general migration layer.
+local function migrateWarlockAbilityRenames()
+    local mappings = {
+        { old = "CURSE_OF_AGONY", new = "BANE_OF_AGONY" },
+        { old = "CURSE_OF_DOOM", new = "BANE_OF_DOOM" },
+        { old = "ENSLAVE_DEMON", new = "SUBJUGATE_DEMON" },
+    }
+    local replacements = {}
+    for _, mapping in ipairs(mappings) do replacements[mapping.old] = mapping.new end
+
+    if type(RPHelperDB.custom) == "table" and type(RPHelperDB.custom.entries) == "table" then
+        for _, record in pairs(RPHelperDB.custom.entries) do
+            local scope = type(record) == "table" and record.scope
+            local replacement = type(scope) == "table" and replacements[scope.ability]
+            if type(scope) == "table" and scope.layer == "ability"
+                and scope.class == "WARLOCK" and replacement then
+                scope.ability = replacement
+            end
+        end
+    end
+
+    local warlock = type(RPHelperDB.abilities) == "table" and RPHelperDB.abilities.WARLOCK
+    if type(warlock) == "table" then
+        for _, mapping in ipairs(mappings) do
+            local historical, destination = warlock[mapping.old], warlock[mapping.new]
+            if type(historical) == "table" and destination == nil then
+                warlock[mapping.new], warlock[mapping.old] = historical, nil
+            end
+            -- When both keys exist, the destination stays effective and the
+            -- historical record remains recoverable under its inactive key.
+            -- Malformed values likewise remain untouched rather than guessed.
+        end
+    end
+
+    if type(RPHelperDB.disabledDefaults) == "table" then
+        local migrated = {}
+        for _, mapping in ipairs(mappings) do
+            local oldPrefix = "default:v1:s7:abilitys7:WARLOCKs" .. #mapping.old .. ":" .. mapping.old
+            local newPrefix = "default:v1:s7:abilitys7:WARLOCKs" .. #mapping.new .. ":" .. mapping.new
+            for id, disabled in pairs(RPHelperDB.disabledDefaults) do
+                if disabled == true and type(id) == "string"
+                    and string.sub(id, 1, #oldPrefix) == oldPrefix then
+                    migrated[#migrated + 1] = {
+                        old = id,
+                        new = newPrefix .. string.sub(id, #oldPrefix + 1),
+                    }
+                end
+            end
+        end
+        for _, ids in ipairs(migrated) do
+            RPHelperDB.disabledDefaults[ids.new] = true
+            RPHelperDB.disabledDefaults[ids.old] = nil
+        end
+    end
+end
+
 function RPHelper.InitializeDatabase()
     if RPHelperDB == nil then RPHelperDB = {} end
     if type(RPHelperDB) ~= "table" then return end
@@ -174,6 +231,7 @@ function RPHelper.InitializeDatabase()
     migrateShamanFireNova()
     migrateDruidPrimalBite()
     migrateDruidShiftingPower()
+    migrateWarlockAbilityRenames()
     if RPHelper.UserContent then RPHelper.UserContent.Invalidate() end
 
     if type(RPHelperDB.settings) == "table" then

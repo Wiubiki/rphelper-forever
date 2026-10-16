@@ -92,3 +92,14 @@ The talent reference marks **Demonic Brand** and **Demonic Pact** passive. Demon
 Subject to owner approval, a later catalogue implementation could retain the 46 exact identities and 49 reactions, add the four wholly missing active abilities as empty definitions, and apply separately approved canonical replacements for the three rename pairs. General and Demons-tab records remain outside the player catalogue. The nine legacy-only identities require explicit preservation decisions. No archive, migration, reaction transfer, mapping, or runtime change is authorized by this research.
 
 The complete row-level evidence is in [the Warlock reconciliation CSV](warlock_beta_reconciliation.csv).
+
+## Approved implementation disposition
+
+The owner approved the following catalogue implementation after this research:
+
+- Retain the 46 exact beta-confirmed identities, add empty definitions for Wrack, Summon Incubus, Bane of Havoc, and Incinerate, and keep General, Demons-tab, and passive talent identities excluded.
+- Rename Curse of Agony to Bane of Agony, Curse of Doom to Bane of Doom, and Enslave Demon to Subjugate Demon. Preserve their five bundled reactions exactly under the successors without active duplicates.
+- Migrate old-only Warlock custom scopes, valid per-ability setting tables, and disabled shipped-reaction IDs to the successor keys. Existing destination settings remain effective; when both setting keys exist, the inactive historical value remains recoverable rather than being merged or deleted. Malformed values and unknown fields are preserved, and repeated initialization is idempotent.
+- Remove the nine beta-absent identities from the active catalogue. Preserve Curse of Shadow's two reactions and record the eight empty historical identities in an unloaded archive. Saved settings and custom content for archived keys remain untouched.
+
+The resulting active catalogue contains **53 unique Warlock identities**, **54 active authored ability reactions**, and 28 empty shipped pools. The unloaded archive preserves two reactions, while the byte-unchanged class file retains 38 reactions, preserving all **94 authored Warlock reactions** overall. No demon ability, spell-ID mapping, demon-event detector, or runtime behavior was added.
