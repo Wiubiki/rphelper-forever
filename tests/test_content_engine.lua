@@ -116,6 +116,14 @@ local historicalExclusions = {
     ["PRIEST:STARSHARDS"] = true,
     ["PRIEST:TOUCH_OF_WEAKNESS"] = true,
     ["WARRIOR:SHADOWMELD"] = true,
+    ["WARRIOR:ANGER_MANAGEMENT"] = true,
+    ["WARRIOR:COUNTERATTACK"] = true,
+    ["WARRIOR:DECISIVE_STRIKE"] = true,
+    ["WARRIOR:INTERVENE"] = true,
+    ["WARRIOR:SHOOT_BOW"] = true,
+    ["WARRIOR:SHOOT_CROSSBOW"] = true,
+    ["WARRIOR:SHOOT_GUN"] = true,
+    ["WARRIOR:THROW"] = true,
     ["SHAMAN:BLOODLUST"] = true,
     ["SHAMAN:CALM_ELEMENTS"] = true,
     ["SHAMAN:EARTHSHAKER_SLAM"] = true,
@@ -131,6 +139,7 @@ local historicalExclusions = {
 local catalogueAdditions = {
     DRUID = "AQUATIC_FORM BEAR_FORM GROWL LACERATE PRIMAL_BITE REVIVE SHIFTING_POWER WILD_GROWTH",
     SHAMAN = "CALL_OF_THE_ANCESTORS CALL_OF_THE_ELEMENTS CALL_OF_THE_SPIRITS FIRE_NOVA LAVA_BURST RAGE_OF_THE_FARSEER RIPTIDE TOTEMIC_PROJECTION",
+    WARRIOR = "BATTLE_STANCE BERSERKER_STANCE DEFENSIVE_STANCE SPEARING_STRIKE TAUNT VICTORY_RUSH",
 }
 local preReconciliationKeys = {
     DRUID = "CHALLENGING_ROAR DEMORALIZING_ROAR DIRE_BEAR_FORM ENRAGE ENTANGLING_ROOTS GIFT_OF_THE_WILD HIBERNATE HURRICANE INNERVATE REBIRTH SHIFTING_POWER TELEPORT_MOONGLADE TRANQUILITY",
@@ -225,9 +234,104 @@ test("historical catalogue: class files register each empty definition once", fu
         for _, class in ipairs({ "Druid", "Hunter", "Mage", "Paladin", "Priest", "Rogue", "Shaman", "Warlock", "Warrior" }) do
             dofile("RPHelper/Data/Abilities/" .. class .. ".lua")
         end
-        equal(count, 176)
+        equal(count, 174)
     end)
     RPHelper = previous
+    if not ok then error(err) end
+end)
+
+test("Warrior reconciliation registers the approved active catalogue", function()
+    local count = 0
+    for _ in pairs(RPHelper.Ability.WARRIOR) do count = count + 1 end
+    equal(count, 41)
+
+    for _, key in ipairs({
+        "BATTLE_STANCE", "BERSERKER_STANCE", "DEFENSIVE_STANCE",
+        "SPEARING_STRIKE", "TAUNT", "VICTORY_RUSH",
+    }) do
+        equal(RPHelper.Ability.WARRIOR[key], key)
+        equal(#RPHelper.GetAbilityPool("WARRIOR", key), 0)
+    end
+
+    for _, key in ipairs({
+        "ANGER_MANAGEMENT", "COUNTERATTACK", "DECISIVE_STRIKE", "INTERVENE",
+        "SHOOT_BOW", "SHOOT_CROSSBOW", "SHOOT_GUN", "TACTICAL_MASTERY", "THROW",
+    }) do
+        equal(RPHelper.Ability.WARRIOR[key], nil)
+        equal(#RPHelper.GetAbilityPool("WARRIOR", key), 0)
+    end
+end)
+
+test("Warrior source is grouped and alphabetized by Forever specialization", function()
+    local source = assert(io.open("RPHelper/Data/Abilities/Warrior.lua", "r")):read("*a")
+    local specializations = {
+        "BATTLE_STANCE CHARGE HAMSTRING HEROIC_STRIKE MOCKING_BLOW MORTAL_STRIKE OVERPOWER REND RETALIATION SPEARING_STRIKE SWEEPING_STRIKES THUNDER_CLAP VICTORY_RUSH",
+        "BATTLE_SHOUT BERSERKER_RAGE BERSERKER_STANCE BLOODTHIRST CHALLENGING_SHOUT CLEAVE DEATH_WISH DEMORALIZING_SHOUT EXECUTE INTERCEPT INTIMIDATING_SHOUT PIERCING_HOWL PUMMEL RECKLESSNESS SLAM WHIRLWIND",
+        "BLOODRAGE CONCUSSION_BLOW DEFENSIVE_STANCE DISARM LAST_STAND REVENGE SHIELD_BASH SHIELD_BLOCK SHIELD_SLAM SHIELD_WALL SUNDER_ARMOR TAUNT",
+    }
+    local expected, actual, headingCounts = {}, {}, {}
+    for _, group in ipairs(specializations) do
+        for key in string.gmatch(group, "%S+") do expected[#expected + 1] = key end
+    end
+    for key in string.gmatch(source, "\n%-%- ([A-Z][A-Z0-9_]*)\n") do
+        actual[#actual + 1] = key
+        headingCounts[key] = (headingCounts[key] or 0) + 1
+    end
+    equal(#actual, 41)
+    for index, key in ipairs(expected) do
+        equal(actual[index], key)
+        equal(headingCounts[key], 1)
+    end
+    equal(string.find(source, "for _, ability in ipairs", 1, true), nil)
+    for _, key in ipairs(expected) do
+        if #RPHelper.GetAbilityPool("WARRIOR", key) == 0 then
+            truthy(string.find(source, 'RPHelper.RegisterAbility(C, "' .. key .. '")', 1, true))
+            for _, kind in ipairs({ "say", "emote", "customemote" }) do
+                truthy(string.find(source, '-- add("' .. key .. '", "' .. kind .. '", "")', 1, true))
+            end
+        else
+            equal(string.find(source, '-- add("' .. key .. '",', 1, true), nil)
+        end
+    end
+end)
+
+test("Warrior removals preserve player-owned saved records without migration", function()
+    local saved = RPHelperDB
+    local removed = {
+        "ANGER_MANAGEMENT", "COUNTERATTACK", "DECISIVE_STRIKE", "INTERVENE",
+        "SHOOT_BOW", "SHOOT_CROSSBOW", "SHOOT_GUN", "THROW",
+    }
+    local abilities, entries = {}, {}
+    for index, key in ipairs(removed) do
+        abilities[key] = { enabled = false, future = key }
+        entries["custom:" .. index] = {
+            scope = { layer = "ability", class = "WARRIOR", ability = key, future = "keep" },
+            entry = { type = "say", text = "Preserve " .. key },
+            future = "keep",
+        }
+    end
+    RPHelperDB = {
+        abilities = { WARRIOR = abilities },
+        custom = { nextID = #removed + 1, entries = entries },
+    }
+    local ok, err = pcall(function()
+        RPHelper.InitializeDatabase()
+        for index, key in ipairs(removed) do
+            equal(RPHelperDB.abilities.WARRIOR[key], abilities[key])
+            local scope = { layer = "ability", class = "WARRIOR", ability = key }
+            local records = RPHelper.UserContent.List(scope)
+            equal(#records, 1)
+            equal(records[1].id, "custom:" .. index)
+            equal(records[1].scope.future, "keep")
+            equal(RPHelperDB.custom.entries["custom:" .. index].future, "keep")
+        end
+        RPHelper.InitializeDatabase()
+        for _, key in ipairs(removed) do
+            equal(RPHelperDB.abilities.WARRIOR[key], abilities[key])
+            equal(#RPHelper.UserContent.List({ layer = "ability", class = "WARRIOR", ability = key }), 1)
+        end
+    end)
+    RPHelperDB = saved;RPHelper.UserContent.Invalidate()
     if not ok then error(err) end
 end)
 

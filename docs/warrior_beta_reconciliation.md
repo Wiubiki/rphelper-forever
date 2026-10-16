@@ -90,3 +90,15 @@ Spellbook presence does not establish reliable successful-cast detection:
 Subject to owner approval, a later implementation could retain the 35 confirmed active class identities, add the six missing active identities as empty definitions, exclude Tactical Mastery and all General entries from automatic promotion, and preserve all historical content and saved data. The four beta-absent definitions and the four already-catalogued General controls require explicit dispositions before production changes. No archive, migration, mapping, detection change, or authored reaction change is authorized by this research.
 
 The row-level ranks, train levels, candidate IDs, acquisition notes, mechanics, evidence, reaction counts, scope, and provisional dispositions are in [the Warrior reconciliation CSV](warrior_beta_reconciliation.csv).
+
+## Approved implementation disposition
+
+The owner approved a catalogue-only implementation after this research:
+
+- Retain all 35 beta-confirmed active class identities and all 21 authored reactions without changing their canonical associations, text, types, ordering, or generated default IDs.
+- Add empty active definitions for Battle Stance, Berserker Stance, Defensive Stance, Spearing Strike, Taunt, and Victory Rush.
+- Remove the empty historical Anger Management, Counterattack, Decisive Strike, and Intervene definitions. Do not add passive Tactical Mastery and do not treat either historical comparison as an alias or replacement.
+- Remove the empty General-tab Throw, Shoot Bow, Shoot Crossbow, and Shoot Gun definitions, consistently with the v1 General-tab policy. Do not add other General identities.
+- Preserve all player-owned custom content and settings under removed keys; no SavedVariables migration, archive, or key repurposing is authorized.
+
+The resulting active Warrior catalogue contains **41 unique class identities**, with 21 authored reactions and 29 empty shipped pools. Spell-ID mapping, runtime detection, stance handling, queued next-melee behavior, probabilities, cooldowns, and output routing remain unchanged.
