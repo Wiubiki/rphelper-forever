@@ -69,3 +69,14 @@ Arcane Missiles, Evocation, and Blizzard are channelled. Most offensive spells a
 Subject to owner approval, a later implementation could retain the 52 confirmed identities and 128 reactions, add the eight missing class identities as empty definitions, and leave all General records out of v1. Detect Magic and Icicles require explicit preservation decisions before production changes. No archive, migration, reaction transfer, spell-ID mapping, or detection change is authorized by this research.
 
 The complete row-level evidence is in [the Mage reconciliation CSV](mage_beta_reconciliation.csv).
+
+## Approved implementation disposition
+
+The owner approved the following catalogue-only implementation after this research:
+
+- Retain all 52 beta-confirmed identities and their 128 authored reactions without changing canonical associations, text, types, ordering, or generated default IDs.
+- Add empty definitions for Arcane Blast, Arcane Wrath, Polymorph (Pig), Polymorph (Turtle), Teleport: Dalaran, Frostfire Bolt, Frost Blast, and Ice Lance. Keep every identity separate and do not add Portal: Dalaran.
+- Remove Detect Magic and Icicles from the active catalogue and preserve their three reactions each, unchanged and in order, in an unloaded archive.
+- Keep all six General-tab identities excluded. Preserve player-owned saved records under archived keys without migration or repurposing.
+
+The resulting active catalogue contains **60 unique Mage identities**, **128 active reactions**, and eight empty shipped pools. The archive accounts for the remaining six historical reactions, preserving all 134 researched reactions overall. No rename, reaction transfer, persistence migration, spell-ID mapping, runtime-detection change, or General-tab promotion is authorized.
