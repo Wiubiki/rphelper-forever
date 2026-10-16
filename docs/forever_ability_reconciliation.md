@@ -63,7 +63,20 @@ This is an intended structure, not an instruction to reorganize files in
 Milestone 2B. Existing content must remain recoverable until deletion or
 migration is explicitly reviewed and approved. A confirmed ability remains a
 valid catalogue identity without bundled reactions; do not add empty reaction
-strings as placeholders.
+strings through executable registration calls.
+
+When a class is implemented, organize its active catalogue by the class-specific
+spellbook specializations, alphabetize abilities within each specialization, and
+use one heading per ability. Keep all authored reaction types under that heading;
+register an empty definition directly beneath its heading rather than collecting
+empty definitions in a trailing list. Beneath each empty definition, include
+commented `add(...)` templates for `say`, `emote`, and `customemote`, each with an
+empty text argument. These comments are authoring guides only and must never
+execute or create placeholder reactions. Abilities with authored content do not
+need the templates. Preserve inactive historical content in a separate, clearly
+identified archive that is not loaded at runtime. Apply this format to future
+reconciled class catalogues without mechanically reformatting classes that have
+not yet entered implementation review.
 
 ## Identity and customization preservation
 

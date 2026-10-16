@@ -22,6 +22,52 @@ local function applyMissing(target, defaults)
     end
 end
 
+-- Approved Shaman identity rename. Keep this migration narrow and idempotent:
+-- saved custom entries, per-ability settings and disabled shipped reactions all
+-- use the canonical ability key independently of the active catalogue.
+local function migrateShamanFireNova()
+    local oldKey, newKey = "FIRE_NOVA_TOTEM", "FIRE_NOVA"
+
+    if type(RPHelperDB.custom) == "table" and type(RPHelperDB.custom.entries) == "table" then
+        for _, record in pairs(RPHelperDB.custom.entries) do
+            local scope = type(record) == "table" and record.scope
+            if type(scope) == "table" and scope.layer == "ability"
+                and scope.class == "SHAMAN" and scope.ability == oldKey then
+                scope.ability = newKey
+            end
+        end
+    end
+
+    local shaman = type(RPHelperDB.abilities) == "table" and RPHelperDB.abilities.SHAMAN
+    if type(shaman) == "table" and shaman[oldKey] ~= nil then
+        if shaman[newKey] == nil then
+            shaman[newKey], shaman[oldKey] = shaman[oldKey], nil
+        elseif type(shaman[newKey]) == "table" and type(shaman[oldKey]) == "table" then
+            applyMissing(shaman[newKey], shaman[oldKey])
+            shaman[oldKey] = nil
+        end
+        -- Malformed conflicting values are preserved under the old key rather
+        -- than guessed at or discarded.
+    end
+
+    if type(RPHelperDB.disabledDefaults) == "table" then
+        local oldPrefix = "default:v1:s7:abilitys6:SHAMANs15:" .. oldKey
+        local newPrefix = "default:v1:s7:abilitys6:SHAMANs9:" .. newKey
+        local migrated = {}
+        for id, disabled in pairs(RPHelperDB.disabledDefaults) do
+            if disabled == true and type(id) == "string" and string.sub(id, 1, #oldPrefix) == oldPrefix then
+                migrated[#migrated + 1] = { old = id, new = newPrefix .. string.sub(id, #oldPrefix + 1) }
+            end
+        end
+        for _, ids in ipairs(migrated) do
+            if RPHelperDB.disabledDefaults[ids.new] == nil then
+                RPHelperDB.disabledDefaults[ids.new] = true
+            end
+            RPHelperDB.disabledDefaults[ids.old] = nil
+        end
+    end
+end
+
 function RPHelper.InitializeDatabase()
     if RPHelperDB == nil then RPHelperDB = {} end
     if type(RPHelperDB) ~= "table" then return end
@@ -36,6 +82,7 @@ function RPHelper.InitializeDatabase()
         if RPHelperDB.custom.entries == nil then RPHelperDB.custom.entries = {} end
         if RPHelperDB.custom.nextID == nil then RPHelperDB.custom.nextID = 1 end
     end
+    migrateShamanFireNova()
     if RPHelper.UserContent then RPHelper.UserContent.Invalidate() end
 
     if type(RPHelperDB.settings) == "table" then
