@@ -104,6 +104,8 @@ local historicalExclusions = {
     ["DRUID:SAVAGE_BITE"] = true,
     ["DRUID:TIGERS_FURY"] = true,
     ["DRUID:TREE_OF_LIFE_FORM"] = true,
+    ["MAGE:DETECT_MAGIC"] = true,
+    ["MAGE:ICICLES"] = true,
     ["PALADIN:GREATER_BLESSING_OF_SANCTUARY"] = true,
     ["PRIEST:DESPERATE_PRAYER"] = true,
     ["PRIEST:DEVOURING_PLAGUE"] = true,
@@ -138,13 +140,14 @@ local historicalExclusions = {
 }
 local catalogueAdditions = {
     DRUID = "AQUATIC_FORM BEAR_FORM GROWL LACERATE PRIMAL_BITE REVIVE SHIFTING_POWER WILD_GROWTH",
+    MAGE = "ARCANE_BLAST ARCANE_WRATH FROSTFIRE_BOLT FROST_BLAST ICE_LANCE POLYMORPH_PIG POLYMORPH_TURTLE TELEPORT_DALARAN",
     SHAMAN = "CALL_OF_THE_ANCESTORS CALL_OF_THE_ELEMENTS CALL_OF_THE_SPIRITS FIRE_NOVA LAVA_BURST RAGE_OF_THE_FARSEER RIPTIDE TOTEMIC_PROJECTION",
     WARRIOR = "BATTLE_STANCE BERSERKER_STANCE DEFENSIVE_STANCE SPEARING_STRIKE TAUNT VICTORY_RUSH",
 }
 local preReconciliationKeys = {
     DRUID = "CHALLENGING_ROAR DEMORALIZING_ROAR DIRE_BEAR_FORM ENRAGE ENTANGLING_ROOTS GIFT_OF_THE_WILD HIBERNATE HURRICANE INNERVATE REBIRTH SHIFTING_POWER TELEPORT_MOONGLADE TRANQUILITY",
     HUNTER = "AIMED_SHOT ARCANE_SHOT ASPECT_OF_THE_BEAST ASPECT_OF_THE_CHEETAH ASPECT_OF_THE_HAWK ASPECT_OF_THE_MONKEY ASPECT_OF_THE_PACK ASPECT_OF_THE_WILD ASPECT_OF_THE_WOLF BEAST_LORE BESTIAL_WRATH CARVE CONCUSSIVE_SHOT COUNTERATTACK DETERRENCE DISENGAGE DISTRACTING_SHOT EAGLE_EYE EXPLOSIVE_TRAP EYES_OF_THE_BEAST FEIGN_DEATH FLARE FREEZING_TRAP FROST_TRAP HUNTERS_MARK IMMOLATION_TRAP MEND_PET MONGOOSE_BITE MULTI_SHOT RAPID_FIRE RAPTOR_STRIKE SCARE_BEAST SCATTER_SHOT SCORPID_STING SERPENT_STING STEADY_SHOT TRACK_BEASTS TRACK_DEMONS TRACK_DRAGONKIN TRACK_ELEMENTALS TRACK_GIANTS TRACK_HIDDEN TRACK_HUMANOIDS TRACK_UNDEAD TRANQUILIZING_SHOT TRUESHOT_AURA VIPER_STING VOLLEY WING_CLIP",
-    MAGE = "AMPLIFY_MAGIC ARCANE_BRILLIANCE ARCANE_EXPLOSION ARCANE_INTELLECT ARCANE_MISSILES ARCANE_POWER BLAST_WAVE BLINK BLIZZARD COLD_SNAP COMBUSTION CONE_OF_COLD CONJURE_FOOD CONJURE_MANA_AGATE CONJURE_MANA_CITRINE CONJURE_MANA_JADE CONJURE_MANA_RUBY CONJURE_WATER COUNTERSPELL DAMPEN_MAGIC DETECT_MAGIC EVOCATION FIREBALL FIRE_BLAST FIRE_WARD FLAMESTRIKE FROSTBOLT FROST_ARMOR FROST_NOVA FROST_WARD ICE_ARMOR ICE_BARRIER ICE_BLOCK ICICLES MAGE_ARMOR MANA_SHIELD POLYMORPH PORTAL_DARNASSUS PORTAL_IRONFORGE PORTAL_ORGRIMMAR PORTAL_STORMWIND PORTAL_THUNDER_BLUFF PORTAL_UNDERCITY PRESENCE_OF_MIND PYROBLAST REMOVE_LESSER_CURSE SCORCH SLOW_FALL TELEPORT_DARNASSUS TELEPORT_IRONFORGE TELEPORT_ORGRIMMAR TELEPORT_STORMWIND TELEPORT_THUNDER_BLUFF TELEPORT_UNDERCITY",
+    MAGE = "AMPLIFY_MAGIC ARCANE_BRILLIANCE ARCANE_EXPLOSION ARCANE_INTELLECT ARCANE_MISSILES ARCANE_POWER BLAST_WAVE BLINK BLIZZARD COLD_SNAP COMBUSTION CONE_OF_COLD CONJURE_FOOD CONJURE_MANA_AGATE CONJURE_MANA_CITRINE CONJURE_MANA_JADE CONJURE_MANA_RUBY CONJURE_WATER COUNTERSPELL DAMPEN_MAGIC EVOCATION FIREBALL FIRE_BLAST FIRE_WARD FLAMESTRIKE FROSTBOLT FROST_ARMOR FROST_NOVA FROST_WARD ICE_ARMOR ICE_BARRIER ICE_BLOCK MAGE_ARMOR MANA_SHIELD POLYMORPH PORTAL_DARNASSUS PORTAL_IRONFORGE PORTAL_ORGRIMMAR PORTAL_STORMWIND PORTAL_THUNDER_BLUFF PORTAL_UNDERCITY PRESENCE_OF_MIND PYROBLAST REMOVE_LESSER_CURSE SCORCH SLOW_FALL TELEPORT_DARNASSUS TELEPORT_IRONFORGE TELEPORT_ORGRIMMAR TELEPORT_STORMWIND TELEPORT_THUNDER_BLUFF TELEPORT_UNDERCITY",
     PALADIN = "BLESSING_OF_FREEDOM BLESSING_OF_KINGS BLESSING_OF_LIGHT BLESSING_OF_MIGHT BLESSING_OF_PROTECTION BLESSING_OF_SACRIFICE BLESSING_OF_SALVATION BLESSING_OF_SANCTUARY BLESSING_OF_WISDOM BULWARK_OF_THE_RIGHTEOUS CLEANSE CONCENTRATION_AURA CONSECRATION CRUSADER_STRIKE DEVOTION_AURA DIVINE_FAVOR DIVINE_INTERVENTION DIVINE_PROTECTION DIVINE_SHIELD EXORCISM FIRE_RESISTANCE_AURA FLASH_OF_LIGHT FROST_RESISTANCE_AURA GREATER_BLESSING_OF_MIGHT HAMMER_OF_JUSTICE HAMMER_OF_WRATH HAND_OF_RECKONING HOLY_LIGHT HOLY_SHIELD HOLY_SHOCK HOLY_WRATH JUDGEMENT LAY_ON_HANDS PURIFY REDEMPTION REPENTANCE RETRIBUTION_AURA RIGHTEOUS_FURY SANCTITY_AURA SEAL_OF_COMMAND SEAL_OF_JUSTICE SEAL_OF_LIGHT SEAL_OF_RIGHTEOUSNESS SEAL_OF_THE_CRUSADER SEAL_OF_WISDOM SENSE_UNDEAD SHADOW_RESISTANCE_AURA SUMMON_WARHORSE TURN_UNDEAD",
     PRIEST = "ABOLISH_DISEASE CURE_DISEASE DISPEL_MAGIC DIVINE_SPIRIT FADE FLASH_HEAL GREATER_HEAL HEAL HOLY_FIRE HOLY_NOVA INNER_FIRE INNER_FOCUS LESSER_HEAL LEVITATE LIGHTWELL MANA_BURN MIND_BLAST MIND_CONTROL MIND_FLAY MIND_SOOTHE MIND_VISION POWER_INFUSION POWER_WORD_FORTITUDE POWER_WORD_SHIELD PRAYER_OF_FORTITUDE PRAYER_OF_HEALING PSYCHIC_SCREAM RENEW RESURRECTION SHACKLE_UNDEAD SHADOWFORM SHADOW_PROTECTION SHADOW_WORD_PAIN SILENCE SMITE SPIRIT_OF_REDEMPTION VAMPIRIC_EMBRACE",
     ROGUE = "DISARM_TRAP SHOOT_BOW SPRINT THROW",
@@ -155,7 +158,7 @@ local preReconciliationKeys = {
 local reactionBaseline = {
     DRUID = { count = 28, checksum = 1317671518 },
     HUNTER = { count = 155, checksum = 1395080557 },
-    MAGE = { count = 134, checksum = 10577957 },
+    MAGE = { count = 128, checksum = 549995872 },
     PALADIN = { count = 103, checksum = 857993924 },
     PRIEST = { count = 111, checksum = 41110586 },
     ROGUE = { count = 4, checksum = 232101562 },
@@ -234,9 +237,127 @@ test("historical catalogue: class files register each empty definition once", fu
         for _, class in ipairs({ "Druid", "Hunter", "Mage", "Paladin", "Priest", "Rogue", "Shaman", "Warlock", "Warrior" }) do
             dofile("RPHelper/Data/Abilities/" .. class .. ".lua")
         end
-        equal(count, 174)
+        equal(count, 182)
     end)
     RPHelper = previous
+    if not ok then error(err) end
+end)
+
+test("Mage reconciliation registers the approved active catalogue", function()
+    local count = 0
+    for _ in pairs(RPHelper.Ability.MAGE) do count = count + 1 end
+    equal(count, 60)
+
+    for _, key in ipairs({
+        "ARCANE_BLAST", "ARCANE_WRATH", "FROSTFIRE_BOLT", "FROST_BLAST",
+        "ICE_LANCE", "POLYMORPH_PIG", "POLYMORPH_TURTLE", "TELEPORT_DALARAN",
+    }) do
+        equal(RPHelper.Ability.MAGE[key], key)
+        equal(#RPHelper.GetAbilityPool("MAGE", key), 0)
+    end
+
+    for _, key in ipairs({
+        "DETECT_MAGIC", "ICICLES", "PORTAL_DALARAN", "ATTACK", "SHOOT",
+        "COMPREHEND_SCROLL", "ARMOR_PROFICIENCY", "DODGE", "LANGUAGES",
+    }) do
+        equal(RPHelper.Ability.MAGE[key], nil)
+        equal(#RPHelper.GetAbilityPool("MAGE", key), 0)
+    end
+end)
+
+test("Mage source is grouped and alphabetized by Forever specialization", function()
+    local source = assert(io.open("RPHelper/Data/Abilities/Mage.lua", "r")):read("*a")
+    local specializations = {
+        "AMPLIFY_MAGIC ARCANE_BLAST ARCANE_BRILLIANCE ARCANE_EXPLOSION ARCANE_INTELLECT ARCANE_MISSILES ARCANE_POWER ARCANE_WRATH BLINK CONJURE_FOOD CONJURE_MANA_AGATE CONJURE_MANA_CITRINE CONJURE_MANA_JADE CONJURE_MANA_RUBY CONJURE_WATER COUNTERSPELL DAMPEN_MAGIC EVOCATION MAGE_ARMOR MANA_SHIELD POLYMORPH POLYMORPH_PIG POLYMORPH_TURTLE PORTAL_DARNASSUS PORTAL_IRONFORGE PORTAL_ORGRIMMAR PORTAL_STORMWIND PORTAL_THUNDER_BLUFF PORTAL_UNDERCITY PRESENCE_OF_MIND REMOVE_LESSER_CURSE SLOW_FALL TELEPORT_DALARAN TELEPORT_DARNASSUS TELEPORT_IRONFORGE TELEPORT_ORGRIMMAR TELEPORT_STORMWIND TELEPORT_THUNDER_BLUFF TELEPORT_UNDERCITY",
+        "BLAST_WAVE COMBUSTION FIRE_BLAST FIRE_WARD FIREBALL FLAMESTRIKE FROSTFIRE_BOLT PYROBLAST SCORCH",
+        "BLIZZARD COLD_SNAP CONE_OF_COLD FROST_ARMOR FROST_BLAST FROST_NOVA FROST_WARD FROSTBOLT ICE_ARMOR ICE_BARRIER ICE_BLOCK ICE_LANCE",
+    }
+    local expected, actual, headingCounts = {}, {}, {}
+    for _, group in ipairs(specializations) do
+        for key in string.gmatch(group, "%S+") do expected[#expected + 1] = key end
+    end
+    for key in string.gmatch(source, "\n%-%- ([A-Z][A-Z0-9_]*)\n") do
+        actual[#actual + 1] = key
+        headingCounts[key] = (headingCounts[key] or 0) + 1
+    end
+    equal(#actual, 60)
+    for index, key in ipairs(expected) do
+        equal(actual[index], key)
+        equal(headingCounts[key], 1)
+    end
+    equal(string.find(source, "for _, ability in ipairs", 1, true), nil)
+    for _, key in ipairs(expected) do
+        if #RPHelper.GetAbilityPool("MAGE", key) == 0 then
+            truthy(string.find(source, 'RPHelper.RegisterAbility(C, "' .. key .. '")', 1, true))
+            for _, kind in ipairs({ "say", "emote", "customemote" }) do
+                truthy(string.find(source, '-- add("' .. key .. '", "' .. kind .. '", "")', 1, true))
+            end
+        else
+            equal(string.find(source, '-- add("' .. key .. '",', 1, true), nil)
+        end
+    end
+end)
+
+test("Mage legacy archive preserves six reactions without active registration", function()
+    local archive = dofile("RPHelper/Data/Abilities/MageArchive.lua")
+    local expected = {
+        DETECT_MAGIC = {
+            { "say", "No secrets can hide from me!" },
+            { "say", "Let's see what magic is lurking here." },
+            { "customemote", "extends {PP} senses, searching for hidden enchantments." },
+        },
+        ICICLES = {
+            { "say", "Frozen fury, unleashed!" },
+            { "say", "A storm of ice shall consume you!" },
+            { "customemote", "draws upon frost leylines, encasing themself in ice while launching deadly icicles at {TARGET}." },
+        },
+    }
+    for _, key in ipairs({ "DETECT_MAGIC", "ICICLES" }) do
+        equal(RPHelper.Ability.MAGE[key], nil)
+        equal(#RPHelper.GetAbilityPool("MAGE", key), 0)
+        equal(#archive[key], 3)
+        for index, entry in ipairs(archive[key]) do
+            equal(entry.type, expected[key][index][1])
+            equal(entry.text, expected[key][index][2])
+        end
+    end
+end)
+
+test("Mage archive removals preserve player-owned saved records without migration", function()
+    local saved = RPHelperDB
+    local detectSettings = { enabled = false, future = "detect" }
+    local icicleSettings = { chance = 0.25, future = "icicles" }
+    RPHelperDB = {
+        abilities = { MAGE = { DETECT_MAGIC = detectSettings, ICICLES = icicleSettings } },
+        custom = { nextID = 3, entries = {
+            ["custom:1"] = {
+                scope = { layer = "ability", class = "MAGE", ability = "DETECT_MAGIC", future = "keep" },
+                entry = { type = "say", text = "Detect custom." }, future = "keep",
+            },
+            ["custom:2"] = {
+                scope = { layer = "ability", class = "MAGE", ability = "ICICLES", future = "keep" },
+                entry = { type = "customemote", text = "Icicles custom." }, future = "keep",
+            },
+        } },
+    }
+    local ok, err = pcall(function()
+        RPHelper.InitializeDatabase()
+        equal(RPHelperDB.abilities.MAGE.DETECT_MAGIC, detectSettings)
+        equal(RPHelperDB.abilities.MAGE.ICICLES, icicleSettings)
+        for index, key in ipairs({ "DETECT_MAGIC", "ICICLES" }) do
+            local records = RPHelper.UserContent.List({ layer = "ability", class = "MAGE", ability = key })
+            equal(#records, 1)
+            equal(records[1].id, "custom:" .. index)
+            equal(records[1].scope.future, "keep")
+            equal(RPHelperDB.custom.entries["custom:" .. index].future, "keep")
+        end
+        RPHelper.InitializeDatabase()
+        equal(RPHelperDB.abilities.MAGE.DETECT_MAGIC, detectSettings)
+        equal(RPHelperDB.abilities.MAGE.ICICLES, icicleSettings)
+        equal(#RPHelper.UserContent.List({ layer = "ability", class = "MAGE", ability = "DETECT_MAGIC" }), 1)
+        equal(#RPHelper.UserContent.List({ layer = "ability", class = "MAGE", ability = "ICICLES" }), 1)
+    end)
+    RPHelperDB = saved;RPHelper.UserContent.Invalidate()
     if not ok then error(err) end
 end)
 
