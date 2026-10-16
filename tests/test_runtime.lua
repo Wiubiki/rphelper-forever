@@ -1050,6 +1050,16 @@ abilityTest("other units unknown IDs and unsupported variants reject before sele
     equal(#a.output, 0)
 end)
 
+abilityTest("Hunter reconciliation adds no pet dispatch or spell mappings", function(a)
+    equal(RPHelper.Runtime.EventTrigger.petattackstart, nil)
+    equal(RPHelper.Runtime.EventTrigger.petattackstop, nil)
+    equal(RPHelper.Runtime.EventTrigger.petdies, nil)
+    equal(RPHelper.RuntimeAPI.AbilitySpellIDs.HUNTER, nil)
+    equal(RPHelper.Runtime.HandleEvent("UNIT_SPELLCAST_SUCCEEDED", "pet", nil, 2973), false)
+    equal(RPHelper.Runtime.HandleEvent("UNIT_SPELLCAST_SUCCEEDED", "player", nil, 2973), false)
+    equal(#a.output, 0)
+end)
+
 abilityTest("malformed required fields cannot enter the policy path", function(a)
     local bad = setmetatable({}, { __tostring = function() error("no stringify") end })
     for _, value in ipairs({ false, true, "19750", bad, function() end, 0, -1, 1.5, math.huge, -math.huge, 0/0 }) do

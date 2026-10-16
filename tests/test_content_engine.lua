@@ -104,6 +104,9 @@ local historicalExclusions = {
     ["DRUID:SAVAGE_BITE"] = true,
     ["DRUID:TIGERS_FURY"] = true,
     ["DRUID:TREE_OF_LIFE_FORM"] = true,
+    ["HUNTER:ASPECT_OF_THE_WOLF"] = true,
+    ["HUNTER:CARVE"] = true,
+    ["HUNTER:STEADY_SHOT"] = true,
     ["MAGE:DETECT_MAGIC"] = true,
     ["MAGE:ICICLES"] = true,
     ["PALADIN:GREATER_BLESSING_OF_SANCTUARY"] = true,
@@ -140,13 +143,14 @@ local historicalExclusions = {
 }
 local catalogueAdditions = {
     DRUID = "AQUATIC_FORM BEAR_FORM GROWL LACERATE PRIMAL_BITE REVIVE SHIFTING_POWER WILD_GROWTH",
+    HUNTER = "AUTO_SHOT CALL_PET DISMISS_PET ENCHANTED_FLARE FEED_PET INTIMIDATION LACERATE REVIVE_PET SNIPER_SHOT STRIDER_KICK SUMMON_HAWK TAME_BEAST",
     MAGE = "ARCANE_BLAST ARCANE_WRATH FROSTFIRE_BOLT FROST_BLAST ICE_LANCE POLYMORPH_PIG POLYMORPH_TURTLE TELEPORT_DALARAN",
     SHAMAN = "CALL_OF_THE_ANCESTORS CALL_OF_THE_ELEMENTS CALL_OF_THE_SPIRITS FIRE_NOVA LAVA_BURST RAGE_OF_THE_FARSEER RIPTIDE TOTEMIC_PROJECTION",
     WARRIOR = "BATTLE_STANCE BERSERKER_STANCE DEFENSIVE_STANCE SPEARING_STRIKE TAUNT VICTORY_RUSH",
 }
 local preReconciliationKeys = {
     DRUID = "CHALLENGING_ROAR DEMORALIZING_ROAR DIRE_BEAR_FORM ENRAGE ENTANGLING_ROOTS GIFT_OF_THE_WILD HIBERNATE HURRICANE INNERVATE REBIRTH SHIFTING_POWER TELEPORT_MOONGLADE TRANQUILITY",
-    HUNTER = "AIMED_SHOT ARCANE_SHOT ASPECT_OF_THE_BEAST ASPECT_OF_THE_CHEETAH ASPECT_OF_THE_HAWK ASPECT_OF_THE_MONKEY ASPECT_OF_THE_PACK ASPECT_OF_THE_WILD ASPECT_OF_THE_WOLF BEAST_LORE BESTIAL_WRATH CARVE CONCUSSIVE_SHOT COUNTERATTACK DETERRENCE DISENGAGE DISTRACTING_SHOT EAGLE_EYE EXPLOSIVE_TRAP EYES_OF_THE_BEAST FEIGN_DEATH FLARE FREEZING_TRAP FROST_TRAP HUNTERS_MARK IMMOLATION_TRAP MEND_PET MONGOOSE_BITE MULTI_SHOT RAPID_FIRE RAPTOR_STRIKE SCARE_BEAST SCATTER_SHOT SCORPID_STING SERPENT_STING STEADY_SHOT TRACK_BEASTS TRACK_DEMONS TRACK_DRAGONKIN TRACK_ELEMENTALS TRACK_GIANTS TRACK_HIDDEN TRACK_HUMANOIDS TRACK_UNDEAD TRANQUILIZING_SHOT TRUESHOT_AURA VIPER_STING VOLLEY WING_CLIP",
+    HUNTER = "AIMED_SHOT ARCANE_SHOT ASPECT_OF_THE_BEAST ASPECT_OF_THE_CHEETAH ASPECT_OF_THE_HAWK ASPECT_OF_THE_MONKEY ASPECT_OF_THE_PACK ASPECT_OF_THE_WILD BEAST_LORE BESTIAL_WRATH CONCUSSIVE_SHOT COUNTERATTACK DETERRENCE DISENGAGE DISTRACTING_SHOT EAGLE_EYE EXPLOSIVE_TRAP EYES_OF_THE_BEAST FEIGN_DEATH FLARE FREEZING_TRAP FROST_TRAP HUNTERS_MARK IMMOLATION_TRAP MEND_PET MONGOOSE_BITE MULTI_SHOT RAPID_FIRE RAPTOR_STRIKE SCARE_BEAST SCATTER_SHOT SCORPID_STING SERPENT_STING TRACK_BEASTS TRACK_DEMONS TRACK_DRAGONKIN TRACK_ELEMENTALS TRACK_GIANTS TRACK_HIDDEN TRACK_HUMANOIDS TRACK_UNDEAD TRANQUILIZING_SHOT TRUESHOT_AURA VIPER_STING VOLLEY WING_CLIP",
     MAGE = "AMPLIFY_MAGIC ARCANE_BRILLIANCE ARCANE_EXPLOSION ARCANE_INTELLECT ARCANE_MISSILES ARCANE_POWER BLAST_WAVE BLINK BLIZZARD COLD_SNAP COMBUSTION CONE_OF_COLD CONJURE_FOOD CONJURE_MANA_AGATE CONJURE_MANA_CITRINE CONJURE_MANA_JADE CONJURE_MANA_RUBY CONJURE_WATER COUNTERSPELL DAMPEN_MAGIC EVOCATION FIREBALL FIRE_BLAST FIRE_WARD FLAMESTRIKE FROSTBOLT FROST_ARMOR FROST_NOVA FROST_WARD ICE_ARMOR ICE_BARRIER ICE_BLOCK MAGE_ARMOR MANA_SHIELD POLYMORPH PORTAL_DARNASSUS PORTAL_IRONFORGE PORTAL_ORGRIMMAR PORTAL_STORMWIND PORTAL_THUNDER_BLUFF PORTAL_UNDERCITY PRESENCE_OF_MIND PYROBLAST REMOVE_LESSER_CURSE SCORCH SLOW_FALL TELEPORT_DARNASSUS TELEPORT_IRONFORGE TELEPORT_ORGRIMMAR TELEPORT_STORMWIND TELEPORT_THUNDER_BLUFF TELEPORT_UNDERCITY",
     PALADIN = "BLESSING_OF_FREEDOM BLESSING_OF_KINGS BLESSING_OF_LIGHT BLESSING_OF_MIGHT BLESSING_OF_PROTECTION BLESSING_OF_SACRIFICE BLESSING_OF_SALVATION BLESSING_OF_SANCTUARY BLESSING_OF_WISDOM BULWARK_OF_THE_RIGHTEOUS CLEANSE CONCENTRATION_AURA CONSECRATION CRUSADER_STRIKE DEVOTION_AURA DIVINE_FAVOR DIVINE_INTERVENTION DIVINE_PROTECTION DIVINE_SHIELD EXORCISM FIRE_RESISTANCE_AURA FLASH_OF_LIGHT FROST_RESISTANCE_AURA GREATER_BLESSING_OF_MIGHT HAMMER_OF_JUSTICE HAMMER_OF_WRATH HAND_OF_RECKONING HOLY_LIGHT HOLY_SHIELD HOLY_SHOCK HOLY_WRATH JUDGEMENT LAY_ON_HANDS PURIFY REDEMPTION REPENTANCE RETRIBUTION_AURA RIGHTEOUS_FURY SANCTITY_AURA SEAL_OF_COMMAND SEAL_OF_JUSTICE SEAL_OF_LIGHT SEAL_OF_RIGHTEOUSNESS SEAL_OF_THE_CRUSADER SEAL_OF_WISDOM SENSE_UNDEAD SHADOW_RESISTANCE_AURA SUMMON_WARHORSE TURN_UNDEAD",
     PRIEST = "ABOLISH_DISEASE CURE_DISEASE DISPEL_MAGIC DIVINE_SPIRIT FADE FLASH_HEAL GREATER_HEAL HEAL HOLY_FIRE HOLY_NOVA INNER_FIRE INNER_FOCUS LESSER_HEAL LEVITATE LIGHTWELL MANA_BURN MIND_BLAST MIND_CONTROL MIND_FLAY MIND_SOOTHE MIND_VISION POWER_INFUSION POWER_WORD_FORTITUDE POWER_WORD_SHIELD PRAYER_OF_FORTITUDE PRAYER_OF_HEALING PSYCHIC_SCREAM RENEW RESURRECTION SHACKLE_UNDEAD SHADOWFORM SHADOW_PROTECTION SHADOW_WORD_PAIN SILENCE SMITE SPIRIT_OF_REDEMPTION VAMPIRIC_EMBRACE",
@@ -157,7 +161,7 @@ local preReconciliationKeys = {
 }
 local reactionBaseline = {
     DRUID = { count = 28, checksum = 1317671518 },
-    HUNTER = { count = 155, checksum = 1395080557 },
+    HUNTER = { count = 141, checksum = 1089007657 },
     MAGE = { count = 128, checksum = 549995872 },
     PALADIN = { count = 103, checksum = 857993924 },
     PRIEST = { count = 111, checksum = 41110586 },
@@ -237,7 +241,7 @@ test("historical catalogue: class files register each empty definition once", fu
         for _, class in ipairs({ "Druid", "Hunter", "Mage", "Paladin", "Priest", "Rogue", "Shaman", "Warlock", "Warrior" }) do
             dofile("RPHelper/Data/Abilities/" .. class .. ".lua")
         end
-        equal(count, 182)
+        equal(count, 194)
     end)
     RPHelper = previous
     if not ok then error(err) end
@@ -359,6 +363,161 @@ test("Mage archive removals preserve player-owned saved records without migratio
     end)
     RPHelperDB = saved;RPHelper.UserContent.Invalidate()
     if not ok then error(err) end
+end)
+
+test("Hunter reconciliation registers the approved active catalogue", function()
+    local count = 0
+    for _ in pairs(RPHelper.Ability.HUNTER) do count = count + 1 end
+    equal(count, 58)
+
+    for _, key in ipairs({
+        "CALL_PET", "DISMISS_PET", "FEED_PET", "INTIMIDATION", "REVIVE_PET",
+        "SUMMON_HAWK", "TAME_BEAST", "AUTO_SHOT", "ENCHANTED_FLARE",
+        "SNIPER_SHOT", "LACERATE", "STRIDER_KICK",
+    }) do
+        equal(RPHelper.Ability.HUNTER[key], key)
+        equal(#RPHelper.GetAbilityPool("HUNTER", key), 0)
+    end
+
+    for _, key in ipairs({
+        "ASPECT_OF_THE_WOLF", "CARVE", "STEADY_SHOT",
+        "ATTACK", "THROW", "BEAST_TRAINING", "DUAL_WIELD", "ARMOR_PROFICIENCY",
+        "DODGE", "PARRY", "LANGUAGES", "ARCANE_RESISTANCE", "BITE", "CHARGE",
+        "CLAW", "COWER", "DASH", "DEMORALIZING_SCREECH", "DISMEMBER", "DIVE",
+        "DUST_CLOUD", "FIRE_RESISTANCE", "FROST_RESISTANCE", "FURIOUS_HOWL",
+        "GREAT_STAMINA", "GROWL", "LIGHTNING_BREATH", "MINE", "NATURAL_ARMOR",
+        "NATURE_RESISTANCE", "PINCH", "PROWL", "SAVAGE_REND", "SCORPID_POISON",
+        "SHADOW_RESISTANCE", "SHELL_SHIELD", "SONIC_BLAST", "SWIPE", "TENDON_RIP",
+        "THUNDERSTOMP", "TRICKSTERS_DANCE", "WEB",
+    }) do
+        equal(RPHelper.Ability.HUNTER[key], nil)
+        equal(#RPHelper.GetAbilityPool("HUNTER", key), 0)
+    end
+end)
+
+test("Hunter source is grouped and alphabetized by Forever specialization", function()
+    local source = assert(io.open("RPHelper/Data/Abilities/Hunter.lua", "r")):read("*a")
+    local specializations = {
+        "ASPECT_OF_THE_BEAST ASPECT_OF_THE_CHEETAH ASPECT_OF_THE_HAWK ASPECT_OF_THE_MONKEY ASPECT_OF_THE_PACK ASPECT_OF_THE_WILD BEAST_LORE BESTIAL_WRATH CALL_PET DISMISS_PET EAGLE_EYE EYES_OF_THE_BEAST FEED_PET INTIMIDATION MEND_PET REVIVE_PET SCARE_BEAST SUMMON_HAWK TAME_BEAST TRANQUILIZING_SHOT",
+        "AIMED_SHOT ARCANE_SHOT AUTO_SHOT CONCUSSIVE_SHOT DISTRACTING_SHOT ENCHANTED_FLARE FLARE HUNTERS_MARK MULTI_SHOT RAPID_FIRE SCATTER_SHOT SCORPID_STING SERPENT_STING SNIPER_SHOT TRUESHOT_AURA VIPER_STING VOLLEY",
+        "COUNTERATTACK DETERRENCE DISENGAGE EXPLOSIVE_TRAP FEIGN_DEATH FREEZING_TRAP FROST_TRAP IMMOLATION_TRAP LACERATE MONGOOSE_BITE RAPTOR_STRIKE STRIDER_KICK TRACK_BEASTS TRACK_DEMONS TRACK_DRAGONKIN TRACK_ELEMENTALS TRACK_GIANTS TRACK_HIDDEN TRACK_HUMANOIDS TRACK_UNDEAD WING_CLIP",
+    }
+    local expected, actual, headingCounts = {}, {}, {}
+    for _, group in ipairs(specializations) do
+        for key in string.gmatch(group, "%S+") do expected[#expected + 1] = key end
+    end
+    for key in string.gmatch(source, "\n%-%- ([A-Z][A-Z0-9_]*)\n") do
+        actual[#actual + 1] = key
+        headingCounts[key] = (headingCounts[key] or 0) + 1
+    end
+    equal(#actual, 58)
+    for index, key in ipairs(expected) do
+        equal(actual[index], key)
+        equal(headingCounts[key], 1)
+    end
+    equal(string.find(source, "for _, ability in ipairs", 1, true), nil)
+    for _, key in ipairs(expected) do
+        if #RPHelper.GetAbilityPool("HUNTER", key) == 0 then
+            truthy(string.find(source, 'RPHelper.RegisterAbility(C, "' .. key .. '")', 1, true))
+            for _, kind in ipairs({ "say", "emote", "customemote" }) do
+                truthy(string.find(source, '-- add("' .. key .. '", "' .. kind .. '", "")', 1, true))
+            end
+        else
+            equal(string.find(source, '-- add("' .. key .. '",', 1, true), nil)
+        end
+    end
+end)
+
+test("Hunter legacy archive preserves fourteen reactions without active registration", function()
+    local archive = dofile("RPHelper/Data/Abilities/HunterArchive.lua")
+    local expected = {
+        ASPECT_OF_THE_WOLF = {
+            { "say", "Time to hunt like a true predator!" },
+            { "say", "No bow. No arrows. Just fang and claw!" },
+            { "say", "Strength of the pack, speed of the wolf!" },
+            { "customemote", "shifts stance, adopting the predatory movements of a wolf." },
+        },
+        CARVE = {
+            { "say", "A pack hunts together!" }, { "say", "Surrounded? Perfect." },
+            { "say", "I'll carve through you all!" }, { "say", "Sweep and scatter!" },
+            { "say", "One cut, five wounds!" },
+            { "customemote", "slashes {PP} blade in a wide arc, cutting down multiple foes." },
+        },
+        STEADY_SHOT = {
+            { "say", "Steady hands, deadliest aim." }, { "say", "Precision makes perfection." },
+            { "say", "A well-placed shot is worth a dozen rushed ones." },
+            { "customemote", "draws back {PP} bowstring slowly, ensuring a lethal shot at {TARGET}." },
+        },
+    }
+    local total = 0
+    for _, key in ipairs({ "ASPECT_OF_THE_WOLF", "CARVE", "STEADY_SHOT" }) do
+        equal(RPHelper.Ability.HUNTER[key], nil)
+        equal(#RPHelper.GetAbilityPool("HUNTER", key), 0)
+        equal(#archive[key], #expected[key])
+        total = total + #archive[key]
+        for index, entry in ipairs(archive[key]) do
+            equal(entry.type, expected[key][index][1])
+            equal(entry.text, expected[key][index][2])
+        end
+    end
+    equal(total, 14)
+
+    local toc = assert(io.open("RPHelper/RPHelper.toc", "r")):read("*a")
+    equal(string.find(toc, "HunterArchive.lua", 1, true), nil)
+end)
+
+test("Hunter archive removals preserve player-owned saved records without migration", function()
+    local saved = RPHelperDB
+    local abilities, entries = {}, {}
+    local removed = { "ASPECT_OF_THE_WOLF", "CARVE", "STEADY_SHOT" }
+    for index, key in ipairs(removed) do
+        abilities[key] = { enabled = false, future = key }
+        entries["custom:" .. index] = {
+            scope = { layer = "ability", class = "HUNTER", ability = key, future = "keep" },
+            entry = { type = "say", text = "Preserve " .. key }, future = "keep",
+        }
+    end
+    RPHelperDB = {
+        abilities = { HUNTER = abilities },
+        custom = { nextID = #removed + 1, entries = entries },
+    }
+    local ok, err = pcall(function()
+        for _ = 1, 2 do
+            RPHelper.InitializeDatabase()
+            for index, key in ipairs(removed) do
+                equal(RPHelperDB.abilities.HUNTER[key], abilities[key])
+                local records = RPHelper.UserContent.List({
+                    layer = "ability", class = "HUNTER", ability = key,
+                })
+                equal(#records, 1)
+                equal(records[1].id, "custom:" .. index)
+                equal(records[1].scope.future, "keep")
+                equal(RPHelperDB.custom.entries["custom:" .. index].future, "keep")
+            end
+        end
+    end)
+    RPHelperDB = saved;RPHelper.UserContent.Invalidate()
+    if not ok then error(err) end
+end)
+
+test("Hunter class reactions and pet-event pools remain unchanged", function()
+    local triggers = "absorb deferred_youcritspell dodge entercombat hurt leavecombat miss parry petattackstart petattackstop petdies resurrect youcrit"
+    local parts, count = {}, 0
+    for trigger in string.gmatch(triggers, "%S+") do
+        parts[#parts + 1] = trigger
+        for _, entry in ipairs(RPHelper.GetClassPool("HUNTER", trigger)) do
+            count = count + 1
+            for _, field in ipairs({ "type", "text", "defaultID", "template" }) do
+                local value = entry[field] or ""
+                parts[#parts + 1] = #value .. ":" .. value
+            end
+        end
+    end
+    equal(count, 78)
+    equal(catalogueChecksum(table.concat(parts, "\n")), 1003591318)
+    equal(#RPHelper.GetClassPool("HUNTER", "petattackstart"), 12)
+    equal(#RPHelper.GetClassPool("HUNTER", "petattackstop"), 8)
+    equal(#RPHelper.GetClassPool("HUNTER", "petdies"), 7)
 end)
 
 test("Warrior reconciliation registers the approved active catalogue", function()

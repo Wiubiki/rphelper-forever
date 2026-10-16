@@ -66,3 +66,7 @@ Every candidate needs open-world, dungeon, raid, PvP, combat, and out-of-combat 
 Preserve the 31 Pets-tab records as research evidence and preserve all 27 generic pet-event reactions unchanged. Do not add pet-owned skills to `Data/Abilities/Hunter.lua`, do not create spell-ID mappings, and do not enable the dormant pet triggers until identity, ownership, command/autocast semantics, event ordering, restricted-value behavior, and output context are verified in WoW Forever.
 
 The row-level pet and content evidence is in [the Hunter pet reconciliation CSV](hunter_pet_reconciliation.csv).
+
+## Implementation status
+
+The approved Hunter catalogue implementation leaves this research inventory unchanged. No Pets-tab identity was promoted, no pet-owned ability was registered, and no pet lifecycle, ownership, spellcasting, autocast, combat, or event-dispatch behavior was added. All 78 reactions in `Data/Classes/Hunter.lua`, including the 27 reactions across `petattackstart`, `petattackstop`, and `petdies`, remain active and unchanged as content pools only; their runtime detection status remains deferred.
