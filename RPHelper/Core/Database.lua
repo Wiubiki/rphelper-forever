@@ -68,6 +68,95 @@ local function migrateShamanFireNova()
     end
 end
 
+-- Approved Druid identity rename. This deliberately mirrors the narrow Shaman
+-- migration rather than introducing a general-purpose migration framework.
+local function migrateDruidPrimalBite()
+    local oldKey, newKey = "SAVAGE_BITE", "PRIMAL_BITE"
+
+    if type(RPHelperDB.custom) == "table" and type(RPHelperDB.custom.entries) == "table" then
+        for _, record in pairs(RPHelperDB.custom.entries) do
+            local scope = type(record) == "table" and record.scope
+            if type(scope) == "table" and scope.layer == "ability"
+                and scope.class == "DRUID" and scope.ability == oldKey then
+                scope.ability = newKey
+            end
+        end
+    end
+
+    local druid = type(RPHelperDB.abilities) == "table" and RPHelperDB.abilities.DRUID
+    if type(druid) == "table" and druid[oldKey] ~= nil then
+        if druid[newKey] == nil then
+            druid[newKey], druid[oldKey] = druid[oldKey], nil
+        elseif type(druid[newKey]) == "table" and type(druid[oldKey]) == "table" then
+            applyMissing(druid[newKey], druid[oldKey])
+            druid[oldKey] = nil
+        end
+        -- Malformed conflicting values remain under the old key rather than
+        -- being guessed at or discarded.
+    end
+
+    if type(RPHelperDB.disabledDefaults) == "table" then
+        local oldPrefix = "default:v1:s7:abilitys5:DRUIDs11:" .. oldKey
+        local newPrefix = "default:v1:s7:abilitys5:DRUIDs11:" .. newKey
+        local migrated = {}
+        for id, disabled in pairs(RPHelperDB.disabledDefaults) do
+            if disabled == true and type(id) == "string" and string.sub(id, 1, #oldPrefix) == oldPrefix then
+                migrated[#migrated + 1] = { old = id, new = newPrefix .. string.sub(id, #oldPrefix + 1) }
+            end
+        end
+        for _, ids in ipairs(migrated) do
+            if RPHelperDB.disabledDefaults[ids.new] == nil then
+                RPHelperDB.disabledDefaults[ids.new] = true
+            end
+            RPHelperDB.disabledDefaults[ids.old] = nil
+        end
+    end
+end
+
+-- Approved Druid identity replacement. Preserve the historical Tiger's Fury
+-- saved state under Shifting Power without changing unrelated Druid records.
+local function migrateDruidShiftingPower()
+    local oldKey, newKey = "TIGERS_FURY", "SHIFTING_POWER"
+
+    if type(RPHelperDB.custom) == "table" and type(RPHelperDB.custom.entries) == "table" then
+        for _, record in pairs(RPHelperDB.custom.entries) do
+            local scope = type(record) == "table" and record.scope
+            if type(scope) == "table" and scope.layer == "ability"
+                and scope.class == "DRUID" and scope.ability == oldKey then
+                scope.ability = newKey
+            end
+        end
+    end
+
+    local druid = type(RPHelperDB.abilities) == "table" and RPHelperDB.abilities.DRUID
+    if type(druid) == "table" and druid[oldKey] ~= nil then
+        if druid[newKey] == nil then
+            druid[newKey], druid[oldKey] = druid[oldKey], nil
+        elseif type(druid[newKey]) == "table" and type(druid[oldKey]) == "table" then
+            applyMissing(druid[newKey], druid[oldKey])
+            druid[oldKey] = nil
+        end
+        -- Preserve malformed conflicting values under both keys.
+    end
+
+    if type(RPHelperDB.disabledDefaults) == "table" then
+        local oldPrefix = "default:v1:s7:abilitys5:DRUIDs11:" .. oldKey
+        local newPrefix = "default:v1:s7:abilitys5:DRUIDs14:" .. newKey
+        local migrated = {}
+        for id, disabled in pairs(RPHelperDB.disabledDefaults) do
+            if disabled == true and type(id) == "string" and string.sub(id, 1, #oldPrefix) == oldPrefix then
+                migrated[#migrated + 1] = { old = id, new = newPrefix .. string.sub(id, #oldPrefix + 1) }
+            end
+        end
+        for _, ids in ipairs(migrated) do
+            if RPHelperDB.disabledDefaults[ids.new] == nil then
+                RPHelperDB.disabledDefaults[ids.new] = true
+            end
+            RPHelperDB.disabledDefaults[ids.old] = nil
+        end
+    end
+end
+
 function RPHelper.InitializeDatabase()
     if RPHelperDB == nil then RPHelperDB = {} end
     if type(RPHelperDB) ~= "table" then return end
@@ -83,6 +172,8 @@ function RPHelper.InitializeDatabase()
         if RPHelperDB.custom.nextID == nil then RPHelperDB.custom.nextID = 1 end
     end
     migrateShamanFireNova()
+    migrateDruidPrimalBite()
+    migrateDruidShiftingPower()
     if RPHelper.UserContent then RPHelper.UserContent.Invalidate() end
 
     if type(RPHelperDB.settings) == "table" then
