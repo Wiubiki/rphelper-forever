@@ -99,6 +99,11 @@ local historicalAliases = {
     WOUND_POISON_IV = "WOUND_POISON",
 }
 local historicalExclusions = {
+    ["DRUID:FAERIE_FIRE_FERAL"] = true,
+    ["DRUID:OMEN_OF_CLARITY"] = true,
+    ["DRUID:SAVAGE_BITE"] = true,
+    ["DRUID:TIGERS_FURY"] = true,
+    ["DRUID:TREE_OF_LIFE_FORM"] = true,
     ["PALADIN:GREATER_BLESSING_OF_SANCTUARY"] = true,
     ["PRIEST:DESPERATE_PRAYER"] = true,
     ["PRIEST:DEVOURING_PLAGUE"] = true,
@@ -124,10 +129,11 @@ local historicalExclusions = {
     ["SHAMAN:TOTEMIC_SLAM"] = true,
 }
 local catalogueAdditions = {
+    DRUID = "AQUATIC_FORM BEAR_FORM GROWL LACERATE PRIMAL_BITE REVIVE SHIFTING_POWER WILD_GROWTH",
     SHAMAN = "CALL_OF_THE_ANCESTORS CALL_OF_THE_ELEMENTS CALL_OF_THE_SPIRITS FIRE_NOVA LAVA_BURST RAGE_OF_THE_FARSEER RIPTIDE TOTEMIC_PROJECTION",
 }
 local preReconciliationKeys = {
-    DRUID = "CHALLENGING_ROAR DEMORALIZING_ROAR DIRE_BEAR_FORM ENRAGE ENTANGLING_ROOTS GIFT_OF_THE_WILD HIBERNATE HURRICANE INNERVATE REBIRTH TELEPORT_MOONGLADE TIGERS_FURY TRANQUILITY",
+    DRUID = "CHALLENGING_ROAR DEMORALIZING_ROAR DIRE_BEAR_FORM ENRAGE ENTANGLING_ROOTS GIFT_OF_THE_WILD HIBERNATE HURRICANE INNERVATE REBIRTH SHIFTING_POWER TELEPORT_MOONGLADE TRANQUILITY",
     HUNTER = "AIMED_SHOT ARCANE_SHOT ASPECT_OF_THE_BEAST ASPECT_OF_THE_CHEETAH ASPECT_OF_THE_HAWK ASPECT_OF_THE_MONKEY ASPECT_OF_THE_PACK ASPECT_OF_THE_WILD ASPECT_OF_THE_WOLF BEAST_LORE BESTIAL_WRATH CARVE CONCUSSIVE_SHOT COUNTERATTACK DETERRENCE DISENGAGE DISTRACTING_SHOT EAGLE_EYE EXPLOSIVE_TRAP EYES_OF_THE_BEAST FEIGN_DEATH FLARE FREEZING_TRAP FROST_TRAP HUNTERS_MARK IMMOLATION_TRAP MEND_PET MONGOOSE_BITE MULTI_SHOT RAPID_FIRE RAPTOR_STRIKE SCARE_BEAST SCATTER_SHOT SCORPID_STING SERPENT_STING STEADY_SHOT TRACK_BEASTS TRACK_DEMONS TRACK_DRAGONKIN TRACK_ELEMENTALS TRACK_GIANTS TRACK_HIDDEN TRACK_HUMANOIDS TRACK_UNDEAD TRANQUILIZING_SHOT TRUESHOT_AURA VIPER_STING VOLLEY WING_CLIP",
     MAGE = "AMPLIFY_MAGIC ARCANE_BRILLIANCE ARCANE_EXPLOSION ARCANE_INTELLECT ARCANE_MISSILES ARCANE_POWER BLAST_WAVE BLINK BLIZZARD COLD_SNAP COMBUSTION CONE_OF_COLD CONJURE_FOOD CONJURE_MANA_AGATE CONJURE_MANA_CITRINE CONJURE_MANA_JADE CONJURE_MANA_RUBY CONJURE_WATER COUNTERSPELL DAMPEN_MAGIC DETECT_MAGIC EVOCATION FIREBALL FIRE_BLAST FIRE_WARD FLAMESTRIKE FROSTBOLT FROST_ARMOR FROST_NOVA FROST_WARD ICE_ARMOR ICE_BARRIER ICE_BLOCK ICICLES MAGE_ARMOR MANA_SHIELD POLYMORPH PORTAL_DARNASSUS PORTAL_IRONFORGE PORTAL_ORGRIMMAR PORTAL_STORMWIND PORTAL_THUNDER_BLUFF PORTAL_UNDERCITY PRESENCE_OF_MIND PYROBLAST REMOVE_LESSER_CURSE SCORCH SLOW_FALL TELEPORT_DARNASSUS TELEPORT_IRONFORGE TELEPORT_ORGRIMMAR TELEPORT_STORMWIND TELEPORT_THUNDER_BLUFF TELEPORT_UNDERCITY",
     PALADIN = "BLESSING_OF_FREEDOM BLESSING_OF_KINGS BLESSING_OF_LIGHT BLESSING_OF_MIGHT BLESSING_OF_PROTECTION BLESSING_OF_SACRIFICE BLESSING_OF_SALVATION BLESSING_OF_SANCTUARY BLESSING_OF_WISDOM BULWARK_OF_THE_RIGHTEOUS CLEANSE CONCENTRATION_AURA CONSECRATION CRUSADER_STRIKE DEVOTION_AURA DIVINE_FAVOR DIVINE_INTERVENTION DIVINE_PROTECTION DIVINE_SHIELD EXORCISM FIRE_RESISTANCE_AURA FLASH_OF_LIGHT FROST_RESISTANCE_AURA GREATER_BLESSING_OF_MIGHT HAMMER_OF_JUSTICE HAMMER_OF_WRATH HAND_OF_RECKONING HOLY_LIGHT HOLY_SHIELD HOLY_SHOCK HOLY_WRATH JUDGEMENT LAY_ON_HANDS PURIFY REDEMPTION REPENTANCE RETRIBUTION_AURA RIGHTEOUS_FURY SANCTITY_AURA SEAL_OF_COMMAND SEAL_OF_JUSTICE SEAL_OF_LIGHT SEAL_OF_RIGHTEOUSNESS SEAL_OF_THE_CRUSADER SEAL_OF_WISDOM SENSE_UNDEAD SHADOW_RESISTANCE_AURA SUMMON_WARHORSE TURN_UNDEAD",
@@ -138,13 +144,13 @@ local preReconciliationKeys = {
     WARRIOR = "BATTLE_SHOUT BLOODRAGE CHALLENGING_SHOUT CHARGE DEMORALIZING_SHOUT HAMSTRING INTIMIDATING_SHOUT MOCKING_BLOW REND SHIELD_BASH SHIELD_SLAM SLAM",
 }
 local reactionBaseline = {
-    DRUID = { count = 28, checksum = 1828191949 },
+    DRUID = { count = 28, checksum = 1317671518 },
     HUNTER = { count = 155, checksum = 1395080557 },
     MAGE = { count = 134, checksum = 10577957 },
     PALADIN = { count = 103, checksum = 857993924 },
     PRIEST = { count = 111, checksum = 41110586 },
     ROGUE = { count = 4, checksum = 232101562 },
-    SHAMAN = { count = 188, checksum = 1797795518 },
+    SHAMAN = { count = 188, checksum = 460885902 },
     WARLOCK = { count = 55, checksum = 110763460 },
     WARRIOR = { count = 21, checksum = 662592189 },
 }
@@ -219,9 +225,190 @@ test("historical catalogue: class files register each empty definition once", fu
         for _, class in ipairs({ "Druid", "Hunter", "Mage", "Paladin", "Priest", "Rogue", "Shaman", "Warlock", "Warrior" }) do
             dofile("RPHelper/Data/Abilities/" .. class .. ".lua")
         end
-        equal(count, 173)
+        equal(count, 176)
     end)
     RPHelper = previous
+    if not ok then error(err) end
+end)
+
+test("Druid reconciliation registers the approved active catalogue", function()
+    local count = 0
+    for _ in pairs(RPHelper.Ability.DRUID) do count = count + 1 end
+    equal(count, 58)
+
+    for _, key in ipairs({
+        "AQUATIC_FORM", "BEAR_FORM", "GROWL", "LACERATE",
+        "PRIMAL_BITE", "REVIVE", "WILD_GROWTH",
+    }) do
+        equal(RPHelper.Ability.DRUID[key], key)
+        equal(#RPHelper.GetAbilityPool("DRUID", key), 0)
+    end
+    local shiftingPower = RPHelper.GetAbilityPool("DRUID", "SHIFTING_POWER")
+    equal(#shiftingPower, 2)
+    equal(shiftingPower[1].type, "emote")
+    equal(shiftingPower[1].text, "ROAR")
+    equal(shiftingPower[2].type, "customemote")
+    equal(shiftingPower[2].text, "roars furiously.")
+    for _, key in ipairs({
+        "FAERIE_FIRE_FERAL", "FELINE_GRACE", "MANGLE", "OMEN_OF_CLARITY",
+        "SAVAGE_BITE", "TIGERS_FURY", "TREE_OF_LIFE_FORM",
+    }) do
+        equal(RPHelper.Ability.DRUID[key], nil)
+        equal(#RPHelper.GetAbilityPool("DRUID", key), 0)
+    end
+end)
+
+test("Druid source is grouped and alphabetized by Forever specialization", function()
+    local source = assert(io.open("RPHelper/Data/Abilities/Druid.lua", "r")):read("*a")
+    local specializations = {
+        "BARKSKIN ENTANGLING_ROOTS FAERIE_FIRE HIBERNATE HURRICANE INSECT_SWARM MOON_FIRE MOONKIN_FORM NATURES_GRASP SOOTHE_ANIMAL STARFIRE TELEPORT_MOONGLADE THORNS WRATH",
+        "AQUATIC_FORM BASH BEAR_FORM BERSERK CAT_FORM CHALLENGING_ROAR CLAW COWER DASH DEMORALIZING_ROAR DIRE_BEAR_FORM ENRAGE FERAL_CHARGE FEROCIOUS_BITE FRENZIED_REGENERATION GROWL LACERATE MAUL POUNCE PRIMAL_BITE PROWL RAKE RAVAGE RIP SHIFTING_POWER SHRED SWIPE TRACK_HUMANOIDS TRAVEL_FORM",
+        "ABOLISH_POISON CURE_POISON GIFT_OF_THE_WILD HEALING_TOUCH INNERVATE MARK_OF_THE_WILD NATURES_SWIFTNESS REBIRTH REGROWTH REJUVENATION REMOVE_CURSE REVIVE SWIFTMEND TRANQUILITY WILD_GROWTH",
+    }
+    local expected, actual = {}, {}
+    for _, group in ipairs(specializations) do
+        for key in string.gmatch(group, "%S+") do expected[#expected + 1] = key end
+    end
+    for key in string.gmatch(source, "\n%-%- ([A-Z][A-Z0-9_]*)\n") do actual[#actual + 1] = key end
+    equal(#actual, 58)
+    for index, key in ipairs(expected) do equal(actual[index], key) end
+    equal(string.find(source, "for _, ability in ipairs", 1, true), nil)
+    for _, key in ipairs(expected) do
+        if #RPHelper.GetAbilityPool("DRUID", key) == 0 then
+            truthy(string.find(source, 'RPHelper.RegisterAbility(C, "' .. key .. '")', 1, true))
+            for _, kind in ipairs({ "say", "emote", "customemote" }) do
+                truthy(string.find(source, '-- add("' .. key .. '", "' .. kind .. '", "")', 1, true))
+            end
+        else
+            equal(string.find(source, '-- add("' .. key .. '",', 1, true), nil)
+        end
+    end
+end)
+
+test("Shifting Power replaces Tiger's Fury with its reactions in order", function()
+    equal(RPHelper.Ability.DRUID.TIGERS_FURY, nil)
+    equal(#RPHelper.GetAbilityPool("DRUID", "TIGERS_FURY"), 0)
+    local pool = RPHelper.GetAbilityPool("DRUID", "SHIFTING_POWER")
+    equal(#pool, 2)
+    equal(pool[1].type, "emote")
+    equal(pool[1].text, "ROAR")
+    equal(pool[2].type, "customemote")
+    equal(pool[2].text, "roars furiously.")
+end)
+
+test("Shifting Power migration preserves custom content settings and disabled defaults", function()
+    local saved = RPHelperDB
+    local newPool = RPHelper.GetAbilityPool("DRUID", "SHIFTING_POWER")
+    local newDefaultID = newPool[1].defaultID
+    local newPrefix = "default:v1:s7:abilitys5:DRUIDs14:SHIFTING_POWER"
+    local oldPrefix = "default:v1:s7:abilitys5:DRUIDs11:TIGERS_FURY"
+    local oldDefaultID = oldPrefix .. string.sub(newDefaultID, #newPrefix + 1)
+    local settings = { enabled = false, chance = 0.5, future = "keep" }
+    RPHelperDB = {
+        custom = { nextID = 2, entries = {
+            ["custom:1"] = {
+                scope = { layer = "ability", class = "DRUID", ability = "TIGERS_FURY", future = "keep" },
+                entry = { type = "customemote", text = "My power." }, future = "keep",
+            },
+        } },
+        abilities = { DRUID = { TIGERS_FURY = settings } },
+        disabledDefaults = { [oldDefaultID] = true },
+    }
+    local ok, err = pcall(function()
+        RPHelper.InitializeDatabase()
+        equal(RPHelperDB.abilities.DRUID.SHIFTING_POWER, settings)
+        equal(RPHelperDB.abilities.DRUID.TIGERS_FURY, nil)
+        equal(RPHelperDB.disabledDefaults[oldDefaultID], nil)
+        equal(RPHelperDB.disabledDefaults[newDefaultID], true)
+        local scope = { layer = "ability", class = "DRUID", ability = "SHIFTING_POWER" }
+        local migrated = RPHelper.UserContent.List(scope)
+        equal(#migrated, 1);equal(migrated[1].entry.text, "My power.")
+        equal(migrated[1].scope.future, "keep")
+        RPHelper.InitializeDatabase()
+        equal(#RPHelper.UserContent.List(scope), 1)
+        equal(RPHelperDB.abilities.DRUID.SHIFTING_POWER, settings)
+        equal(RPHelperDB.disabledDefaults[newDefaultID], true)
+
+        RPHelperDB = { abilities = { DRUID = {
+            TIGERS_FURY = { chance = 0.25, nested = { old = true } },
+            SHIFTING_POWER = { enabled = true, nested = { new = true } },
+        } } }
+        RPHelper.InitializeDatabase()
+        equal(RPHelperDB.abilities.DRUID.TIGERS_FURY, nil)
+        equal(RPHelperDB.abilities.DRUID.SHIFTING_POWER.enabled, true)
+        equal(RPHelperDB.abilities.DRUID.SHIFTING_POWER.chance, 0.25)
+        equal(RPHelperDB.abilities.DRUID.SHIFTING_POWER.nested.old, true)
+        equal(RPHelperDB.abilities.DRUID.SHIFTING_POWER.nested.new, true)
+
+        RPHelperDB = { abilities = { DRUID = {
+            TIGERS_FURY = "malformed-old", SHIFTING_POWER = "malformed-new",
+        } } }
+        RPHelper.InitializeDatabase()
+        equal(RPHelperDB.abilities.DRUID.TIGERS_FURY, "malformed-old")
+        equal(RPHelperDB.abilities.DRUID.SHIFTING_POWER, "malformed-new")
+    end)
+    RPHelperDB = saved;RPHelper.UserContent.Invalidate()
+    if not ok then error(err) end
+end)
+
+test("Primal Bite migration preserves custom content settings and saved legacy records", function()
+    local saved = RPHelperDB
+    local oldPrefix = "default:v1:s7:abilitys5:DRUIDs11:SAVAGE_BITE"
+    local newPrefix = "default:v1:s7:abilitys5:DRUIDs11:PRIMAL_BITE"
+    local oldDefaultID, newDefaultID = oldPrefix .. "s3:say", newPrefix .. "s3:say"
+    local settings = { enabled = false, chance = 0.75, future = "keep" }
+    local legacySettings = { enabled = false, future = "untouched" }
+    RPHelperDB = {
+        custom = { nextID = 3, entries = {
+            ["custom:1"] = {
+                scope = { layer = "ability", class = "DRUID", ability = "SAVAGE_BITE", future = "keep" },
+                entry = { type = "say", text = "My bite." }, future = "keep",
+            },
+            ["custom:2"] = {
+                scope = { layer = "ability", class = "DRUID", ability = "TREE_OF_LIFE_FORM" },
+                entry = { type = "say", text = "Preserve me." },
+            },
+        } },
+        abilities = { DRUID = { SAVAGE_BITE = settings, FAERIE_FIRE_FERAL = legacySettings } },
+        disabledDefaults = { [oldDefaultID] = true },
+    }
+    local ok, err = pcall(function()
+        RPHelper.InitializeDatabase()
+        equal(RPHelperDB.abilities.DRUID.PRIMAL_BITE, settings)
+        equal(RPHelperDB.abilities.DRUID.SAVAGE_BITE, nil)
+        equal(RPHelperDB.abilities.DRUID.FAERIE_FIRE_FERAL, legacySettings)
+        equal(RPHelperDB.disabledDefaults[oldDefaultID], nil)
+        equal(RPHelperDB.disabledDefaults[newDefaultID], true)
+        local migrated = RPHelper.UserContent.List({ layer = "ability", class = "DRUID", ability = "PRIMAL_BITE" })
+        equal(#migrated, 1);equal(migrated[1].entry.text, "My bite.")
+        equal(migrated[1].scope.future, "keep")
+        equal(#RPHelper.UserContent.List({ layer = "ability", class = "DRUID", ability = "SAVAGE_BITE" }), 0)
+        equal(#RPHelper.UserContent.List({ layer = "ability", class = "DRUID", ability = "TREE_OF_LIFE_FORM" }), 1)
+        RPHelper.InitializeDatabase()
+        equal(#RPHelper.UserContent.List({ layer = "ability", class = "DRUID", ability = "PRIMAL_BITE" }), 1)
+        equal(RPHelperDB.abilities.DRUID.PRIMAL_BITE, settings)
+        equal(RPHelperDB.disabledDefaults[newDefaultID], true)
+
+        local oldSettings = { chance = 0.25, nested = { old = true } }
+        local newSettings = { enabled = true, nested = { new = true } }
+        RPHelperDB = { abilities = { DRUID = {
+            SAVAGE_BITE = oldSettings, PRIMAL_BITE = newSettings,
+        } } }
+        RPHelper.InitializeDatabase()
+        equal(RPHelperDB.abilities.DRUID.SAVAGE_BITE, nil)
+        equal(RPHelperDB.abilities.DRUID.PRIMAL_BITE.enabled, true)
+        equal(RPHelperDB.abilities.DRUID.PRIMAL_BITE.chance, 0.25)
+        equal(RPHelperDB.abilities.DRUID.PRIMAL_BITE.nested.new, true)
+        equal(RPHelperDB.abilities.DRUID.PRIMAL_BITE.nested.old, true)
+
+        RPHelperDB = { abilities = { DRUID = {
+            SAVAGE_BITE = "malformed-old", PRIMAL_BITE = "malformed-new",
+        } } }
+        RPHelper.InitializeDatabase()
+        equal(RPHelperDB.abilities.DRUID.SAVAGE_BITE, "malformed-old")
+        equal(RPHelperDB.abilities.DRUID.PRIMAL_BITE, "malformed-new")
+    end)
+    RPHelperDB = saved;RPHelper.UserContent.Invalidate()
     if not ok then error(err) end
 end)
 
@@ -244,7 +431,7 @@ test("Shaman reconciliation registers the approved active catalogue", function()
     equal(fireNova[1].type, "say")
     equal(fireNova[1].text, "The land erupts in flame!")
     equal(fireNova[2].type, "customemote")
-    equal(fireNova[2].text, "plants a totem, channeling fire energy into an explosive burst.")
+    equal(fireNova[2].text, "channels fire energy into an explosive burst from a nearby fire totem.")
     equal(RPHelper.Ability.SHAMAN.FIRE_NOVA_TOTEM, nil)
     equal(#RPHelper.GetAbilityPool("SHAMAN", "FIRE_NOVA_TOTEM"), 0)
 
@@ -998,7 +1185,7 @@ test("form-restricted Druid abilities contain no spoken sayings", function()
     for _, ability in ipairs({
         RPHelper.Ability.DRUID.DEMORALIZING_ROAR,
         RPHelper.Ability.DRUID.ENRAGE,
-        RPHelper.Ability.DRUID.TIGERS_FURY,
+        RPHelper.Ability.DRUID.SHIFTING_POWER,
         RPHelper.Ability.DRUID.CHALLENGING_ROAR,
         RPHelper.Ability.DRUID.DIRE_BEAR_FORM,
     }) do

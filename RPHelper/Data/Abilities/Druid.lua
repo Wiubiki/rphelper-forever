@@ -9,35 +9,18 @@ local function add(ability, entryType, text)
     RPHelper.RegisterAbility(C, A[ability], { type = entryType, text = text })
 end
 
--- ---------------------------------------------------------------------
--- DEMORALIZING_ROAR
--- ---------------------------------------------------------------------
-add("DEMORALIZING_ROAR", "emote", "ROAR")
+-- =====================================================================
+-- Balance
+-- =====================================================================
 
 -- ---------------------------------------------------------------------
--- ENRAGE
+-- BARKSKIN
 -- ---------------------------------------------------------------------
-add("ENRAGE", "emote", "ROAR")
+RPHelper.RegisterAbility(C, "BARKSKIN")
 
--- ---------------------------------------------------------------------
--- TIGERS_FURY
--- ---------------------------------------------------------------------
-add("TIGERS_FURY", "emote", "ROAR")
-
--- ---------------------------------------------------------------------
--- TIGERS_FURY
--- ---------------------------------------------------------------------
-add("TIGERS_FURY", "customemote", "roars furiously.")
-
--- ---------------------------------------------------------------------
--- CHALLENGING_ROAR
--- ---------------------------------------------------------------------
-add("CHALLENGING_ROAR", "emote", "ROAR")
-
--- ---------------------------------------------------------------------
--- DIRE_BEAR_FORM
--- ---------------------------------------------------------------------
-add("DIRE_BEAR_FORM", "emote", "ROAR")
+-- add("BARKSKIN", "say", "")
+-- add("BARKSKIN", "emote", "")
+-- add("BARKSKIN", "customemote", "")
 
 -- ---------------------------------------------------------------------
 -- ENTANGLING_ROOTS
@@ -47,16 +30,21 @@ add("ENTANGLING_ROOTS", "say", "Oh, were you going somewhere?")
 add("ENTANGLING_ROOTS", "say", "I think you're better off being firmly rooted in place, {TARGET}.")
 
 -- ---------------------------------------------------------------------
+-- FAERIE_FIRE
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "FAERIE_FIRE")
+
+-- add("FAERIE_FIRE", "say", "")
+-- add("FAERIE_FIRE", "emote", "")
+-- add("FAERIE_FIRE", "customemote", "")
+
+-- ---------------------------------------------------------------------
 -- HIBERNATE
 -- ---------------------------------------------------------------------
 add("HIBERNATE", "say", "Yoohoo... {TARGET}... Nap Time!")
 add("HIBERNATE", "say", "Sleep... sleep...")
 add("HIBERNATE", "say", "Take a nap {TARGET}, we'll get to you in a bit.")
 add("HIBERNATE", "say", "Nighty night {TARGET}.")
-
--- ---------------------------------------------------------------------
--- HIBERNATE
--- ---------------------------------------------------------------------
 add("HIBERNATE", "customemote", "suggests {TARGET} take a quick nap.")
 add("HIBERNATE", "customemote", "dangles a watch in front of {TARGET}. You are feeling very sleepy...")
 
@@ -64,11 +52,61 @@ add("HIBERNATE", "customemote", "dangles a watch in front of {TARGET}. You are f
 -- HURRICANE
 -- ---------------------------------------------------------------------
 add("HURRICANE", "say", "How 'bout a little thunder and lightnin'?")
+add("HURRICANE", "customemote", "summons the violent forces of nature.")
 
 -- ---------------------------------------------------------------------
--- HURRICANE
+-- INSECT_SWARM
 -- ---------------------------------------------------------------------
-add("HURRICANE", "customemote", "summons the violent forces of nature.")
+RPHelper.RegisterAbility(C, "INSECT_SWARM")
+
+-- add("INSECT_SWARM", "say", "")
+-- add("INSECT_SWARM", "emote", "")
+-- add("INSECT_SWARM", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- MOON_FIRE
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "MOON_FIRE")
+
+-- add("MOON_FIRE", "say", "")
+-- add("MOON_FIRE", "emote", "")
+-- add("MOON_FIRE", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- MOONKIN_FORM
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "MOONKIN_FORM")
+
+-- add("MOONKIN_FORM", "say", "")
+-- add("MOONKIN_FORM", "emote", "")
+-- add("MOONKIN_FORM", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- NATURES_GRASP
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "NATURES_GRASP")
+
+-- add("NATURES_GRASP", "say", "")
+-- add("NATURES_GRASP", "emote", "")
+-- add("NATURES_GRASP", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- SOOTHE_ANIMAL
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "SOOTHE_ANIMAL")
+
+-- add("SOOTHE_ANIMAL", "say", "")
+-- add("SOOTHE_ANIMAL", "emote", "")
+-- add("SOOTHE_ANIMAL", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- STARFIRE
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "STARFIRE")
+
+-- add("STARFIRE", "say", "")
+-- add("STARFIRE", "emote", "")
+-- add("STARFIRE", "customemote", "")
 
 -- ---------------------------------------------------------------------
 -- TELEPORT_MOONGLADE
@@ -77,83 +115,393 @@ add("TELEPORT_MOONGLADE", "customemote", "channels arcane forces within themselv
 add("TELEPORT_MOONGLADE", "customemote", "feels Moonglade's call as {SP} summons arcane powers.")
 
 -- ---------------------------------------------------------------------
--- REBIRTH
+-- THORNS
 -- ---------------------------------------------------------------------
-add("REBIRTH", "say", "{TARGET} you've failed at life! However, I believe in second chances...")
-add("REBIRTH", "say", "You're not getting off the hook that easily, {TARGET}!")
+RPHelper.RegisterAbility(C, "THORNS")
+
+-- add("THORNS", "say", "")
+-- add("THORNS", "emote", "")
+-- add("THORNS", "customemote", "")
 
 -- ---------------------------------------------------------------------
--- TRANQUILITY
+-- WRATH
 -- ---------------------------------------------------------------------
-add("TRANQUILITY", "say", "Elune, hear my plea and help me aid my friends!")
-add("TRANQUILITY", "say", "Healing spirits, arise!")
+RPHelper.RegisterAbility(C, "WRATH")
+
+-- add("WRATH", "say", "")
+-- add("WRATH", "emote", "")
+-- add("WRATH", "customemote", "")
+
+-- =====================================================================
+-- Feral Combat
+-- =====================================================================
 
 -- ---------------------------------------------------------------------
--- TRANQUILITY
+-- AQUATIC_FORM
 -- ---------------------------------------------------------------------
-add("TRANQUILITY", "customemote", "calls upon the healing forces of nature.")
+RPHelper.RegisterAbility(C, "AQUATIC_FORM")
+
+-- add("AQUATIC_FORM", "say", "")
+-- add("AQUATIC_FORM", "emote", "")
+-- add("AQUATIC_FORM", "customemote", "")
 
 -- ---------------------------------------------------------------------
--- INNERVATE
+-- BASH
 -- ---------------------------------------------------------------------
-add("INNERVATE", "say", "Innervating {TARGET}")
-add("INNERVATE", "say", "Gee {TARGET}, mana got you down? This should raise your spirit!")
+RPHelper.RegisterAbility(C, "BASH")
+
+-- add("BASH", "say", "")
+-- add("BASH", "emote", "")
+-- add("BASH", "customemote", "")
 
 -- ---------------------------------------------------------------------
--- INNERVATE
+-- BEAR_FORM
 -- ---------------------------------------------------------------------
-add("INNERVATE", "customemote", "glances at {TARGET}'s mana, sighs, and casts Innervate on {OP}.")
+RPHelper.RegisterAbility(C, "BEAR_FORM")
+
+-- add("BEAR_FORM", "say", "")
+-- add("BEAR_FORM", "emote", "")
+-- add("BEAR_FORM", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- BERSERK
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "BERSERK")
+
+-- add("BERSERK", "say", "")
+-- add("BERSERK", "emote", "")
+-- add("BERSERK", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- CAT_FORM
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "CAT_FORM")
+
+-- add("CAT_FORM", "say", "")
+-- add("CAT_FORM", "emote", "")
+-- add("CAT_FORM", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- CHALLENGING_ROAR
+-- ---------------------------------------------------------------------
+add("CHALLENGING_ROAR", "emote", "ROAR")
+
+-- ---------------------------------------------------------------------
+-- CLAW
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "CLAW")
+
+-- add("CLAW", "say", "")
+-- add("CLAW", "emote", "")
+-- add("CLAW", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- COWER
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "COWER")
+
+-- add("COWER", "say", "")
+-- add("COWER", "emote", "")
+-- add("COWER", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- DASH
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "DASH")
+
+-- add("DASH", "say", "")
+-- add("DASH", "emote", "")
+-- add("DASH", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- DEMORALIZING_ROAR
+-- ---------------------------------------------------------------------
+add("DEMORALIZING_ROAR", "emote", "ROAR")
+
+-- ---------------------------------------------------------------------
+-- DIRE_BEAR_FORM
+-- ---------------------------------------------------------------------
+add("DIRE_BEAR_FORM", "emote", "ROAR")
+
+-- ---------------------------------------------------------------------
+-- ENRAGE
+-- ---------------------------------------------------------------------
+add("ENRAGE", "emote", "ROAR")
+
+-- ---------------------------------------------------------------------
+-- FERAL_CHARGE
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "FERAL_CHARGE")
+
+-- add("FERAL_CHARGE", "say", "")
+-- add("FERAL_CHARGE", "emote", "")
+-- add("FERAL_CHARGE", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- FEROCIOUS_BITE
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "FEROCIOUS_BITE")
+
+-- add("FEROCIOUS_BITE", "say", "")
+-- add("FEROCIOUS_BITE", "emote", "")
+-- add("FEROCIOUS_BITE", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- FRENZIED_REGENERATION
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "FRENZIED_REGENERATION")
+
+-- add("FRENZIED_REGENERATION", "say", "")
+-- add("FRENZIED_REGENERATION", "emote", "")
+-- add("FRENZIED_REGENERATION", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- GROWL
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "GROWL")
+
+-- add("GROWL", "say", "")
+-- add("GROWL", "emote", "")
+-- add("GROWL", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- LACERATE
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "LACERATE")
+
+-- add("LACERATE", "say", "")
+-- add("LACERATE", "emote", "")
+-- add("LACERATE", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- MAUL
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "MAUL")
+
+-- add("MAUL", "say", "")
+-- add("MAUL", "emote", "")
+-- add("MAUL", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- POUNCE
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "POUNCE")
+
+-- add("POUNCE", "say", "")
+-- add("POUNCE", "emote", "")
+-- add("POUNCE", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- PRIMAL_BITE
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "PRIMAL_BITE")
+
+-- add("PRIMAL_BITE", "say", "")
+-- add("PRIMAL_BITE", "emote", "")
+-- add("PRIMAL_BITE", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- PROWL
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "PROWL")
+
+-- add("PROWL", "say", "")
+-- add("PROWL", "emote", "")
+-- add("PROWL", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- RAKE
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "RAKE")
+
+-- add("RAKE", "say", "")
+-- add("RAKE", "emote", "")
+-- add("RAKE", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- RAVAGE
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "RAVAGE")
+
+-- add("RAVAGE", "say", "")
+-- add("RAVAGE", "emote", "")
+-- add("RAVAGE", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- RIP
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "RIP")
+
+-- add("RIP", "say", "")
+-- add("RIP", "emote", "")
+-- add("RIP", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- SHIFTING_POWER
+-- ---------------------------------------------------------------------
+add("SHIFTING_POWER", "emote", "ROAR")
+add("SHIFTING_POWER", "customemote", "roars furiously.")
+
+-- ---------------------------------------------------------------------
+-- SHRED
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "SHRED")
+
+-- add("SHRED", "say", "")
+-- add("SHRED", "emote", "")
+-- add("SHRED", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- SWIPE
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "SWIPE")
+
+-- add("SWIPE", "say", "")
+-- add("SWIPE", "emote", "")
+-- add("SWIPE", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- TRACK_HUMANOIDS
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "TRACK_HUMANOIDS")
+
+-- add("TRACK_HUMANOIDS", "say", "")
+-- add("TRACK_HUMANOIDS", "emote", "")
+-- add("TRACK_HUMANOIDS", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- TRAVEL_FORM
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "TRAVEL_FORM")
+
+-- add("TRAVEL_FORM", "say", "")
+-- add("TRAVEL_FORM", "emote", "")
+-- add("TRAVEL_FORM", "customemote", "")
+
+-- =====================================================================
+-- Restoration
+-- =====================================================================
+
+-- ---------------------------------------------------------------------
+-- ABOLISH_POISON
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "ABOLISH_POISON")
+
+-- add("ABOLISH_POISON", "say", "")
+-- add("ABOLISH_POISON", "emote", "")
+-- add("ABOLISH_POISON", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- CURE_POISON
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "CURE_POISON")
+
+-- add("CURE_POISON", "say", "")
+-- add("CURE_POISON", "emote", "")
+-- add("CURE_POISON", "customemote", "")
 
 -- ---------------------------------------------------------------------
 -- GIFT_OF_THE_WILD
 -- ---------------------------------------------------------------------
 add("GIFT_OF_THE_WILD", "customemote", "gives {PP} friends the Gift of the Wild.")
 
--- Historical ability definitions are independent of authored reactions.
--- Forever availability and automatic detection remain separately audited.
-for _, ability in ipairs({
-    "ABOLISH_POISON",
-    "BARKSKIN",
-    "BASH",
-    "BERSERK",
-    "CAT_FORM",
-    "CLAW",
-    "COWER",
-    "CURE_POISON",
-    "DASH",
-    "FAERIE_FIRE",
-    "FAERIE_FIRE_FERAL",
-    "FERAL_CHARGE",
-    "FEROCIOUS_BITE",
-    "FRENZIED_REGENERATION",
-    "HEALING_TOUCH",
-    "INSECT_SWARM",
-    "MARK_OF_THE_WILD",
-    "MAUL",
-    "MOONKIN_FORM",
-    "MOON_FIRE",
-    "NATURES_GRASP",
-    "NATURES_SWIFTNESS",
-    "OMEN_OF_CLARITY",
-    "POUNCE",
-    "PROWL",
-    "RAKE",
-    "RAVAGE",
-    "REGROWTH",
-    "REJUVENATION",
-    "REMOVE_CURSE",
-    "RIP",
-    "SAVAGE_BITE",
-    "SHRED",
-    "SOOTHE_ANIMAL",
-    "STARFIRE",
-    "SWIFTMEND",
-    "SWIPE",
-    "THORNS",
-    "TRACK_HUMANOIDS",
-    "TRAVEL_FORM",
-    "TREE_OF_LIFE_FORM",
-    "WRATH",
-}) do
-    RPHelper.RegisterAbility(C, ability)
-end
+-- ---------------------------------------------------------------------
+-- HEALING_TOUCH
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "HEALING_TOUCH")
+
+-- add("HEALING_TOUCH", "say", "")
+-- add("HEALING_TOUCH", "emote", "")
+-- add("HEALING_TOUCH", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- INNERVATE
+-- ---------------------------------------------------------------------
+add("INNERVATE", "say", "Innervating {TARGET}")
+add("INNERVATE", "say", "Gee {TARGET}, mana got you down? This should raise your spirit!")
+add("INNERVATE", "customemote", "glances at {TARGET}'s mana, sighs, and casts Innervate on {OP}.")
+
+-- ---------------------------------------------------------------------
+-- MARK_OF_THE_WILD
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "MARK_OF_THE_WILD")
+
+-- add("MARK_OF_THE_WILD", "say", "")
+-- add("MARK_OF_THE_WILD", "emote", "")
+-- add("MARK_OF_THE_WILD", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- NATURES_SWIFTNESS
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "NATURES_SWIFTNESS")
+
+-- add("NATURES_SWIFTNESS", "say", "")
+-- add("NATURES_SWIFTNESS", "emote", "")
+-- add("NATURES_SWIFTNESS", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- REBIRTH
+-- ---------------------------------------------------------------------
+add("REBIRTH", "say", "{TARGET} you've failed at life! However, I believe in second chances...")
+add("REBIRTH", "say", "You're not getting off the hook that easily, {TARGET}!")
+
+-- ---------------------------------------------------------------------
+-- REGROWTH
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "REGROWTH")
+
+-- add("REGROWTH", "say", "")
+-- add("REGROWTH", "emote", "")
+-- add("REGROWTH", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- REJUVENATION
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "REJUVENATION")
+
+-- add("REJUVENATION", "say", "")
+-- add("REJUVENATION", "emote", "")
+-- add("REJUVENATION", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- REMOVE_CURSE
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "REMOVE_CURSE")
+
+-- add("REMOVE_CURSE", "say", "")
+-- add("REMOVE_CURSE", "emote", "")
+-- add("REMOVE_CURSE", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- REVIVE
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "REVIVE")
+
+-- add("REVIVE", "say", "")
+-- add("REVIVE", "emote", "")
+-- add("REVIVE", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- SWIFTMEND
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "SWIFTMEND")
+
+-- add("SWIFTMEND", "say", "")
+-- add("SWIFTMEND", "emote", "")
+-- add("SWIFTMEND", "customemote", "")
+
+-- ---------------------------------------------------------------------
+-- TRANQUILITY
+-- ---------------------------------------------------------------------
+add("TRANQUILITY", "say", "Elune, hear my plea and help me aid my friends!")
+add("TRANQUILITY", "say", "Healing spirits, arise!")
+add("TRANQUILITY", "customemote", "calls upon the healing forces of nature.")
+
+-- ---------------------------------------------------------------------
+-- WILD_GROWTH
+-- ---------------------------------------------------------------------
+RPHelper.RegisterAbility(C, "WILD_GROWTH")
+
+-- add("WILD_GROWTH", "say", "")
+-- add("WILD_GROWTH", "emote", "")
+-- add("WILD_GROWTH", "customemote", "")
