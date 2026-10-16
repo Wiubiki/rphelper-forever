@@ -150,7 +150,7 @@ local reactionBaseline = {
     PALADIN = { count = 103, checksum = 857993924 },
     PRIEST = { count = 111, checksum = 41110586 },
     ROGUE = { count = 4, checksum = 232101562 },
-    SHAMAN = { count = 188, checksum = 1797795518 },
+    SHAMAN = { count = 188, checksum = 460885902 },
     WARLOCK = { count = 55, checksum = 110763460 },
     WARRIOR = { count = 21, checksum = 662592189 },
 }
@@ -431,7 +431,7 @@ test("Shaman reconciliation registers the approved active catalogue", function()
     equal(fireNova[1].type, "say")
     equal(fireNova[1].text, "The land erupts in flame!")
     equal(fireNova[2].type, "customemote")
-    equal(fireNova[2].text, "plants a totem, channeling fire energy into an explosive burst.")
+    equal(fireNova[2].text, "channels fire energy into an explosive burst from a nearby fire totem.")
     equal(RPHelper.Ability.SHAMAN.FIRE_NOVA_TOTEM, nil)
     equal(#RPHelper.GetAbilityPool("SHAMAN", "FIRE_NOVA_TOTEM"), 0)
 
