@@ -81,3 +81,7 @@ Tests must cover open world, dungeon, raid, PvP, combat, and out-of-combat conte
 Preserve all 16 Demons-tab records as research evidence and all 19 generic demon-event reactions unchanged. Do not add demon skills to `Data/Abilities/Warlock.lua`, create IDs, or enable the dormant triggers until ownership, family, command/autocast semantics, temporary guardians, event ordering, restricted values, and required context are verified in WoW Forever.
 
 The complete row-level inventory is in [the Warlock demon reconciliation CSV](warlock_demon_reconciliation.csv).
+
+## Implementation status
+
+The approved Warlock catalogue implementation leaves all 16 Demons-tab identities research-only. No demon-owned ability, spell-ID mapping, lifecycle handling, ownership logic, autocast detection, or pet/demon event dispatch was added. `Data/Classes/Warlock.lua` remains byte-for-byte unchanged with all 38 reactions, including the 19 generic reactions across `petattackstart`, `petattackstop`, and `petdies`.
