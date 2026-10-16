@@ -29,6 +29,17 @@ Exclude passive talents, automatic procs and effects that require no direct
 player activation. Catalogue inclusion does not mean runtime detection exists or
 has been verified.
 
+For v1, the primary reconciliation scope is player-activated abilities from the
+class-specific spellbook tabs. The **General** tab is excluded by default, even
+for technically player-activated entries such as Attack. Individual General
+abilities may be considered later as explicit, spell-by-spell exceptions;
+possible examples include Hunter Feed Pet and Rogue poison-related actions where
+applicable. General entries should remain visible in research inventories when
+the source provides them, but must not be promoted automatically into class
+catalogues. This is a product scope boundary, not evidence that a General
+ability is absent from Forever. The direct-activation eligibility rules above
+continue to apply unchanged to class-specific spells.
+
 Classify each reviewed identity as one of:
 
 - **Confirmed in Forever beta:** eligible active ability found in the reference
