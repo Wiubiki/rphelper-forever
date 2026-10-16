@@ -96,3 +96,15 @@ The separate class file has 10 enter-combat, nine leave-combat, one dodge, ten `
 Subject to owner approval, a later implementation could retain the 35 exact eligible class identities and their two reactions, add Mutilate and Venom as empty definitions, and correct Blade Flurry through an explicitly approved canonical migration. The three passive definitions and five beta-absent definitions are candidates for removal from the active catalogue. General entries remain outside v1, with the two authored General reactions preserved recoverably. All 40 class-trigger reactions remain unchanged. No archive, migration, reaction transfer, spell-ID mapping, or runtime change is authorized by this research.
 
 Complete row-level evidence is in [the Rogue reconciliation CSV](rogue_beta_reconciliation.csv).
+
+## Approved implementation disposition
+
+The owner approved the following catalogue implementation after this research:
+
+- Retain the 35 exact eligible identities, add empty Assassination definitions for Mutilate and Venom, and correct `BLADE_FURY` to `BLADE_FLURRY`. The resulting active catalogue contains **38 unique identities**, including all six Poisons-tab creation abilities.
+- Migrate old-only valid Blade Fury settings and user-authored reaction scopes to Blade Flurry. Existing valid destination settings take precedence; conflicting historical or malformed settings remain recoverable. Custom IDs, reaction data, ordering, and unknown fields remain unchanged. Because Blade Fury had no shipped reactions, no disabled-default ID mapping is invented and unknown historical IDs remain untouched.
+- Preserve the five beta-absent identities, three passive identities, and five General-tab identities in an unloaded Rogue archive. Record `BLADE_FURY` there as the historical renamed key without runtime registration.
+- Preserve the original Shoot Bow and Throw custom emotes under their General-tab identities in the archive. The active Disarm Trap and Sprint reactions remain byte-for-byte unchanged.
+- Keep `Data/Classes/Rogue.lua` unchanged with all 40 class-trigger reactions. Together with two active and two archived ability reactions, all **44 authored Rogue reactions** remain recoverable.
+
+No Rogue spell-ID mapping, successful-cast detection, stealth behavior, combo-point handling, poison application/proc handling, or other runtime policy was added. Those client-verification questions remain deferred.

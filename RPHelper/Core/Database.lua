@@ -214,6 +214,34 @@ local function migrateWarlockAbilityRenames()
     end
 end
 
+-- Approved Rogue canonical spelling correction. Blade Fury had no shipped
+-- reactions, so there are no default-reaction IDs to translate; unknown
+-- historical disabled-default records remain untouched.
+local function migrateRogueBladeFlurry()
+    local oldKey, newKey = "BLADE_FURY", "BLADE_FLURRY"
+
+    if type(RPHelperDB.custom) == "table" and type(RPHelperDB.custom.entries) == "table" then
+        for _, record in pairs(RPHelperDB.custom.entries) do
+            local scope = type(record) == "table" and record.scope
+            if type(scope) == "table" and scope.layer == "ability"
+                and scope.class == "ROGUE" and scope.ability == oldKey then
+                scope.ability = newKey
+            end
+        end
+    end
+
+    local rogue = type(RPHelperDB.abilities) == "table" and RPHelperDB.abilities.ROGUE
+    if type(rogue) == "table" then
+        local historical, destination = rogue[oldKey], rogue[newKey]
+        if type(historical) == "table" and destination == nil then
+            rogue[newKey], rogue[oldKey] = historical, nil
+        end
+        -- When both keys exist, the destination stays effective and the
+        -- historical record remains recoverable. Malformed values are also
+        -- preserved rather than guessed at or discarded.
+    end
+end
+
 function RPHelper.InitializeDatabase()
     if RPHelperDB == nil then RPHelperDB = {} end
     if type(RPHelperDB) ~= "table" then return end
@@ -232,6 +260,7 @@ function RPHelper.InitializeDatabase()
     migrateDruidPrimalBite()
     migrateDruidShiftingPower()
     migrateWarlockAbilityRenames()
+    migrateRogueBladeFlurry()
     if RPHelper.UserContent then RPHelper.UserContent.Invalidate() end
 
     if type(RPHelperDB.settings) == "table" then
