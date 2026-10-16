@@ -2,6 +2,8 @@
 
 Research snapshot only. This report does not authorize catalogue, spell-ID, detection, settings, or content changes.
 
+> **Implementation disposition:** The research sections below describe the 14 October snapshot. The subsequently approved owner decisions and later beta changes are recorded in [Approved implementation disposition](#approved-implementation-disposition) and take precedence for the implemented catalogue. The CSV remains the original reconciliation inventory rather than being rewritten as later evidence.
+
 ## Sources and limits
 
 The primary [Shaman spellbook](https://wowforevertalent.com/abilities/shaman/) was retrieved on 16 October 2026. The page identifies its source as the **14 October 2026 Forever Beta book, client 1.60.1.70291** and contains **181 recorded ranks grouped into 56 class-spellbook identities**, plus **five General-tab identities**. All 186 tooltips say they came from the beta or demo data; none falls back to a Classic tooltip and none is name-only. The site expressly says this is not an in-game check and may change before launch.
@@ -89,3 +91,30 @@ Together they preserve 42 authored reactions. Elemental Focus and Elemental Mast
 All 230 existing reactions and all six empty definitions should remain recoverable until individual implementation decisions are approved. In particular, do not migrate Fire Nova Totem content to Fire Nova, discard Hex/Feral Spirit/Bloodlust content because of beta absence, or treat Reincarnation/proc content as ordinary direct activations. Adding a confirmed missing identity, accepting candidate IDs, and authoring reactions are three separate decisions.
 
 The practical row-level evidence, rank coverage, candidate IDs, acquisition notes, activation summaries, eligibility, content counts, and proposed dispositions are in [the reconciliation CSV](shaman_beta_reconciliation.csv).
+
+## Approved implementation disposition
+
+The owner subsequently approved the following production catalogue decisions. They supplement rather than alter the historical research snapshot above:
+
+- Retain the 47 beta-confirmed, directly activated identities already in RPHelper, with their canonical keys and authored reaction ordering unchanged.
+- Add empty canonical definitions for `CALL_OF_THE_ANCESTORS`, `CALL_OF_THE_ELEMENTS`, `CALL_OF_THE_SPIRITS`, `LAVA_BURST`, `RAGE_OF_THE_FARSEER`, `RIPTIDE`, and `TOTEMIC_PROJECTION`. Empty definitions contain no placeholder reactions.
+- Replace the active `FIRE_NOVA_TOTEM` identity with `FIRE_NOVA`, preserving its one `say` and one `customemote` verbatim and in order. The old identity is not registered as an active duplicate.
+- Apply later beta evidence: Elemental Mastery has returned as the active Elemental capstone, while Lava Burst remains active at 26 points in Elemental. `ELEMENTAL_MASTERY` therefore remains an empty active definition. Current spell IDs, successful-cast payloads, and event behavior for both talents remain unverified, and no production mapping is added.
+- Preserve Reincarnation and its four reactions as a beta-confirmed passive exception. It is present in the catalogue but has no Shaman spell-ID mapping or ordinary spellcasting detection.
+- Remove the empty `ELEMENTAL_FOCUS` definition from the active catalogue because it is a passive/proc talent outside v1 direct-activation scope.
+- Move Bloodlust, Calm Elements, Earthshaker Slam, Earth Shield, Feral Spirit, Hex, Lightning Strike, Spirit Link, and Totemic Slam into the inactive `RPHelper/Data/Abilities/ShamanArchive.lua`. The archive preserves all 42 reactions, their types, text, and per-identity ordering, but is intentionally absent from the addon manifest and performs no registrations.
+- Continue to exclude all General-tab entries from the v1 Shaman catalogue.
+
+The active Shaman source is organized by the Elemental, Enhancement, and Restoration spellbook specializations, with abilities alphabetized inside each section. Each ability has one heading containing all reactions or its direct empty-definition registration. Every empty definition includes commented, non-executing `say`, `emote`, and `customemote` authoring templates; authored abilities omit those unnecessary templates. The inactive archive remains separate and unloaded.
+
+The resulting registered Shaman catalogue has 57 identities: 56 approved active abilities (including the later Elemental Mastery decision) plus Reincarnation as the confirmed passive exception. The seven newly added identities and Elemental Mastery have empty shipped pools; other retained empty pools remain unchanged.
+
+### Fire Nova persistence compatibility
+
+Database initialization performs one narrow, idempotent canonical-key migration from `SHAMAN:FIRE_NOVA_TOTEM` to `SHAMAN:FIRE_NOVA` in three saved locations:
+
+- user-authored ability reaction scopes;
+- per-ability settings; and
+- disabled-default IDs for the two migrated shipped reactions.
+
+Unknown fields are preserved. If both old and new settings tables exist, missing values are merged into the new table and the old key is removed; current-key values take precedence. Malformed conflicting non-table settings are left under the old key rather than guessed at or silently discarded. No general migration framework, schema change, spell-ID mapping, or event-detection change is introduced.

@@ -111,6 +111,20 @@ local historicalExclusions = {
     ["PRIEST:STARSHARDS"] = true,
     ["PRIEST:TOUCH_OF_WEAKNESS"] = true,
     ["WARRIOR:SHADOWMELD"] = true,
+    ["SHAMAN:BLOODLUST"] = true,
+    ["SHAMAN:CALM_ELEMENTS"] = true,
+    ["SHAMAN:EARTHSHAKER_SLAM"] = true,
+    ["SHAMAN:EARTH_SHIELD"] = true,
+    ["SHAMAN:ELEMENTAL_FOCUS"] = true,
+    ["SHAMAN:FERAL_SPIRIT"] = true,
+    ["SHAMAN:FIRE_NOVA_TOTEM"] = true,
+    ["SHAMAN:HEX"] = true,
+    ["SHAMAN:LIGHTNING_STRIKE"] = true,
+    ["SHAMAN:SPIRIT_LINK"] = true,
+    ["SHAMAN:TOTEMIC_SLAM"] = true,
+}
+local catalogueAdditions = {
+    SHAMAN = "CALL_OF_THE_ANCESTORS CALL_OF_THE_ELEMENTS CALL_OF_THE_SPIRITS FIRE_NOVA LAVA_BURST RAGE_OF_THE_FARSEER RIPTIDE TOTEMIC_PROJECTION",
 }
 local preReconciliationKeys = {
     DRUID = "CHALLENGING_ROAR DEMORALIZING_ROAR DIRE_BEAR_FORM ENRAGE ENTANGLING_ROOTS GIFT_OF_THE_WILD HIBERNATE HURRICANE INNERVATE REBIRTH TELEPORT_MOONGLADE TIGERS_FURY TRANQUILITY",
@@ -119,7 +133,7 @@ local preReconciliationKeys = {
     PALADIN = "BLESSING_OF_FREEDOM BLESSING_OF_KINGS BLESSING_OF_LIGHT BLESSING_OF_MIGHT BLESSING_OF_PROTECTION BLESSING_OF_SACRIFICE BLESSING_OF_SALVATION BLESSING_OF_SANCTUARY BLESSING_OF_WISDOM BULWARK_OF_THE_RIGHTEOUS CLEANSE CONCENTRATION_AURA CONSECRATION CRUSADER_STRIKE DEVOTION_AURA DIVINE_FAVOR DIVINE_INTERVENTION DIVINE_PROTECTION DIVINE_SHIELD EXORCISM FIRE_RESISTANCE_AURA FLASH_OF_LIGHT FROST_RESISTANCE_AURA GREATER_BLESSING_OF_MIGHT HAMMER_OF_JUSTICE HAMMER_OF_WRATH HAND_OF_RECKONING HOLY_LIGHT HOLY_SHIELD HOLY_SHOCK HOLY_WRATH JUDGEMENT LAY_ON_HANDS PURIFY REDEMPTION REPENTANCE RETRIBUTION_AURA RIGHTEOUS_FURY SANCTITY_AURA SEAL_OF_COMMAND SEAL_OF_JUSTICE SEAL_OF_LIGHT SEAL_OF_RIGHTEOUSNESS SEAL_OF_THE_CRUSADER SEAL_OF_WISDOM SENSE_UNDEAD SHADOW_RESISTANCE_AURA SUMMON_WARHORSE TURN_UNDEAD",
     PRIEST = "ABOLISH_DISEASE CURE_DISEASE DISPEL_MAGIC DIVINE_SPIRIT FADE FLASH_HEAL GREATER_HEAL HEAL HOLY_FIRE HOLY_NOVA INNER_FIRE INNER_FOCUS LESSER_HEAL LEVITATE LIGHTWELL MANA_BURN MIND_BLAST MIND_CONTROL MIND_FLAY MIND_SOOTHE MIND_VISION POWER_INFUSION POWER_WORD_FORTITUDE POWER_WORD_SHIELD PRAYER_OF_FORTITUDE PRAYER_OF_HEALING PSYCHIC_SCREAM RENEW RESURRECTION SHACKLE_UNDEAD SHADOWFORM SHADOW_PROTECTION SHADOW_WORD_PAIN SILENCE SMITE SPIRIT_OF_REDEMPTION VAMPIRIC_EMBRACE",
     ROGUE = "DISARM_TRAP SHOOT_BOW SPRINT THROW",
-    SHAMAN = "ANCESTRAL_SPIRIT BLOODLUST CALM_ELEMENTS CHAIN_HEAL CHAIN_LIGHTNING CURE_DISEASE CURE_POISON DISEASE_CLEANSING_TOTEM EARTHBIND_TOTEM EARTHSHAKER_SLAM EARTH_SHIELD EARTH_SHOCK FERAL_SPIRIT FIRE_NOVA_TOTEM FIRE_RESISTANCE_TOTEM FLAMETONGUE_TOTEM FLAMETONGUE_WEAPON FLAME_SHOCK FROSTBRAND_WEAPON FROST_RESISTANCE_TOTEM FROST_SHOCK GHOST_WOLF GRACE_OF_AIR_TOTEM GROUNDING_TOTEM HEALING_STREAM_TOTEM HEALING_WAVE HEX LESSER_HEALING_WAVE LIGHTNING_BOLT LIGHTNING_SHIELD LIGHTNING_STRIKE MAGMA_TOTEM MANA_SPRING_TOTEM MANA_TIDE_TOTEM NATURES_SWIFTNESS NATURE_RESISTANCE_TOTEM POISON_CLEANSING_TOTEM PURGE REINCARNATION ROCKBITER_WEAPON SEARING_TOTEM SENTRY_TOTEM SPIRIT_LINK STONECLAW_TOTEM STONESKIN_TOTEM STORMSTRIKE STRENGTH_OF_EARTH_TOTEM TOTEMIC_RECALL TOTEMIC_SLAM TREMOR_TOTEM WATER_SHIELD WINDFURY_TOTEM WINDFURY_WEAPON WINDWALL_TOTEM",
+    SHAMAN = "ANCESTRAL_SPIRIT CHAIN_HEAL CHAIN_LIGHTNING CURE_DISEASE CURE_POISON DISEASE_CLEANSING_TOTEM EARTHBIND_TOTEM EARTH_SHOCK FIRE_NOVA FIRE_RESISTANCE_TOTEM FLAMETONGUE_TOTEM FLAMETONGUE_WEAPON FLAME_SHOCK FROSTBRAND_WEAPON FROST_RESISTANCE_TOTEM FROST_SHOCK GHOST_WOLF GRACE_OF_AIR_TOTEM GROUNDING_TOTEM HEALING_STREAM_TOTEM HEALING_WAVE LESSER_HEALING_WAVE LIGHTNING_BOLT LIGHTNING_SHIELD MAGMA_TOTEM MANA_SPRING_TOTEM MANA_TIDE_TOTEM NATURES_SWIFTNESS NATURE_RESISTANCE_TOTEM POISON_CLEANSING_TOTEM PURGE REINCARNATION ROCKBITER_WEAPON SEARING_TOTEM SENTRY_TOTEM STONECLAW_TOTEM STONESKIN_TOTEM STORMSTRIKE STRENGTH_OF_EARTH_TOTEM TOTEMIC_RECALL TREMOR_TOTEM WATER_SHIELD WINDFURY_TOTEM WINDFURY_WEAPON WINDWALL_TOTEM",
     WARLOCK = "CURSE_OF_AGONY CURSE_OF_DOOM CURSE_OF_EXHAUSTION CURSE_OF_RECKLESSNESS CURSE_OF_SHADOW CURSE_OF_THE_ELEMENTS CURSE_OF_TONGUES CURSE_OF_WEAKNESS DRAIN_LIFE DRAIN_MANA DRAIN_SOUL ENSLAVE_DEMON FEAR HEALTH_FUNNEL HELLFIRE IMMOLATE RAIN_OF_FIRE RITUAL_OF_SUMMONING SEARING_PAIN SENSE_DEMONS SOUL_FIRE SUMMON_IMP SUMMON_SUCCUBUS SUMMON_VOIDWALKER UNENDING_BREATH",
     WARRIOR = "BATTLE_SHOUT BLOODRAGE CHALLENGING_SHOUT CHARGE DEMORALIZING_SHOUT HAMSTRING INTIMIDATING_SHOUT MOCKING_BLOW REND SHIELD_BASH SHIELD_SLAM SLAM",
 }
@@ -130,7 +144,7 @@ local reactionBaseline = {
     PALADIN = { count = 103, checksum = 857993924 },
     PRIEST = { count = 111, checksum = 41110586 },
     ROGUE = { count = 4, checksum = 232101562 },
-    SHAMAN = { count = 230, checksum = 1835043604 },
+    SHAMAN = { count = 188, checksum = 1797795518 },
     WARLOCK = { count = 55, checksum = 110763460 },
     WARRIOR = { count = 21, checksum = 662592189 },
 }
@@ -153,11 +167,17 @@ for class, keys in pairs(historicalKeys) do
                 if key ~= historical then equal(RPHelper.Ability[class][historical], nil) end
             end
         end
+        for key in string.gmatch(catalogueAdditions[class] or "", "%S+") do
+            expected[key] = true
+            equal(RPHelper.Ability[class][key], key)
+            truthy(type(RPHelper.Content.ability[class][key]) == "table")
+        end
         for key in pairs(RPHelper.Ability[class]) do truthy(expected[key]) end
         local previous = {}
         for key in string.gmatch(preReconciliationKeys[class], "%S+") do previous[key] = true end
         for key in pairs(expected) do
-            if not previous[key] and not (class == "WARLOCK" and key == "BANISH") then
+            if not previous[key] and not (class == "WARLOCK" and key == "BANISH")
+                and not (class == "SHAMAN" and key == "FIRE_NOVA") then
                 equal(#RPHelper.GetAbilityPool(class, key), 0)
                 equal(RPHelper.ChooseAbilityCandidate(class, key, { resolvers = {} }), nil)
             end
@@ -199,9 +219,149 @@ test("historical catalogue: class files register each empty definition once", fu
         for _, class in ipairs({ "Druid", "Hunter", "Mage", "Paladin", "Priest", "Rogue", "Shaman", "Warlock", "Warrior" }) do
             dofile("RPHelper/Data/Abilities/" .. class .. ".lua")
         end
-        equal(count, 167)
+        equal(count, 173)
     end)
     RPHelper = previous
+    if not ok then error(err) end
+end)
+
+test("Shaman reconciliation registers the approved active catalogue", function()
+    local count = 0
+    for _ in pairs(RPHelper.Ability.SHAMAN) do count = count + 1 end
+    equal(count, 57)
+
+    local empty = {
+        "CALL_OF_THE_ANCESTORS", "CALL_OF_THE_ELEMENTS", "CALL_OF_THE_SPIRITS",
+        "LAVA_BURST", "RAGE_OF_THE_FARSEER", "RIPTIDE", "TOTEMIC_PROJECTION",
+    }
+    for _, key in ipairs(empty) do
+        equal(RPHelper.Ability.SHAMAN[key], key)
+        equal(#RPHelper.GetAbilityPool("SHAMAN", key), 0)
+    end
+
+    local fireNova = RPHelper.GetAbilityPool("SHAMAN", "FIRE_NOVA")
+    equal(#fireNova, 2)
+    equal(fireNova[1].type, "say")
+    equal(fireNova[1].text, "The land erupts in flame!")
+    equal(fireNova[2].type, "customemote")
+    equal(fireNova[2].text, "plants a totem, channeling fire energy into an explosive burst.")
+    equal(RPHelper.Ability.SHAMAN.FIRE_NOVA_TOTEM, nil)
+    equal(#RPHelper.GetAbilityPool("SHAMAN", "FIRE_NOVA_TOTEM"), 0)
+
+    equal(RPHelper.Ability.SHAMAN.ELEMENTAL_FOCUS, nil)
+    equal(RPHelper.Ability.SHAMAN.ELEMENTAL_MASTERY, "ELEMENTAL_MASTERY")
+    equal(#RPHelper.GetAbilityPool("SHAMAN", "ELEMENTAL_MASTERY"), 0)
+    equal(#RPHelper.GetAbilityPool("SHAMAN", "REINCARNATION"), 4)
+end)
+
+test("Shaman source is grouped and alphabetized by Forever specialization", function()
+    local source = assert(io.open("RPHelper/Data/Abilities/Shaman.lua", "r")):read("*a")
+    local specializations = {
+        {
+            "CALL_OF_THE_ANCESTORS", "CALL_OF_THE_ELEMENTS", "CALL_OF_THE_SPIRITS",
+            "CHAIN_LIGHTNING", "EARTHBIND_TOTEM", "EARTH_SHOCK", "ELEMENTAL_MASTERY",
+            "FIRE_NOVA", "FLAME_SHOCK", "FROST_SHOCK", "LAVA_BURST", "LIGHTNING_BOLT",
+            "MAGMA_TOTEM", "PURGE", "SEARING_TOTEM", "STONECLAW_TOTEM", "TOTEMIC_RECALL",
+        },
+        {
+            "ASTRAL_RECALL", "FAR_SIGHT", "FIRE_RESISTANCE_TOTEM", "FLAMETONGUE_TOTEM",
+            "FLAMETONGUE_WEAPON", "FROSTBRAND_WEAPON", "FROST_RESISTANCE_TOTEM", "GHOST_WOLF",
+            "GRACE_OF_AIR_TOTEM", "GROUNDING_TOTEM", "LIGHTNING_SHIELD", "NATURE_RESISTANCE_TOTEM",
+            "RAGE_OF_THE_FARSEER", "ROCKBITER_WEAPON", "SENTRY_TOTEM", "STONESKIN_TOTEM",
+            "STORMSTRIKE", "STRENGTH_OF_EARTH_TOTEM", "TOTEMIC_PROJECTION", "WATER_BREATHING",
+            "WATER_WALKING", "WINDFURY_TOTEM", "WINDFURY_WEAPON", "WINDWALL_TOTEM",
+        },
+        {
+            "ANCESTRAL_SPIRIT", "CHAIN_HEAL", "CURE_DISEASE", "CURE_POISON",
+            "DISEASE_CLEANSING_TOTEM", "HEALING_STREAM_TOTEM", "HEALING_WAVE",
+            "LESSER_HEALING_WAVE", "MANA_SPRING_TOTEM", "MANA_TIDE_TOTEM",
+            "NATURES_SWIFTNESS", "POISON_CLEANSING_TOTEM", "REINCARNATION", "RIPTIDE",
+            "TREMOR_TOTEM", "WATER_SHIELD",
+        },
+    }
+    local expected, actual = {}, {}
+    for _, abilities in ipairs(specializations) do
+        for _, key in ipairs(abilities) do expected[#expected + 1] = key end
+    end
+    for key in string.gmatch(source, "\n%-%- ([A-Z][A-Z0-9_]*)\n") do
+        actual[#actual + 1] = key
+    end
+    equal(#actual, 57)
+    for index, key in ipairs(expected) do equal(actual[index], key) end
+    equal(string.find(source, "for _, ability in ipairs", 1, true), nil)
+    for _, key in ipairs(expected) do
+        if #RPHelper.GetAbilityPool("SHAMAN", key) == 0 then
+            truthy(string.find(source, 'RPHelper.RegisterAbility(C, "' .. key .. '")', 1, true))
+            for _, reactionType in ipairs({ "say", "emote", "customemote" }) do
+                truthy(string.find(source,
+                    '-- add("' .. key .. '", "' .. reactionType .. '", "")', 1, true))
+            end
+        else
+            equal(string.find(source, '-- add("' .. key .. '",', 1, true), nil)
+        end
+    end
+end)
+
+test("Shaman legacy archive preserves 42 reactions without active registration", function()
+    local order = {
+        "SPIRIT_LINK", "LIGHTNING_STRIKE", "EARTH_SHIELD", "BLOODLUST",
+        "EARTHSHAKER_SLAM", "CALM_ELEMENTS", "TOTEMIC_SLAM", "FERAL_SPIRIT", "HEX",
+    }
+    local archive = dofile("RPHelper/Data/Abilities/ShamanArchive.lua")
+    local parts, count = {}, 0
+    for _, key in ipairs(order) do
+        equal(RPHelper.Ability.SHAMAN[key], nil)
+        equal(#RPHelper.GetAbilityPool("SHAMAN", key), 0)
+        parts[#parts + 1] = key
+        for _, entry in ipairs(archive[key]) do
+            count = count + 1
+            for _, field in ipairs({ "type", "text" }) do
+                local value = entry[field]
+                parts[#parts + 1] = #value .. ":" .. value
+            end
+        end
+    end
+    equal(count, 42)
+    equal(catalogueChecksum(table.concat(parts, "\n")), 559081950)
+end)
+
+test("Fire Nova migration preserves custom content settings and disabled defaults", function()
+    local saved = RPHelperDB
+    local newPool = RPHelper.GetAbilityPool("SHAMAN", "FIRE_NOVA")
+    local newDefaultID = newPool[1].defaultID
+    local newPrefix = "default:v1:s7:abilitys6:SHAMANs9:FIRE_NOVA"
+    local oldPrefix = "default:v1:s7:abilitys6:SHAMANs15:FIRE_NOVA_TOTEM"
+    local oldDefaultID = oldPrefix .. string.sub(newDefaultID, #newPrefix + 1)
+    local settings = { enabled = false, chance = 0.75, future = "keep" }
+    RPHelperDB = {
+        custom = { nextID = 2, entries = {
+            ["custom:1"] = {
+                scope = { layer = "ability", class = "SHAMAN", ability = "FIRE_NOVA_TOTEM", future = "keep" },
+                entry = { type = "say", text = "My nova." },
+                future = "keep",
+            },
+        } },
+        abilities = { SHAMAN = { FIRE_NOVA_TOTEM = settings } },
+        disabledDefaults = { [oldDefaultID] = true },
+    }
+    local ok, err = pcall(function()
+        RPHelper.InitializeDatabase()
+        equal(RPHelperDB.abilities.SHAMAN.FIRE_NOVA, settings)
+        equal(RPHelperDB.abilities.SHAMAN.FIRE_NOVA_TOTEM, nil)
+        equal(RPHelperDB.disabledDefaults[oldDefaultID], nil)
+        equal(RPHelperDB.disabledDefaults[newDefaultID], true)
+        local newScope = { layer = "ability", class = "SHAMAN", ability = "FIRE_NOVA" }
+        local oldScope = { layer = "ability", class = "SHAMAN", ability = "FIRE_NOVA_TOTEM" }
+        local migrated = RPHelper.UserContent.List(newScope)
+        equal(#migrated, 1);equal(migrated[1].entry.text, "My nova.")
+        equal(migrated[1].scope.future, "keep")
+        equal(#RPHelper.UserContent.List(oldScope), 0)
+        RPHelper.InitializeDatabase()
+        equal(#RPHelper.UserContent.List(newScope), 1)
+        equal(RPHelperDB.abilities.SHAMAN.FIRE_NOVA, settings)
+        equal(RPHelperDB.disabledDefaults[newDefaultID], true)
+    end)
+    RPHelperDB = saved;RPHelper.UserContent.Invalidate()
     if not ok then error(err) end
 end)
 
