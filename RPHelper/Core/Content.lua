@@ -36,7 +36,6 @@ RPHelper.Ability = RPHelper.Ability or {
     },
     ROGUE = {
         SPRINT = "SPRINT", DISARM_TRAP = "DISARM_TRAP",
-        SHOOT_BOW = "SHOOT_BOW", THROW = "THROW",
     },
     HUNTER = {
         ASPECT_OF_THE_MONKEY = "ASPECT_OF_THE_MONKEY", ASPECT_OF_THE_HAWK = "ASPECT_OF_THE_HAWK",

@@ -132,6 +132,20 @@ local historicalExclusions = {
     ["PRIEST:SHADOWGUARD"] = true,
     ["PRIEST:STARSHARDS"] = true,
     ["PRIEST:TOUCH_OF_WEAKNESS"] = true,
+    ["ROGUE:AGITATING_POISON"] = true,
+    ["ROGUE:BLADE_FURY"] = true,
+    ["ROGUE:DEADLY_THROW"] = true,
+    ["ROGUE:DETECT_TRAPS"] = true,
+    ["ROGUE:EXPLOIT_WEAKNESS"] = true,
+    ["ROGUE:FLOURISH"] = true,
+    ["ROGUE:PICK_LOCK"] = true,
+    ["ROGUE:RELENTLESS_STRIKES"] = true,
+    ["ROGUE:SAFE_FALL"] = true,
+    ["ROGUE:SHOOT_BOW"] = true,
+    ["ROGUE:SHOOT_CROSSBOW"] = true,
+    ["ROGUE:SHOOT_GUN"] = true,
+    ["ROGUE:SURPRISE_ATTACK"] = true,
+    ["ROGUE:THROW"] = true,
     ["WARRIOR:SHADOWMELD"] = true,
     ["WARRIOR:ANGER_MANAGEMENT"] = true,
     ["WARRIOR:COUNTERATTACK"] = true,
@@ -157,6 +171,7 @@ local catalogueAdditions = {
     DRUID = "AQUATIC_FORM BEAR_FORM GROWL LACERATE PRIMAL_BITE REVIVE SHIFTING_POWER WILD_GROWTH",
     HUNTER = "AUTO_SHOT CALL_PET DISMISS_PET ENCHANTED_FLARE FEED_PET INTIMIDATION LACERATE REVIVE_PET SNIPER_SHOT STRIDER_KICK SUMMON_HAWK TAME_BEAST",
     MAGE = "ARCANE_BLAST ARCANE_WRATH FROSTFIRE_BOLT FROST_BLAST ICE_LANCE POLYMORPH_PIG POLYMORPH_TURTLE TELEPORT_DALARAN",
+    ROGUE = "BLADE_FLURRY MUTILATE VENOM",
     SHAMAN = "CALL_OF_THE_ANCESTORS CALL_OF_THE_ELEMENTS CALL_OF_THE_SPIRITS FIRE_NOVA LAVA_BURST RAGE_OF_THE_FARSEER RIPTIDE TOTEMIC_PROJECTION",
     WARRIOR = "BATTLE_STANCE BERSERKER_STANCE DEFENSIVE_STANCE SPEARING_STRIKE TAUNT VICTORY_RUSH",
     WARLOCK = "BANE_OF_AGONY BANE_OF_DOOM BANE_OF_HAVOC INCINERATE SUBJUGATE_DEMON SUMMON_INCUBUS WRACK",
@@ -167,7 +182,7 @@ local preReconciliationKeys = {
     MAGE = "AMPLIFY_MAGIC ARCANE_BRILLIANCE ARCANE_EXPLOSION ARCANE_INTELLECT ARCANE_MISSILES ARCANE_POWER BLAST_WAVE BLINK BLIZZARD COLD_SNAP COMBUSTION CONE_OF_COLD CONJURE_FOOD CONJURE_MANA_AGATE CONJURE_MANA_CITRINE CONJURE_MANA_JADE CONJURE_MANA_RUBY CONJURE_WATER COUNTERSPELL DAMPEN_MAGIC EVOCATION FIREBALL FIRE_BLAST FIRE_WARD FLAMESTRIKE FROSTBOLT FROST_ARMOR FROST_NOVA FROST_WARD ICE_ARMOR ICE_BARRIER ICE_BLOCK MAGE_ARMOR MANA_SHIELD POLYMORPH PORTAL_DARNASSUS PORTAL_IRONFORGE PORTAL_ORGRIMMAR PORTAL_STORMWIND PORTAL_THUNDER_BLUFF PORTAL_UNDERCITY PRESENCE_OF_MIND PYROBLAST REMOVE_LESSER_CURSE SCORCH SLOW_FALL TELEPORT_DARNASSUS TELEPORT_IRONFORGE TELEPORT_ORGRIMMAR TELEPORT_STORMWIND TELEPORT_THUNDER_BLUFF TELEPORT_UNDERCITY",
     PALADIN = "BLESSING_OF_FREEDOM BLESSING_OF_KINGS BLESSING_OF_LIGHT BLESSING_OF_MIGHT BLESSING_OF_PROTECTION BLESSING_OF_SACRIFICE BLESSING_OF_SALVATION BLESSING_OF_SANCTUARY BLESSING_OF_WISDOM BULWARK_OF_THE_RIGHTEOUS CLEANSE CONCENTRATION_AURA CONSECRATION CRUSADER_STRIKE DEVOTION_AURA DIVINE_FAVOR DIVINE_INTERVENTION DIVINE_PROTECTION DIVINE_SHIELD EXORCISM FIRE_RESISTANCE_AURA FLASH_OF_LIGHT FROST_RESISTANCE_AURA GREATER_BLESSING_OF_MIGHT HAMMER_OF_JUSTICE HAMMER_OF_WRATH HAND_OF_RECKONING HOLY_LIGHT HOLY_SHIELD HOLY_SHOCK HOLY_WRATH JUDGEMENT LAY_ON_HANDS PURIFY REDEMPTION REPENTANCE RETRIBUTION_AURA RIGHTEOUS_FURY SANCTITY_AURA SEAL_OF_COMMAND SEAL_OF_JUSTICE SEAL_OF_LIGHT SEAL_OF_RIGHTEOUSNESS SEAL_OF_THE_CRUSADER SEAL_OF_WISDOM SENSE_UNDEAD SHADOW_RESISTANCE_AURA SUMMON_WARHORSE TURN_UNDEAD",
     PRIEST = "ABOLISH_DISEASE CURE_DISEASE DISPEL_MAGIC DIVINE_SPIRIT FADE FLASH_HEAL GREATER_HEAL HEAL HOLY_FIRE HOLY_NOVA INNER_FIRE INNER_FOCUS LESSER_HEAL LEVITATE LIGHTWELL MANA_BURN MIND_BLAST MIND_CONTROL MIND_FLAY MIND_SOOTHE MIND_VISION POWER_INFUSION POWER_WORD_FORTITUDE POWER_WORD_SHIELD PRAYER_OF_FORTITUDE PRAYER_OF_HEALING PSYCHIC_SCREAM RENEW RESURRECTION SHACKLE_UNDEAD SHADOWFORM SHADOW_PROTECTION SHADOW_WORD_PAIN SILENCE SMITE SPIRIT_OF_REDEMPTION VAMPIRIC_EMBRACE",
-    ROGUE = "DISARM_TRAP SHOOT_BOW SPRINT THROW",
+    ROGUE = "DISARM_TRAP SPRINT",
     SHAMAN = "ANCESTRAL_SPIRIT CHAIN_HEAL CHAIN_LIGHTNING CURE_DISEASE CURE_POISON DISEASE_CLEANSING_TOTEM EARTHBIND_TOTEM EARTH_SHOCK FIRE_NOVA FIRE_RESISTANCE_TOTEM FLAMETONGUE_TOTEM FLAMETONGUE_WEAPON FLAME_SHOCK FROSTBRAND_WEAPON FROST_RESISTANCE_TOTEM FROST_SHOCK GHOST_WOLF GRACE_OF_AIR_TOTEM GROUNDING_TOTEM HEALING_STREAM_TOTEM HEALING_WAVE LESSER_HEALING_WAVE LIGHTNING_BOLT LIGHTNING_SHIELD MAGMA_TOTEM MANA_SPRING_TOTEM MANA_TIDE_TOTEM NATURES_SWIFTNESS NATURE_RESISTANCE_TOTEM POISON_CLEANSING_TOTEM PURGE REINCARNATION ROCKBITER_WEAPON SEARING_TOTEM SENTRY_TOTEM STONECLAW_TOTEM STONESKIN_TOTEM STORMSTRIKE STRENGTH_OF_EARTH_TOTEM TOTEMIC_RECALL TREMOR_TOTEM WATER_SHIELD WINDFURY_TOTEM WINDFURY_WEAPON WINDWALL_TOTEM",
     WARLOCK = "BANE_OF_AGONY BANE_OF_DOOM BANISH CURSE_OF_EXHAUSTION CURSE_OF_RECKLESSNESS CURSE_OF_THE_ELEMENTS CURSE_OF_TONGUES CURSE_OF_WEAKNESS DRAIN_LIFE DRAIN_MANA DRAIN_SOUL FEAR HEALTH_FUNNEL HELLFIRE IMMOLATE RAIN_OF_FIRE RITUAL_OF_SUMMONING SEARING_PAIN SENSE_DEMONS SOUL_FIRE SUBJUGATE_DEMON SUMMON_IMP SUMMON_SUCCUBUS SUMMON_VOIDWALKER UNENDING_BREATH",
     WARRIOR = "BATTLE_SHOUT BLOODRAGE CHALLENGING_SHOUT CHARGE DEMORALIZING_SHOUT HAMSTRING INTIMIDATING_SHOUT MOCKING_BLOW REND SHIELD_BASH SHIELD_SLAM SLAM",
@@ -178,7 +193,7 @@ local reactionBaseline = {
     MAGE = { count = 128, checksum = 549995872 },
     PALADIN = { count = 103, checksum = 857993924 },
     PRIEST = { count = 111, checksum = 41110586 },
-    ROGUE = { count = 4, checksum = 232101562 },
+    ROGUE = { count = 2, checksum = 1433710909 },
     SHAMAN = { count = 188, checksum = 460885902 },
     WARLOCK = { count = 54, checksum = 370228227 },
     WARRIOR = { count = 21, checksum = 662592189 },
@@ -253,7 +268,7 @@ test("historical catalogue: class files register each empty definition once", fu
         for _, class in ipairs({ "Druid", "Hunter", "Mage", "Paladin", "Priest", "Rogue", "Shaman", "Warlock", "Warrior" }) do
             dofile("RPHelper/Data/Abilities/" .. class .. ".lua")
         end
-        equal(count, 190)
+        equal(count, 181)
     end)
     RPHelper = previous
     if not ok then error(err) end
@@ -530,6 +545,200 @@ test("Hunter class reactions and pet-event pools remain unchanged", function()
     equal(#RPHelper.GetClassPool("HUNTER", "petattackstart"), 12)
     equal(#RPHelper.GetClassPool("HUNTER", "petattackstop"), 8)
     equal(#RPHelper.GetClassPool("HUNTER", "petdies"), 7)
+end)
+
+test("Rogue reconciliation registers the approved active catalogue", function()
+    local count = 0
+    for _ in pairs(RPHelper.Ability.ROGUE) do count = count + 1 end
+    equal(count, 38)
+
+    for _, key in ipairs({ "MUTILATE", "VENOM" }) do
+        equal(RPHelper.Ability.ROGUE[key], key)
+        equal(#RPHelper.GetAbilityPool("ROGUE", key), 0)
+    end
+    equal(RPHelper.Ability.ROGUE.BLADE_FLURRY, "BLADE_FLURRY")
+    equal(RPHelper.Ability.ROGUE.BLADE_FURY, nil)
+
+    for _, key in ipairs({
+        "AGITATING_POISON", "BLADE_FURY", "DEADLY_THROW", "DETECT_TRAPS",
+        "EXPLOIT_WEAKNESS", "FLOURISH", "PICK_LOCK", "RELENTLESS_STRIKES",
+        "SAFE_FALL", "SHOOT_BOW", "SHOOT_CROSSBOW", "SHOOT_GUN",
+        "SURPRISE_ATTACK", "THROW",
+    }) do
+        equal(RPHelper.Ability.ROGUE[key], nil)
+        equal(#RPHelper.GetAbilityPool("ROGUE", key), 0)
+    end
+    for _, key in ipairs({
+        "BLINDING_POWDER", "CRIPPLING_POISON", "DEADLY_POISON",
+        "INSTANT_POISON", "MIND_NUMBING_POISON", "WOUND_POISON",
+    }) do
+        equal(RPHelper.Ability.ROGUE[key], key)
+    end
+
+    local disarm = RPHelper.GetAbilityPool("ROGUE", "DISARM_TRAP")
+    local sprint = RPHelper.GetAbilityPool("ROGUE", "SPRINT")
+    equal(#disarm, 1);equal(disarm[1].type, "say");equal(disarm[1].text, "You call this a trap?")
+    equal(#sprint, 1);equal(sprint[1].type, "say");equal(sprint[1].text, "I better RUN!")
+end)
+
+test("Rogue source is grouped alphabetically with one registration per ability", function()
+    local source = assert(io.open("RPHelper/Data/Abilities/Rogue.lua", "r")):read("*a")
+    local specializations = {
+        "AMBUSH CHEAP_SHOT COLD_BLOOD EVISCERATE EXPOSE_ARMOR GARROTE KIDNEY_SHOT MUTILATE RUPTURE SLICE_AND_DICE VENOM",
+        "ADRENALINE_RUSH BACKSTAB BLADE_FLURRY EVASION FEINT GOUGE KICK RIPOSTE SINISTER_STRIKE SPRINT",
+        "BLIND DISARM_TRAP DISTRACT GHOSTLY_STRIKE HEMORRHAGE PICK_POCKET PREMEDITATION PREPARATION SAP STEALTH VANISH",
+        "BLINDING_POWDER CRIPPLING_POISON DEADLY_POISON INSTANT_POISON MIND_NUMBING_POISON WOUND_POISON",
+    }
+    local expected, actual, headings = {}, {}, {}
+    for _, group in ipairs(specializations) do
+        for key in string.gmatch(group, "%S+") do expected[#expected + 1] = key end
+    end
+    for key in string.gmatch(source, "\n%-%- ([A-Z][A-Z0-9_]*)\n") do
+        actual[#actual + 1] = key
+        headings[key] = (headings[key] or 0) + 1
+    end
+    equal(#actual, 38)
+    for index, key in ipairs(expected) do
+        equal(actual[index], key)
+        equal(headings[key], 1)
+        if #RPHelper.GetAbilityPool("ROGUE", key) == 0 then
+            truthy(string.find(source, 'RPHelper.RegisterAbility(C, "' .. key .. '")', 1, true))
+            for _, kind in ipairs({ "say", "emote", "customemote" }) do
+                truthy(string.find(source, '-- add("' .. key .. '", "' .. kind .. '", "")', 1, true))
+            end
+        else
+            equal(string.find(source, '-- add("' .. key .. '",', 1, true), nil)
+        end
+    end
+    equal(string.find(source, "for _, ability in ipairs", 1, true), nil)
+
+    local previous = RPHelper
+    local ok, err = pcall(function()
+        local registrations = {}
+        RPHelper = { Ability = { ROGUE = {} }, Class = { ROGUE = "ROGUE" } }
+        RPHelper.RegisterAbility = function(_, ability)
+            registrations[ability] = (registrations[ability] or 0) + 1
+        end
+        dofile("RPHelper/Data/Abilities/Rogue.lua")
+        for _, key in ipairs(expected) do equal(registrations[key], 1) end
+    end)
+    RPHelper = previous
+    if not ok then error(err) end
+end)
+
+test("Rogue archive preserves inactive identities and General reactions", function()
+    local archive = dofile("RPHelper/Data/Abilities/RogueArchive.lua")
+    local keys = {
+        "AGITATING_POISON", "BLADE_FURY", "DEADLY_THROW", "DETECT_TRAPS",
+        "EXPLOIT_WEAKNESS", "FLOURISH", "PICK_LOCK", "RELENTLESS_STRIKES",
+        "SAFE_FALL", "SHOOT_BOW", "SHOOT_CROSSBOW", "SHOOT_GUN",
+        "SURPRISE_ATTACK", "THROW",
+    }
+    local count = 0
+    for _, key in ipairs(keys) do truthy(type(archive[key]) == "table");count = count + 1 end
+    equal(count, 14)
+    equal(#archive.SHOOT_BOW, 1)
+    equal(archive.SHOOT_BOW[1].type, "customemote")
+    equal(archive.SHOOT_BOW[1].text, "aims for the knee.")
+    equal(#archive.THROW, 1)
+    equal(archive.THROW[1].type, "customemote")
+    equal(archive.THROW[1].text, "throws a dagger to get {TARGET}'s attention.")
+    for _, key in ipairs(keys) do
+        if key ~= "SHOOT_BOW" and key ~= "THROW" then equal(#archive[key], 0) end
+    end
+    local toc = assert(io.open("RPHelper/RPHelper.toc", "r")):read("*a")
+    equal(string.find(toc, "RogueArchive.lua", 1, true), nil)
+end)
+
+test("Rogue Blade Flurry migration preserves settings custom content and unknown IDs", function()
+    local saved = RPHelperDB
+    local oldOnly = { enabled = false, future = "old-only", nested = { keep = true } }
+    local historical = { chance = 0.25, future = "historical" }
+    local destination = { enabled = true, future = "destination" }
+    local unrelatedID = "default:v1:s7:abilitys5:ROGUEs10:BLADE_FURY:unknown"
+    RPHelperDB = {
+        abilities = { ROGUE = {
+            BLADE_FURY = oldOnly,
+            EVASION = { future = "unrelated" },
+        }, MAGE = { BLADE_FURY = { future = "other-class" } } },
+        custom = { nextID = 4, entries = {
+            ["custom:1"] = { scope = { layer = "ability", class = "ROGUE", ability = "BLADE_FURY", future = "scope" }, entry = { type = "customemote", text = "turns the blade.", future = "entry" }, future = "record" },
+            ["custom:2"] = { scope = { layer = "ability", class = "ROGUE", ability = "BLADE_FLURRY" }, entry = { type = "say", text = "Already canonical." } },
+            ["custom:3"] = { scope = { layer = "ability", class = "MAGE", ability = "BLADE_FURY" }, entry = { type = "emote", text = "WAVE" } },
+        } },
+        disabledDefaults = { [unrelatedID] = true },
+    }
+    local ok, err = pcall(function()
+        for _ = 1, 2 do
+            RPHelper.InitializeDatabase()
+            equal(RPHelperDB.abilities.ROGUE.BLADE_FLURRY, oldOnly)
+            equal(RPHelperDB.abilities.ROGUE.BLADE_FURY, nil)
+            equal(RPHelperDB.abilities.ROGUE.EVASION.future, "unrelated")
+            equal(RPHelperDB.abilities.MAGE.BLADE_FURY.future, "other-class")
+            equal(RPHelperDB.disabledDefaults[unrelatedID], true)
+            local migrated = RPHelper.UserContent.List({ layer = "ability", class = "ROGUE", ability = "BLADE_FLURRY" })
+            equal(#migrated, 2)
+            equal(RPHelperDB.custom.entries["custom:1"].scope.future, "scope")
+            equal(RPHelperDB.custom.entries["custom:1"].entry.type, "customemote")
+            equal(RPHelperDB.custom.entries["custom:1"].entry.text, "turns the blade.")
+            equal(RPHelperDB.custom.entries["custom:1"].entry.future, "entry")
+            equal(RPHelperDB.custom.entries["custom:1"].future, "record")
+            equal(RPHelperDB.custom.entries["custom:3"].scope.class, "MAGE")
+        end
+
+        RPHelperDB = { abilities = { ROGUE = {
+            BLADE_FURY = historical,
+            BLADE_FLURRY = destination,
+        } } }
+        RPHelper.InitializeDatabase();RPHelper.InitializeDatabase()
+        equal(RPHelperDB.abilities.ROGUE.BLADE_FLURRY, destination)
+        equal(RPHelperDB.abilities.ROGUE.BLADE_FURY, historical)
+
+        RPHelperDB = { abilities = { ROGUE = { BLADE_FURY = "malformed" } } }
+        RPHelper.InitializeDatabase();RPHelper.InitializeDatabase()
+        equal(RPHelperDB.abilities.ROGUE.BLADE_FURY, "malformed")
+        equal(RPHelperDB.abilities.ROGUE.BLADE_FLURRY, nil)
+    end)
+    RPHelperDB = saved;RPHelper.UserContent.Invalidate()
+    if not ok then error(err) end
+end)
+
+test("Rogue archived saved records and class reactions remain unchanged", function()
+    local saved = RPHelperDB
+    local keys = {
+        "AGITATING_POISON", "DEADLY_THROW", "DETECT_TRAPS", "EXPLOIT_WEAKNESS",
+        "FLOURISH", "PICK_LOCK", "RELENTLESS_STRIKES", "SAFE_FALL", "SHOOT_BOW",
+        "SHOOT_CROSSBOW", "SHOOT_GUN", "SURPRISE_ATTACK", "THROW",
+    }
+    local abilities, entries = {}, {}
+    for index, key in ipairs(keys) do
+        abilities[key] = { enabled = false, future = key }
+        entries["custom:" .. index] = {
+            scope = { layer = "ability", class = "ROGUE", ability = key, future = "keep" },
+            entry = { type = "say", text = "Preserve " .. key }, future = "keep",
+        }
+    end
+    RPHelperDB = { abilities = { ROGUE = abilities }, custom = { nextID = 14, entries = entries } }
+    local ok, err = pcall(function()
+        for _ = 1, 2 do
+            RPHelper.InitializeDatabase()
+            for index, key in ipairs(keys) do
+                equal(RPHelperDB.abilities.ROGUE[key], abilities[key])
+                local records = RPHelper.UserContent.List({ layer = "ability", class = "ROGUE", ability = key })
+                equal(#records, 1);equal(records[1].id, "custom:" .. index)
+                equal(records[1].scope.future, "keep")
+            end
+        end
+    end)
+    RPHelperDB = saved;RPHelper.UserContent.Invalidate()
+    if not ok then error(err) end
+
+    equal(#RPHelper.GetClassPool("ROGUE", "entercombat"), 10)
+    equal(#RPHelper.GetClassPool("ROGUE", "leavecombat"), 9)
+    equal(#RPHelper.GetClassPool("ROGUE", "dodge"), 1)
+    equal(#RPHelper.GetClassPool("ROGUE", "youcrit"), 10)
+    equal(#RPHelper.GetClassPool("ROGUE", "deferred_youcritspell"), 10)
+    equal(2 + 2 + 10 + 9 + 1 + 10 + 10, 44)
 end)
 
 test("Warlock reconciliation registers the approved active catalogue", function()
