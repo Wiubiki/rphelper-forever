@@ -81,3 +81,14 @@ Production currently maps no Hunter spell IDs. The existing runtime accepts only
 Subject to owner approval, a later catalogue-only implementation could retain the 46 confirmed identities and 141 reactions, add the 12 missing class identities as empty definitions, and leave all General and Pets-tab records outside the player class catalogue. The three beta-absent definitions require explicit preservation dispositions. No archive, migration, reaction transfer, pet-ability registration, spell-ID mapping, or runtime change is authorized by this research.
 
 The complete row-level evidence is in [the Hunter reconciliation CSV](hunter_beta_reconciliation.csv).
+
+## Approved implementation disposition
+
+The owner approved a catalogue-only implementation after this research:
+
+- Retain all 46 beta-confirmed identities and their 141 authored reactions without changing canonical associations, text, types, within-ability ordering, or generated default IDs.
+- Add empty definitions for Call Pet, Dismiss Pet, Feed Pet, Intimidation, Revive Pet, Summon Hawk, Tame Beast, Auto Shot, Enchanted Flare, Sniper Shot, Lacerate, and Strider Kick. Flare/Enchanted Flare, Carve/Lacerate, and Steady Shot/Sniper Shot remain distinct identities with no reaction transfer.
+- Remove Aspect of the Wolf, Carve, and Steady Shot from the active catalogue and preserve their 14 reactions unchanged and in order in an unloaded archive.
+- Keep all General-tab and Pets-tab identities outside the Hunter ability catalogue. Preserve player-owned settings and custom reactions under archived keys without migration or deletion.
+
+The resulting active catalogue contains **58 unique Hunter identities**, **141 active authored reactions**, and 12 empty shipped pools. The unloaded archive accounts for 14 additional reactions; the unchanged Hunter class-content file accounts for 78, preserving all **233 authored Hunter reactions** overall. No pet implementation, persistence migration, spell-ID mapping, or runtime-detection change is authorized.
