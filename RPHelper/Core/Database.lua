@@ -242,6 +242,34 @@ local function migrateRogueBladeFlurry()
     end
 end
 
+-- Approved Priest canonical spelling correction. Chastice had no shipped
+-- reactions, so there are no default-reaction IDs to translate; unknown
+-- historical disabled-default records remain untouched.
+local function migratePriestChastise()
+    local oldKey, newKey = "CHASTICE", "CHASTISE"
+
+    if type(RPHelperDB.custom) == "table" and type(RPHelperDB.custom.entries) == "table" then
+        for _, record in pairs(RPHelperDB.custom.entries) do
+            local scope = type(record) == "table" and record.scope
+            if type(scope) == "table" and scope.layer == "ability"
+                and scope.class == "PRIEST" and scope.ability == oldKey then
+                scope.ability = newKey
+            end
+        end
+    end
+
+    local priest = type(RPHelperDB.abilities) == "table" and RPHelperDB.abilities.PRIEST
+    if type(priest) == "table" then
+        local historical, destination = priest[oldKey], priest[newKey]
+        if type(historical) == "table" and destination == nil then
+            priest[newKey], priest[oldKey] = historical, nil
+        end
+        -- When both keys exist, the destination stays effective and the
+        -- historical record remains recoverable. Malformed values are also
+        -- preserved rather than guessed at or discarded.
+    end
+end
+
 function RPHelper.InitializeDatabase()
     if RPHelperDB == nil then RPHelperDB = {} end
     if type(RPHelperDB) ~= "table" then return end
@@ -261,6 +289,7 @@ function RPHelper.InitializeDatabase()
     migrateDruidShiftingPower()
     migrateWarlockAbilityRenames()
     migrateRogueBladeFlurry()
+    migratePriestChastise()
     if RPHelper.UserContent then RPHelper.UserContent.Invalidate() end
 
     if type(RPHelperDB.settings) == "table" then
