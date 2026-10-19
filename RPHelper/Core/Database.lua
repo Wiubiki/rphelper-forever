@@ -270,6 +270,63 @@ local function migratePriestChastise()
     end
 end
 
+-- Approved Paladin Salvation replacements. Keep this migration limited to
+-- the two reviewed identities rather than introducing a general framework.
+-- Greater Blessing of Salvation had no shipped reactions, so only the two
+-- Blessing of Salvation default IDs have a known translation.
+local function migratePaladinSalvation()
+    local mappings = {
+        { old = "BLESSING_OF_SALVATION", new = "SALVATION" },
+        { old = "GREATER_BLESSING_OF_SALVATION", new = "MASS_SALVATION" },
+    }
+    local replacements = {}
+    for _, mapping in ipairs(mappings) do replacements[mapping.old] = mapping.new end
+
+    if type(RPHelperDB.custom) == "table" and type(RPHelperDB.custom.entries) == "table" then
+        for _, record in pairs(RPHelperDB.custom.entries) do
+            local scope = type(record) == "table" and record.scope
+            local replacement = type(scope) == "table" and replacements[scope.ability]
+            if type(scope) == "table" and scope.layer == "ability"
+                and scope.class == "PALADIN" and replacement then
+                scope.ability = replacement
+            end
+        end
+    end
+
+    local paladin = type(RPHelperDB.abilities) == "table" and RPHelperDB.abilities.PALADIN
+    if type(paladin) == "table" then
+        for _, mapping in ipairs(mappings) do
+            local historical, destination = paladin[mapping.old], paladin[mapping.new]
+            if type(historical) == "table" and destination == nil then
+                paladin[mapping.new], paladin[mapping.old] = historical, nil
+            end
+            -- Existing destinations remain effective while conflicting or
+            -- malformed historical values stay recoverable under old keys.
+        end
+    end
+
+    if type(RPHelperDB.disabledDefaults) == "table" then
+        local defaultIDs = {
+            {
+                old = "default:v1:s7:abilitys7:PALADINs21:BLESSING_OF_SALVATIONs3:says33:The Light shelters you from harm!nn:1",
+                new = "default:v1:s7:abilitys7:PALADINs9:SALVATIONs3:says33:The Light shelters you from harm!nn:1",
+            },
+            {
+                old = "default:v1:s7:abilitys7:PALADINs21:BLESSING_OF_SALVATIONs11:customemotes58:bestows divine grace upon {TARGET}, reducing their threat.nn:1",
+                new = "default:v1:s7:abilitys7:PALADINs9:SALVATIONs11:customemotes58:bestows divine grace upon {TARGET}, reducing their threat.nn:1",
+            },
+        }
+        for _, ids in ipairs(defaultIDs) do
+            if RPHelperDB.disabledDefaults[ids.old] == true then
+                if RPHelperDB.disabledDefaults[ids.new] == nil then
+                    RPHelperDB.disabledDefaults[ids.new] = true
+                end
+                RPHelperDB.disabledDefaults[ids.old] = nil
+            end
+        end
+    end
+end
+
 function RPHelper.InitializeDatabase()
     if RPHelperDB == nil then RPHelperDB = {} end
     if type(RPHelperDB) ~= "table" then return end
@@ -290,6 +347,7 @@ function RPHelper.InitializeDatabase()
     migrateWarlockAbilityRenames()
     migrateRogueBladeFlurry()
     migratePriestChastise()
+    migratePaladinSalvation()
     if RPHelper.UserContent then RPHelper.UserContent.Invalidate() end
 
     if type(RPHelperDB.settings) == "table" then

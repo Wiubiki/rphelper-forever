@@ -148,3 +148,13 @@ Historical mount handling, Sanctuary, and beta-absent talent or custom identitie
 Subject to owner approval, a later implementation could retain the 45 exact beta identities and their 86 reactions; add seven empty definitions; and replace the two Salvation keys through explicit narrow migrations, preserving their two reactions and all player-owned records. The other six beta-absent identities should remain active exceptions or move to an unloaded archive only after individual preservation decisions. No reaction should be transferred among Bulwark, Strike, or taunt identities merely because their themes overlap.
 
 All 50 class-trigger reactions remain unchanged. No race-specific Paladin section, archive, migration, reaction transfer, spell-ID mapping, or runtime change is authorized by this research. Complete row-level evidence is in [the Paladin reconciliation CSV](paladin_beta_reconciliation.csv).
+
+## Approved Implementation Disposition
+
+The owner-approved implementation registers exactly 54 active identities, organized under Holy, Protection, and Retribution. It retains the 45 exact beta identities and their 86 reactions, adds empty definitions for Light's Vigil, Voice of Truth, Revoke, Seal of Fury, Swift Judgement, Templar's Bulwark, and Holy Strike, and adds empty `MASS_SALVATION` as the approved replacement for `GREATER_BLESSING_OF_SALVATION`.
+
+`BLESSING_OF_SALVATION` is replaced by `SALVATION`, preserving its two reactions byte-for-byte. A narrow, idempotent SavedVariables migration covers only these two approved identity mappings. Old-only settings move to the canonical key; when both keys exist, the canonical destination wins and the historical record remains recoverable. Matching Paladin ability custom scopes are updated without changing their content or metadata. Disabled-default migration is limited to the two shipped Blessing of Salvation reaction IDs; no Greater Blessing default-ID mapping or prefix-wide inference is made.
+
+An unloaded archive preserves eight historical keys. The two replaced Salvation keys have empty archive pools; Blessing of Sanctuary, Bulwark of the Righteous, Crusader Strike, Hand of Reckoning, Sanctity Aura, and Summon Warhorse retain their 15 reactions under their original identities. No Bulwark, Strike, or taunt content is reassociated.
+
+The implemented preservation total is **153 authored reactions**: 88 active ability reactions, 15 unloaded archive reactions, and 50 unchanged class-trigger reactions. Paladin spell IDs, event mappings, and all client-dependent runtime behavior remain deferred.
