@@ -122,16 +122,16 @@ local historicalExclusions = {
     ["MAGE:DETECT_MAGIC"] = true,
     ["MAGE:ICICLES"] = true,
     ["PALADIN:GREATER_BLESSING_OF_SANCTUARY"] = true,
-    ["PRIEST:DESPERATE_PRAYER"] = true,
-    ["PRIEST:DEVOURING_PLAGUE"] = true,
-    ["PRIEST:ELUNES_GRACE"] = true,
-    ["PRIEST:FEAR_WARD"] = true,
-    ["PRIEST:FEEDBACK"] = true,
-    ["PRIEST:HEX_OF_WEAKNESS"] = true,
+    ["PRIEST:CHAMPIONS_BOND"] = true,
+    ["PRIEST:CHAMPIONS_RESOLVE"] = true,
+    ["PRIEST:CHASTICE"] = true,
+    ["PRIEST:EMPOWER_CHAMPION"] = true,
+    ["PRIEST:LIGHTWELL"] = true,
+    ["PRIEST:PAIN_SPIKE"] = true,
+    ["PRIEST:PROCLAIM_CHAMPION"] = true,
+    ["PRIEST:REVIVE_CHAMPION"] = true,
     ["PRIEST:SEARING_SHOT"] = true,
-    ["PRIEST:SHADOWGUARD"] = true,
-    ["PRIEST:STARSHARDS"] = true,
-    ["PRIEST:TOUCH_OF_WEAKNESS"] = true,
+    ["PRIEST:SPIRIT_OF_REDEMPTION"] = true,
     ["ROGUE:AGITATING_POISON"] = true,
     ["ROGUE:BLADE_FURY"] = true,
     ["ROGUE:DEADLY_THROW"] = true,
@@ -171,6 +171,7 @@ local catalogueAdditions = {
     DRUID = "AQUATIC_FORM BEAR_FORM GROWL LACERATE PRIMAL_BITE REVIVE SHIFTING_POWER WILD_GROWTH",
     HUNTER = "AUTO_SHOT CALL_PET DISMISS_PET ENCHANTED_FLARE FEED_PET INTIMIDATION LACERATE REVIVE_PET SNIPER_SHOT STRIDER_KICK SUMMON_HAWK TAME_BEAST",
     MAGE = "ARCANE_BLAST ARCANE_WRATH FROSTFIRE_BOLT FROST_BLAST ICE_LANCE POLYMORPH_PIG POLYMORPH_TURTLE TELEPORT_DALARAN",
+    PRIEST = "BINDING_HEAL CHASTISE CONFOUNDING_FLASH CONTINGENCY_PLAN DARK_SACRIFICE DIVINE_GRACE PENANCE PRAYER_OF_MENDING PRAYER_OF_SHADOW_PROTECTION PRAYER_OF_SPIRIT SHADOW_WORD_DEATH",
     ROGUE = "BLADE_FLURRY MUTILATE VENOM",
     SHAMAN = "CALL_OF_THE_ANCESTORS CALL_OF_THE_ELEMENTS CALL_OF_THE_SPIRITS FIRE_NOVA LAVA_BURST RAGE_OF_THE_FARSEER RIPTIDE TOTEMIC_PROJECTION",
     WARRIOR = "BATTLE_STANCE BERSERKER_STANCE DEFENSIVE_STANCE SPEARING_STRIKE TAUNT VICTORY_RUSH",
@@ -181,7 +182,7 @@ local preReconciliationKeys = {
     HUNTER = "AIMED_SHOT ARCANE_SHOT ASPECT_OF_THE_BEAST ASPECT_OF_THE_CHEETAH ASPECT_OF_THE_HAWK ASPECT_OF_THE_MONKEY ASPECT_OF_THE_PACK ASPECT_OF_THE_WILD BEAST_LORE BESTIAL_WRATH CONCUSSIVE_SHOT COUNTERATTACK DETERRENCE DISENGAGE DISTRACTING_SHOT EAGLE_EYE EXPLOSIVE_TRAP EYES_OF_THE_BEAST FEIGN_DEATH FLARE FREEZING_TRAP FROST_TRAP HUNTERS_MARK IMMOLATION_TRAP MEND_PET MONGOOSE_BITE MULTI_SHOT RAPID_FIRE RAPTOR_STRIKE SCARE_BEAST SCATTER_SHOT SCORPID_STING SERPENT_STING TRACK_BEASTS TRACK_DEMONS TRACK_DRAGONKIN TRACK_ELEMENTALS TRACK_GIANTS TRACK_HIDDEN TRACK_HUMANOIDS TRACK_UNDEAD TRANQUILIZING_SHOT TRUESHOT_AURA VIPER_STING VOLLEY WING_CLIP",
     MAGE = "AMPLIFY_MAGIC ARCANE_BRILLIANCE ARCANE_EXPLOSION ARCANE_INTELLECT ARCANE_MISSILES ARCANE_POWER BLAST_WAVE BLINK BLIZZARD COLD_SNAP COMBUSTION CONE_OF_COLD CONJURE_FOOD CONJURE_MANA_AGATE CONJURE_MANA_CITRINE CONJURE_MANA_JADE CONJURE_MANA_RUBY CONJURE_WATER COUNTERSPELL DAMPEN_MAGIC EVOCATION FIREBALL FIRE_BLAST FIRE_WARD FLAMESTRIKE FROSTBOLT FROST_ARMOR FROST_NOVA FROST_WARD ICE_ARMOR ICE_BARRIER ICE_BLOCK MAGE_ARMOR MANA_SHIELD POLYMORPH PORTAL_DARNASSUS PORTAL_IRONFORGE PORTAL_ORGRIMMAR PORTAL_STORMWIND PORTAL_THUNDER_BLUFF PORTAL_UNDERCITY PRESENCE_OF_MIND PYROBLAST REMOVE_LESSER_CURSE SCORCH SLOW_FALL TELEPORT_DARNASSUS TELEPORT_IRONFORGE TELEPORT_ORGRIMMAR TELEPORT_STORMWIND TELEPORT_THUNDER_BLUFF TELEPORT_UNDERCITY",
     PALADIN = "BLESSING_OF_FREEDOM BLESSING_OF_KINGS BLESSING_OF_LIGHT BLESSING_OF_MIGHT BLESSING_OF_PROTECTION BLESSING_OF_SACRIFICE BLESSING_OF_SALVATION BLESSING_OF_SANCTUARY BLESSING_OF_WISDOM BULWARK_OF_THE_RIGHTEOUS CLEANSE CONCENTRATION_AURA CONSECRATION CRUSADER_STRIKE DEVOTION_AURA DIVINE_FAVOR DIVINE_INTERVENTION DIVINE_PROTECTION DIVINE_SHIELD EXORCISM FIRE_RESISTANCE_AURA FLASH_OF_LIGHT FROST_RESISTANCE_AURA GREATER_BLESSING_OF_MIGHT HAMMER_OF_JUSTICE HAMMER_OF_WRATH HAND_OF_RECKONING HOLY_LIGHT HOLY_SHIELD HOLY_SHOCK HOLY_WRATH JUDGEMENT LAY_ON_HANDS PURIFY REDEMPTION REPENTANCE RETRIBUTION_AURA RIGHTEOUS_FURY SANCTITY_AURA SEAL_OF_COMMAND SEAL_OF_JUSTICE SEAL_OF_LIGHT SEAL_OF_RIGHTEOUSNESS SEAL_OF_THE_CRUSADER SEAL_OF_WISDOM SENSE_UNDEAD SHADOW_RESISTANCE_AURA SUMMON_WARHORSE TURN_UNDEAD",
-    PRIEST = "ABOLISH_DISEASE CURE_DISEASE DISPEL_MAGIC DIVINE_SPIRIT FADE FLASH_HEAL GREATER_HEAL HEAL HOLY_FIRE HOLY_NOVA INNER_FIRE INNER_FOCUS LESSER_HEAL LEVITATE LIGHTWELL MANA_BURN MIND_BLAST MIND_CONTROL MIND_FLAY MIND_SOOTHE MIND_VISION POWER_INFUSION POWER_WORD_FORTITUDE POWER_WORD_SHIELD PRAYER_OF_FORTITUDE PRAYER_OF_HEALING PSYCHIC_SCREAM RENEW RESURRECTION SHACKLE_UNDEAD SHADOWFORM SHADOW_PROTECTION SHADOW_WORD_PAIN SILENCE SMITE SPIRIT_OF_REDEMPTION VAMPIRIC_EMBRACE",
+    PRIEST = "ABOLISH_DISEASE CURE_DISEASE DISPEL_MAGIC DIVINE_SPIRIT FADE FLASH_HEAL GREATER_HEAL HEAL HOLY_FIRE HOLY_NOVA INNER_FIRE INNER_FOCUS LESSER_HEAL LEVITATE MANA_BURN MIND_BLAST MIND_CONTROL MIND_FLAY MIND_SOOTHE MIND_VISION POWER_INFUSION POWER_WORD_FORTITUDE POWER_WORD_SHIELD PRAYER_OF_FORTITUDE PRAYER_OF_HEALING PSYCHIC_SCREAM RENEW RESURRECTION SHACKLE_UNDEAD SHADOWFORM SHADOW_PROTECTION SHADOW_WORD_PAIN SILENCE SMITE VAMPIRIC_EMBRACE",
     ROGUE = "DISARM_TRAP SPRINT",
     SHAMAN = "ANCESTRAL_SPIRIT CHAIN_HEAL CHAIN_LIGHTNING CURE_DISEASE CURE_POISON DISEASE_CLEANSING_TOTEM EARTHBIND_TOTEM EARTH_SHOCK FIRE_NOVA FIRE_RESISTANCE_TOTEM FLAMETONGUE_TOTEM FLAMETONGUE_WEAPON FLAME_SHOCK FROSTBRAND_WEAPON FROST_RESISTANCE_TOTEM FROST_SHOCK GHOST_WOLF GRACE_OF_AIR_TOTEM GROUNDING_TOTEM HEALING_STREAM_TOTEM HEALING_WAVE LESSER_HEALING_WAVE LIGHTNING_BOLT LIGHTNING_SHIELD MAGMA_TOTEM MANA_SPRING_TOTEM MANA_TIDE_TOTEM NATURES_SWIFTNESS NATURE_RESISTANCE_TOTEM POISON_CLEANSING_TOTEM PURGE REINCARNATION ROCKBITER_WEAPON SEARING_TOTEM SENTRY_TOTEM STONECLAW_TOTEM STONESKIN_TOTEM STORMSTRIKE STRENGTH_OF_EARTH_TOTEM TOTEMIC_RECALL TREMOR_TOTEM WATER_SHIELD WINDFURY_TOTEM WINDFURY_WEAPON WINDWALL_TOTEM",
     WARLOCK = "BANE_OF_AGONY BANE_OF_DOOM BANISH CURSE_OF_EXHAUSTION CURSE_OF_RECKLESSNESS CURSE_OF_THE_ELEMENTS CURSE_OF_TONGUES CURSE_OF_WEAKNESS DRAIN_LIFE DRAIN_MANA DRAIN_SOUL FEAR HEALTH_FUNNEL HELLFIRE IMMOLATE RAIN_OF_FIRE RITUAL_OF_SUMMONING SEARING_PAIN SENSE_DEMONS SOUL_FIRE SUBJUGATE_DEMON SUMMON_IMP SUMMON_SUCCUBUS SUMMON_VOIDWALKER UNENDING_BREATH",
@@ -192,11 +193,22 @@ local reactionBaseline = {
     HUNTER = { count = 141, checksum = 1089007657 },
     MAGE = { count = 128, checksum = 549995872 },
     PALADIN = { count = 103, checksum = 857993924 },
-    PRIEST = { count = 111, checksum = 41110586 },
+    PRIEST = { count = 105, checksum = 60264538 },
     ROGUE = { count = 2, checksum = 1433710909 },
     SHAMAN = { count = 188, checksum = 460885902 },
     WARLOCK = { count = 54, checksum = 370228227 },
     WARRIOR = { count = 21, checksum = 662592189 },
+}
+local restoredPriestReactionKeys = {
+    DESPERATE_PRAYER = true,
+    DEVOURING_PLAGUE = true,
+    ELUNES_GRACE = true,
+    FEAR_WARD = true,
+    FEEDBACK = true,
+    HEX_OF_WEAKNESS = true,
+    SHADOWGUARD = true,
+    STARSHARDS = true,
+    TOUCH_OF_WEAKNESS = true,
 }
 local function catalogueChecksum(text)
     local hash = 0
@@ -226,7 +238,9 @@ for class, keys in pairs(historicalKeys) do
         local previous = {}
         for key in string.gmatch(preReconciliationKeys[class], "%S+") do previous[key] = true end
         for key in pairs(expected) do
-            if not previous[key] and not (class == "SHAMAN" and key == "FIRE_NOVA") then
+            if not previous[key]
+                and not (class == "SHAMAN" and key == "FIRE_NOVA")
+                and not (class == "PRIEST" and restoredPriestReactionKeys[key]) then
                 equal(#RPHelper.GetAbilityPool(class, key), 0)
                 equal(RPHelper.ChooseAbilityCandidate(class, key, { resolvers = {} }), nil)
             end
@@ -268,7 +282,7 @@ test("historical catalogue: class files register each empty definition once", fu
         for _, class in ipairs({ "Druid", "Hunter", "Mage", "Paladin", "Priest", "Rogue", "Shaman", "Warlock", "Warrior" }) do
             dofile("RPHelper/Data/Abilities/" .. class .. ".lua")
         end
-        equal(count, 181)
+        equal(count, 185)
     end)
     RPHelper = previous
     if not ok then error(err) end
@@ -739,6 +753,199 @@ test("Rogue archived saved records and class reactions remain unchanged", functi
     equal(#RPHelper.GetClassPool("ROGUE", "youcrit"), 10)
     equal(#RPHelper.GetClassPool("ROGUE", "deferred_youcritspell"), 10)
     equal(2 + 2 + 10 + 9 + 1 + 10 + 10, 44)
+end)
+
+test("Priest reconciliation registers the approved active catalogue", function()
+    local universal = {
+        "DISPEL_MAGIC", "DIVINE_SPIRIT", "INNER_FIRE", "INNER_FOCUS", "LEVITATE", "MANA_BURN",
+        "PENANCE", "POWER_INFUSION", "POWER_WORD_FORTITUDE", "POWER_WORD_SHIELD",
+        "PRAYER_OF_FORTITUDE", "PRAYER_OF_SPIRIT", "SHACKLE_UNDEAD", "ABOLISH_DISEASE",
+        "BINDING_HEAL", "CURE_DISEASE", "FEAR_WARD", "FLASH_HEAL", "GREATER_HEAL", "HEAL",
+        "HOLY_FIRE", "HOLY_NOVA", "LESSER_HEAL", "PRAYER_OF_HEALING", "PRAYER_OF_MENDING",
+        "RENEW", "RESURRECTION", "SMITE", "DEVOURING_PLAGUE", "FADE", "MIND_BLAST",
+        "MIND_CONTROL", "MIND_FLAY", "MIND_SOOTHE", "MIND_VISION",
+        "PRAYER_OF_SHADOW_PROTECTION", "PSYCHIC_SCREAM", "SHADOW_PROTECTION", "SHADOW_WORD_DEATH",
+        "SHADOW_WORD_PAIN", "SHADOWFORM", "SILENCE", "VAMPIRIC_EMBRACE",
+    }
+    local racial = {
+        "CHASTISE", "DESPERATE_PRAYER", "CONFOUNDING_FLASH", "CONTINGENCY_PLAN", "DIVINE_GRACE",
+        "FEEDBACK", "ELUNES_GRACE", "STARSHARDS", "HEX_OF_WEAKNESS", "SHADOWGUARD",
+        "DARK_SACRIFICE", "TOUCH_OF_WEAKNESS",
+    }
+    local expected, count = {}, 0
+    for _, keys in ipairs({ universal, racial }) do
+        for _, key in ipairs(keys) do
+            expected[key] = true
+            equal(RPHelper.Ability.PRIEST[key], key)
+        end
+    end
+    for key in pairs(RPHelper.Ability.PRIEST) do truthy(expected[key]);count = count + 1 end
+    equal(count, 55);equal(#universal, 43);equal(#racial, 12)
+
+    for _, key in ipairs({
+        "PENANCE", "BINDING_HEAL", "PRAYER_OF_MENDING", "SHADOW_WORD_DEATH",
+        "PRAYER_OF_SPIRIT", "PRAYER_OF_SHADOW_PROTECTION", "CHASTISE", "CONFOUNDING_FLASH",
+        "CONTINGENCY_PLAN", "DIVINE_GRACE", "DARK_SACRIFICE",
+    }) do equal(#RPHelper.GetAbilityPool("PRIEST", key), 0) end
+    for _, key in ipairs({
+        "CHAMPIONS_BOND", "CHAMPIONS_RESOLVE", "CHASTICE", "EMPOWER_CHAMPION", "LIGHTWELL",
+        "PAIN_SPIKE", "PROCLAIM_CHAMPION", "REVIVE_CHAMPION", "SPIRIT_OF_REDEMPTION",
+    }) do
+        equal(RPHelper.Ability.PRIEST[key], nil)
+        equal(#RPHelper.GetAbilityPool("PRIEST", key), 0)
+    end
+end)
+
+test("Priest source ordering headings and registrations match the approved layout", function()
+    local source = assert(io.open("RPHelper/Data/Abilities/Priest.lua", "r")):read("*a")
+    local groups = {
+        "DISPEL_MAGIC DIVINE_SPIRIT INNER_FIRE INNER_FOCUS LEVITATE MANA_BURN PENANCE POWER_INFUSION POWER_WORD_FORTITUDE POWER_WORD_SHIELD PRAYER_OF_FORTITUDE PRAYER_OF_SPIRIT SHACKLE_UNDEAD",
+        "ABOLISH_DISEASE BINDING_HEAL CURE_DISEASE FEAR_WARD FLASH_HEAL GREATER_HEAL HEAL HOLY_FIRE HOLY_NOVA LESSER_HEAL PRAYER_OF_HEALING PRAYER_OF_MENDING RENEW RESURRECTION SMITE",
+        "DEVOURING_PLAGUE FADE MIND_BLAST MIND_CONTROL MIND_FLAY MIND_SOOTHE MIND_VISION PRAYER_OF_SHADOW_PROTECTION PSYCHIC_SCREAM SHADOW_PROTECTION SHADOW_WORD_DEATH SHADOW_WORD_PAIN SHADOWFORM SILENCE VAMPIRIC_EMBRACE",
+        "CHASTISE DESPERATE_PRAYER", "CONFOUNDING_FLASH CONTINGENCY_PLAN", "DIVINE_GRACE FEEDBACK",
+        "ELUNES_GRACE STARSHARDS", "HEX_OF_WEAKNESS SHADOWGUARD", "DARK_SACRIFICE TOUCH_OF_WEAKNESS",
+    }
+    local expected, actual, headings = {}, {}, {}
+    for _, group in ipairs(groups) do
+        for key in string.gmatch(group, "%S+") do expected[#expected + 1] = key end
+    end
+    for key in string.gmatch(source, "\n%-%- ([A-Z][A-Z0-9_]*)\n") do
+        actual[#actual + 1] = key;headings[key] = (headings[key] or 0) + 1
+    end
+    equal(#actual, 55);equal(string.find(source, "for _, ability in ipairs", 1, true), nil)
+    for index, key in ipairs(expected) do
+        equal(actual[index], key);equal(headings[key], 1)
+        if #RPHelper.GetAbilityPool("PRIEST", key) == 0 then
+            truthy(string.find(source, 'RPHelper.RegisterAbility(C, "' .. key .. '")', 1, true))
+            for _, kind in ipairs({ "say", "emote", "customemote" }) do
+                truthy(string.find(source, '-- add("' .. key .. '", "' .. kind .. '", "")', 1, true))
+            end
+        else equal(string.find(source, '-- add("' .. key .. '",', 1, true), nil) end
+    end
+
+    local registrationCounts = {}
+    for _, key in ipairs(expected) do
+        local poolSize = #RPHelper.GetAbilityPool("PRIEST", key)
+        registrationCounts[key] = poolSize > 0 and poolSize or 1
+    end
+    local previous = RPHelper
+    local ok, err = pcall(function()
+        local registrations = {}
+        RPHelper = { Ability = { PRIEST = {} }, Class = { PRIEST = "PRIEST" } }
+        RPHelper.RegisterAbility = function(_, ability)
+            registrations[ability] = (registrations[ability] or 0) + 1
+        end
+        dofile("RPHelper/Data/Abilities/Priest.lua")
+        for _, key in ipairs(expected) do equal(registrations[key], registrationCounts[key]) end
+    end)
+    RPHelper = previous;if not ok then error(err) end
+end)
+
+test("Priest historical reactions are restored exactly", function()
+    local expected = {
+        FEAR_WARD = {{"say", "No fear shall take hold of me!"},{"say", "The Light banishes all terror!"},{"customemote", "places a protective blessing upon {TARGET}, warding off fear and despair."}},
+        DEVOURING_PLAGUE = {{"say", "The plague shall consume you!"},{"say", "Your life force withers away!"},{"customemote", "chants in a low whisper, unleashing a virulent plague upon {TARGET}."}},
+        DESPERATE_PRAYER = {{"say", "Light, hear my desperate plea!"},{"say", "In my darkest moment, the Light remains!"},{"emote", "PRAY"},{"customemote", "clasps {PP} hands together, whispering a desperate prayer for salvation."}},
+        ELUNES_GRACE = {{"say", "Elune’s grace shields me from harm!"},{"say", "The night mother watches over me!"},{"customemote", "whispers a soft prayer as a gentle glow surrounds {PP} form."}},
+        FEEDBACK = {{"say", "Your magic turns against you!"},{"say", "The Light repels your corruption!"},{"customemote", "focuses intensely, reflecting harmful magic back at {TARGET}."}},
+        HEX_OF_WEAKNESS = {{"say", "You be feelin’ weaker already, mon!"},{"say", "Da spirits take your strength!"},{"customemote", "waves a hand, placing a sinister hex upon {TARGET}."}},
+        SHADOWGUARD = {{"say", "Darkness protects me!"},{"say", "The void deflects your strike!"},{"customemote", "a swirling barrier of shadow encases {PP}, crackling with dark energy."}},
+        STARSHARDS = {{"say", "Elune’s wrath descends upon you!"},{"say", "The stars shall be your undoing!"},{"customemote", "calls upon Elune, raining down shards of starlight upon {TARGET}."}},
+        TOUCH_OF_WEAKNESS = {{"say", "Your strength fades into nothingness!"},{"say", "The touch of undeath weakens your flesh!"},{"customemote", "reaches out, sapping vitality from {TARGET}."}},
+    }
+    local total = 0
+    for key, entries in pairs(expected) do
+        local pool = RPHelper.GetAbilityPool("PRIEST", key);equal(#pool, #entries);total = total + #pool
+        for index, entry in ipairs(entries) do equal(pool[index].type, entry[1]);equal(pool[index].text, entry[2]) end
+    end
+    equal(total, 28)
+    local active = 0;for key in pairs(RPHelper.Ability.PRIEST) do active = active + #RPHelper.GetAbilityPool("PRIEST", key) end
+    equal(active, 133)
+end)
+
+test("Priest archive preserves displaced reactions and is excluded from the manifest", function()
+    local archive = dofile("RPHelper/Data/Abilities/PriestArchive.lua")
+    local keys = { "CHAMPIONS_BOND", "CHAMPIONS_RESOLVE", "CHASTICE", "EMPOWER_CHAMPION", "LIGHTWELL", "PAIN_SPIKE", "PROCLAIM_CHAMPION", "REVIVE_CHAMPION", "SPIRIT_OF_REDEMPTION" }
+    local count = 0;for key in pairs(archive) do count = count + 1;truthy(type(archive[key]) == "table") end;equal(count, 9)
+    for _, key in ipairs(keys) do truthy(archive[key]) end
+    equal(#archive.LIGHTWELL, 3);equal(#archive.SPIRIT_OF_REDEMPTION, 3)
+    equal(archive.LIGHTWELL[1].text, "Drink deep from the well of Light!")
+    equal(archive.LIGHTWELL[3].type, "customemote")
+    equal(archive.SPIRIT_OF_REDEMPTION[3].text, "ascends into a spectral form, continuing to heal allies despite {PP} demise.")
+    for _, key in ipairs({ "CHAMPIONS_BOND", "CHAMPIONS_RESOLVE", "CHASTICE", "EMPOWER_CHAMPION", "PAIN_SPIKE", "PROCLAIM_CHAMPION", "REVIVE_CHAMPION" }) do equal(#archive[key], 0) end
+    local toc = assert(io.open("RPHelper/RPHelper.toc", "r")):read("*a")
+    equal(string.find(toc, "PriestArchive.lua", 1, true), nil)
+end)
+
+test("Priest archived saved records remain untouched", function()
+    local saved = RPHelperDB
+    local keys = { "CHAMPIONS_BOND", "CHAMPIONS_RESOLVE", "EMPOWER_CHAMPION", "LIGHTWELL", "PAIN_SPIKE", "PROCLAIM_CHAMPION", "REVIVE_CHAMPION", "SPIRIT_OF_REDEMPTION" }
+    local abilities, entries = {}, {}
+    for index, key in ipairs(keys) do
+        abilities[key] = { enabled = false, future = key }
+        entries["custom:" .. index] = {
+            scope = { layer = "ability", class = "PRIEST", ability = key, future = "scope" },
+            entry = { type = "say", text = "Preserve " .. key, future = "entry" }, future = "record",
+        }
+    end
+    RPHelperDB = { abilities = { PRIEST = abilities }, custom = { nextID = 9, entries = entries } }
+    local ok, err = pcall(function()
+        for _ = 1, 2 do
+            RPHelper.InitializeDatabase()
+            for index, key in ipairs(keys) do
+                equal(RPHelperDB.abilities.PRIEST[key], abilities[key])
+                equal(RPHelperDB.custom.entries["custom:" .. index].scope.ability, key)
+                equal(RPHelperDB.custom.entries["custom:" .. index].scope.future, "scope")
+                equal(RPHelperDB.custom.entries["custom:" .. index].entry.future, "entry")
+                equal(RPHelperDB.custom.entries["custom:" .. index].future, "record")
+            end
+        end
+    end)
+    RPHelperDB = saved;RPHelper.UserContent.Invalidate();if not ok then error(err) end
+end)
+
+test("Priest CHASTICE migration preserves settings custom content and unknown IDs", function()
+    local saved = RPHelperDB
+    local oldOnly = { enabled = false, nested = { keep = true }, future = "old-only" }
+    local historical, destination = { chance = 0.25 }, { enabled = true }
+    local unknownID = "default:v1:s7:abilitys6:PRIESTs8:CHASTICE:unknown"
+    RPHelperDB = {
+        abilities = { PRIEST = { CHASTICE = oldOnly, LIGHTWELL = { future = "archive" } }, MAGE = { CHASTICE = { future = "other" } } },
+        custom = { nextID = 4, entries = {
+            ["custom:1"] = { scope = { layer = "ability", class = "PRIEST", ability = "CHASTICE", future = "scope" }, entry = { type = "say", text = "Old spelling.", future = "entry" }, future = "record" },
+            ["custom:2"] = { scope = { layer = "ability", class = "PRIEST", ability = "CHASTISE" }, entry = { type = "customemote", text = "Already canonical." } },
+            ["custom:3"] = { scope = { layer = "ability", class = "MAGE", ability = "CHASTICE" }, entry = { type = "emote", text = "WAVE" } },
+        } }, disabledDefaults = { [unknownID] = true },
+    }
+    local ok, err = pcall(function()
+        for _ = 1, 2 do
+            RPHelper.InitializeDatabase();equal(RPHelperDB.abilities.PRIEST.CHASTISE, oldOnly);equal(RPHelperDB.abilities.PRIEST.CHASTICE, nil)
+            equal(RPHelperDB.abilities.PRIEST.LIGHTWELL.future, "archive");equal(RPHelperDB.abilities.MAGE.CHASTICE.future, "other")
+            equal(RPHelperDB.disabledDefaults[unknownID], true)
+            equal(RPHelperDB.custom.entries["custom:1"].scope.ability, "CHASTISE")
+            equal(RPHelperDB.custom.entries["custom:1"].scope.future, "scope");equal(RPHelperDB.custom.entries["custom:1"].entry.text, "Old spelling.")
+            equal(RPHelperDB.custom.entries["custom:1"].entry.future, "entry");equal(RPHelperDB.custom.entries["custom:1"].future, "record")
+            equal(RPHelperDB.custom.entries["custom:3"].scope.ability, "CHASTICE")
+        end
+        RPHelperDB = { abilities = { PRIEST = { CHASTICE = historical, CHASTISE = destination } } }
+        RPHelper.InitializeDatabase();RPHelper.InitializeDatabase();equal(RPHelperDB.abilities.PRIEST.CHASTISE, destination);equal(RPHelperDB.abilities.PRIEST.CHASTICE, historical)
+        RPHelperDB = { abilities = { PRIEST = { CHASTICE = "malformed" } } }
+        RPHelper.InitializeDatabase();RPHelper.InitializeDatabase();equal(RPHelperDB.abilities.PRIEST.CHASTICE, "malformed");equal(RPHelperDB.abilities.PRIEST.CHASTISE, nil)
+    end)
+    RPHelperDB = saved;RPHelper.UserContent.Invalidate();if not ok then error(err) end
+end)
+
+test("Priest class reactions remain unchanged", function()
+    local triggers = "absorb block deferred_youcritspell dodge entercombat hurt leavecombat miss parry petattackstart petattackstop petdies resurrect youcrit youcritheal youheal"
+    local parts, count = {}, 0
+    for trigger in string.gmatch(triggers, "%S+") do
+        parts[#parts + 1] = trigger
+        for _, entry in ipairs(RPHelper.GetClassPool("PRIEST", trigger)) do
+            count = count + 1
+            for _, field in ipairs({ "type", "text", "defaultID", "template" }) do local value = entry[field] or "";parts[#parts + 1] = #value .. ":" .. value end
+        end
+    end
+    equal(count, 51);equal(catalogueChecksum(table.concat(parts, "\n")), 758073129)
 end)
 
 test("Warlock reconciliation registers the approved active catalogue", function()
