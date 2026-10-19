@@ -122,6 +122,14 @@ local historicalExclusions = {
     ["MAGE:DETECT_MAGIC"] = true,
     ["MAGE:ICICLES"] = true,
     ["PALADIN:GREATER_BLESSING_OF_SANCTUARY"] = true,
+    ["PALADIN:BLESSING_OF_SALVATION"] = true,
+    ["PALADIN:BLESSING_OF_SANCTUARY"] = true,
+    ["PALADIN:BULWARK_OF_THE_RIGHTEOUS"] = true,
+    ["PALADIN:CRUSADER_STRIKE"] = true,
+    ["PALADIN:GREATER_BLESSING_OF_SALVATION"] = true,
+    ["PALADIN:HAND_OF_RECKONING"] = true,
+    ["PALADIN:SANCTITY_AURA"] = true,
+    ["PALADIN:SUMMON_WARHORSE"] = true,
     ["PRIEST:CHAMPIONS_BOND"] = true,
     ["PRIEST:CHAMPIONS_RESOLVE"] = true,
     ["PRIEST:CHASTICE"] = true,
@@ -171,6 +179,7 @@ local catalogueAdditions = {
     DRUID = "AQUATIC_FORM BEAR_FORM GROWL LACERATE PRIMAL_BITE REVIVE SHIFTING_POWER WILD_GROWTH",
     HUNTER = "AUTO_SHOT CALL_PET DISMISS_PET ENCHANTED_FLARE FEED_PET INTIMIDATION LACERATE REVIVE_PET SNIPER_SHOT STRIDER_KICK SUMMON_HAWK TAME_BEAST",
     MAGE = "ARCANE_BLAST ARCANE_WRATH FROSTFIRE_BOLT FROST_BLAST ICE_LANCE POLYMORPH_PIG POLYMORPH_TURTLE TELEPORT_DALARAN",
+    PALADIN = "HOLY_STRIKE LIGHTS_VIGIL MASS_SALVATION REVOKE SALVATION SEAL_OF_FURY SWIFT_JUDGEMENT TEMPLARS_BULWARK VOICE_OF_TRUTH",
     PRIEST = "BINDING_HEAL CHASTISE CONFOUNDING_FLASH CONTINGENCY_PLAN DARK_SACRIFICE DIVINE_GRACE PENANCE PRAYER_OF_MENDING PRAYER_OF_SHADOW_PROTECTION PRAYER_OF_SPIRIT SHADOW_WORD_DEATH",
     ROGUE = "BLADE_FLURRY MUTILATE VENOM",
     SHAMAN = "CALL_OF_THE_ANCESTORS CALL_OF_THE_ELEMENTS CALL_OF_THE_SPIRITS FIRE_NOVA LAVA_BURST RAGE_OF_THE_FARSEER RIPTIDE TOTEMIC_PROJECTION",
@@ -181,7 +190,7 @@ local preReconciliationKeys = {
     DRUID = "CHALLENGING_ROAR DEMORALIZING_ROAR DIRE_BEAR_FORM ENRAGE ENTANGLING_ROOTS GIFT_OF_THE_WILD HIBERNATE HURRICANE INNERVATE REBIRTH SHIFTING_POWER TELEPORT_MOONGLADE TRANQUILITY",
     HUNTER = "AIMED_SHOT ARCANE_SHOT ASPECT_OF_THE_BEAST ASPECT_OF_THE_CHEETAH ASPECT_OF_THE_HAWK ASPECT_OF_THE_MONKEY ASPECT_OF_THE_PACK ASPECT_OF_THE_WILD BEAST_LORE BESTIAL_WRATH CONCUSSIVE_SHOT COUNTERATTACK DETERRENCE DISENGAGE DISTRACTING_SHOT EAGLE_EYE EXPLOSIVE_TRAP EYES_OF_THE_BEAST FEIGN_DEATH FLARE FREEZING_TRAP FROST_TRAP HUNTERS_MARK IMMOLATION_TRAP MEND_PET MONGOOSE_BITE MULTI_SHOT RAPID_FIRE RAPTOR_STRIKE SCARE_BEAST SCATTER_SHOT SCORPID_STING SERPENT_STING TRACK_BEASTS TRACK_DEMONS TRACK_DRAGONKIN TRACK_ELEMENTALS TRACK_GIANTS TRACK_HIDDEN TRACK_HUMANOIDS TRACK_UNDEAD TRANQUILIZING_SHOT TRUESHOT_AURA VIPER_STING VOLLEY WING_CLIP",
     MAGE = "AMPLIFY_MAGIC ARCANE_BRILLIANCE ARCANE_EXPLOSION ARCANE_INTELLECT ARCANE_MISSILES ARCANE_POWER BLAST_WAVE BLINK BLIZZARD COLD_SNAP COMBUSTION CONE_OF_COLD CONJURE_FOOD CONJURE_MANA_AGATE CONJURE_MANA_CITRINE CONJURE_MANA_JADE CONJURE_MANA_RUBY CONJURE_WATER COUNTERSPELL DAMPEN_MAGIC EVOCATION FIREBALL FIRE_BLAST FIRE_WARD FLAMESTRIKE FROSTBOLT FROST_ARMOR FROST_NOVA FROST_WARD ICE_ARMOR ICE_BARRIER ICE_BLOCK MAGE_ARMOR MANA_SHIELD POLYMORPH PORTAL_DARNASSUS PORTAL_IRONFORGE PORTAL_ORGRIMMAR PORTAL_STORMWIND PORTAL_THUNDER_BLUFF PORTAL_UNDERCITY PRESENCE_OF_MIND PYROBLAST REMOVE_LESSER_CURSE SCORCH SLOW_FALL TELEPORT_DARNASSUS TELEPORT_IRONFORGE TELEPORT_ORGRIMMAR TELEPORT_STORMWIND TELEPORT_THUNDER_BLUFF TELEPORT_UNDERCITY",
-    PALADIN = "BLESSING_OF_FREEDOM BLESSING_OF_KINGS BLESSING_OF_LIGHT BLESSING_OF_MIGHT BLESSING_OF_PROTECTION BLESSING_OF_SACRIFICE BLESSING_OF_SALVATION BLESSING_OF_SANCTUARY BLESSING_OF_WISDOM BULWARK_OF_THE_RIGHTEOUS CLEANSE CONCENTRATION_AURA CONSECRATION CRUSADER_STRIKE DEVOTION_AURA DIVINE_FAVOR DIVINE_INTERVENTION DIVINE_PROTECTION DIVINE_SHIELD EXORCISM FIRE_RESISTANCE_AURA FLASH_OF_LIGHT FROST_RESISTANCE_AURA GREATER_BLESSING_OF_MIGHT HAMMER_OF_JUSTICE HAMMER_OF_WRATH HAND_OF_RECKONING HOLY_LIGHT HOLY_SHIELD HOLY_SHOCK HOLY_WRATH JUDGEMENT LAY_ON_HANDS PURIFY REDEMPTION REPENTANCE RETRIBUTION_AURA RIGHTEOUS_FURY SANCTITY_AURA SEAL_OF_COMMAND SEAL_OF_JUSTICE SEAL_OF_LIGHT SEAL_OF_RIGHTEOUSNESS SEAL_OF_THE_CRUSADER SEAL_OF_WISDOM SENSE_UNDEAD SHADOW_RESISTANCE_AURA SUMMON_WARHORSE TURN_UNDEAD",
+    PALADIN = "BLESSING_OF_FREEDOM BLESSING_OF_KINGS BLESSING_OF_LIGHT BLESSING_OF_MIGHT BLESSING_OF_PROTECTION BLESSING_OF_SACRIFICE BLESSING_OF_WISDOM CLEANSE CONCENTRATION_AURA CONSECRATION DEVOTION_AURA DIVINE_FAVOR DIVINE_INTERVENTION DIVINE_PROTECTION DIVINE_SHIELD EXORCISM FIRE_RESISTANCE_AURA FLASH_OF_LIGHT FROST_RESISTANCE_AURA GREATER_BLESSING_OF_KINGS GREATER_BLESSING_OF_LIGHT GREATER_BLESSING_OF_MIGHT GREATER_BLESSING_OF_WISDOM HAMMER_OF_JUSTICE HAMMER_OF_WRATH HOLY_LIGHT HOLY_SHIELD HOLY_SHOCK HOLY_WRATH JUDGEMENT LAY_ON_HANDS PURIFY REDEMPTION REPENTANCE RETRIBUTION_AURA RIGHTEOUS_FURY SEAL_OF_COMMAND SEAL_OF_JUSTICE SEAL_OF_LIGHT SEAL_OF_RIGHTEOUSNESS SEAL_OF_THE_CRUSADER SEAL_OF_WISDOM SENSE_UNDEAD SHADOW_RESISTANCE_AURA TURN_UNDEAD",
     PRIEST = "ABOLISH_DISEASE CURE_DISEASE DISPEL_MAGIC DIVINE_SPIRIT FADE FLASH_HEAL GREATER_HEAL HEAL HOLY_FIRE HOLY_NOVA INNER_FIRE INNER_FOCUS LESSER_HEAL LEVITATE MANA_BURN MIND_BLAST MIND_CONTROL MIND_FLAY MIND_SOOTHE MIND_VISION POWER_INFUSION POWER_WORD_FORTITUDE POWER_WORD_SHIELD PRAYER_OF_FORTITUDE PRAYER_OF_HEALING PSYCHIC_SCREAM RENEW RESURRECTION SHACKLE_UNDEAD SHADOWFORM SHADOW_PROTECTION SHADOW_WORD_PAIN SILENCE SMITE VAMPIRIC_EMBRACE",
     ROGUE = "DISARM_TRAP SPRINT",
     SHAMAN = "ANCESTRAL_SPIRIT CHAIN_HEAL CHAIN_LIGHTNING CURE_DISEASE CURE_POISON DISEASE_CLEANSING_TOTEM EARTHBIND_TOTEM EARTH_SHOCK FIRE_NOVA FIRE_RESISTANCE_TOTEM FLAMETONGUE_TOTEM FLAMETONGUE_WEAPON FLAME_SHOCK FROSTBRAND_WEAPON FROST_RESISTANCE_TOTEM FROST_SHOCK GHOST_WOLF GRACE_OF_AIR_TOTEM GROUNDING_TOTEM HEALING_STREAM_TOTEM HEALING_WAVE LESSER_HEALING_WAVE LIGHTNING_BOLT LIGHTNING_SHIELD MAGMA_TOTEM MANA_SPRING_TOTEM MANA_TIDE_TOTEM NATURES_SWIFTNESS NATURE_RESISTANCE_TOTEM POISON_CLEANSING_TOTEM PURGE REINCARNATION ROCKBITER_WEAPON SEARING_TOTEM SENTRY_TOTEM STONECLAW_TOTEM STONESKIN_TOTEM STORMSTRIKE STRENGTH_OF_EARTH_TOTEM TOTEMIC_RECALL TREMOR_TOTEM WATER_SHIELD WINDFURY_TOTEM WINDFURY_WEAPON WINDWALL_TOTEM",
@@ -192,7 +201,7 @@ local reactionBaseline = {
     DRUID = { count = 28, checksum = 1317671518 },
     HUNTER = { count = 141, checksum = 1089007657 },
     MAGE = { count = 128, checksum = 549995872 },
-    PALADIN = { count = 103, checksum = 857993924 },
+    PALADIN = { count = 86, checksum = 896106171 },
     PRIEST = { count = 105, checksum = 60264538 },
     ROGUE = { count = 2, checksum = 1433710909 },
     SHAMAN = { count = 188, checksum = 460885902 },
@@ -210,6 +219,7 @@ local restoredPriestReactionKeys = {
     STARSHARDS = true,
     TOUCH_OF_WEAKNESS = true,
 }
+local migratedPaladinReactionKeys = { SALVATION = true }
 local function catalogueChecksum(text)
     local hash = 0
     for index = 1, #text do hash = (hash * 131 + string.byte(text, index)) % 2147483647 end
@@ -240,6 +250,7 @@ for class, keys in pairs(historicalKeys) do
         for key in pairs(expected) do
             if not previous[key]
                 and not (class == "SHAMAN" and key == "FIRE_NOVA")
+                and not (class == "PALADIN" and migratedPaladinReactionKeys[key])
                 and not (class == "PRIEST" and restoredPriestReactionKeys[key]) then
                 equal(#RPHelper.GetAbilityPool(class, key), 0)
                 equal(RPHelper.ChooseAbilityCandidate(class, key, { resolvers = {} }), nil)
@@ -282,7 +293,7 @@ test("historical catalogue: class files register each empty definition once", fu
         for _, class in ipairs({ "Druid", "Hunter", "Mage", "Paladin", "Priest", "Rogue", "Shaman", "Warlock", "Warrior" }) do
             dofile("RPHelper/Data/Abilities/" .. class .. ".lua")
         end
-        equal(count, 185)
+        equal(count, 192)
     end)
     RPHelper = previous
     if not ok then error(err) end
@@ -753,6 +764,104 @@ test("Rogue archived saved records and class reactions remain unchanged", functi
     equal(#RPHelper.GetClassPool("ROGUE", "youcrit"), 10)
     equal(#RPHelper.GetClassPool("ROGUE", "deferred_youcritspell"), 10)
     equal(2 + 2 + 10 + 9 + 1 + 10 + 10, 44)
+end)
+
+test("Paladin reconciliation registers the approved active catalogue", function()
+    local expected = "BLESSING_OF_FREEDOM BLESSING_OF_KINGS BLESSING_OF_LIGHT BLESSING_OF_MIGHT BLESSING_OF_PROTECTION BLESSING_OF_SACRIFICE BLESSING_OF_WISDOM CLEANSE CONCENTRATION_AURA CONSECRATION DEVOTION_AURA DIVINE_FAVOR DIVINE_INTERVENTION DIVINE_PROTECTION DIVINE_SHIELD EXORCISM FIRE_RESISTANCE_AURA FLASH_OF_LIGHT FROST_RESISTANCE_AURA GREATER_BLESSING_OF_KINGS GREATER_BLESSING_OF_LIGHT GREATER_BLESSING_OF_MIGHT GREATER_BLESSING_OF_WISDOM HAMMER_OF_JUSTICE HAMMER_OF_WRATH HOLY_LIGHT HOLY_SHIELD HOLY_SHOCK HOLY_STRIKE HOLY_WRATH JUDGEMENT LAY_ON_HANDS LIGHTS_VIGIL MASS_SALVATION PURIFY REDEMPTION REPENTANCE RETRIBUTION_AURA REVOKE RIGHTEOUS_FURY SALVATION SEAL_OF_COMMAND SEAL_OF_FURY SEAL_OF_JUSTICE SEAL_OF_LIGHT SEAL_OF_RIGHTEOUSNESS SEAL_OF_THE_CRUSADER SEAL_OF_WISDOM SENSE_UNDEAD SHADOW_RESISTANCE_AURA SWIFT_JUDGEMENT TEMPLARS_BULWARK TURN_UNDEAD VOICE_OF_TRUTH"
+    local count = 0
+    for key in string.gmatch(expected, "%S+") do equal(RPHelper.Ability.PALADIN[key], key);count = count + 1 end
+    local actual = 0;for _ in pairs(RPHelper.Ability.PALADIN) do actual = actual + 1 end
+    equal(count, 54);equal(actual, 54)
+    for _, key in ipairs({ "HOLY_STRIKE", "LIGHTS_VIGIL", "MASS_SALVATION", "REVOKE", "SEAL_OF_FURY", "SWIFT_JUDGEMENT", "TEMPLARS_BULWARK", "VOICE_OF_TRUTH" }) do
+        equal(#RPHelper.GetAbilityPool("PALADIN", key), 0)
+    end
+    local salvation = RPHelper.GetAbilityPool("PALADIN", "SALVATION")
+    equal(#salvation, 2);equal(salvation[1].type, "say");equal(salvation[1].text, "The Light shelters you from harm!")
+    equal(salvation[2].type, "customemote");equal(salvation[2].text, "bestows divine grace upon {TARGET}, reducing their threat.")
+    for _, key in ipairs({ "BLESSING_OF_SALVATION", "GREATER_BLESSING_OF_SALVATION", "BLESSING_OF_SANCTUARY", "BULWARK_OF_THE_RIGHTEOUS", "CRUSADER_STRIKE", "HAND_OF_RECKONING", "SANCTITY_AURA", "SUMMON_WARHORSE" }) do
+        equal(RPHelper.Ability.PALADIN[key], nil)
+    end
+    local reactions = 0;for key in pairs(RPHelper.Ability.PALADIN) do reactions = reactions + #RPHelper.GetAbilityPool("PALADIN", key) end;equal(reactions, 88)
+end)
+
+test("Paladin source ordering headings and registrations match the approved layout", function()
+    local source = assert(io.open("RPHelper/Data/Abilities/Paladin.lua", "r")):read("*a")
+    local groups = {
+        "BLESSING_OF_LIGHT BLESSING_OF_WISDOM CLEANSE CONSECRATION DIVINE_FAVOR EXORCISM FLASH_OF_LIGHT GREATER_BLESSING_OF_LIGHT GREATER_BLESSING_OF_WISDOM HAMMER_OF_WRATH HOLY_LIGHT HOLY_SHOCK HOLY_WRATH LAY_ON_HANDS LIGHTS_VIGIL PURIFY REDEMPTION SEAL_OF_LIGHT SEAL_OF_RIGHTEOUSNESS SEAL_OF_WISDOM SENSE_UNDEAD TURN_UNDEAD VOICE_OF_TRUTH",
+        "BLESSING_OF_FREEDOM BLESSING_OF_KINGS BLESSING_OF_PROTECTION BLESSING_OF_SACRIFICE CONCENTRATION_AURA DEVOTION_AURA DIVINE_INTERVENTION DIVINE_PROTECTION DIVINE_SHIELD FIRE_RESISTANCE_AURA FROST_RESISTANCE_AURA GREATER_BLESSING_OF_KINGS HAMMER_OF_JUSTICE HOLY_SHIELD MASS_SALVATION REVOKE RIGHTEOUS_FURY SALVATION SEAL_OF_FURY SEAL_OF_JUSTICE SHADOW_RESISTANCE_AURA SWIFT_JUDGEMENT TEMPLARS_BULWARK",
+        "BLESSING_OF_MIGHT GREATER_BLESSING_OF_MIGHT HOLY_STRIKE JUDGEMENT REPENTANCE RETRIBUTION_AURA SEAL_OF_COMMAND SEAL_OF_THE_CRUSADER",
+    }
+    local expected, actual, headings = {}, {}, {}
+    for _, group in ipairs(groups) do for key in string.gmatch(group, "%S+") do expected[#expected + 1] = key end end
+    for key in string.gmatch(source, "\n%-%- ([A-Z][A-Z0-9_]*)\n") do actual[#actual + 1] = key;headings[key] = (headings[key] or 0) + 1 end
+    equal(#actual, 54);equal(string.find(source, "for _, ability in ipairs", 1, true), nil)
+    for index, key in ipairs(expected) do
+        equal(actual[index], key);equal(headings[key], 1)
+        if #RPHelper.GetAbilityPool("PALADIN", key) == 0 then
+            truthy(string.find(source, 'RPHelper.RegisterAbility(C, "' .. key .. '")', 1, true))
+            for _, kind in ipairs({ "say", "emote", "customemote" }) do truthy(string.find(source, '-- add("' .. key .. '", "' .. kind .. '", "")', 1, true)) end
+        end
+    end
+end)
+
+test("Paladin families have the approved identity counts", function()
+    local families = {
+        { 7, "SEAL_OF_COMMAND SEAL_OF_FURY SEAL_OF_JUSTICE SEAL_OF_LIGHT SEAL_OF_RIGHTEOUSNESS SEAL_OF_THE_CRUSADER SEAL_OF_WISDOM" },
+        { 6, "CONCENTRATION_AURA DEVOTION_AURA FIRE_RESISTANCE_AURA FROST_RESISTANCE_AURA RETRIBUTION_AURA SHADOW_RESISTANCE_AURA" },
+        { 7, "BLESSING_OF_FREEDOM BLESSING_OF_KINGS BLESSING_OF_LIGHT BLESSING_OF_MIGHT BLESSING_OF_PROTECTION BLESSING_OF_SACRIFICE BLESSING_OF_WISDOM" },
+        { 4, "GREATER_BLESSING_OF_KINGS GREATER_BLESSING_OF_LIGHT GREATER_BLESSING_OF_MIGHT GREATER_BLESSING_OF_WISDOM" },
+    }
+    for _, family in ipairs(families) do local count = 0;for key in string.gmatch(family[2], "%S+") do truthy(RPHelper.Ability.PALADIN[key]);count = count + 1 end;equal(count, family[1]) end
+end)
+
+test("Paladin archive preserves displaced reactions and is excluded from the manifest", function()
+    local archive = dofile("RPHelper/Data/Abilities/PaladinArchive.lua")
+    local expected = { BLESSING_OF_SALVATION = 0, BLESSING_OF_SANCTUARY = 2, BULWARK_OF_THE_RIGHTEOUS = 3, CRUSADER_STRIKE = 3, GREATER_BLESSING_OF_SALVATION = 0, HAND_OF_RECKONING = 3, SANCTITY_AURA = 2, SUMMON_WARHORSE = 2 }
+    local keys, reactions = 0, 0
+    for key, count in pairs(expected) do truthy(archive[key]);equal(#archive[key], count);keys = keys + 1;reactions = reactions + count end
+    local actual = 0;for _ in pairs(archive) do actual = actual + 1 end;equal(actual, keys);equal(reactions, 15)
+    equal(archive.CRUSADER_STRIKE[1].text, "For the Light, and for justice!")
+    equal(archive.BULWARK_OF_THE_RIGHTEOUS[3].type, "customemote")
+    local toc = assert(io.open("RPHelper/RPHelper.toc", "r")):read("*a");equal(string.find(toc, "PaladinArchive.lua", 1, true), nil)
+end)
+
+test("Paladin Salvation migration preserves settings custom content and exact default IDs", function()
+    local saved = RPHelperDB
+    local oldSalvation, oldMass = { enabled = false, future = "salvation" }, { chance = 0.4, future = "mass" }
+    local newSay = RPHelper.GetAbilityPool("PALADIN", "SALVATION")[1].defaultID
+    local newEmote = RPHelper.GetAbilityPool("PALADIN", "SALVATION")[2].defaultID
+    local oldSay = string.gsub(newSay, "s9:SALVATION", "s21:BLESSING_OF_SALVATION", 1)
+    local oldEmote = string.gsub(newEmote, "s9:SALVATION", "s21:BLESSING_OF_SALVATION", 1)
+    local unknown = oldSay .. ":unknown"
+    RPHelperDB = { abilities = { PALADIN = { BLESSING_OF_SALVATION = oldSalvation, GREATER_BLESSING_OF_SALVATION = oldMass } }, custom = { nextID = 3, entries = {
+        ["custom:1"] = { scope = { layer = "ability", class = "PALADIN", ability = "BLESSING_OF_SALVATION", future = "scope" }, entry = { type = "say", text = "Keep me.", future = "entry" }, future = "record" },
+        ["custom:2"] = { scope = { layer = "ability", class = "PALADIN", ability = "GREATER_BLESSING_OF_SALVATION" }, entry = { type = "customemote", text = "Keep mass." } },
+    } }, disabledDefaults = { [oldSay] = true, [oldEmote] = true, [unknown] = true } }
+    local ok, err = pcall(function()
+        for _ = 1, 2 do RPHelper.InitializeDatabase() end
+        equal(RPHelperDB.abilities.PALADIN.SALVATION, oldSalvation);equal(RPHelperDB.abilities.PALADIN.MASS_SALVATION, oldMass)
+        equal(RPHelperDB.abilities.PALADIN.BLESSING_OF_SALVATION, nil);equal(RPHelperDB.abilities.PALADIN.GREATER_BLESSING_OF_SALVATION, nil)
+        equal(RPHelperDB.custom.entries["custom:1"].scope.ability, "SALVATION");equal(RPHelperDB.custom.entries["custom:2"].scope.ability, "MASS_SALVATION")
+        equal(RPHelperDB.custom.entries["custom:1"].scope.future, "scope");equal(RPHelperDB.custom.entries["custom:1"].entry.future, "entry");equal(RPHelperDB.custom.entries["custom:1"].future, "record")
+        equal(RPHelperDB.disabledDefaults[newSay], true);equal(RPHelperDB.disabledDefaults[newEmote], true);equal(RPHelperDB.disabledDefaults[oldSay], nil);equal(RPHelperDB.disabledDefaults[oldEmote], nil);equal(RPHelperDB.disabledDefaults[unknown], true)
+        local historical, destination = { future = "old" }, { future = "new" }
+        RPHelperDB = { abilities = { PALADIN = { BLESSING_OF_SALVATION = historical, SALVATION = destination } }, disabledDefaults = { [oldSay] = true, [newSay] = true } }
+        RPHelper.InitializeDatabase();equal(RPHelperDB.abilities.PALADIN.BLESSING_OF_SALVATION, historical);equal(RPHelperDB.abilities.PALADIN.SALVATION, destination);equal(RPHelperDB.disabledDefaults[newSay], true)
+        RPHelperDB = { abilities = { PALADIN = { BLESSING_OF_SALVATION = "malformed" } } };RPHelper.InitializeDatabase();equal(RPHelperDB.abilities.PALADIN.BLESSING_OF_SALVATION, "malformed");equal(RPHelperDB.abilities.PALADIN.SALVATION, nil)
+    end)
+    RPHelperDB = saved;RPHelper.UserContent.Invalidate();if not ok then error(err) end
+end)
+
+test("Paladin archived saved records and class reactions remain unchanged", function()
+    local saved = RPHelperDB
+    local keys = { "BLESSING_OF_SANCTUARY", "BULWARK_OF_THE_RIGHTEOUS", "CRUSADER_STRIKE", "HAND_OF_RECKONING", "SANCTITY_AURA", "SUMMON_WARHORSE" }
+    local abilities, entries = {}, {};for index, key in ipairs(keys) do abilities[key] = { future = key };entries["custom:" .. index] = { scope = { layer = "ability", class = "PALADIN", ability = key }, entry = { type = "say", text = key } } end
+    RPHelperDB = { abilities = { PALADIN = abilities }, custom = { nextID = 7, entries = entries } }
+    local ok, err = pcall(function() RPHelper.InitializeDatabase();for index, key in ipairs(keys) do equal(RPHelperDB.abilities.PALADIN[key], abilities[key]);equal(RPHelperDB.custom.entries["custom:" .. index].scope.ability, key) end end)
+    RPHelperDB = saved;RPHelper.UserContent.Invalidate();if not ok then error(err) end
+    local triggers = "absorb block deferred_youcritspell dodge entercombat hurt leavecombat miss parry resurrect youcrit youcritheal youheal"
+    local parts, count = {}, 0;for trigger in string.gmatch(triggers, "%S+") do parts[#parts + 1] = trigger;for _, entry in ipairs(RPHelper.GetClassPool("PALADIN", trigger)) do count = count + 1;for _, field in ipairs({ "type", "text", "defaultID", "template" }) do local value = entry[field] or "";parts[#parts + 1] = #value .. ":" .. value end end end
+    equal(count, 50);equal(catalogueChecksum(table.concat(parts, "\n")), 777569337)
 end)
 
 test("Priest reconciliation registers the approved active catalogue", function()
