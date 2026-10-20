@@ -691,6 +691,76 @@ test("activity adapter rejects missing inconsistent and unsupported context", fu
     IsInInstance = previous
 end)
 
+test("player sex and power adapters validate API values without numeric power assumptions", function()
+    local oldSex, oldPower, oldSecret = UnitSex, UnitPowerType, issecretvalue
+    local ok, err = pcall(function()
+        issecretvalue = function() return false end
+        for sex = 1, 3 do
+            UnitSex = function(unit) equal(unit, "player"); return sex end
+            equal(RPHelper.RuntimeAPI.GetPlayerSex(), sex)
+        end
+        for token, label in pairs({ MANA = "mana", RAGE = "rage", ENERGY = "energy" }) do
+            UnitPowerType = function(unit) equal(unit, "player"); return 99, token end
+            equal(RPHelper.RuntimeAPI.GetPlayerPowerLabel(), label)
+        end
+        UnitPowerType = function() return 0 end
+        equal(RPHelper.RuntimeAPI.GetPlayerPowerLabel(), nil)
+        UnitPowerType = function() return 0, "FOCUS" end
+        equal(RPHelper.RuntimeAPI.GetPlayerPowerLabel(), nil)
+        UnitSex = function() return 0 end
+        equal(RPHelper.RuntimeAPI.GetPlayerSex(), nil)
+        UnitSex = function() error("unavailable") end
+        UnitPowerType = function() error("unavailable") end
+        equal(RPHelper.RuntimeAPI.GetPlayerSex(), nil)
+        equal(RPHelper.RuntimeAPI.GetPlayerPowerLabel(), nil)
+        UnitSex = function() return 2 end
+        UnitPowerType = function() return 0, "MANA" end
+        issecretvalue = function(value) return value == 2 or value == "MANA" end
+        equal(RPHelper.RuntimeAPI.GetPlayerSex(), nil)
+        equal(RPHelper.RuntimeAPI.GetPlayerPowerLabel(), nil)
+        issecretvalue = function() error("restricted") end
+        equal(RPHelper.RuntimeAPI.GetPlayerSex(), nil)
+        equal(RPHelper.RuntimeAPI.GetPlayerPowerLabel(), nil)
+    end)
+    UnitSex, UnitPowerType, issecretvalue = oldSex, oldPower, oldSecret
+    if not ok then error(err) end
+end)
+
+test("runtime supplies player placeholders lazily and never falls back to selected target", function()
+    local a = newAdapter("CONTEXT_TEST", "NO_RACE", nil)
+    local sexCalls, powerCalls = 0, 0
+    a.GetPlayerSex = function() sexCalls = sexCalls + 1; return 2 end
+    a.GetPlayerPowerLabel = function() powerCalls = powerCalls + 1; return "rage" end
+    initialize(a)
+    RPHelperDB.triggers.enter_combat.chance = 1
+    local previous = RPHelper.Content.generic.entercombat
+
+    RPHelper.Content.generic.entercombat = { { type = "say", text = "Static." } }
+    truthy(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"))
+    equal(sexCalls, 0); equal(powerCalls, 0)
+    RPHelper.Runtime.HandleEvent("PLAYER_REGEN_ENABLED")
+
+    RPHelper.Content.generic.entercombat = {
+        { type = "say", text = "{SP} spends {PP} {PLAYER_POWER}." },
+    }
+    truthy(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"))
+    equal(a.output[#a.output].text, "he spends his rage.")
+    equal(sexCalls, 1); equal(powerCalls, 1)
+    RPHelper.Runtime.HandleEvent("PLAYER_REGEN_ENABLED")
+
+    local oldName = UnitName
+    local targetCalls = 0
+    UnitName = function(unit)
+        if unit == "target" then targetCalls = targetCalls + 1; return "Unrelated" end
+        return "Player"
+    end
+    RPHelper.Content.generic.entercombat = { { type = "say", text = "Attack {TARGET}." } }
+    equal(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"), false)
+    equal(targetCalls, 0)
+    UnitName = oldName
+    RPHelper.Content.generic.entercombat = previous
+end)
+
 -- Exercise the real classifier/registration with scoped secret-inspection mocks.
 local function defensiveTest(name, callback)
     test(name, function()

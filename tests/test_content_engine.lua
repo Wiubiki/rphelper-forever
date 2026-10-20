@@ -1823,6 +1823,63 @@ test("numeric resolver values are converted to text", function()
     equal(candidate.text, "Level 42")
 end)
 
+test("player pronouns preserve subject object and possessive grammar", function()
+    local expected = {
+        [1] = "it sees it with its eyes",
+        [2] = "he sees him with his eyes",
+        [3] = "she sees her with her eyes",
+    }
+    for sex, text in pairs(expected) do
+        local calls = 0
+        local candidate = Engine.PrepareCandidate(
+            { type = "say", text = "{SP} sees {OP} with {PP} eyes" },
+            { context = { api = { GetPlayerSex = function() calls = calls + 1; return sex end } } }
+        )
+        equal(candidate.text, text)
+        equal(calls, 1)
+    end
+end)
+
+test("player pronouns fail closed for unavailable or unusable sex", function()
+    for _, callback in ipairs({
+        function() return nil end,
+        function() return 0 end,
+        function() return 4 end,
+        function() return "2" end,
+        function() error("restricted") end,
+    }) do
+        equal(Engine.PrepareCandidate(
+            { type = "say", text = "{SP}/{OP}/{PP}" },
+            { context = { api = { GetPlayerSex = callback } } }
+        ), nil)
+    end
+end)
+
+test("player power labels resolve lazily while target power remains supplied-only", function()
+    local calls = 0
+    local context = { api = { GetPlayerPowerLabel = function() calls = calls + 1; return "mana" end } }
+    equal(Engine.PrepareCandidate({ type = "say", text = "Static." }, { context = context }).text, "Static.")
+    equal(calls, 0)
+    equal(Engine.PrepareCandidate({ type = "say", text = "My {PLAYER_POWER}." }, { context = context }).text,
+        "My mana.")
+    equal(calls, 1)
+    equal(Engine.PrepareCandidate({ type = "say", text = "Their {TARGET_POWER}." },
+        { context = context }), nil)
+end)
+
+test("ordinary target fields require explicit relevant event context", function()
+    local text = "{TARGET}|{TSP}|{TOP}|{TPP}|{TARGET_CLASS}|{TARGET_RACE}|{TARGET_POWER}"
+    equal(Engine.PrepareCandidate({ type = "say", text = text }, { context = { values = {} } }), nil)
+    local candidate = Engine.PrepareCandidate({ type = "say", text = text }, { context = { values = {
+        TARGET = "Ari", TSP = "she", TOP = "her", TPP = "her",
+        TARGET_CLASS = "Mage", TARGET_RACE = "Human", TARGET_POWER = "mana",
+    } } })
+    equal(candidate.text, "Ari|she|her|her|Mage|Human|mana")
+    equal(Engine.PrepareCandidate({ type = "say", text = "{TARGET_GUILDNAME} ({TARGET_GUILDRANK})" },
+        { context = { values = { TARGET_GUILDNAME = "Guild", TARGET_GUILDRANK = "Officer" } } }).text,
+        "Guild (Officer)")
+end)
+
 test("unresolved candidate is filtered without removing fallback", function()
     local pool = {
         { type = "say", text = "Die, {TARGET}!" },

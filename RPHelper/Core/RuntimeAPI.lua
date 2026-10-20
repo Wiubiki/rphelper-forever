@@ -73,6 +73,27 @@ function API.GetPlayerRace()
     return ok and raceFile or nil
 end
 
+local function usable(value)
+    if type(issecretvalue) ~= "function" then return true end
+    local ok, secret = pcall(issecretvalue, value)
+    return ok and secret == false
+end
+
+function API.GetPlayerSex()
+    local ok, sex = call(UnitSex, "player")
+    if not ok or not usable(sex) then return nil end
+    if sex == 1 or sex == 2 or sex == 3 then return sex end
+end
+
+-- Use the semantic token returned by the client rather than assuming numeric
+-- power IDs. Additional Forever power tokens require live verification.
+function API.GetPlayerPowerLabel()
+    local ok, _, token = call(UnitPowerType, "player")
+    if not ok or not usable(token) or type(token) ~= "string" then return nil end
+    local labels = { MANA = "mana", RAGE = "rage", ENERGY = "energy" }
+    return labels[token]
+end
+
 function API.GetShapeshiftFormID()
     if type(GetShapeshiftFormID) ~= "function" then
         error("GetShapeshiftFormID is unavailable", 0)
