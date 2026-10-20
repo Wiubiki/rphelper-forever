@@ -17,10 +17,6 @@ add("entercombat", "say", "I will destroy those who disrupt nature.")
 add("entercombat", "say", "I sense darkness in the dream.")
 add("entercombat", "say", "For nature's survival!")
 add("entercombat", "say", "The grass beneath your feet screams, I answer!")
-
--- ---------------------------------------------------------------------
--- ENTERCOMBAT
--- ---------------------------------------------------------------------
 add("entercombat", "emote", "CHARGE")
 add("entercombat", "emote", "ROAR")
 

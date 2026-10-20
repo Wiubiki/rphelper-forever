@@ -19,10 +19,6 @@ add("entercombat", "say", "You're goin' down!")
 add("entercombat", "say", "It's Game Time!")
 add("entercombat", "say", "Good luck, you're gonna need it!")
 add("entercombat", "say", "{TARGET}, let's dance!")
-
--- ---------------------------------------------------------------------
--- ENTERCOMBAT
--- ---------------------------------------------------------------------
 add("entercombat", "emote", "CHARGE")
 
 -- ---------------------------------------------------------------------

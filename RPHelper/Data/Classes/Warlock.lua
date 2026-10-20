@@ -18,10 +18,6 @@ add("entercombat", "say", "Your pain shall be legendary.")
 add("entercombat", "say", "You shall know my wrath.")
 add("entercombat", "say", "You offer yourself to me freely; the pact is sealed.")
 add("entercombat", "say", "I will bleed you dry!")
-
--- ---------------------------------------------------------------------
--- ENTERCOMBAT
--- ---------------------------------------------------------------------
 add("entercombat", "emote", "FROWN")
 add("entercombat", "emote", "GRIN")
 add("entercombat", "emote", "GLARE")
