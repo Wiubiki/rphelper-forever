@@ -34,6 +34,7 @@ dofile("RPHelper/Core/RuntimeAPI.lua")
 dofile("RPHelper/Core/Output.lua")
 dofile("RPHelper/Core/Runtime.lua")
 dofile("RPHelper/Core/Commands.lua")
+dofile("RPHelper/Data/RandomInsults.lua")
 dofile("RPHelper/Data/Generic.lua")
 dofile("RPHelper/Data/Races/Tauren.lua")
 dofile("RPHelper/Data/Classes/Druid.lua")
@@ -1084,6 +1085,19 @@ abilityTest("success alone selects existing cast-time and instant content", func
         equal(frame.registered[event], nil)
     end
     equal(#a.output, 2)
+end)
+
+abilityTest("production random insult provider participates in normal runtime preparation", function(a)
+    local original = RPHelper.Content.ability.PALADIN.FLASH_OF_LIGHT
+    RPHelper.Content.ability.PALADIN.FLASH_OF_LIGHT = {
+        { type = "say", text = "Over here! {RINSULT}" },
+    }
+    local ok, err = pcall(function()
+        truthy(activate(19750))
+        equal(a.output[1].text, "Over here! You annoying lump of armpit hairs.")
+    end)
+    RPHelper.Content.ability.PALADIN.FLASH_OF_LIGHT = original
+    if not ok then error(err, 2) end
 end)
 
 abilityTest("addon frame forwards successful activations to runtime", function(a)

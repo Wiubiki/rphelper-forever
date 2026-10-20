@@ -18,8 +18,9 @@ intent, not proven working legacy resolver behavior.
 
 ## Executive result
 
-Forever does **not** currently provide reliable compatibility for every legacy
-placeholder.
+The original audit found that Forever did **not** provide reliable
+compatibility for every legacy placeholder. Later implementation-status
+sections preserve subsequent changes without rewriting that historical result.
 
 - Legacy inventory: **35 unique base keywords**, or **36 exact spellings** when
   `RINSULT!` is recorded separately from `RINSULT`.
@@ -50,7 +51,7 @@ Its 36 rows are unique by exact spelling; the summary counts above combine
 | Legacy group | Legacy keywords | Forever result |
 | --- | --- | --- |
 | Direct player/world values | `PLAYER`, `PLAYER_CLASS`, `PLAYER_RACE`, `PLAYER_GUILDNAME`, `PLAYER_GUILDRANK`, `HOME`, `MAIN_ZONE`, `SUB_ZONE`, `FFG` | Equivalent meaning when the corresponding API returns a nonempty, non-secret value. Missing/error/empty values make the candidate ineligible. |
-| Generated insult | `RINSULT`, `RINSULT!` | Recognized, but no production insult provider is installed. An injected provider is cached once per candidate. `RINSULT!` strips terminal `.`, `!`, or `?` and adds one `!`; legacy replaced every period and could call `RandInsult()` more than once. |
+| Generated insult | `RINSULT`, `RINSULT!` | Production-supported as recorded in the later implementation status. One generated value is cached per candidate. `RINSULT!` strips terminal `.`, `!`, or `?` and adds one `!`; legacy replaced every period and could call `RandInsult()` more than once. |
 | Player pronouns and power | `SP`, `OP`, `PP`, `PLAYER_POWER` | Recognized as supplied-only values. The runtime does not derive or supply them. |
 | Event value | `LEVEL` | Recognized as supplied-only. Legacy populated it only during `PLAYER_LEVEL_UP`; Forever's current runtime supplies no level value or level-up trigger context. |
 | Target values | `TARGET`, `TSP`, `TOP`, `TPP`, `TARGET_CLASS`, `TARGET_GUILDNAME`, `TARGET_GUILDRANK`, `TARGET_POWER` | Recognized as supplied-only. The runtime does not supply them, which is safer than consulting an unrelated current target but means normal reactions requiring them are ineligible. |
@@ -156,7 +157,7 @@ does not rewrite lowercase letters after sentence-ending periods.
 | `OP` | 1 | Druid `INNERVATE` | Recognized, supplied-only. |
 | `PLAYER_RACE` | 1 | Shaman `block` | Direct resolver available; runtime also supplies it. |
 | `PTNAME` | 1 | Priest `petattackstart` | Recognized, supplied-only. |
-| `RINSULT` | 1 | Warrior `MOCKING_BLOW` | Recognized, but no production provider is installed. |
+| `RINSULT` | 1 | Warrior `MOCKING_BLOW` | Recognized and operational through the production English provider described below. |
 
 There are **no** occurrences of `RINSULT!` in loaded Forever content. The scan
 also found no unknown braced spelling beyond the known unsupported `NPC` and
@@ -192,7 +193,8 @@ excluded: it is an emote-target modifier, not reaction text substitution.
 Existing tests cover successful injected resolution, missing values filtering a
 candidate, resolver errors/nonscalar/secret values, numeric conversion,
 overlapping names, numbered templates, keywords inside selected fragments,
-`RINSULT` caching and punctuation, unknown tokens, one migrated target ability,
+`RINSULT` caching, punctuation, production generation, failure handling and
+lazy invocation, unknown tokens, one migrated target ability,
 pet-name/pet-target use, user-authored target and pet filtering, custom
 templates, malformed saved entries, and secret custom context. A test can
 prepare `{NPC}`/`{LANG}` only by bypassing the standard vocabulary with explicit
@@ -231,8 +233,10 @@ Important gaps:
   permanently ineligible under current runtime context.
 - `TARGET_RACE` intentionally changes from the legacy implementation's buggy
   player-race result to the intended target-race result.
-- `RINSULT` content is unusable until a production provider exists, and repeated
-  insult tokens now share one generated insult within a candidate.
+- At the time of this audit, `RINSULT` content was unusable because no
+  production provider existed. The later implementation status below records
+  its restoration. Repeated insult tokens share one generated insult within a
+  candidate.
 - Legacy `BLANK` templates require deliberate conversion to numbered templates;
   there is no automatic migration.
 - Legacy capitalization, locale-specific pronouns, faction assumptions, mount
@@ -247,8 +251,8 @@ Important gaps:
    between implementing validated NPC-speech context, deferring/removing those
    loaded registrations, or explicitly accepting that they remain ineligible.
    This audit does not authorize a content rewrite.
-3. **P1 — Install or deliberately defer a production insult provider.** The
-   shipped `MOCKING_BLOW` reaction currently cannot prepare normally.
+3. **Completed — Install a production insult provider.** The shipped
+   `MOCKING_BLOW` reaction now prepares normally; details are recorded below.
 4. **P1 — Establish an English pronoun policy.** Define subject, object, and
    possessive-determiner values, treatment of unknown/nonbinary sex data, and
    localization boundaries before runtime derivation.
@@ -267,7 +271,8 @@ Important gaps:
   come from trigger-specific event context.
 - The player/target/pet pronoun and localization policy.
 - The formatted contract for class, race, names, guild ranks, and power types.
-- Whether to ship the legacy insult corpus and how to seed/select it.
+- **Resolved:** ship the active English legacy insult corpus and select each
+  part through the content engine's existing random-choice path.
 - Whether import tooling or documentation should assist with unbraced keywords
   and `BLANK`; automatic conversion is explicitly outside this audit.
 - Whether deferred `EFG`, `BGFG`, and `MOUNT` remain unsupported permanently.
@@ -322,8 +327,8 @@ requires a future existing-event payload that proves the involved unit; this
 phase adds no event subscriptions, combat-log inference, target tracking, or
 GUID cache.
 
-Pet, NPC speech, insults, mounts, faction/battleground values, and level-up
-context remain deferred exactly as recorded above.
+At that phase, pet, NPC speech, insults, mounts, faction/battleground values,
+and level-up context remained deferred exactly as recorded above.
 
 ### API assumptions requiring client verification
 
@@ -340,3 +345,43 @@ power tokens must not be enabled until their Forever return values and desired
 prose labels are observed. The existing target limitation should be retested
 only if a current subscribed event is shown to carry a readable and relevant
 unit token.
+
+## Random insult implementation status
+
+Implemented by `feat/legacy-random-insults` after this audit:
+
+- `RPHelper/Data/RandomInsults.lua` installs a production provider through the
+  existing `ContentEngine.SetInsultProvider` extension point. The file is
+  loaded before reaction data and does not register reactions or change default
+  identities.
+- The authoritative sources were legacy `English/RInsult.lua` for the active
+  English vocabulary and attribution, `RPhelper_twow.lua` for `RandInsult()`,
+  `RPhelper_twow_ReplaceKeywords.lua` for `RINSULT`/`RINSULT!` punctuation, and
+  `How to Customize.txt` for the documented phrase contract.
+- Every active English entry is retained verbatim and in source order. Pool
+  counts are `ANY` 17/29/36, `GNOME` 29/0/0, `PALADIN` 154/0/59, and `WARRIOR`
+  21/0/2 for parts one/two/three. Empty legacy race/class pools add no material.
+  The alternative Shakespearean `ANY` block remains excluded because it was
+  commented customization guidance, not active shipped data.
+- Generation preserves the legacy structure: concatenate the `ANY`, player
+  race, and player class pools for each part; choose each part independently;
+  emit `You <part1> <part2> <part3>.`. Forever uses the actual runtime
+  race/class rather than restoring the legacy user-editable trait list, which
+  would require new settings and SavedVariables behavior.
+- Forever intentionally retains braced-only syntax and generates once per
+  prepared candidate. The legacy resolver could call `RandInsult()` repeatedly
+  during one replacement. `{RINSULT!}` retains Forever's established behavior
+  of replacing terminal `.`, `!`, or `?` punctuation with exactly one `!`,
+  rather than the legacy global replacement of every period.
+- The provider is lazy, uses the content engine's existing controlled random
+  chooser, and fails closed for missing pools, invalid choices, errors, empty
+  values, nonscalar values, secret values, or generated placeholder-like text.
+  Inserted insult text is not recursively expanded.
+- The loaded Warrior `MOCKING_BLOW` reaction now prepares through normal
+  production context without changing its text or registration. There are no
+  loaded `{RINSULT!}` reactions, but the supported authoring contract is tested.
+
+The generator is pure Lua and adds no new WoW client API assumption. Existing
+runtime class/race acquisition retains the client-verification caveats already
+listed above. English is the only implemented insult language; no localization
+framework or standalone insult command was added.
