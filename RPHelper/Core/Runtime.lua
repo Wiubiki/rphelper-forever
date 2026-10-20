@@ -109,7 +109,7 @@ local function handleReaction(trigger, abilityClass)
     local values = { PLAYER_CLASS = class, PLAYER_RACE = race }
     local options = {
         class = class,
-        context = { class = class, values = values },
+        context = { class = class, values = values, api = api },
         suppressSayInForms = setting("suppressSayInForms"),
         getShapeshiftFormID = function()
             local fn = field(api, "GetShapeshiftFormID")

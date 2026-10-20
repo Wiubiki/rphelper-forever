@@ -38,6 +38,30 @@ end
 function RPHelper.KeywordResolvers.Create(context)
     context = context or {}
     local values = context.values or {}
+    local api = context.api or {}
+
+    local function adapterValue(name)
+        local callback = api[name]
+        if type(callback) ~= "function" then return nil end
+        return safeValue(callback)
+    end
+
+    local pronouns
+    local pronounsLoaded = false
+    local function playerPronoun(form)
+        if not pronounsLoaded then
+            pronounsLoaded = true
+            local sex = adapterValue("GetPlayerSex")
+            if sex == 2 then
+                pronouns = { SP = "he", OP = "him", PP = "his" }
+            elseif sex == 3 then
+                pronouns = { SP = "she", OP = "her", PP = "her" }
+            elseif sex == 1 then
+                pronouns = { SP = "it", OP = "it", PP = "its" }
+            end
+        end
+        return pronouns and pronouns[form] or nil
+    end
 
     local function supplied(keyword)
         return function()
@@ -85,10 +109,22 @@ function RPHelper.KeywordResolvers.Create(context)
         FFG = function()
             return values.FFG or call(UnitFactionGroup, "player")
         end,
+        SP = function()
+            return values.SP or playerPronoun("SP")
+        end,
+        OP = function()
+            return values.OP or playerPronoun("OP")
+        end,
+        PP = function()
+            return values.PP or playerPronoun("PP")
+        end,
+        PLAYER_POWER = function()
+            return values.PLAYER_POWER or adapterValue("GetPlayerPowerLabel")
+        end,
     }
 
     local suppliedKeywords = {
-        "SP", "OP", "PP", "PLAYER_POWER", "LEVEL",
+        "LEVEL",
         "TARGET", "TSP", "TOP", "TPP", "TARGET_CLASS", "TARGET_RACE",
         "TARGET_GUILDNAME", "TARGET_GUILDRANK", "TARGET_POWER",
         "PNAME", "PTNAME", "PTSP", "PTOP", "PTPP",

@@ -283,3 +283,60 @@ Important gaps:
   keywords.
 - Verified all 306 braced occurrences in loaded content and scanned for
   unbraced legacy names.
+
+## Phase 1 implementation status
+
+Implemented by `feat/runtime-placeholder-context` after this audit:
+
+- `SP`, `OP`, and `PP` are now operational in production runtime preparation.
+  They are resolved lazily from `RuntimeAPI.GetPlayerSex`: sex 2 maps to
+  `he/him/his`, sex 3 to `she/her/her`, and the recognized neutral/unknown sex
+  value 1 to `it/it/its`. Missing, throwing, malformed, out-of-range, or
+  restricted values remain unavailable. Explicit `context.values` still take
+  precedence.
+- `PLAYER_POWER` is now operational when the client returns a readable semantic
+  power token. `MANA`, `RAGE`, and `ENERGY` map to `mana`, `rage`, and `energy`.
+  Numeric IDs are deliberately ignored, and unknown or restricted tokens leave
+  the placeholder unresolved.
+- These APIs are lazy resolver dependencies: static reactions do not call
+  `UnitSex` or `UnitPowerType`. Multiple player-pronoun forms in one candidate
+  share one sex lookup.
+
+No current production event safely populates ordinary target context:
+
+- `PLAYER_REGEN_DISABLED` and `PLAYER_REGEN_ENABLED` identify only combat-state
+  transitions and carry no involved target.
+- Defensive `UNIT_COMBAT` establishes that the affected unit is `player`; it
+  does not identify the attacker whose race, class, power, guild, or pronouns
+  a reaction would need.
+- `UNIT_SPELLCAST_SUCCEEDED` establishes that the caster is `player`; its
+  `unitTarget` field names the caster, not the spell's destination.
+
+Consequently `TARGET`, `TSP`, `TOP`, `TPP`, `TARGET_CLASS`, `TARGET_RACE`,
+`TARGET_POWER`, `TARGET_GUILDNAME`, and `TARGET_GUILDRANK` remain supplied-only.
+They work when a caller provides explicit relevant `context.values`, but the
+production runtime never consults the currently selected `target` as a
+fallback. This also means player-only class/guild restrictions cannot be
+violated by current production context construction. Enabling any target field
+requires a future existing-event payload that proves the involved unit; this
+phase adds no event subscriptions, combat-log inference, target tracking, or
+GUID cache.
+
+Pet, NPC speech, insults, mounts, faction/battleground values, and level-up
+context remain deferred exactly as recorded above.
+
+### API assumptions requiring client verification
+
+- `UnitSex("player")` exists and returns readable numeric values 1, 2, or 3 in
+  the Forever client under all supported runtime states.
+- `UnitPowerType("player")` exists and returns a readable semantic token as its
+  second result. Only `MANA`, `RAGE`, and `ENERGY` are accepted in this phase.
+- `issecretvalue`, when present, can safely inspect those returned values.
+  Inspection failure or a secret result fails closed.
+
+Live-client testing should cover login/reload timing, shapeshifts or temporary
+power changes, vehicles, dead/ghost state, and combat restrictions. Additional
+power tokens must not be enabled until their Forever return values and desired
+prose labels are observed. The existing target limitation should be retested
+only if a current subscribed event is shown to carry a readable and relevant
+unit token.
