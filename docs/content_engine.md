@@ -23,7 +23,7 @@ The inventory covers keywords documented in `How to Customize.txt`, implemented 
 
 | Keyword | Intended meaning | Legacy source | Forever status and caveats |
 | --- | --- | --- | --- |
-| `RINSULT` | Random insult; `RINSULT!` changes terminal punctuation to an exclamation mark. | `RandInsult()` | **V1 conditional.** Intended to return with the content engine, but the generator must be redesigned for Forever. Availability checking and substitution must use the same resolved insult rather than copying the legacy repeated-random-call behavior. The legacy `RInsult.lua` catalogue can be migrated separately. |
+| `RINSULT` | Random insult; `RINSULT!` changes terminal punctuation to an exclamation mark. | `RandInsult()` | **V1 supported.** Forever loads the active English vocabulary from legacy `RInsult.lua` and combines the generic, player-race, and player-class part pools. One generated value is shared by every insult token in a prepared candidate. Missing or invalid generation makes the candidate ineligible. |
 | `PLAYER` | Player name. | `UnitName("player")` | **V1 supported.** Player-owned, but name formatting must be defined. |
 | `SP` | Player subject pronoun. | `UnitSex("player")` plus hard-coded locale tables | **V1 supported.** English V1 needs an explicit pronoun policy; do not copy the legacy binary/neutral mapping blindly. |
 | `OP` | Player object pronoun. | Same as `SP` | **V1 supported.** Same pronoun and localization caveats. |

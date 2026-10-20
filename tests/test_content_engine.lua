@@ -39,6 +39,7 @@ dofile("RPHelper/Core/DruidForms.lua")
 dofile("RPHelper/Core/ContentEngine.lua")
 dofile("RPHelper/Core/Content.lua")
 dofile("RPHelper/Core/UserContent.lua")
+dofile("RPHelper/Data/RandomInsults.lua")
 dofile("RPHelper/Data/Generic.lua")
 dofile("RPHelper/Data/Races/Tauren.lua")
 dofile("RPHelper/Data/Races/Orc.lua")
@@ -1995,6 +1996,102 @@ test("missing insult provider makes candidate ineligible", function()
     equal(Engine.PrepareCandidate({ type = "say", text = "Begone, {RINSULT}!" }, {
         resolvers = {},
     }), nil)
+    Engine.SetInsultProvider(RPHelper.RandomInsults.Generate)
+end)
+
+test("legacy random insult vocabulary and three-part structure are preserved", function()
+    local pools = RPHelper.RandomInsults.Pools
+    local function digest(pool)
+        local value = 0
+        for _, word in ipairs(pool) do
+            for index = 1, #word do
+                value = (value * 131 + string.byte(word, index)) % 2147483647
+            end
+            value = (value * 131) % 2147483647
+        end
+        return value
+    end
+    equal(#pools.ANY[1], 17);equal(#pools.ANY[2], 29);equal(#pools.ANY[3], 36)
+    equal(#pools.GNOME[1], 29);equal(#pools.GNOME[2], 0);equal(#pools.GNOME[3], 0)
+    equal(#pools.PALADIN[1], 154);equal(#pools.PALADIN[2], 0);equal(#pools.PALADIN[3], 59)
+    equal(#pools.WARRIOR[1], 21);equal(#pools.WARRIOR[2], 0);equal(#pools.WARRIOR[3], 2)
+    local expected = {
+        ANY = { 425859787, 837071413, 1834096284 },
+        GNOME = { 1601595970, 0, 0 },
+        PALADIN = { 859073093, 0, 2032674689 },
+        WARRIOR = { 1092003529, 0, 371335725 },
+    }
+    for trait, parts in pairs(expected) do
+        for part = 1, 3 do equal(digest(pools[trait][part]), parts[part]) end
+    end
+    equal(pools.ANY[1][1], "annoying");equal(pools.ANY[1][17], "useless")
+    equal(pools.ANY[2][24], "wheelbarrel full of")
+    equal(pools.PALADIN[1][154], "scale-sided")
+    equal(pools.PALADIN[3][8], "clack-dishs")
+    equal(pools.PALADIN[3][59], "Basket-Cockles")
+    equal(pools.WARRIOR[1][11], "retarded")
+end)
+
+test("legacy random insult generation combines generic race and class pools", function()
+    local first = function() return 1 end
+    equal(RPHelper.RandomInsults.Generate(nil, first), "You annoying lump of armpit hairs.")
+    equal(RPHelper.RandomInsults.Generate({
+        class = "WARRIOR", values = { PLAYER_CLASS = "WARRIOR", PLAYER_RACE = "HUMAN" },
+    }, function(size) return size end), "You worthless vat of vomit.")
+    local calls = 0
+    equal(RPHelper.RandomInsults.Generate({ values = { PLAYER_RACE = "GNOME" } }, function()
+        calls = calls + 1
+        return calls == 1 and 18 or 1
+    end), "You bad breathed lump of armpit hairs.")
+end)
+
+test("production insult provider prepares the shipped Mocking Blow reaction", function()
+    local options = {
+        resolvers = {},
+        context = { class = "WARRIOR", values = { PLAYER_CLASS = "WARRIOR", PLAYER_RACE = "HUMAN" } },
+        randomIndex = function() return 1 end,
+    }
+    local pool = RPHelper.GetPreparedAbilityPool("WARRIOR", "MOCKING_BLOW", options)
+    equal(#pool, 1)
+    equal(pool[1].text, "Over here! You annoying lump of armpit hairs.")
+end)
+
+test("insult generation is lazy for candidates without insult placeholders", function()
+    local calls = 0
+    local provider = function() calls = calls + 1; return "You fool." end
+    equal(Engine.PrepareCandidate({ type = "say", text = "Static." }, {
+        resolvers = {}, insultProvider = provider,
+    }).text, "Static.")
+    equal(calls, 0)
+end)
+
+test("malformed insult results fail closed and are never recursively expanded", function()
+    for _, provider in ipairs({
+        function() return nil end,
+        function() return false end,
+        function() return {} end,
+        function() return "" end,
+        function() error("unavailable") end,
+        function() return "You {PLAYER}." end,
+    }) do
+        equal(Engine.PrepareCandidate({ type = "say", text = "{RINSULT}" }, {
+            resolvers = { PLAYER = function() return "Ari" end },
+            insultProvider = provider,
+        }), nil)
+    end
+end)
+
+test("invalid insult random choices fail closed", function()
+    local context = { values = { PLAYER_CLASS = "WARRIOR", PLAYER_RACE = "HUMAN" } }
+    for _, chooser in ipairs({
+        function() return nil end,
+        function() return 0 end,
+        function(size) return size + 1 end,
+        function() return 1.5 end,
+        function() error("random unavailable") end,
+    }) do
+        equal(RPHelper.RandomInsults.Generate(context, chooser), nil)
+    end
 end)
 
 test("raw unknown tokens never enter eligible output", function()

@@ -156,7 +156,12 @@ function ContentEngine.ResolveKeywords(text, options)
                 cache[cacheKey] = false
             else
                 local ok, value = pcall(function()
-                    local resolvedValue = resolver(options.context)
+                    local resolvedValue
+                    if cacheKey == "RINSULT" then
+                        resolvedValue = resolver(options.context, options.randomIndex)
+                    else
+                        resolvedValue = resolver(options.context)
+                    end
                     if type(issecretvalue) == "function" and issecretvalue(resolvedValue) then
                         return nil
                     end

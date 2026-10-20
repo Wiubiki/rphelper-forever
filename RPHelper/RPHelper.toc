@@ -15,6 +15,7 @@ Core/RuntimeAPI.lua
 Core/Output.lua
 Core/Runtime.lua
 Core/Commands.lua
+Data/RandomInsults.lua
 Data/Generic.lua
 Data/Races/Tauren.lua
 Data/Races/Orc.lua
