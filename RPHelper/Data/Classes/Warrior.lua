@@ -39,10 +39,6 @@ add("parry", "say", "C'mon, {TARGET_RACE}, spend some more {TARGET_POWER} on me.
 -- ---------------------------------------------------------------------
 add("youcrit", "emote", "LAUGH")
 add("youcrit", "emote", "MOCK")
-
--- ---------------------------------------------------------------------
--- YOUCRIT
--- ---------------------------------------------------------------------
 add("youcrit", "customemote", "cackles with delight at {PP} critical strike.")
 
 -- ---------------------------------------------------------------------
