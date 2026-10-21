@@ -1,5 +1,12 @@
 # User content and persistence runtime
 
+> **Current implementation:** this document records production schema version 1.
+> Milestone 2B has approved, but not implemented, sparse per-character schema
+> version 2 with permanent authored built-in IDs. See
+> [SavedVariables Architecture](savedvariables_architecture.md). Where the two
+> documents differ, this document describes current behavior and the architecture
+> document describes the approved next state.
+
 Implemented on `feat/user-content-runtime`. Custom content and individual shipped-entry exclusions participate in the existing content selection pipeline. No graphical editor, slash-command editing interface, new gameplay detection or production spell mapping is added. Verification is deterministic/mocked; live Forever output permissions remain unverified.
 
 ## Storage and initialization
@@ -107,4 +114,13 @@ Add copies caller data; list returns copies. Management mutations invalidate a s
 
 Deterministic coverage includes CRUD/reload persistence, scope/type/keyword/template eligibility, malformed and future records, empty/duplicate pools, secret/missing context, stable default identities across simulated content updates, obsolete exclusions, cache reuse/invalidation, unknown-field preservation, malformed database containers, guarded cast-success and defensive events, master/individual settings, probability/frequency, cooldown boundaries, shared quotas, failed dispatch, activity routes and Druid speech suppression.
 
-The graphical settings/content editor, account-wide profiles, automatic reinterpretation of legacy custom shapes, automatic migration of text-edited default identities and expanded spell/event coverage remain deferred. Manual review should confirm the exact-duplicate occurrence and edited-text identity policies above. Live Forever tests must verify SavedVariables persistence across an actual logout/reload/update and existing automatic-output permissions; mocked tests do not establish those client guarantees.
+The graphical settings/content editor is not implemented here. Milestone 2B now
+requires basic custom-content create/edit/delete/preview for V1.0 and permanently
+excludes account-wide settings/profiles, import/export, and character sharing
+from V1.0 and the immediate roadmap. Automatic reinterpretation of unrelated
+legacy custom shapes and expanded spell/event coverage remain out of this
+runtime increment. Schema v2 will replace the content-derived identity policy
+above with permanent authored IDs and reviewed legacy aliases. Live Forever
+tests must verify SavedVariables persistence across an actual logout/reload/update
+and existing automatic-output permissions; mocked tests do not establish those
+client guarantees.
