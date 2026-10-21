@@ -19,11 +19,17 @@ Includes:
 
 Lives in WoW SavedVariables and must survive addon updates.
 
-Proposed SavedVariable:
+The implemented SavedVariable is per-character:
 
 `RPHelperDB`
 
-Conceptual shape:
+Production currently uses schema version 1. Milestone 2B approves schema version
+2, but it is not implemented yet. The approved design keeps `RPHelperDB`
+character-specific, stores settings as sparse explicit overrides, and adds
+permanent authored built-in IDs plus sequential migrations. See
+[SavedVariables Architecture](savedvariables_architecture.md).
+
+Current schema-v1 conceptual shape:
 
 ```lua
 RPHelperDB = {
@@ -47,7 +53,9 @@ RPHelperDB = {
 
 ## Runtime pool
 
-Do not copy shipped defaults into SavedVariables.
+Schema v2 must not copy shipped defaults into SavedVariables. Schema v1 currently
+does materialize missing defaults; its conservative migration is specified in
+[SavedVariables Architecture](savedvariables_architecture.md#migration-from-schema-version-1).
 
 Runtime content should be:
 
@@ -62,4 +70,8 @@ Every persisted schema change must be migratable.
 - Store `schemaVersion`.
 - Apply migrations sequentially.
 - Never silently wipe user data because a schema changed.
-- If migration is impossible, fail safely and expose recovery/export guidance.
+- If migration is impossible, fail safely and expose recovery guidance without
+  overwriting the saved data.
+
+V1.0 and the immediate roadmap do not include account-wide settings, profiles,
+import/export, or character-to-character sharing.

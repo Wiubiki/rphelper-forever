@@ -274,15 +274,29 @@ V1 target:
 - Activity suppression where practical
 - Preview generated content
 - SavedVariables persistence
+- Basic create/edit/delete for supported custom content
+
+### Approved SavedVariables ownership and update policy
+
+`RPHelperDB` is the sole SavedVariable and remains per-character. All settings,
+built-in exclusions, and custom content belong to that character. V1.0 and the
+immediate roadmap do not include account-wide settings, profiles, import/export,
+or character-to-character sharing.
+
+Shipped content is immutable. Players may disable a shipped entry or create a
+modified custom copy. Untouched settings follow current shipped defaults, while
+explicit player choices survive addon updates. Milestone 2B approves sparse
+explicit overrides, sequential migration from current schema version 1, and
+permanent authored built-in IDs for schema version 2. Schema v2 is not yet
+implemented; see [SavedVariables Architecture](savedvariables_architecture.md).
 
 ## Explicitly deferred
 
 - Personality packs
 - TRP3/MRP integration
 - Full UI localization, translation management and comprehensive language packs
-- Complex profile sharing
 - Spec-specific content packs
-- Full in-game content editor unless implementation proves small and robust
+- Advanced content-management features beyond basic create/edit/delete/preview
 - Local speech-bubble display for sayings (Investigate as a post-V1 alternative to the local sayings feed, not as a replacement.)
 - Player-macro-triggered ability sayings
 
@@ -295,7 +309,10 @@ catalogue. Per-character SavedVariables preserve custom content, exclusions,
 settings and unknown fields through repeated initialization and normal code
 updates; malformed containers are retained rather than reset. Editing shipped
 text creates a new identity, and exact duplicate groups have documented occurrence
-limits. The internal management API is implemented; graphical editing remains
-deferred. See [User content runtime](user_content_runtime.md) for storage,
-validation, identity rules, API errors and upgrade guarantees. Live Forever
-persistence/output verification remains pending.
+limits. The internal management API is implemented; graphical editing is not.
+Basic create/edit/delete/preview is approved for V1.0. See
+[User content runtime](user_content_runtime.md) for current schema-v1 storage,
+validation, identity rules, API errors and guarantees, and
+[SavedVariables Architecture](savedvariables_architecture.md) for the approved
+but unimplemented schema-v2 design. Live Forever persistence/output verification
+remains pending.
