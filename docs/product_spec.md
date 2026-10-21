@@ -35,12 +35,11 @@ RPHelper distinguishes between custom emotes, spoken sayings, and local-only say
 Default:
 - Custom emotes: enabled
 - Local sayings: enabled
-- Party-channel sayings: disabled
 - Automated /say: not used
 
 Local sayings are displayed only to the player through RPHelper's UI and are not transmitted to a WoW chat channel.
 
-An optional setting may allow sayings to be redirected to party chat while grouped.
+V1 has no party-channel Say routing.
 
 ### 5-player instances
 
@@ -48,14 +47,18 @@ Default:
 - Custom emotes: enabled
 - /say sayings: enabled
 
+A per-character setting may route Say reactions to local display instead. It
+does not affect either emote type.
+
 This represents RPHelper's full immersive behaviour where automated /say is permitted.
 
 ### Raids
 
-Default:
-- RPHelper output: disabled
+Policy:
+- All automatic RPHelper output: disabled
 
-Raids are communication-heavy environments and RPHelper should not add unsolicited chat or emote traffic unless explicitly enabled by the user.
+Raids are communication-heavy environments. This restriction is unconditional,
+not a user setting, and is applied before the normal reaction pipeline.
 
 ## Trigger families
 
@@ -90,8 +93,8 @@ as a way to associate player-initiated abilities with RP sayings while retaining
 For V1, RPHelper will instead prioritise automatic trigger detection where available and route sayings according to activity context:
 
 - open world -> local sayings
-- 5-player instances -> `/say`
-- raids -> disabled by default
+- 5-player instances -> `/say` by default, or local-only by character preference
+- raids -> disabled
 
 Macro-triggered ability RP may be revisited in a later release where it provides useful behaviour that cannot be achieved reliably through normal event detection.
 
@@ -118,7 +121,10 @@ A layer may:
 - replace it;
 - suppress the trigger.
 
-Content entries should eventually have stable identifiers so a higher layer or user setting can suppress or replace a specific inherited entry without matching its display text. The identifier system is not required for the initial content migration and should be designed before runtime implementation.
+V1.0 shipped content entries require permanent authored identifiers so a higher
+layer or user setting can suppress or copy a specific inherited entry without
+matching display text. These IDs ship in the initial supported release; no alias
+compatibility is required for unreleased generated development IDs.
 
 ## English content migration
 
@@ -129,6 +135,10 @@ Existing `RPhelper_twow` English content is source material, not a catalogue to 
 - Class files map to the Class layer.
 - Exceptional material may move to a race/class combination layer.
 - Every candidate line should be reviewed and may be kept, rewritten, dropped, moved to a combination layer, or reserved for a possible future Personality layer.
+
+This preserves approved content lineage and contributor attribution only. V1.0
+does not import settings, profiles, custom entries, disabled-entry state, or
+SavedVariables from legacy RPHelper addons or unreleased RPHelper Forever builds.
 
 ## V1 localization policy
 
@@ -148,21 +158,59 @@ Trigger detection and content selection must be independent from output routing.
 
 A selected entry may be routed according to context:
 
-- `say` -> real /say, local display, optional party chat, or suppressed
+- `say` -> real `/say`, local display, or suppressed
 - `customemote` -> /e when enabled
 - `emote` -> Blizzard built-in emote where permitted/enabled
 
 The content catalogue must not hard-code the destination channel.
 
+Approved V1 routing is:
+
+| Environment | Say | Emote | Custom Emote |
+| --- | --- | --- | --- |
+| Open world | Local-only | Native WoW emote | Native `/e`-style emote |
+| 5-player instance | `/say` by default; per-character local-only option | Native WoW emote | Native `/e`-style emote |
+| Raid | Disabled | Disabled | Disabled |
+
+Local-only means UI/chat-frame delivery visible only to the player, not public
+chat and not a character-attached bubble. True local character bubbles remain a
+technical objective pending Forever-client verification. Raid suppression occurs
+before normal reaction processing.
+
 ## Anti-spam
 
-V1 should support:
-- Global cooldown
-- Per-trigger cooldown
-- Trigger chance/frequency
-- Maximum automatic outputs per combat encounter
+Approved V1 should support:
+- Global reaction chance, with replacing per-event overrides
+- One global cooldown and per-event priority bypass
+- Optional maximum automatic outputs per encounter
+- Positive-integer reaction weights
 
 Defaults should be conservative.
+
+### Approved V1 reaction policy (unimplemented)
+
+The global chance defaults to 5%. Events inherit it unless a sparse 0–100%
+override replaces it. The global cooldown defaults to 20 seconds; no event or
+reaction cooldown exists. Priority events bypass only that cooldown and never
+start, reset, extend, or otherwise change its timer. They still obey chance,
+enabled state, quota, eligibility, routing, and output restrictions.
+
+Encounter quota is disabled by default. When enabled it is 1–10, initially 2,
+counts every successfully emitted reaction including priority, and resets at the
+start of a new encounter. Reaction weights are positive integers defaulting to 1
+and affect only weighted selection among eligible reactions.
+
+Raid suppression precedes pipeline entry. In permitted environments the order is:
+quota, cooldown/priority, event enabled, chance, eligible-pool construction,
+weighted selection, routing, final safety, then successful-output accounting.
+Pool construction must not occur before chance succeeds. Druid shapeshift Say
+suppression occurs during pool construction for Built-in and Custom content;
+Emote and Custom Emote remain eligible. Every failed/suppressed attempt consumes
+neither cooldown nor quota.
+
+The unreleased schema-v1 development behavior below remains documented for
+current-state accuracy. Schema v2 is the initial supported V1.0 release schema;
+no v1 settings migration is required.
 
 ### Implemented minimal runtime policy
 
@@ -237,14 +285,15 @@ empower/reticle behaviour and pets remain unsupported. No pending-cast state or
 duplicate suppression is introduced; duplicate delivery remains a live-validation
 question. Generic combat reactions retain their existing semantics.
 
-Open-world sayings use a prefixed `[RPHelper]` message in the player's existing
+The current schema-v1 runtime behaves as follows. Open-world sayings use a
+prefixed `[RPHelper]` message in the player's existing
 chat display via `AddMessage`; no chat message is transmitted. Dungeon sayings
 use `SAY`. Custom emotes use `EMOTE`; built-in emotes use `DoEmote`.
 The additive boolean setting `enableInRaids` defaults to false. When explicitly
 enabled, raid sayings remain local and both emote types are permitted.
 Unknown, inconsistent, or unsupported activity contexts suppress all output.
-Missing local display never falls back to public chat. Optional party redirection
-is not implemented.
+Missing local display never falls back to public chat. Party redirection is not
+implemented and is not part of the approved V1 routing model.
 
 Runtime settings are validated without rewriting saved values. Missing or invalid
 values fall back to shipped defaults: toggles must be booleans, probabilities
@@ -268,13 +317,26 @@ also suppresses output to avoid bypassing Druid speech restrictions.
 
 V1 target:
 - Enable/disable RPHelper
-- Frequency preset
+- Global reaction chance from 0% to 20%, default 5%
+- Global automatic-output cooldown from 5 to 120 seconds, default 20 seconds
+- Encounter quota disabled by default; when enabled, 1–10 with retained default 2
 - Trigger toggles
-- Per-trigger advanced chance/cooldown
-- Activity suppression where practical
+- Per-event chance from 0% to 100% and an event priority flag
+- Individual positive-integer reaction weights
+- Informational, non-configurable raid-output and Druid-form speech policies
+- Per-character dungeon Say routing: `/say` default or local-only
 - Preview generated content
 - SavedVariables persistence
 - Basic create/edit/delete for supported custom content
+
+These are approved V1.0 UI requirements and are not implemented. They supersede
+the earlier frequency-preset UI target but do not silently change current runtime
+behavior. The unreleased development runtime still uses schema-v1 defaults and
+policy described above, but V1.0 starts fresh with schema v2 and does not import
+those settings. From V1.0 onward, explicit player choices survive updates while
+raid/Druid policies remain unconditional. See
+[V1.0 UI/UX Specification](ui_ux_spec.md) and
+[UI Technical Feasibility Audit](ui_feasibility_audit.md).
 
 ### Approved SavedVariables ownership and update policy
 
@@ -285,10 +347,11 @@ or character-to-character sharing.
 
 Shipped content is immutable. Players may disable a shipped entry or create a
 modified custom copy. Untouched settings follow current shipped defaults, while
-explicit player choices survive addon updates. Milestone 2B approves sparse
-explicit overrides, sequential migration from current schema version 1, and
-permanent authored built-in IDs for schema version 2. Schema v2 is not yet
-implemented; see [SavedVariables Architecture](savedvariables_architecture.md).
+explicit player choices survive addon updates from V1.0 onward. Milestone 2B
+approves sparse explicit overrides and permanent authored built-in IDs in schema
+version 2, the initial supported release schema. No legacy-addon or unreleased
+development-settings compatibility is required. Schema v2 is not yet implemented;
+see [SavedVariables Architecture](savedvariables_architecture.md).
 
 ## Explicitly deferred
 
