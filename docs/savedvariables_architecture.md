@@ -2,14 +2,16 @@
 
 ## Status
 
-Milestone 2B approves the schema described here, but it is **not yet implemented**.
-Production currently uses per-character `RPHelperDB` schema version 1, which
-materializes missing shipped defaults and generates content-derived built-in IDs.
-See [User content and persistence runtime](user_content_runtime.md) for exact
-schema-v1 behavior.
+Milestone 2B approves schema version 2 as the **initial supported V1.0 release
+schema**, but it is not yet implemented. The current development code still uses
+an unreleased schema version 1 that materializes defaults and generates
+content-derived built-in IDs. No released installation uses that development
+schema, so V1.0 has no v1-to-v2 compatibility requirement. See
+[User content and persistence runtime](user_content_runtime.md) only for the
+current development implementation.
 
-Approved schema version 2 remains per-character. It adds sparse explicit
-overrides, permanent authored built-in IDs, and sequential migrations. There is
+Schema version 2 remains per-character. It uses sparse explicit overrides,
+permanent authored built-in IDs, and future versioned migrations. There is
 no account database, profile system, import/export, or character-to-character
 sharing in V1.0 or the immediate roadmap.
 
@@ -19,7 +21,7 @@ sharing in V1.0 or the immediate roadmap.
 Settings, built-in exclusions, and custom entries belong to that character.
 Shipped defaults and content remain immutable addon data. SavedVariables store
 only player-owned choices: explicit setting overrides, custom entries, disabled
-built-in IDs, and migration/version metadata.
+built-in IDs, and schema-version metadata.
 
 Runtime content remains:
 
@@ -37,12 +39,18 @@ state consumption.
 ```lua
 RPHelperDB = {
     schemaVersion = 2,
-    settings = {},  -- sparse explicit choices only
+    settings = {
+        -- reactionChance = 0.05,
+        -- globalCooldown = 20,
+        -- encounterQuotaEnabled = false,
+        -- maxAutomaticOutputsPerCombat = 2,
+        -- dungeonSayMode = "local",
+    },  -- sparse explicit choices only
     triggers = {
-        -- dodge = { enabled = false, chance = 0.05 }
+        -- dodge = { enabled = false, chance = 0.05, priority = true }
     },
     abilities = {
-        -- PALADIN = { FLASH_OF_LIGHT = { cooldown = 45 } }
+        -- PALADIN = { FLASH_OF_LIGHT = { chance = 0.03, priority = false } }
     },
     custom = {
         nextID = 1,
@@ -56,6 +64,9 @@ RPHelperDB = {
     },
     disabledDefaults = {
         -- ["default:generic:dodge:0007"] = true,
+    },
+    reactionOverrides = {
+        -- ["default:generic:dodge:0007"] = { weight = 2 },
     },
 }
 ```
@@ -81,41 +92,59 @@ Initialization creates required structural containers but does not populate
 `settings`, `triggers`, or `abilities` from shipped defaults. Runtime, commands,
 and UI must use one validated resolver.
 
-## Migration from schema version 1
+The approved V1.0 UI adds a global reaction-chance baseline, an independent
+encounter-quota toggle, event priority, Custom activation state, and individual
+reaction weights. Built-in weights use sparse `reactionOverrides` records keyed
+by permanent built-in ID; Built-in activation continues to use
+`disabledDefaults`. Custom activation and weight are metadata on the custom
+record. The shipped `dungeonSayMode` default is `"broadcast"`; only a character
+choosing local dungeon Say output stores `"local"`. Raid suppression and Druid
+Say suppression are unconditional runtime policies and are not schema-v2 settings.
+See [V1.0 UI/UX Specification](ui_ux_spec.md).
 
-Schema v1 materializes missing defaults and stores no provenance indicating
-whether a value was inserted by initialization or chosen by the player. Those
-cases cannot be distinguished losslessly.
+Schema-v2 shipped defaults and semantics are:
 
-The v1-to-v2 migration therefore preserves every existing valid setting,
-trigger, and ability leaf as an explicit v2 override, including values equal to
-the old default. A migrated character retains materialized v1 values until the
-player resets them; new v2 characters are sparse immediately.
+- global reaction chance `0.05`; a sparse event chance replaces rather than
+  multiplies it;
+- global cooldown `20` seconds; there are no event/reaction cooldowns;
+- encounter quota disabled, with retained value `2` and enabled range 1–10;
+- priority stored per event and bypassing only the global cooldown;
+- reaction weight `1`, overridden by positive integers;
+- dungeon Say mode `"broadcast"`, with optional per-character `"local"`.
 
-Migration rules:
+Only successful emission increments enabled quota. Only successful non-priority
+emission starts/resets cooldown; priority emission leaves the timer unchanged.
+Quota resets at the beginning of an encounter. All failures consume neither.
 
-1. An absent database becomes a v2 root with structural containers only.
-2. A non-table root is preserved; writes are disabled and safe defaults are used.
-3. A missing version may be treated as v1 only when its shape is recognizable;
-   ambiguous data is preserved and fails safely.
-4. Existing valid leaves remain in place. Migration inserts no shipped leaves.
-5. Custom records and IDs, `nextID`, exclusions, unknown fields, and malformed or
-   future records are preserved.
-6. Approved ability-key and built-in-ID changes run as explicit, idempotent steps.
-7. `schemaVersion` advances only after the required step succeeds.
-8. A newer-than-supported version is not mutated or downgraded.
-9. Later changes migrate sequentially (`1 -> 2`, then `2 -> 3`).
+## Initial release and future migrations
 
-Migration failure must never wipe or normalize recoverable data. V1.0 does not
-add import/export; recovery uses non-destructive failure, diagnostics, granular
-reset actions, and ordinary external SavedVariables backups.
+V1.0 starts directly with schema version 2:
+
+1. A fresh installation creates the v2 root and structural containers only.
+2. It does not copy shipped setting, event, ability, or reaction defaults into
+   SavedVariables.
+3. Missing values resolve to current shipped defaults through the shared
+   resolver.
+4. A player action writes only the corresponding sparse explicit override.
+5. Reset deletes that override and resumes following shipped defaults.
+6. Unreleased schema-v1 development data, legacy-addon settings, and generated
+   development IDs are not imported, converted, or supported by release code.
+
+Approved legacy **content** may be reviewed and shipped in the immutable built-in
+catalogue with contributor attribution. That content lineage does not make old
+addon settings or unreleased development SavedVariables part of the V1.0 data
+contract.
+
+From V1.0 onward, every supported persisted schema change must migrate
+sequentially and idempotently. Explicit player settings, custom entries,
+exclusions, weights, permanent IDs, and unknown fields must survive supported
+updates. A future migration advances `schemaVersion` only after success; a newer
+unsupported version is never mutated or downgraded. Migration failure must not
+silently wipe recoverable release data.
 
 ## Permanent built-in IDs
 
-Schema v1 derives `default:v1:` IDs from scope, exact content, and an occurrence
-suffix. Wording changes therefore change identity, and identical duplicates can
-exchange occurrence identities. Schema v2 replaces these with explicit authored
-IDs:
+V1.0 ships explicit authored IDs from its first supported release:
 
 ```lua
 { id = "default:generic:dodge:0007", type = "say", text = "Too slow!" }
@@ -129,26 +158,10 @@ IDs. IDs are repository-wide unique, never reused, and never derived from hashes
 normalized text, array positions, or duplicate occurrence counts. A genuinely
 new or repurposed entry receives a new ID.
 
-Moving semantic scope normally creates a new ID unless a reviewed migration
-preserves it. Exclusions for removed IDs remain stored harmlessly for downgrade
-or later reintroduction.
-
-## Legacy built-in ID aliases
-
-The authored-ID cutover includes a reviewed alias map:
-
-```lua
-legacyDefaultIDAliases = {
-    ["default:v1:..."] = { "default:generic:dodge:0007" },
-}
-```
-
-If a legacy ID is disabled, all mapped successors become disabled. For
-many-to-one consolidation, the successor is disabled if any predecessor was
-disabled. Old exclusion keys remain stored, and unmapped obsolete keys remain
-untouched and ineffective. Aliases are maintainer-authored; migration never
-fuzzy-matches text. Exact duplicate groups require manual review because legacy
-occurrence IDs do not carry intrinsic authorship.
+Moving semantic scope normally creates a new ID unless a future supported
+release migration deliberately preserves it. Exclusions for removed release IDs
+remain stored harmlessly for downgrade or later reintroduction. V1.0 needs no
+alias map for unreleased content-derived development IDs.
 
 ## Custom-content persistence
 
@@ -165,6 +178,9 @@ remain character-specific.
 - Adding ability content does not add detection or a spell mapping.
 - A modified built-in copy may store `sourceDefaultID` as UI provenance. Runtime
   still uses addition plus exclusion, not a separate override engine.
+- Custom records may store sparse `enabled` and positive-integer `weight`
+  metadata. Built-in weights live under `reactionOverrides` so shipped entries
+  remain immutable.
 - Creating a modified copy and disabling its source is one logical operation;
   failure of either write rolls back the other.
 - Preview uses ordinary template, keyword, and Druid eligibility preparation but
@@ -182,16 +198,21 @@ remain character-specific.
 - Changed defaults affect untouched fields only.
 - Reset deletes one leaf, prunes parents, and exposes the default.
 - Runtime, commands, and UI report identical effective values.
+- Absent v2 fields resolve to 5% chance, 20-second cooldown, quota disabled/value
+  2, weight 1, and dungeon broadcast.
+- An event chance replaces rather than multiplies global chance.
+- No event/reaction cooldown setting exists or affects resolution.
 
-### Migration
+### Initial release and future migrations
 
-- Fully materialized and partial v1 fixtures preserve every existing valid leaf
-  without adding defaults.
-- Custom data, counters, exclusions, false/zero values, unknown fields, and
-  malformed/future records are preserved as specified.
-- Missing, malformed, ambiguous, failed, repeated, and newer-version cases are
-  non-destructive and version advancement is atomic.
-- Every approved canonical rename has conflict, malformed, and repeated-run tests.
+- A fresh installation creates schema v2 structural containers with no setting
+  or reaction overrides.
+- Unreleased schema-v1 and legacy-addon settings are not imported or interpreted.
+- Explicit schema-v2 settings, custom content, exclusions, weights, counters, and
+  unknown fields survive simulated V1.0-to-later supported updates.
+- Future migration success is idempotent and advances the version atomically.
+- Future migration failure and newer-version cases are non-destructive.
+- Reset removes only the selected explicit override.
 
 ### Built-in identities
 
@@ -199,16 +220,24 @@ remain character-specific.
 - IDs survive appropriate content and registration-order revisions.
 - Exact duplicates retain distinct IDs across reordering or sibling deletion.
 - Deleted IDs are not reused.
-- The cutover alias map covers every shipped legacy ID.
-- One-to-one, one-to-many, many-to-one, unmapped, and repeated alias migrations
-  preserve exclusions and old keys.
+- No release compatibility table exists for unreleased generated IDs.
 
 ### Custom content and regression
 
 - CRUD/reload covers every supported scope and type.
 - Modified-copy success and injected failures prove atomic rollback.
 - Preview uses normal preparation without output or runtime-state mutation.
+- Raid events never enter the normal pipeline.
+- Quota exhaustion precedes cooldown/priority; priority bypasses only cooldown.
+- Priority success increments quota without changing the cooldown timestamp;
+  non-priority success starts/resets it; every failure changes neither.
+- Chance failure is proven not to construct/filter a reaction pool.
+- Druid filtering removes Built-in and Custom Say reactions while retaining
+  Emote and Custom Emote candidates; final output safeguards still run.
+- Weighted selection covers default/override weights, disabled/ineligible entries,
+  deterministic boundaries, and invalid/non-positive saved weights.
+- Dungeon Say broadcast/local routing changes Say only.
 - Existing routing, Druid suppression, probability/frequency, cooldown, quota,
   out-of-combat, and dispatch-accounting tests remain green.
-- Live Forever tests cover character isolation, `/reload`, logout/login, the
-  v1-to-v2 update, exclusions, custom CRUD, and local preview persistence.
+- Live Forever tests cover character isolation, `/reload`, logout/login, a fresh
+  V1.0 installation, exclusions, custom CRUD, and local preview persistence.

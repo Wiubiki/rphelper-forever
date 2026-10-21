@@ -1,8 +1,10 @@
 # User content and persistence runtime
 
-> **Current implementation:** this document records production schema version 1.
-> Milestone 2B has approved, but not implemented, sparse per-character schema
-> version 2 with permanent authored built-in IDs. See
+> **Current development implementation:** this document records unreleased schema
+> version 1. Milestone 2B has approved, but not implemented, sparse per-character
+> schema version 2 with permanent authored built-in IDs as the initial supported
+> V1.0 release schema. No release compatibility with this development schema is
+> required. See
 > [SavedVariables Architecture](savedvariables_architecture.md). Where the two
 > documents differ, this document describes current behavior and the architecture
 > document describes the approved next state.
@@ -117,10 +119,19 @@ Deterministic coverage includes CRUD/reload persistence, scope/type/keyword/temp
 The graphical settings/content editor is not implemented here. Milestone 2B now
 requires basic custom-content create/edit/delete/preview for V1.0 and permanently
 excludes account-wide settings/profiles, import/export, and character sharing
-from V1.0 and the immediate roadmap. Automatic reinterpretation of unrelated
-legacy custom shapes and expanded spell/event coverage remain out of this
-runtime increment. Schema v2 will replace the content-derived identity policy
-above with permanent authored IDs and reviewed legacy aliases. Live Forever
+from V1.0 and the immediate roadmap. Expanded spell/event coverage remains out of
+this runtime increment. Schema v2 will ship permanent authored IDs directly; it does
+not need aliases for unreleased generated IDs. Live Forever
 tests must verify SavedVariables persistence across an actual logout/reload/update
 and existing automatic-output permissions; mocked tests do not establish those
 client guarantees.
+
+The approved navigation, library, editor, reaction types, and local-preview
+behavior are specified in [V1.0 UI/UX Specification](ui_ux_spec.md). Event
+priority, reaction weights, Custom activation metadata, and the new global
+frequency controls described there are approved but absent from this schema-v1
+runtime. Schema v2 removes event/reaction cooldowns, makes quota optional, and
+adds per-character dungeon Say routing. It enforces raid suppression and Druid
+Say suppression as policies without carrying development toggles forward. This
+paragraph describes the approved V1.0 state; the behavior above remains only the
+current unreleased implementation.
