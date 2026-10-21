@@ -65,29 +65,16 @@ RPHelper.Ability = RPHelper.Ability or {
     WARLOCK = {},
 }
 
--- Length-prefixed components avoid hash collisions and delimiter ambiguity.
--- Occurrence numbers distinguish only identical entries in the same scope.
-local identityCounts = {}
-local function encode(value)
-    if value == nil then return "n" end
-    if type(value) == "table" then
-        local parts = { "a", tostring(#value), ":" }
-        for _, child in ipairs(value) do parts[#parts + 1] = encode(child) end
-        return table.concat(parts)
-    end
-    value = tostring(value)
-    return "s" .. #value .. ":" .. value
-end
-
-local function identify(layer, owner, key, entry)
+local registeredIDs = {}
+local function identify(entry)
+    local id = entry.id
+    assert(type(id) == "string" and string.match(id, "^default:[a-z0-9:_-]+$") and not registeredIDs[id],
+        "built-in reactions require a unique authored id")
+    registeredIDs[id] = true
     local registered = {}
-    for field, value in pairs(entry) do registered[field] = value end
-    entry = registered
-    local base = "default:v1:" .. encode(layer) .. encode(owner) .. encode(key)
-        .. encode(entry.type) .. encode(entry.text) .. encode(entry.template) .. encode(entry.choices)
-    identityCounts[base] = (identityCounts[base] or 0) + 1
-    entry.defaultID = base .. ":" .. identityCounts[base]
-    return entry
+    for field, value in pairs(entry) do if field ~= "id" then registered[field] = value end end
+    registered.defaultID = id
+    return registered
 end
 
 local function appendDefaults(pool, entries)
@@ -104,7 +91,7 @@ local function appendCustom(pool, scope)
 end
 
 function RPHelper.RegisterGeneric(trigger, entry)
-    entry = identify("generic", nil, trigger, entry)
+    entry = identify(entry)
     RPHelper.Content.generic[trigger] = RPHelper.Content.generic[trigger] or {}
     table.insert(RPHelper.Content.generic[trigger], entry)
 end
@@ -122,7 +109,7 @@ function RPHelper.ChooseGenericCandidate(trigger, options)
 end
 
 function RPHelper.RegisterRace(race, trigger, entry)
-    entry = identify("race", race, trigger, entry)
+    entry = identify(entry)
     RPHelper.Content.race[race] = RPHelper.Content.race[race] or {}
     RPHelper.Content.race[race][trigger] = RPHelper.Content.race[race][trigger] or {}
     table.insert(RPHelper.Content.race[race][trigger], entry)
@@ -134,7 +121,7 @@ function RPHelper.GetRacePool(race, trigger)
 end
 
 function RPHelper.RegisterClass(class, trigger, entry)
-    entry = identify("class", class, trigger, entry)
+    entry = identify(entry)
     RPHelper.Content.class = RPHelper.Content.class or {}
     RPHelper.Content.class[class] = RPHelper.Content.class[class] or {}
     RPHelper.Content.class[class][trigger] = RPHelper.Content.class[class][trigger] or {}
@@ -147,7 +134,7 @@ function RPHelper.GetClassPool(class, trigger)
 end
 
 function RPHelper.RegisterDruidForm(form, trigger, entry)
-    entry = identify("druidForm", form, trigger, entry)
+    entry = identify(entry)
     RPHelper.Content.druidForm[form] = RPHelper.Content.druidForm[form] or {}
     RPHelper.Content.druidForm[form][trigger] = RPHelper.Content.druidForm[form][trigger] or {}
     table.insert(RPHelper.Content.druidForm[form][trigger], entry)
@@ -169,7 +156,7 @@ function RPHelper.RegisterAbility(class, ability, entry)
     RPHelper.Content.ability[class] = RPHelper.Content.ability[class] or {}
     RPHelper.Content.ability[class][ability] = RPHelper.Content.ability[class][ability] or {}
     if entry ~= nil then
-        entry = identify("ability", class, ability, entry)
+        entry = identify(entry)
         table.insert(RPHelper.Content.ability[class][ability], entry)
     end
 end

@@ -4,9 +4,9 @@
 
 local A = RPHelper.Ability.DRUID
 local C = RPHelper.Class.DRUID
-local function add(ability, entryType, text)
+local function add(id, ability, entryType, text)
     A[ability] = A[ability] or ability
-    RPHelper.RegisterAbility(C, A[ability], { type = entryType, text = text })
+    RPHelper.RegisterAbility(C, A[ability], { id = id, type = entryType, text = text })
 end
 
 -- =====================================================================
@@ -25,9 +25,9 @@ RPHelper.RegisterAbility(C, "BARKSKIN")
 -- ---------------------------------------------------------------------
 -- ENTANGLING_ROOTS
 -- ---------------------------------------------------------------------
-add("ENTANGLING_ROOTS", "say", "How 'bout ya stick around for awhile, {TARGET}.'")
-add("ENTANGLING_ROOTS", "say", "Oh, were you going somewhere?")
-add("ENTANGLING_ROOTS", "say", "I think you're better off being firmly rooted in place, {TARGET}.")
+add("default:ability:druid:0002", "ENTANGLING_ROOTS", "say", "How 'bout ya stick around for awhile, {TARGET}.'")
+add("default:ability:druid:0003", "ENTANGLING_ROOTS", "say", "Oh, were you going somewhere?")
+add("default:ability:druid:0004", "ENTANGLING_ROOTS", "say", "I think you're better off being firmly rooted in place, {TARGET}.")
 
 -- ---------------------------------------------------------------------
 -- FAERIE_FIRE
@@ -41,18 +41,18 @@ RPHelper.RegisterAbility(C, "FAERIE_FIRE")
 -- ---------------------------------------------------------------------
 -- HIBERNATE
 -- ---------------------------------------------------------------------
-add("HIBERNATE", "say", "Yoohoo... {TARGET}... Nap Time!")
-add("HIBERNATE", "say", "Sleep... sleep...")
-add("HIBERNATE", "say", "Take a nap {TARGET}, we'll get to you in a bit.")
-add("HIBERNATE", "say", "Nighty night {TARGET}.")
-add("HIBERNATE", "customemote", "suggests {TARGET} take a quick nap.")
-add("HIBERNATE", "customemote", "dangles a watch in front of {TARGET}. You are feeling very sleepy...")
+add("default:ability:druid:0005", "HIBERNATE", "say", "Yoohoo... {TARGET}... Nap Time!")
+add("default:ability:druid:0006", "HIBERNATE", "say", "Sleep... sleep...")
+add("default:ability:druid:0007", "HIBERNATE", "say", "Take a nap {TARGET}, we'll get to you in a bit.")
+add("default:ability:druid:0008", "HIBERNATE", "say", "Nighty night {TARGET}.")
+add("default:ability:druid:0009", "HIBERNATE", "customemote", "suggests {TARGET} take a quick nap.")
+add("default:ability:druid:0010", "HIBERNATE", "customemote", "dangles a watch in front of {TARGET}. You are feeling very sleepy...")
 
 -- ---------------------------------------------------------------------
 -- HURRICANE
 -- ---------------------------------------------------------------------
-add("HURRICANE", "say", "How 'bout a little thunder and lightnin'?")
-add("HURRICANE", "customemote", "summons the violent forces of nature.")
+add("default:ability:druid:0011", "HURRICANE", "say", "How 'bout a little thunder and lightnin'?")
+add("default:ability:druid:0012", "HURRICANE", "customemote", "summons the violent forces of nature.")
 
 -- ---------------------------------------------------------------------
 -- INSECT_SWARM
@@ -111,8 +111,8 @@ RPHelper.RegisterAbility(C, "STARFIRE")
 -- ---------------------------------------------------------------------
 -- TELEPORT_MOONGLADE
 -- ---------------------------------------------------------------------
-add("TELEPORT_MOONGLADE", "customemote", "channels arcane forces within themselves and concentrates on Moonglade.")
-add("TELEPORT_MOONGLADE", "customemote", "feels Moonglade's call as {SP} summons arcane powers.")
+add("default:ability:druid:0013", "TELEPORT_MOONGLADE", "customemote", "channels arcane forces within themselves and concentrates on Moonglade.")
+add("default:ability:druid:0014", "TELEPORT_MOONGLADE", "customemote", "feels Moonglade's call as {SP} summons arcane powers.")
 
 -- ---------------------------------------------------------------------
 -- THORNS
@@ -184,7 +184,7 @@ RPHelper.RegisterAbility(C, "CAT_FORM")
 -- ---------------------------------------------------------------------
 -- CHALLENGING_ROAR
 -- ---------------------------------------------------------------------
-add("CHALLENGING_ROAR", "emote", "ROAR")
+add("default:ability:druid:0015", "CHALLENGING_ROAR", "emote", "ROAR")
 
 -- ---------------------------------------------------------------------
 -- CLAW
@@ -216,17 +216,17 @@ RPHelper.RegisterAbility(C, "DASH")
 -- ---------------------------------------------------------------------
 -- DEMORALIZING_ROAR
 -- ---------------------------------------------------------------------
-add("DEMORALIZING_ROAR", "emote", "ROAR")
+add("default:ability:druid:0016", "DEMORALIZING_ROAR", "emote", "ROAR")
 
 -- ---------------------------------------------------------------------
 -- DIRE_BEAR_FORM
 -- ---------------------------------------------------------------------
-add("DIRE_BEAR_FORM", "emote", "ROAR")
+add("default:ability:druid:0017", "DIRE_BEAR_FORM", "emote", "ROAR")
 
 -- ---------------------------------------------------------------------
 -- ENRAGE
 -- ---------------------------------------------------------------------
-add("ENRAGE", "emote", "ROAR")
+add("default:ability:druid:0018", "ENRAGE", "emote", "ROAR")
 
 -- ---------------------------------------------------------------------
 -- FERAL_CHARGE
@@ -339,8 +339,8 @@ RPHelper.RegisterAbility(C, "RIP")
 -- ---------------------------------------------------------------------
 -- SHIFTING_POWER
 -- ---------------------------------------------------------------------
-add("SHIFTING_POWER", "emote", "ROAR")
-add("SHIFTING_POWER", "customemote", "roars furiously.")
+add("default:ability:druid:0019", "SHIFTING_POWER", "emote", "ROAR")
+add("default:ability:druid:0020", "SHIFTING_POWER", "customemote", "roars furiously.")
 
 -- ---------------------------------------------------------------------
 -- SHRED
@@ -403,7 +403,7 @@ RPHelper.RegisterAbility(C, "CURE_POISON")
 -- ---------------------------------------------------------------------
 -- GIFT_OF_THE_WILD
 -- ---------------------------------------------------------------------
-add("GIFT_OF_THE_WILD", "customemote", "gives {PP} friends the Gift of the Wild.")
+add("default:ability:druid:0021", "GIFT_OF_THE_WILD", "customemote", "gives {PP} friends the Gift of the Wild.")
 
 -- ---------------------------------------------------------------------
 -- HEALING_TOUCH
@@ -417,9 +417,9 @@ RPHelper.RegisterAbility(C, "HEALING_TOUCH")
 -- ---------------------------------------------------------------------
 -- INNERVATE
 -- ---------------------------------------------------------------------
-add("INNERVATE", "say", "Innervating {TARGET}")
-add("INNERVATE", "say", "Gee {TARGET}, mana got you down? This should raise your spirit!")
-add("INNERVATE", "customemote", "glances at {TARGET}'s mana, sighs, and casts Innervate on {OP}.")
+add("default:ability:druid:0022", "INNERVATE", "say", "Innervating {TARGET}")
+add("default:ability:druid:0023", "INNERVATE", "say", "Gee {TARGET}, mana got you down? This should raise your spirit!")
+add("default:ability:druid:0024", "INNERVATE", "customemote", "glances at {TARGET}'s mana, sighs, and casts Innervate on {OP}.")
 
 -- ---------------------------------------------------------------------
 -- MARK_OF_THE_WILD
@@ -442,8 +442,8 @@ RPHelper.RegisterAbility(C, "NATURES_SWIFTNESS")
 -- ---------------------------------------------------------------------
 -- REBIRTH
 -- ---------------------------------------------------------------------
-add("REBIRTH", "say", "{TARGET} you've failed at life! However, I believe in second chances...")
-add("REBIRTH", "say", "You're not getting off the hook that easily, {TARGET}!")
+add("default:ability:druid:0025", "REBIRTH", "say", "{TARGET} you've failed at life! However, I believe in second chances...")
+add("default:ability:druid:0026", "REBIRTH", "say", "You're not getting off the hook that easily, {TARGET}!")
 
 -- ---------------------------------------------------------------------
 -- REGROWTH
@@ -493,9 +493,9 @@ RPHelper.RegisterAbility(C, "SWIFTMEND")
 -- ---------------------------------------------------------------------
 -- TRANQUILITY
 -- ---------------------------------------------------------------------
-add("TRANQUILITY", "say", "Elune, hear my plea and help me aid my friends!")
-add("TRANQUILITY", "say", "Healing spirits, arise!")
-add("TRANQUILITY", "customemote", "calls upon the healing forces of nature.")
+add("default:ability:druid:0027", "TRANQUILITY", "say", "Elune, hear my plea and help me aid my friends!")
+add("default:ability:druid:0028", "TRANQUILITY", "say", "Healing spirits, arise!")
+add("default:ability:druid:0029", "TRANQUILITY", "customemote", "calls upon the healing forces of nature.")
 
 -- ---------------------------------------------------------------------
 -- WILD_GROWTH

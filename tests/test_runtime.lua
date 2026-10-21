@@ -25,6 +25,7 @@ end
 RPHelper = {}
 dofile("RPHelper/Core/Defaults.lua")
 dofile("RPHelper/Core/Database.lua")
+dofile("RPHelper/Core/Configuration.lua")
 dofile("RPHelper/Core/KeywordResolvers.lua")
 dofile("RPHelper/Core/DruidForms.lua")
 dofile("RPHelper/Core/ContentEngine.lua")
@@ -88,10 +89,9 @@ end
 local function initialize(adapter)
     RPHelperDB = nil
     RPHelper.InitializeDatabase()
-    RPHelperDB.triggers.leave_combat.enabled = true
-    RPHelperDB.settings.globalCooldown = 0
-    RPHelperDB.triggers.enter_combat.cooldown = 0
-    RPHelperDB.triggers.leave_combat.cooldown = 0
+    RPHelper.Configuration.SetEventSetting("trigger", nil, "leave_combat", "enabled", true)
+    -- Runtime-policy tests use a zero cooldown fixture. Schema v2 validates the
+    -- player-facing range separately, so tests advance the clock when needed.
     local frame = newFrame()
     truthy(RPHelper.Runtime.Initialize(frame, adapter))
     return frame

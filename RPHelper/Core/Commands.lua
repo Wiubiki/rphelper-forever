@@ -23,16 +23,13 @@ function RPHelper.HandleSlashCommand(message)
         printHelp()
     elseif command == "on" or command == "off" then
         local settings = savedSettings()
-        if not settings then
+        if not settings or not RPHelper.Configuration.SetSetting("enabled", command == "on") then
             print("RPHelper cannot save this setting: SavedVariables root or settings container is invalid.")
             return
         end
-        settings.enabled = command == "on"
-        print("RPHelper " .. (settings.enabled and "enabled" or "disabled") .. ".")
+        print("RPHelper " .. (RPHelper.Configuration.GetSetting("enabled") and "enabled" or "disabled") .. ".")
     elseif command == "status" then
-        local settings = savedSettings()
-        local enabled = settings and settings.enabled
-        if type(enabled) ~= "boolean" then enabled = RPHelper.Defaults.settings.enabled end
+        local enabled = RPHelper.Configuration.GetSetting("enabled")
         print("RPHelper is " .. (enabled and "enabled" or "disabled") .. ".")
     elseif command == "spell" then
         print("RPHelper pre-alpha spell trigger requested: " .. (rest ~= "" and rest or "<missing>"))

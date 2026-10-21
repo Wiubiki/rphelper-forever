@@ -4,9 +4,9 @@
 
 local A = RPHelper.Ability.ROGUE
 local C = RPHelper.Class.ROGUE
-local function add(ability, entryType, text)
+local function add(id, ability, entryType, text)
     A[ability] = A[ability] or ability
-    RPHelper.RegisterAbility(C, A[ability], { type = entryType, text = text })
+    RPHelper.RegisterAbility(C, A[ability], { id = id, type = entryType, text = text })
 end
 
 -- =====================================================================
@@ -200,7 +200,7 @@ RPHelper.RegisterAbility(C, "SINISTER_STRIKE")
 -- ---------------------------------------------------------------------
 -- SPRINT
 -- ---------------------------------------------------------------------
-add("SPRINT", "say", "I better RUN!")
+add("default:ability:rogue:0002", "SPRINT", "say", "I better RUN!")
 
 -- =====================================================================
 -- Subtlety
@@ -218,7 +218,7 @@ RPHelper.RegisterAbility(C, "BLIND")
 -- ---------------------------------------------------------------------
 -- DISARM_TRAP
 -- ---------------------------------------------------------------------
-add("DISARM_TRAP", "say", "You call this a trap?")
+add("default:ability:rogue:0003", "DISARM_TRAP", "say", "You call this a trap?")
 
 -- ---------------------------------------------------------------------
 -- DISTRACT

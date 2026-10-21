@@ -4,9 +4,9 @@
 
 local A = RPHelper.Ability.PALADIN
 local C = RPHelper.Class.PALADIN
-local function add(ability, entryType, text)
+local function add(id, ability, entryType, text)
     A[ability] = A[ability] or ability
-    RPHelper.RegisterAbility(C, A[ability], { type = entryType, text = text })
+    RPHelper.RegisterAbility(C, A[ability], { id = id, type = entryType, text = text })
 end
 
 -- =====================================================================
@@ -20,44 +20,44 @@ end
 -- ---------------------------------------------------------------------
 -- BLESSING_OF_LIGHT
 -- ---------------------------------------------------------------------
-add("BLESSING_OF_LIGHT", "say", "May the Light guide your path!")
-add("BLESSING_OF_LIGHT", "customemote", "blesses {TARGET} with the brilliance of the Light.")
+add("default:ability:paladin:0002", "BLESSING_OF_LIGHT", "say", "May the Light guide your path!")
+add("default:ability:paladin:0003", "BLESSING_OF_LIGHT", "customemote", "blesses {TARGET} with the brilliance of the Light.")
 
 -- ---------------------------------------------------------------------
 -- BLESSING_OF_WISDOM
 -- ---------------------------------------------------------------------
-add("BLESSING_OF_WISDOM", "say", "Let the Light grant you wisdom!")
-add("BLESSING_OF_WISDOM", "customemote", "bestows a blessing of insight upon {TARGET}.")
+add("default:ability:paladin:0004", "BLESSING_OF_WISDOM", "say", "Let the Light grant you wisdom!")
+add("default:ability:paladin:0005", "BLESSING_OF_WISDOM", "customemote", "bestows a blessing of insight upon {TARGET}.")
 
 -- ---------------------------------------------------------------------
 -- CLEANSE
 -- ---------------------------------------------------------------------
-add("CLEANSE", "say", "The Light purges all impurities!")
-add("CLEANSE", "customemote", "cleanses {TARGET} of all afflictions.")
+add("default:ability:paladin:0006", "CLEANSE", "say", "The Light purges all impurities!")
+add("default:ability:paladin:0007", "CLEANSE", "customemote", "cleanses {TARGET} of all afflictions.")
 
 -- ---------------------------------------------------------------------
 -- CONSECRATION
 -- ---------------------------------------------------------------------
-add("CONSECRATION", "say", "The ground itself is sanctified!")
-add("CONSECRATION", "customemote", "blesses the ground beneath {PP} feet, consecrating the battlefield.")
+add("default:ability:paladin:0008", "CONSECRATION", "say", "The ground itself is sanctified!")
+add("default:ability:paladin:0009", "CONSECRATION", "customemote", "blesses the ground beneath {PP} feet, consecrating the battlefield.")
 
 -- ---------------------------------------------------------------------
 -- DIVINE_FAVOR
 -- ---------------------------------------------------------------------
-add("DIVINE_FAVOR", "say", "The Light smiles upon me!")
-add("DIVINE_FAVOR", "customemote", "feels an overwhelming surge of divine favor.")
+add("default:ability:paladin:0010", "DIVINE_FAVOR", "say", "The Light smiles upon me!")
+add("default:ability:paladin:0011", "DIVINE_FAVOR", "customemote", "feels an overwhelming surge of divine favor.")
 
 -- ---------------------------------------------------------------------
 -- EXORCISM
 -- ---------------------------------------------------------------------
-add("EXORCISM", "say", "Begone, foul creature!")
-add("EXORCISM", "customemote", "channels divine wrath to smite {TARGET}.")
+add("default:ability:paladin:0012", "EXORCISM", "say", "Begone, foul creature!")
+add("default:ability:paladin:0013", "EXORCISM", "customemote", "channels divine wrath to smite {TARGET}.")
 
 -- ---------------------------------------------------------------------
 -- FLASH_OF_LIGHT
 -- ---------------------------------------------------------------------
-add("FLASH_OF_LIGHT", "say", "A swift blessing of the Light!")
-add("FLASH_OF_LIGHT", "customemote", "quickly channels a burst of divine energy to heal {TARGET}.")
+add("default:ability:paladin:0014", "FLASH_OF_LIGHT", "say", "A swift blessing of the Light!")
+add("default:ability:paladin:0015", "FLASH_OF_LIGHT", "customemote", "quickly channels a burst of divine energy to heal {TARGET}.")
 
 -- ---------------------------------------------------------------------
 -- GREATER_BLESSING_OF_LIGHT
@@ -80,33 +80,33 @@ RPHelper.RegisterAbility(C, "GREATER_BLESSING_OF_WISDOM")
 -- ---------------------------------------------------------------------
 -- HAMMER_OF_WRATH
 -- ---------------------------------------------------------------------
-add("HAMMER_OF_WRATH", "say", "Feel the weight of divine judgment!")
-add("HAMMER_OF_WRATH", "customemote", "hurls a mighty hammer of Light at {TARGET}.")
+add("default:ability:paladin:0016", "HAMMER_OF_WRATH", "say", "Feel the weight of divine judgment!")
+add("default:ability:paladin:0017", "HAMMER_OF_WRATH", "customemote", "hurls a mighty hammer of Light at {TARGET}.")
 
 -- ---------------------------------------------------------------------
 -- HOLY_LIGHT
 -- ---------------------------------------------------------------------
-add("HOLY_LIGHT", "say", "The Light’s warmth heals all wounds!")
-add("HOLY_LIGHT", "say", "Let divine radiance restore you!")
-add("HOLY_LIGHT", "customemote", "channels the Light’s energy, restoring {TARGET}’s health.")
+add("default:ability:paladin:0018", "HOLY_LIGHT", "say", "The Light’s warmth heals all wounds!")
+add("default:ability:paladin:0019", "HOLY_LIGHT", "say", "Let divine radiance restore you!")
+add("default:ability:paladin:0020", "HOLY_LIGHT", "customemote", "channels the Light’s energy, restoring {TARGET}’s health.")
 
 -- ---------------------------------------------------------------------
 -- HOLY_SHOCK
 -- ---------------------------------------------------------------------
-add("HOLY_SHOCK", "say", "Divine retribution, swift and just!")
-add("HOLY_SHOCK", "customemote", "calls down a burst of holy energy upon {TARGET}.")
+add("default:ability:paladin:0021", "HOLY_SHOCK", "say", "Divine retribution, swift and just!")
+add("default:ability:paladin:0022", "HOLY_SHOCK", "customemote", "calls down a burst of holy energy upon {TARGET}.")
 
 -- ---------------------------------------------------------------------
 -- HOLY_WRATH
 -- ---------------------------------------------------------------------
-add("HOLY_WRATH", "say", "The Light’s fury shall consume you!")
-add("HOLY_WRATH", "customemote", "calls forth a blast of holy power upon undead and demons.")
+add("default:ability:paladin:0023", "HOLY_WRATH", "say", "The Light’s fury shall consume you!")
+add("default:ability:paladin:0024", "HOLY_WRATH", "customemote", "calls forth a blast of holy power upon undead and demons.")
 
 -- ---------------------------------------------------------------------
 -- LAY_ON_HANDS
 -- ---------------------------------------------------------------------
-add("LAY_ON_HANDS", "say", "By the Light, be restored!")
-add("LAY_ON_HANDS", "customemote", "places a radiant hand upon {TARGET}, healing them completely.")
+add("default:ability:paladin:0025", "LAY_ON_HANDS", "say", "By the Light, be restored!")
+add("default:ability:paladin:0026", "LAY_ON_HANDS", "customemote", "places a radiant hand upon {TARGET}, healing them completely.")
 
 -- ---------------------------------------------------------------------
 -- LIGHTS_VIGIL
@@ -120,44 +120,44 @@ RPHelper.RegisterAbility(C, "LIGHTS_VIGIL")
 -- ---------------------------------------------------------------------
 -- PURIFY
 -- ---------------------------------------------------------------------
-add("PURIFY", "say", "Let the Light cleanse your spirit!")
-add("PURIFY", "customemote", "removes impurities from {TARGET}, restoring their purity.")
+add("default:ability:paladin:0027", "PURIFY", "say", "Let the Light cleanse your spirit!")
+add("default:ability:paladin:0028", "PURIFY", "customemote", "removes impurities from {TARGET}, restoring their purity.")
 
 -- ---------------------------------------------------------------------
 -- REDEMPTION
 -- ---------------------------------------------------------------------
-add("REDEMPTION", "say", "Rise again, and walk in the Light!")
-add("REDEMPTION", "customemote", "channels divine energy to resurrect {TARGET}.")
+add("default:ability:paladin:0029", "REDEMPTION", "say", "Rise again, and walk in the Light!")
+add("default:ability:paladin:0030", "REDEMPTION", "customemote", "channels divine energy to resurrect {TARGET}.")
 
 -- ---------------------------------------------------------------------
 -- SEAL_OF_LIGHT
 -- ---------------------------------------------------------------------
-add("SEAL_OF_LIGHT", "say", "The Light empowers my every strike!")
-add("SEAL_OF_LIGHT", "customemote", "imbues {PP} weapon with healing energy.")
+add("default:ability:paladin:0031", "SEAL_OF_LIGHT", "say", "The Light empowers my every strike!")
+add("default:ability:paladin:0032", "SEAL_OF_LIGHT", "customemote", "imbues {PP} weapon with healing energy.")
 
 -- ---------------------------------------------------------------------
 -- SEAL_OF_RIGHTEOUSNESS
 -- ---------------------------------------------------------------------
-add("SEAL_OF_RIGHTEOUSNESS", "say", "My strikes are guided by divine will!")
-add("SEAL_OF_RIGHTEOUSNESS", "customemote", "imbues {PP} weapon with righteous fury.")
+add("default:ability:paladin:0033", "SEAL_OF_RIGHTEOUSNESS", "say", "My strikes are guided by divine will!")
+add("default:ability:paladin:0034", "SEAL_OF_RIGHTEOUSNESS", "customemote", "imbues {PP} weapon with righteous fury.")
 
 -- ---------------------------------------------------------------------
 -- SEAL_OF_WISDOM
 -- ---------------------------------------------------------------------
-add("SEAL_OF_WISDOM", "say", "With wisdom, I endure!")
-add("SEAL_OF_WISDOM", "customemote", "imbues {PP} weapon with knowledge-giving power.")
+add("default:ability:paladin:0035", "SEAL_OF_WISDOM", "say", "With wisdom, I endure!")
+add("default:ability:paladin:0036", "SEAL_OF_WISDOM", "customemote", "imbues {PP} weapon with knowledge-giving power.")
 
 -- ---------------------------------------------------------------------
 -- SENSE_UNDEAD
 -- ---------------------------------------------------------------------
-add("SENSE_UNDEAD", "say", "I can feel the taint of undeath nearby...")
-add("SENSE_UNDEAD", "customemote", "focuses, attuning {PP} senses to detect the undead.")
+add("default:ability:paladin:0037", "SENSE_UNDEAD", "say", "I can feel the taint of undeath nearby...")
+add("default:ability:paladin:0038", "SENSE_UNDEAD", "customemote", "focuses, attuning {PP} senses to detect the undead.")
 
 -- ---------------------------------------------------------------------
 -- TURN_UNDEAD
 -- ---------------------------------------------------------------------
-add("TURN_UNDEAD", "say", "Back to the shadows with you!")
-add("TURN_UNDEAD", "customemote", "raises a holy symbol, forcing {TARGET} to flee in terror.")
+add("default:ability:paladin:0039", "TURN_UNDEAD", "say", "Back to the shadows with you!")
+add("default:ability:paladin:0040", "TURN_UNDEAD", "customemote", "raises a holy symbol, forcing {TARGET} to flee in terror.")
 
 -- ---------------------------------------------------------------------
 -- VOICE_OF_TRUTH
@@ -179,68 +179,68 @@ RPHelper.RegisterAbility(C, "VOICE_OF_TRUTH")
 -- ---------------------------------------------------------------------
 -- BLESSING_OF_FREEDOM
 -- ---------------------------------------------------------------------
-add("BLESSING_OF_FREEDOM", "say", "Break free of your chains!")
-add("BLESSING_OF_FREEDOM", "customemote", "empowers {TARGET} with the Light, freeing them from hindrances.")
+add("default:ability:paladin:0041", "BLESSING_OF_FREEDOM", "say", "Break free of your chains!")
+add("default:ability:paladin:0042", "BLESSING_OF_FREEDOM", "customemote", "empowers {TARGET} with the Light, freeing them from hindrances.")
 
 -- ---------------------------------------------------------------------
 -- BLESSING_OF_KINGS
 -- ---------------------------------------------------------------------
-add("BLESSING_OF_KINGS", "say", "Stand tall, as the Light’s chosen!")
-add("BLESSING_OF_KINGS", "customemote", "blesses {TARGET} with the wisdom and strength of kings.")
+add("default:ability:paladin:0043", "BLESSING_OF_KINGS", "say", "Stand tall, as the Light’s chosen!")
+add("default:ability:paladin:0044", "BLESSING_OF_KINGS", "customemote", "blesses {TARGET} with the wisdom and strength of kings.")
 
 -- ---------------------------------------------------------------------
 -- BLESSING_OF_PROTECTION
 -- ---------------------------------------------------------------------
-add("BLESSING_OF_PROTECTION", "say", "You are safe in the Light’s embrace!")
-add("BLESSING_OF_PROTECTION", "customemote", "bestows a divine shield upon {TARGET}, shielding them from harm.")
+add("default:ability:paladin:0045", "BLESSING_OF_PROTECTION", "say", "You are safe in the Light’s embrace!")
+add("default:ability:paladin:0046", "BLESSING_OF_PROTECTION", "customemote", "bestows a divine shield upon {TARGET}, shielding them from harm.")
 
 -- ---------------------------------------------------------------------
 -- BLESSING_OF_SACRIFICE
 -- ---------------------------------------------------------------------
-add("BLESSING_OF_SACRIFICE", "say", "Your burden is now mine!")
-add("BLESSING_OF_SACRIFICE", "customemote", "takes on a portion of {TARGET}'s suffering.")
+add("default:ability:paladin:0047", "BLESSING_OF_SACRIFICE", "say", "Your burden is now mine!")
+add("default:ability:paladin:0048", "BLESSING_OF_SACRIFICE", "customemote", "takes on a portion of {TARGET}'s suffering.")
 
 -- ---------------------------------------------------------------------
 -- CONCENTRATION_AURA
 -- ---------------------------------------------------------------------
-add("CONCENTRATION_AURA", "say", "The Light grants unwavering focus!")
-add("CONCENTRATION_AURA", "customemote", "radiates an aura that bolsters mental fortitude.")
+add("default:ability:paladin:0049", "CONCENTRATION_AURA", "say", "The Light grants unwavering focus!")
+add("default:ability:paladin:0050", "CONCENTRATION_AURA", "customemote", "radiates an aura that bolsters mental fortitude.")
 
 -- ---------------------------------------------------------------------
 -- DEVOTION_AURA
 -- ---------------------------------------------------------------------
-add("DEVOTION_AURA", "say", "The Light's protection surrounds us!")
-add("DEVOTION_AURA", "customemote", "radiates a powerful aura of divine protection.")
+add("default:ability:paladin:0051", "DEVOTION_AURA", "say", "The Light's protection surrounds us!")
+add("default:ability:paladin:0052", "DEVOTION_AURA", "customemote", "radiates a powerful aura of divine protection.")
 
 -- ---------------------------------------------------------------------
 -- DIVINE_INTERVENTION
 -- ---------------------------------------------------------------------
-add("DIVINE_INTERVENTION", "say", "The Light guides my sacrifice!")
-add("DIVINE_INTERVENTION", "customemote", "sacrifices themselves to protect {TARGET}, enveloping them in divine energy.")
+add("default:ability:paladin:0053", "DIVINE_INTERVENTION", "say", "The Light guides my sacrifice!")
+add("default:ability:paladin:0054", "DIVINE_INTERVENTION", "customemote", "sacrifices themselves to protect {TARGET}, enveloping them in divine energy.")
 
 -- ---------------------------------------------------------------------
 -- DIVINE_PROTECTION
 -- ---------------------------------------------------------------------
-add("DIVINE_PROTECTION", "say", "The Light shields me from harm!")
-add("DIVINE_PROTECTION", "customemote", "becomes encased in a shimmering barrier of divine energy.")
+add("default:ability:paladin:0055", "DIVINE_PROTECTION", "say", "The Light shields me from harm!")
+add("default:ability:paladin:0056", "DIVINE_PROTECTION", "customemote", "becomes encased in a shimmering barrier of divine energy.")
 
 -- ---------------------------------------------------------------------
 -- DIVINE_SHIELD
 -- ---------------------------------------------------------------------
-add("DIVINE_SHIELD", "say", "The Light makes me untouchable!")
-add("DIVINE_SHIELD", "customemote", "becomes enveloped in an impenetrable divine barrier.")
+add("default:ability:paladin:0057", "DIVINE_SHIELD", "say", "The Light makes me untouchable!")
+add("default:ability:paladin:0058", "DIVINE_SHIELD", "customemote", "becomes enveloped in an impenetrable divine barrier.")
 
 -- ---------------------------------------------------------------------
 -- FIRE_RESISTANCE_AURA
 -- ---------------------------------------------------------------------
-add("FIRE_RESISTANCE_AURA", "say", "The Light wards against the flames!")
-add("FIRE_RESISTANCE_AURA", "customemote", "radiates an aura that shields against fire magic.")
+add("default:ability:paladin:0059", "FIRE_RESISTANCE_AURA", "say", "The Light wards against the flames!")
+add("default:ability:paladin:0060", "FIRE_RESISTANCE_AURA", "customemote", "radiates an aura that shields against fire magic.")
 
 -- ---------------------------------------------------------------------
 -- FROST_RESISTANCE_AURA
 -- ---------------------------------------------------------------------
-add("FROST_RESISTANCE_AURA", "say", "The Light wards against the cold!")
-add("FROST_RESISTANCE_AURA", "customemote", "radiates an aura that shields against frost magic.")
+add("default:ability:paladin:0061", "FROST_RESISTANCE_AURA", "say", "The Light wards against the cold!")
+add("default:ability:paladin:0062", "FROST_RESISTANCE_AURA", "customemote", "radiates an aura that shields against frost magic.")
 
 -- ---------------------------------------------------------------------
 -- GREATER_BLESSING_OF_KINGS
@@ -254,15 +254,15 @@ RPHelper.RegisterAbility(C, "GREATER_BLESSING_OF_KINGS")
 -- ---------------------------------------------------------------------
 -- HAMMER_OF_JUSTICE
 -- ---------------------------------------------------------------------
-add("HAMMER_OF_JUSTICE", "say", "Justice is swift!")
-add("HAMMER_OF_JUSTICE", "say", "Feel the righteous fury!")
-add("HAMMER_OF_JUSTICE", "customemote", "raises {PP} hammer, striking down justice upon {TARGET}.")
+add("default:ability:paladin:0063", "HAMMER_OF_JUSTICE", "say", "Justice is swift!")
+add("default:ability:paladin:0064", "HAMMER_OF_JUSTICE", "say", "Feel the righteous fury!")
+add("default:ability:paladin:0065", "HAMMER_OF_JUSTICE", "customemote", "raises {PP} hammer, striking down justice upon {TARGET}.")
 
 -- ---------------------------------------------------------------------
 -- HOLY_SHIELD
 -- ---------------------------------------------------------------------
-add("HOLY_SHIELD", "say", "Divine protection, manifest!")
-add("HOLY_SHIELD", "customemote", "raises a radiant shield of holy energy.")
+add("default:ability:paladin:0066", "HOLY_SHIELD", "say", "Divine protection, manifest!")
+add("default:ability:paladin:0067", "HOLY_SHIELD", "customemote", "raises a radiant shield of holy energy.")
 
 -- ---------------------------------------------------------------------
 -- MASS_SALVATION
@@ -285,14 +285,14 @@ RPHelper.RegisterAbility(C, "REVOKE")
 -- ---------------------------------------------------------------------
 -- RIGHTEOUS_FURY
 -- ---------------------------------------------------------------------
-add("RIGHTEOUS_FURY", "say", "The Light compels my wrath!")
-add("RIGHTEOUS_FURY", "customemote", "channels divine anger, drawing the attention of foes.")
+add("default:ability:paladin:0068", "RIGHTEOUS_FURY", "say", "The Light compels my wrath!")
+add("default:ability:paladin:0069", "RIGHTEOUS_FURY", "customemote", "channels divine anger, drawing the attention of foes.")
 
 -- ---------------------------------------------------------------------
 -- SALVATION
 -- ---------------------------------------------------------------------
-add("SALVATION", "say", "The Light shelters you from harm!")
-add("SALVATION", "customemote", "bestows divine grace upon {TARGET}, reducing their threat.")
+add("default:ability:paladin:0070", "SALVATION", "say", "The Light shelters you from harm!")
+add("default:ability:paladin:0071", "SALVATION", "customemote", "bestows divine grace upon {TARGET}, reducing their threat.")
 
 -- ---------------------------------------------------------------------
 -- SEAL_OF_FURY
@@ -306,14 +306,14 @@ RPHelper.RegisterAbility(C, "SEAL_OF_FURY")
 -- ---------------------------------------------------------------------
 -- SEAL_OF_JUSTICE
 -- ---------------------------------------------------------------------
-add("SEAL_OF_JUSTICE", "say", "Justice shall be done!")
-add("SEAL_OF_JUSTICE", "customemote", "imbues {PP} weapon with divine judgment.")
+add("default:ability:paladin:0072", "SEAL_OF_JUSTICE", "say", "Justice shall be done!")
+add("default:ability:paladin:0073", "SEAL_OF_JUSTICE", "customemote", "imbues {PP} weapon with divine judgment.")
 
 -- ---------------------------------------------------------------------
 -- SHADOW_RESISTANCE_AURA
 -- ---------------------------------------------------------------------
-add("SHADOW_RESISTANCE_AURA", "say", "The Light repels the darkness!")
-add("SHADOW_RESISTANCE_AURA", "customemote", "radiates an aura that shields against shadow magic.")
+add("default:ability:paladin:0074", "SHADOW_RESISTANCE_AURA", "say", "The Light repels the darkness!")
+add("default:ability:paladin:0075", "SHADOW_RESISTANCE_AURA", "customemote", "radiates an aura that shields against shadow magic.")
 
 -- ---------------------------------------------------------------------
 -- SWIFT_JUDGEMENT
@@ -344,14 +344,14 @@ RPHelper.RegisterAbility(C, "TEMPLARS_BULWARK")
 -- ---------------------------------------------------------------------
 -- BLESSING_OF_MIGHT
 -- ---------------------------------------------------------------------
-add("BLESSING_OF_MIGHT", "say", "The Light grants you strength!")
-add("BLESSING_OF_MIGHT", "customemote", "imbues {TARGET} with divine might.")
+add("default:ability:paladin:0076", "BLESSING_OF_MIGHT", "say", "The Light grants you strength!")
+add("default:ability:paladin:0077", "BLESSING_OF_MIGHT", "customemote", "imbues {TARGET} with divine might.")
 
 -- ---------------------------------------------------------------------
 -- GREATER_BLESSING_OF_MIGHT
 -- ---------------------------------------------------------------------
-add("GREATER_BLESSING_OF_MIGHT", "say", "With great power, comes holy responsibility!")
-add("GREATER_BLESSING_OF_MIGHT", "customemote", "bestows a grand blessing of strength upon {TARGET}.")
+add("default:ability:paladin:0078", "GREATER_BLESSING_OF_MIGHT", "say", "With great power, comes holy responsibility!")
+add("default:ability:paladin:0079", "GREATER_BLESSING_OF_MIGHT", "customemote", "bestows a grand blessing of strength upon {TARGET}.")
 
 -- ---------------------------------------------------------------------
 -- HOLY_STRIKE
@@ -365,29 +365,29 @@ RPHelper.RegisterAbility(C, "HOLY_STRIKE")
 -- ---------------------------------------------------------------------
 -- JUDGEMENT
 -- ---------------------------------------------------------------------
-add("JUDGEMENT", "say", "Face the Light’s judgment!")
-add("JUDGEMENT", "customemote", "delivers a powerful verdict upon {TARGET}.")
+add("default:ability:paladin:0080", "JUDGEMENT", "say", "Face the Light’s judgment!")
+add("default:ability:paladin:0081", "JUDGEMENT", "customemote", "delivers a powerful verdict upon {TARGET}.")
 
 -- ---------------------------------------------------------------------
 -- REPENTANCE
 -- ---------------------------------------------------------------------
-add("REPENTANCE", "say", "Kneel and seek redemption!")
-add("REPENTANCE", "customemote", "compels {TARGET} to reflect upon their sins.")
+add("default:ability:paladin:0082", "REPENTANCE", "say", "Kneel and seek redemption!")
+add("default:ability:paladin:0083", "REPENTANCE", "customemote", "compels {TARGET} to reflect upon their sins.")
 
 -- ---------------------------------------------------------------------
 -- RETRIBUTION_AURA
 -- ---------------------------------------------------------------------
-add("RETRIBUTION_AURA", "say", "Let them feel the sting of righteousness!")
-add("RETRIBUTION_AURA", "customemote", "radiates an aura of divine vengeance.")
+add("default:ability:paladin:0084", "RETRIBUTION_AURA", "say", "Let them feel the sting of righteousness!")
+add("default:ability:paladin:0085", "RETRIBUTION_AURA", "customemote", "radiates an aura of divine vengeance.")
 
 -- ---------------------------------------------------------------------
 -- SEAL_OF_COMMAND
 -- ---------------------------------------------------------------------
-add("SEAL_OF_COMMAND", "say", "The Light commands my blade!")
-add("SEAL_OF_COMMAND", "customemote", "infuses {PP} weapon with divine force.")
+add("default:ability:paladin:0086", "SEAL_OF_COMMAND", "say", "The Light commands my blade!")
+add("default:ability:paladin:0087", "SEAL_OF_COMMAND", "customemote", "infuses {PP} weapon with divine force.")
 
 -- ---------------------------------------------------------------------
 -- SEAL_OF_THE_CRUSADER
 -- ---------------------------------------------------------------------
-add("SEAL_OF_THE_CRUSADER", "say", "The path of the Crusader is righteous!")
-add("SEAL_OF_THE_CRUSADER", "customemote", "imbues {PP} weapon with holy fervor.")
+add("default:ability:paladin:0088", "SEAL_OF_THE_CRUSADER", "say", "The path of the Crusader is righteous!")
+add("default:ability:paladin:0089", "SEAL_OF_THE_CRUSADER", "customemote", "imbues {PP} weapon with holy fervor.")

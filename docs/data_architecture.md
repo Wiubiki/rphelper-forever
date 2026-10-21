@@ -24,40 +24,30 @@ The implemented SavedVariable is per-character:
 
 `RPHelperDB`
 
-The current unreleased development implementation uses schema version 1.
-Milestone 2B approves schema version 2 as the initial supported V1.0 release
-schema, but it is not implemented yet. The approved design keeps `RPHelperDB`
+The implementation uses schema version 2 as the initial supported V1.0 release
+schema. The design keeps `RPHelperDB`
 character-specific, stores settings as sparse explicit overrides, and adds
 permanent authored built-in IDs plus future sequential migrations. See
 [SavedVariables Architecture](savedvariables_architecture.md).
 
-Current schema-v1 conceptual shape:
+Schema-v2 conceptual shape:
 
 ```lua
 RPHelperDB = {
-    schemaVersion = 1,
-    settings = {
-        enabled = true,
-        frequencyPreset = "normal",
-        globalCooldown = 10,
-    },
-    triggers = {
-        crit = {
-            enabled = true,
-            chance = 0.08,
-            cooldown = 20,
-        },
-    },
-    custom = {},
+    schemaVersion = 2,
+    settings = {}, -- sparse explicit overrides
+    triggers = {},
+    abilities = {},
+    custom = { nextID = 1, entries = {} },
     disabledDefaults = {},
+    reactionOverrides = {},
 }
 ```
 
 ## Runtime pool
 
-Schema v2 must not copy shipped defaults into SavedVariables. The unreleased
-schema-v1 implementation currently does materialize them, but V1.0 does not
-migrate or support that development data.
+Schema v2 does not copy shipped defaults into SavedVariables and does not
+migrate or support unreleased development data.
 
 Runtime content should be:
 
