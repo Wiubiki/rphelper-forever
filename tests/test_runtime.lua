@@ -699,7 +699,7 @@ test("weighted selection filters ineligible content and falls back from invalid 
         { type = "say", text = "Attack {TARGET}.", defaultID = defaultID },
         { type = "say", text = "Built-in fallback.", defaultID = invalidDefaultID },
     }
-    setDefaultWeight(defaultID, 100)
+    RPHelperDB.reactionOverrides[defaultID] = { weight = 100 }
     RPHelperDB.reactionOverrides[invalidDefaultID] = { weight = 0 }
     local customID = RPHelper.UserContent.Add(
         { layer = "generic", trigger = "entercombat" },
@@ -715,23 +715,23 @@ test("weighted selection filters ineligible content and falls back from invalid 
     equal(RPHelperDB.reactionOverrides[invalidDefaultID].weight, 0)
 end)
 
-test("weighted selection normalizes valid weights beyond integer RNG bounds", function()
+test("weighted selection accepts weight ten and rejects oversized persisted weights", function()
     local a = newAdapter("WEIGHT_TEST", "NO_RACE", nil)
     initialize(a)
     local previous = RPHelper.Content.generic.entercombat
     afterEach(function() RPHelper.Content.generic.entercombat = previous end)
-    local firstID = "default:test:runtime_weighted_huge_first"
-    local secondID = "default:test:runtime_weighted_huge_second"
+    local firstID = "default:test:runtime_weighted_ten"
+    local secondID = "default:test:runtime_weighted_oversized"
     RPHelper.Content.generic.entercombat = {
         { type = "say", text = "First.", defaultID = firstID },
         { type = "say", text = "Second.", defaultID = secondID },
     }
-    setDefaultWeight(firstID, 1e308)
-    setDefaultWeight(secondID, 1e308)
-    a.roll = 0.75
-    a.RandomIndex = function() error("oversized integer draw must not run") end
+    setDefaultWeight(firstID, 10)
+    RPHelperDB.reactionOverrides[secondID] = { weight = 11 }
+    a.RandomIndex = function(size) equal(size, 11); return 11 end
     truthy(RPHelper.Runtime.HandleTrigger("entercombat"))
     equal(a.output[1].text, "Second.")
+    equal(RPHelperDB.reactionOverrides[secondID].weight, 11)
 end)
 
 test("missing local display never falls back to transmission", function()

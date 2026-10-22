@@ -3,6 +3,7 @@ RPHelper.LibraryPage = RPHelper.LibraryPage or {}
 local LibraryPage = RPHelper.LibraryPage
 
 local Data = RPHelper.LibraryData
+local EditorData = RPHelper.LibraryEditorData
 local Widgets = RPHelper.UIWidgets
 
 local GROUP_ROWS = 9
@@ -120,9 +121,26 @@ function LibraryPage.Create(parent, callbacks)
     end)
     page.NextGroups = nextGroups
 
-    local groupTitle = Widgets.CreateText(page, "GameFontNormalLarge", "", 425)
+    local groupTitle = Widgets.CreateText(page, "GameFontNormalLarge", "", 205)
     groupTitle:SetPoint("TOPLEFT", 225, -94)
     page.GroupTitle = groupTitle
+
+    local modifyGroup = Widgets.CreateButton(page, "Modify Event", 100, 22)
+    modifyGroup:SetPoint("TOPLEFT", 440, -94)
+    modifyGroup:SetScript("OnClick", function()
+        local group = page:GetSelectedGroup()
+        if group and group.settings and group.settings.supported
+            and type(callbacks.onModifyGroup) == "function" then callbacks.onModifyGroup(group) end
+    end)
+    page.ModifyGroup = modifyGroup
+
+    local addReaction = Widgets.CreateButton(page, "Add Custom", 100, 22)
+    addReaction:SetPoint("TOPLEFT", 550, -94)
+    addReaction:SetScript("OnClick", function()
+        local group = page:GetSelectedGroup()
+        if group and type(callbacks.onAddReaction) == "function" then callbacks.onAddReaction(group) end
+    end)
+    page.AddReaction = addReaction
 
     local eventState = Widgets.CreateText(page, "GameFontHighlightSmall", "", 425)
     eventState:SetPoint("TOPLEFT", 225, -120)
@@ -138,15 +156,15 @@ function LibraryPage.Create(parent, callbacks)
         checkBox:SetPoint("TOPLEFT", -4, 2)
         row.CheckBox = checkBox
 
-        local metadata = Widgets.CreateText(row, "GameFontNormal", "", 300)
+        local metadata = Widgets.CreateText(row, "GameFontNormal", "", 220)
         metadata:SetPoint("TOPLEFT", 28, 0)
         row.Metadata = metadata
 
-        local text = Widgets.CreateText(row, "GameFontHighlightSmall", "", 325)
+        local text = Widgets.CreateText(row, "GameFontHighlightSmall", "", 255)
         text:SetPoint("TOPLEFT", 28, -20)
         row.Summary = text
 
-        local inspect = Widgets.CreateButton(row, "Inspect", 65, 21)
+        local inspect = Widgets.CreateButton(row, "View", 65, 21)
         inspect:SetPoint("TOPRIGHT", 0, 1)
         inspect:SetScript("OnClick", function()
             if row.Reaction then
@@ -156,6 +174,37 @@ function LibraryPage.Create(parent, callbacks)
             end
         end)
         row.Inspect = inspect
+
+        local modify = Widgets.CreateButton(row, "Modify", 65, 21)
+        modify:SetPoint("TOPRIGHT", 0, -23)
+        modify:SetScript("OnClick", function()
+            local group = page:GetSelectedGroup()
+            if group and row.Reaction and type(callbacks.onModifyReaction) == "function" then
+                local mode = row.Reaction.provenance == "Built-in" and "copy" or "edit"
+                callbacks.onModifyReaction(group, row.Reaction, mode)
+            end
+        end)
+        row.Modify = modify
+
+        local weightDown = Widgets.CreateButton(row, "-", 22, 20)
+        weightDown:SetPoint("TOPLEFT", 252, 1)
+        row.WeightDown = weightDown
+        local weightUp = Widgets.CreateButton(row, "+", 22, 20)
+        weightUp:SetPoint("LEFT", weightDown, "RIGHT", 3, 0)
+        row.WeightUp = weightUp
+        local function changeWeight(delta)
+            if not row.Reaction then return end
+            local desired = clamp((row.Reaction.weight or 1) + delta, 1, 10)
+            if desired == row.Reaction.weight then return end
+            state.detailReactionID = row.Reaction.id
+            local ok = EditorData.SetReactionWeight(row.Reaction, desired)
+            page:RefreshLibrary()
+            if not ok then
+                page:SetMessage("That weight change could not be saved. The effective value was restored.", true)
+            end
+        end
+        weightDown:SetScript("OnClick", function() changeWeight(-1) end)
+        weightUp:SetScript("OnClick", function() changeWeight(1) end)
 
         checkBox:SetScript("OnClick", function(self)
             if state.refreshing or not row.Reaction then return end
@@ -305,9 +354,13 @@ function LibraryPage.Create(parent, callbacks)
         if not group then
             self.GroupTitle:SetText("No group selected")
             self.EventState:SetText("")
+            Widgets.SetEnabled(self.ModifyGroup, false)
+            Widgets.SetEnabled(self.AddReaction, false)
         else
             self.GroupTitle:SetText(group.label)
             local settings = group.settings or {}
+            Widgets.SetEnabled(self.ModifyGroup, settings.supported == true)
+            Widgets.SetEnabled(self.AddReaction, true)
             if settings.supported then
                 self.EventState:SetText(enabledText(settings.enabled) .. " | Effective chance "
                     .. chanceText(settings.chance) .. " | Priority "
@@ -334,6 +387,7 @@ function LibraryPage.Create(parent, callbacks)
                 Widgets.SetEnabled(row.CheckBox, reaction.canActivate == true)
                 row.Metadata:SetText(reaction.typeLabel .. " | " .. reaction.provenance
                     .. " | Weight " .. tostring(reaction.weight))
+                row.Modify:SetText("Modify")
                 row.Summary:SetText(reaction.summary)
                 row:Show()
             else

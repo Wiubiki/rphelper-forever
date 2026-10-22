@@ -65,6 +65,11 @@ local function newWidget(frameType, name, parent)
     function widget:SetTextColor(...) self.textColor = { ... } end
     function widget:SetJustifyH(value) self.justifyH = value end
     function widget:SetJustifyV(value) self.justifyV = value end
+    function widget:SetAutoFocus(value) self.autoFocus = value end
+    function widget:SetMultiLine(value) self.multiLine = value end
+    function widget:SetFontObject(value) self.fontObject = value end
+    function widget:SetTextInsets(...) self.textInsets = { ... } end
+    function widget:ClearFocus() self.focusCleared = true end
     function widget:SetNormalFontObject(value) self.normalFont = value end
     function widget:SetHighlightFontObject(value) self.highlightFont = value end
     function widget:SetDisabledFontObject(value) self.disabledFont = value end
@@ -140,7 +145,9 @@ dofile("RPHelper/Core/RuntimeAPI.lua")
 dofile("RPHelper/Core/Runtime.lua")
 dofile("RPHelper/UI/Widgets.lua")
 dofile("RPHelper/UI/LibraryData.lua")
+dofile("RPHelper/UI/LibraryEditorData.lua")
 dofile("RPHelper/UI/LibraryPage.lua")
+dofile("RPHelper/UI/LibraryEditorPage.lua")
 
 local longReaction = "This deliberately long authored reaction remains intact in the detail view so the player can read every part of its meaning, including the ending that would otherwise disappear from a short list row. "
     .. "The final words remain visible through bounded detail pagination."
@@ -191,6 +198,7 @@ local Config = RPHelper.Configuration
 local UI = RPHelper.UI
 local Widgets = RPHelper.UIWidgets
 local LibraryData = RPHelper.LibraryData
+local EditorData = RPHelper.LibraryEditorData
 local UserContent = RPHelper.UserContent
 
 local function freshDatabase()
@@ -205,6 +213,12 @@ end
 
 local function findGroup(model, id)
     return LibraryData.FindGroup(model, id)
+end
+
+local function findVisibleRow(page, id)
+    for _, row in ipairs(page.ReactionRows) do
+        if row.Reaction and row.Reaction.id == id then return row end
+    end
 end
 
 test("window initializes hidden and opens, closes, and toggles", function()
@@ -236,6 +250,7 @@ test("widget helpers fall back when templates and newer sizing APIs are unavaila
         made.close = Widgets.CreateCloseButton(UIParent)
         made.checkBox = Widgets.CreateCheckBox(UIParent, "Fallback check")
         made.slider = Widgets.CreateSlider(UIParent, 275, 0, 20, 1)
+        made.editBox = Widgets.CreateEditBox(UIParent, 300, 90, true)
     end)
     rejectTemplates = false
     omitSetSize = false
@@ -258,6 +273,11 @@ test("widget helpers fall back when templates and newer sizing APIs are unavaila
     equal(made.slider.thumbTexture, "Interface\\Buttons\\UI-SliderBar-Button-Horizontal")
     truthy(made.slider.FallbackTrack)
     equal(made.slider.FallbackTrack.color[1], 0.2)
+    equal(made.editBox.width, 300)
+    equal(made.editBox.height, 90)
+    equal(made.editBox.multiLine, true)
+    equal(made.editBox.autoFocus, false)
+    truthy(made.editBox.FallbackBackground)
 end)
 
 test("approved navigation reaches placeholders and returns from library", function()
@@ -551,11 +571,14 @@ test("library maps supported abilities to canonical class and ability settings",
     equal(settings.chance, 0.62)
     equal(settings.priority, true)
 
-    local unsupported = findGroup(LibraryData.BuildSection("class"),
-        "ability:DRUID:LIBRARY_ABILITY_01").settings
+    local unsupportedGroup = findGroup(LibraryData.BuildSection("class"),
+        "ability:DRUID:LIBRARY_ABILITY_01")
+    local unsupported = unsupportedGroup.settings
     equal(unsupported.supported, false)
     equal(unsupported.configKey, nil)
     equal(unsupported.chance, nil)
+    local unsupportedDraft, err = EditorData.NewEventDraft(unsupportedGroup)
+    equal(unsupportedDraft, nil); equal(err, "unsupported_group")
 end)
 
 test("library construction and refresh do not materialize persistence defaults", function()
@@ -704,6 +727,10 @@ test("library handles unavailable context and malformed persistence without unre
     equal(#class.groups, 0)
     equal(class.emptyMessage, "Current character class is unavailable.")
     truthy(#LibraryData.BuildSection("generic").groups > 0)
+    local invalidDraft, invalidErr = EditorData.NewReactionDraft(
+        { scope = { layer = "generic", trigger = "dodge" } },
+        { provenance = "Custom", entry = nil }, "edit")
+    equal(invalidDraft, nil); equal(invalidErr, "invalid_entry")
     RPHelper.RuntimeAPI.GetPlayerClass, RPHelper.RuntimeAPI.GetPlayerRace = oldClass, oldRace
 
     RPHelperDB = "broken root"
@@ -722,6 +749,545 @@ test("library handles unavailable context and malformed persistence without unre
     equal(page.ReactionRows[1].CheckBox:GetChecked(), true)
     truthy(string.find(page.Message:GetText(), "could not be saved", 1, true))
     equal(RPHelperDB, "broken root")
+end)
+
+test("event editor saves and clears canonical chance overrides", function()
+    freshDatabase()
+    UI.Navigate("library")
+    local library = UI.GetLibraryPage()
+    library:SelectSection("generic")
+    library:SelectGroup("event:generic::entercombat")
+    library.ModifyGroup:Click()
+    equal(UI.GetCurrentPage(), "editor")
+    local editor = UI.GetLibraryEditorPage()
+    equal(editor:GetMode(), "event")
+    equal(editor.ChanceOverride:GetChecked(), false)
+    truthy(string.find(editor.ChanceLabel:GetText(), "Using global chance", 1, true))
+    editor.EventEnabled:Click()
+    editor.EventPriority:Click()
+    editor.ChanceOverride:Click()
+    editor.ChanceSlider:SetValue(0)
+    editor.EventSave:Click()
+    equal(UI.GetCurrentPage(), "library")
+    equal(RPHelperDB.triggers.enter_combat.enabled, false)
+    equal(RPHelperDB.triggers.enter_combat.priority, true)
+    equal(RPHelperDB.triggers.enter_combat.chance, 0)
+
+    local raceSettings = findGroup(LibraryData.BuildSection("race"),
+        "event:race:TAUREN:entercombat").settings
+    local classSettings = findGroup(LibraryData.BuildSection("class"),
+        "event:class:DRUID:entercombat").settings
+    local formSettings = findGroup(LibraryData.BuildSection("class"),
+        "form:CAT:entercombat").settings
+    for _, settings in ipairs({ raceSettings, classSettings, formSettings }) do
+        equal(settings.enabled, false); equal(settings.chance, 0); equal(settings.priority, true)
+        equal(settings.configKey, "enter_combat")
+    end
+
+    library:SelectSection("generic")
+    library:SelectGroup("event:generic::entercombat")
+    library.ModifyGroup:Click()
+    editor.ChanceOverride:Click()
+    editor.EventSave:Click()
+    equal(RPHelperDB.triggers.enter_combat.chance, nil)
+    equal(Config.GetEventSetting("trigger", nil, "enter_combat", "chance"), 0.05)
+end)
+
+test("clearing a chance override immediately displays current global inheritance", function()
+    freshDatabase()
+    truthy(Config.SetEventSetting("trigger", nil, "enter_combat", "chance", 0.40))
+    UI.Navigate("library")
+    local library = UI.GetLibraryPage()
+    library:SelectSection("generic")
+    library:SelectGroup("event:generic::entercombat")
+    library.ModifyGroup:Click()
+    local editor = UI.GetLibraryEditorPage()
+    equal(editor.ChanceLabel:GetText(), "Explicit chance: 40%")
+    editor.ChanceOverride:Click()
+    equal(editor.ChanceLabel:GetText(), "Using global chance: 5%")
+    equal(RPHelperDB.triggers.enter_combat.chance, 0.40)
+    editor.EventSave:Click()
+    equal(RPHelperDB.triggers.enter_combat, nil)
+    equal(Config.GetEventSetting("trigger", nil, "enter_combat", "chance"), 0.05)
+end)
+
+test("priority-only save preserves an existing fractional chance override", function()
+    freshDatabase()
+    truthy(Config.SetEventSetting("trigger", nil, "enter_combat", "chance", 0.125))
+    UI.Navigate("library")
+    local library = UI.GetLibraryPage()
+    library:SelectSection("generic")
+    library:SelectGroup("event:generic::entercombat")
+    library.ModifyGroup:Click()
+    local editor = UI.GetLibraryEditorPage()
+    equal(editor.ChanceSlider:GetValue(), 12.5)
+    truthy(string.find(editor.ChanceLabel:GetText(), "Stored chance: 12.5%", 1, true))
+    truthy(string.find(editor.ChanceLabel:GetText(), "slider changes use whole percentages", 1, true))
+    editor.EventPriority:Click()
+    editor.EventSave:Click()
+    equal(RPHelperDB.triggers.enter_combat.chance, 0.125)
+    equal(RPHelperDB.triggers.enter_combat.priority, true)
+end)
+
+test("moving the chance slider explicitly replaces a fractional override", function()
+    freshDatabase()
+    truthy(Config.SetEventSetting("trigger", nil, "enter_combat", "chance", 0.125))
+    UI.Navigate("library")
+    local library = UI.GetLibraryPage()
+    library:SelectSection("generic")
+    library:SelectGroup("event:generic::entercombat")
+    library.ModifyGroup:Click()
+    local editor = UI.GetLibraryEditorPage()
+    editor.ChanceSlider:SetValue(37)
+    equal(editor.ChanceLabel:GetText(), "Explicit chance: 37%")
+    editor.EventSave:Click()
+    equal(RPHelperDB.triggers.enter_combat.chance, 0.37)
+end)
+
+test("trigger editor saves only explicitly edited event settings", function()
+    local function openTriggerEditor()
+        UI.Navigate("library")
+        local library = UI.GetLibraryPage()
+        library:SelectSection("generic")
+        library:SelectGroup("event:generic::entercombat")
+        library.ModifyGroup:Click()
+        return UI.GetLibraryEditorPage()
+    end
+
+    freshDatabase()
+    openTriggerEditor().EventSave:Click()
+    equal(RPHelperDB.triggers.enter_combat, nil)
+
+    freshDatabase()
+    local editor = openTriggerEditor()
+    editor.ChanceOverride:Click()
+    editor.EventSave:Click()
+    local record = RPHelperDB.triggers.enter_combat
+    equal(record.chance, 0.05)
+    equal(record.enabled, nil); equal(record.priority, nil)
+
+    freshDatabase()
+    RPHelperDB.triggers.enter_combat = { enabled = false, chance = 0.125, future = "keep" }
+    editor = openTriggerEditor()
+    editor.EventPriority:Click()
+    editor.EventSave:Click()
+    record = RPHelperDB.triggers.enter_combat
+    equal(record.priority, true); equal(record.enabled, false); equal(record.chance, 0.125)
+    equal(record.future, "keep")
+
+    freshDatabase()
+    RPHelperDB.triggers.enter_combat = { priority = true, chance = 0.125, future = "keep" }
+    editor = openTriggerEditor()
+    editor.EventEnabled:Click()
+    editor.EventSave:Click()
+    record = RPHelperDB.triggers.enter_combat
+    equal(record.enabled, false); equal(record.priority, true); equal(record.chance, 0.125)
+    equal(record.future, "keep")
+
+    freshDatabase()
+    editor = openTriggerEditor()
+    editor.EventEnabled:Click()
+    editor.EventEnabled:Click()
+    editor.EventSave:Click()
+    record = RPHelperDB.triggers.enter_combat
+    equal(record.enabled, true)
+    equal(record.priority, nil); equal(record.chance, nil)
+end)
+
+test("ability editor saves sparsely and rejects invalid atomic changes", function()
+    local function abilityGroup()
+        return findGroup(LibraryData.BuildSection("class", { class = "PALADIN", race = "HUMAN" }),
+            "ability:PALADIN:FLASH_OF_LIGHT")
+    end
+    local editor = UI.GetLibraryEditorPage()
+
+    freshDatabase()
+    truthy(editor:OpenEvent(abilityGroup()))
+    editor.EventSave:Click()
+    equal(RPHelperDB.abilities.PALADIN, nil)
+
+    freshDatabase()
+    truthy(editor:OpenEvent(abilityGroup()))
+    editor.ChanceOverride:Click()
+    editor.ChanceSlider:SetValue(44)
+    editor.EventSave:Click()
+    local record = RPHelperDB.abilities.PALADIN.FLASH_OF_LIGHT
+    equal(record.chance, 0.44)
+    equal(record.enabled, nil); equal(record.priority, nil)
+
+    freshDatabase()
+    RPHelperDB.abilities.PALADIN = {
+        FLASH_OF_LIGHT = { enabled = false, chance = 0.125, future = { keep = true } },
+    }
+    truthy(editor:OpenEvent(abilityGroup()))
+    editor.EventPriority:Click()
+    editor.EventSave:Click()
+    record = RPHelperDB.abilities.PALADIN.FLASH_OF_LIGHT
+    equal(record.priority, true); equal(record.enabled, false); equal(record.chance, 0.125)
+    truthy(record.future.keep)
+
+    freshDatabase()
+    RPHelperDB.abilities.PALADIN = {
+        FLASH_OF_LIGHT = { priority = true, chance = 0.125, future = "keep" },
+    }
+    truthy(editor:OpenEvent(abilityGroup()))
+    editor.EventEnabled:Click()
+    editor.EventSave:Click()
+    record = RPHelperDB.abilities.PALADIN.FLASH_OF_LIGHT
+    equal(record.enabled, false); equal(record.priority, true); equal(record.chance, 0.125)
+    equal(record.future, "keep")
+
+    freshDatabase()
+    truthy(editor:OpenEvent(abilityGroup()))
+    editor.EventPriority:Click()
+    editor.EventPriority:Click()
+    editor.EventSave:Click()
+    record = RPHelperDB.abilities.PALADIN.FLASH_OF_LIGHT
+    equal(record.priority, false)
+    equal(record.enabled, nil); equal(record.chance, nil)
+
+    freshDatabase()
+    RPHelperDB.abilities.PALADIN = {
+        FLASH_OF_LIGHT = { chance = 0.125, future = "keep" },
+    }
+    record = RPHelperDB.abilities.PALADIN.FLASH_OF_LIGHT
+    local draft = EditorData.NewEventDraft(abilityGroup())
+    draft.enabled, draft.enabledModified = "invalid", true
+    draft.priority, draft.priorityModified = true, true
+    equal(EditorData.SaveEventDraft(draft), false)
+    equal(RPHelperDB.abilities.PALADIN.FLASH_OF_LIGHT, record)
+    equal(record.enabled, nil); equal(record.priority, nil); equal(record.chance, 0.125)
+    equal(record.future, "keep")
+end)
+
+test("unsupported groups cannot create event settings but remain customizable", function()
+    freshDatabase()
+    UI.Navigate("library")
+    local library = UI.GetLibraryPage()
+    library:SelectSection("generic")
+    library:SelectGroup("event:generic::library_event")
+    equal(library.ModifyGroup:IsEnabled(), false)
+    library.ModifyGroup:Click()
+    equal(UI.GetCurrentPage(), "library")
+    equal(RPHelperDB.triggers.library_event, nil)
+    equal(library.AddReaction:IsEnabled(), true)
+end)
+
+test("supported ability editor writes canonical class and ability settings", function()
+    freshDatabase()
+    local group = findGroup(LibraryData.BuildSection("class", { class = "PALADIN", race = "HUMAN" }),
+        "ability:PALADIN:FLASH_OF_LIGHT")
+    local draft = EditorData.NewEventDraft(group)
+    draft.enabled, draft.priority = false, true
+    draft.useChanceOverride, draft.chancePercent = true, 44
+    truthy(EditorData.SaveEventDraft(draft))
+    equal(RPHelperDB.abilities.PALADIN.FLASH_OF_LIGHT.enabled, false)
+    equal(RPHelperDB.abilities.PALADIN.FLASH_OF_LIGHT.priority, true)
+    equal(RPHelperDB.abilities.PALADIN.FLASH_OF_LIGHT.chance, 0.44)
+
+    truthy(Config.SetEventSetting("ability", "PALADIN", "FLASH_OF_LIGHT", "chance", 0.125))
+    group = findGroup(LibraryData.BuildSection("class", { class = "PALADIN", race = "HUMAN" }),
+        "ability:PALADIN:FLASH_OF_LIGHT")
+    draft = EditorData.NewEventDraft(group)
+    draft.priority = false
+    truthy(EditorData.SaveEventDraft(draft))
+    equal(RPHelperDB.abilities.PALADIN.FLASH_OF_LIGHT.chance, 0.125)
+    equal(RPHelperDB.abilities.PALADIN.FLASH_OF_LIGHT.priority, false)
+end)
+
+test("built-in and Custom row weight controls use sparse validated APIs", function()
+    freshDatabase()
+    local customID = UserContent.Add(
+        { layer = "generic", trigger = "dodge" },
+        { type = "say", text = "Weighted custom." })
+    UI.Navigate("library")
+    local page = UI.GetLibraryPage()
+    page:SelectSection("generic")
+    page:SelectGroup("event:generic::dodge")
+    local builtIn = findVisibleRow(page, "default:test:generic:dodge")
+    builtIn.WeightUp:Click()
+    equal(Config.GetDefaultWeight("default:test:generic:dodge"), 2)
+    equal(RPHelperDB.reactionOverrides["default:test:generic:dodge"].weight, 2)
+    builtIn = findVisibleRow(page, "default:test:generic:dodge")
+    builtIn.WeightDown:Click()
+    equal(Config.GetDefaultWeight("default:test:generic:dodge"), 1)
+    equal(RPHelperDB.reactionOverrides["default:test:generic:dodge"], nil)
+
+    local custom = findVisibleRow(page, customID)
+    custom.WeightUp:Click()
+    equal(UserContent.GetWeight(customID), 2)
+    custom = findVisibleRow(page, customID)
+    custom.WeightDown:Click()
+    equal(UserContent.GetWeight(customID), 1)
+    equal(RPHelperDB.custom.entries[customID].weight, nil)
+end)
+
+test("reaction weight rejection and malformed storage restore effective UI values", function()
+    freshDatabase()
+    RPHelperDB.reactionOverrides["default:test:generic:dodge"] = { weight = 11, future = "keep" }
+    local customID = UserContent.Add(
+        { layer = "generic", trigger = "dodge" }, { type = "say", text = "Malformed weight." })
+    RPHelperDB.custom.entries[customID].weight = math.huge
+    UserContent.Invalidate()
+    local group = findGroup(LibraryData.BuildSection("generic"), "event:generic::dodge")
+    equal(findReaction(group, "default:test:generic:dodge").weight, 1)
+    equal(findReaction(group, customID).weight, 1)
+    equal(RPHelperDB.reactionOverrides["default:test:generic:dodge"].weight, 11)
+    equal(RPHelperDB.custom.entries[customID].weight, math.huge)
+
+    UI.Navigate("library")
+    local page = UI.GetLibraryPage()
+    page:SelectSection("generic"); page:SelectGroup("event:generic::dodge")
+    local row = findVisibleRow(page, "default:test:generic:dodge")
+    local original = Config.SetDefaultWeight
+    Config.SetDefaultWeight = function() return false, "injected_failure" end
+    row.WeightUp:Click()
+    Config.SetDefaultWeight = original
+    row = findVisibleRow(page, "default:test:generic:dodge")
+    equal(row.Reaction.weight, 1)
+    equal(RPHelperDB.reactionOverrides["default:test:generic:dodge"].weight, 11)
+    truthy(string.find(page.Message:GetText(), "could not be saved", 1, true))
+end)
+
+test("editor creates Say, Emote, and Custom Emote records in the selected scope", function()
+    freshDatabase()
+    UI.Navigate("library")
+    local library = UI.GetLibraryPage()
+    library:SelectSection("generic"); library:SelectGroup("event:generic::dodge")
+    local editor = UI.GetLibraryEditorPage()
+
+    library.AddReaction:Click()
+    editor.ContentEdit:SetText(longReaction)
+    editor.Weight:SetValue(10)
+    editor.Save:Click()
+    local first = RPHelperDB.custom.entries["custom:1"]
+    equal(first.scope.layer, "generic"); equal(first.scope.trigger, "dodge")
+    equal(first.entry.type, "say"); equal(first.entry.text, longReaction)
+    equal(first.weight, 10)
+
+    library.AddReaction:Click()
+    editor.TypeButtons.emote:Click()
+    equal(editor:GetDraft().entry.type, "emote")
+    editor.EmoteSearch:SetText("wav")
+    editor.EmoteSearch.scripts.OnTextChanged(editor.EmoteSearch)
+    equal(editor.EmoteToken:GetText(), "Token: WAVE")
+    editor.Save:Click()
+    equal(RPHelperDB.custom.entries["custom:2"].entry.type, "emote")
+    equal(RPHelperDB.custom.entries["custom:2"].entry.text, "WAVE")
+
+    library.AddReaction:Click()
+    editor.TypeButtons.customemote:Click()
+    editor.ContentEdit:SetText("adjusts a cloak.")
+    editor.Active:Click()
+    editor.Save:Click()
+    equal(RPHelperDB.custom.entries["custom:3"].entry.type, "customemote")
+    equal(RPHelperDB.custom.entries["custom:3"].entry.text, "adjusts a cloak.")
+    equal(RPHelperDB.custom.entries["custom:3"].enabled, false)
+    equal(RPHelperDB.custom.nextID, 4)
+end)
+
+test("Custom editor preserves identity and unknown metadata on atomic edits", function()
+    freshDatabase()
+    local id = UserContent.Add(
+        { layer = "generic", trigger = "custom_edit_event" },
+        { type = "say", text = "Before edit." }, { weight = 2 })
+    RPHelperDB.custom.entries[id].future = { keep = true }
+    UI.Navigate("library")
+    local library = UI.GetLibraryPage()
+    library:SelectSection("generic")
+    library:SelectGroup("event:generic::custom_edit_event")
+    library.ReactionRows[1].Modify:Click()
+    local editor = UI.GetLibraryEditorPage()
+    equal(editor:GetDraft().id, id)
+    editor.ContentEdit:SetText("After edit.")
+    editor.Active:Click()
+    editor.Weight:SetValue(10)
+    editor.Save:Click()
+    equal(RPHelperDB.custom.entries[id].entry.text, "After edit.")
+    equal(RPHelperDB.custom.entries[id].enabled, false)
+    equal(RPHelperDB.custom.entries[id].weight, 10)
+    truthy(RPHelperDB.custom.entries[id].future.keep)
+    equal(RPHelperDB.custom.nextID, 2)
+end)
+
+test("Custom editor preserves a valid existing emote token outside the shipped selector", function()
+    freshDatabase()
+    local id = UserContent.Add(
+        { layer = "generic", trigger = "custom_emote_edit" },
+        { type = "emote", text = "ROAR" })
+    UI.Navigate("library")
+    local library = UI.GetLibraryPage()
+    library:SelectSection("generic"); library:SelectGroup("event:generic::custom_emote_edit")
+    library.ReactionRows[1].Modify:Click()
+    local editor = UI.GetLibraryEditorPage()
+    equal(editor.EmoteToken:GetText(), "Token: ROAR")
+    editor.Weight:SetValue(2)
+    editor.Save:Click()
+    equal(RPHelperDB.custom.entries[id].entry.text, "ROAR")
+    equal(RPHelperDB.custom.entries[id].weight, 2)
+end)
+
+test("Custom deletion requires confirmation and cancellation preserves content", function()
+    freshDatabase()
+    local id = UserContent.Add(
+        { layer = "generic", trigger = "delete_event" },
+        { type = "say", text = "Keep until confirmed." })
+    UI.Navigate("library")
+    local library = UI.GetLibraryPage()
+    library:SelectSection("generic"); library:SelectGroup("event:generic::delete_event")
+    library.ReactionRows[1].Modify:Click()
+    local editor = UI.GetLibraryEditorPage()
+    editor.Delete:Click()
+    equal(editor.ConfirmPanel:IsShown(), true)
+    editor.CancelDelete:Click()
+    truthy(RPHelperDB.custom.entries[id])
+    local originalRemove = UserContent.Remove
+    UserContent.Remove = function() return false, "injected_failure" end
+    editor.Delete:Click()
+    editor.ConfirmDelete:Click()
+    UserContent.Remove = originalRemove
+    truthy(RPHelperDB.custom.entries[id])
+    truthy(string.find(editor.Message:GetText(), "was not deleted", 1, true))
+    editor.Delete:Click()
+    editor.ConfirmDelete:Click()
+    equal(RPHelperDB.custom.entries[id], nil)
+    equal(RPHelperDB.custom.nextID, 2)
+    equal(UI.GetCurrentPage(), "library")
+end)
+
+test("Built-in Modify creates an independent Custom copy without changing source preferences", function()
+    freshDatabase()
+    local source = "default:test:generic:0001"
+    truthy(Config.SetDefaultWeight(source, 4))
+    truthy(Config.SetDefaultEnabled(source, false))
+    UI.Navigate("library")
+    local library = UI.GetLibraryPage()
+    library:SelectSection("generic"); library:SelectGroup("event:generic::library_event")
+    local row = findVisibleRow(library, source)
+    row.Modify:Click()
+    local editor = UI.GetLibraryEditorPage()
+    equal(editor:GetDraft().mode, "copy")
+    editor.ContentEdit:SetText("An edited independent copy.")
+    editor.Weight:SetValue(3)
+    editor.Save:Click()
+    local copy = RPHelperDB.custom.entries["custom:1"]
+    equal(copy.sourceDefaultID, source)
+    equal(copy.entry.text, "An edited independent copy.")
+    equal(copy.weight, 3)
+    equal(Config.IsDefaultEnabled(source), false)
+    equal(Config.GetDefaultWeight(source), 4)
+    equal(longReaction, findReaction(findGroup(LibraryData.BuildSection("generic"),
+        "event:generic::library_event"), source).text)
+end)
+
+test("template-based copies are preserved exactly with an explicit editor limitation", function()
+    freshDatabase()
+    RPHelper.RegisterGeneric("template_editor", {
+        id = "default:test:template_editor",
+        type = "say",
+        template = "{1}, {PLAYER}!",
+        choices = { { "Hello", "Greetings" } },
+    })
+    local group = findGroup(LibraryData.BuildSection("generic"), "event:generic::template_editor")
+    local reaction = findReaction(group, "default:test:template_editor")
+    local draft = EditorData.NewReactionDraft(group, reaction, "copy")
+    equal(draft.templateLocked, true)
+    draft.weight = 2
+    local id = EditorData.SaveReaction(draft); truthy(id)
+    local saved = RPHelperDB.custom.entries[id]
+    equal(saved.entry.template, "{1}, {PLAYER}!")
+    equal(saved.entry.choices[1][1], "Hello")
+    equal(saved.entry.text, nil)
+    equal(Config.IsDefaultEnabled("default:test:template_editor"), true)
+end)
+
+test("preview is private, supports unsaved drafts, and reports unresolved content", function()
+    freshDatabase()
+    UI.Navigate("library")
+    local library = UI.GetLibraryPage()
+    library:SelectSection("generic"); library:SelectGroup("event:generic::dodge")
+    library.AddReaction:Click()
+    local editor = UI.GetLibraryEditorPage()
+    local oldSend, oldEmote, publicCalls = SendChatMessage, DoEmote, 0
+    SendChatMessage = function() publicCalls = publicCalls + 1 end
+    DoEmote = function() publicCalls = publicCalls + 1 end
+    local nextID = RPHelperDB.custom.nextID
+    local combat = RPHelper.Runtime.IsInCombat()
+
+    editor.ContentEdit:SetText("Private preview.")
+    editor.Preview:Click()
+    truthy(string.find(editor.PreviewText:GetText(), "[Preview] Private preview.", 1, true))
+    equal(publicCalls, 0); equal(RPHelperDB.custom.nextID, nextID)
+    equal(RPHelper.Runtime.IsInCombat(), combat)
+
+    editor.ContentEdit:SetText("Hello {TARGET}.")
+    editor.Preview:Click()
+    equal(editor.PreviewText:GetText(), "[Preview unavailable]")
+    truthy(string.find(editor.Message:GetText(), "Unresolved context is not invented", 1, true))
+    equal(publicCalls, 0); equal(RPHelperDB.custom.nextID, nextID)
+    local malformed = EditorData.Copy(editor:GetDraft())
+    malformed.entry = { type = "say", template = "{1}", choices = {} }
+    local result, err = EditorData.Preview(malformed)
+    equal(result, nil); equal(err, "invalid_choices")
+    SendChatMessage, DoEmote = oldSend, oldEmote
+end)
+
+test("rejected editor writes retain drafts and malformed event containers", function()
+    freshDatabase()
+    RPHelperDB.triggers.enter_combat = false
+    UI.Navigate("library")
+    local library = UI.GetLibraryPage()
+    library:SelectSection("generic"); library:SelectGroup("event:generic::entercombat")
+    library.ModifyGroup:Click()
+    local editor = UI.GetLibraryEditorPage()
+    editor.EventEnabled:Click()
+    editor.EventSave:Click()
+    equal(UI.GetCurrentPage(), "editor")
+    equal(RPHelperDB.triggers.enter_combat, false)
+    truthy(string.find(editor.Message:GetText(), "could not be saved", 1, true))
+
+    UI.Navigate("library")
+    library:SelectGroup("event:generic::dodge")
+    library.AddReaction:Click()
+    editor.ContentEdit:SetText("")
+    editor.Save:Click()
+    equal(UI.GetCurrentPage(), "editor")
+    truthy(string.find(editor.Message:GetText(), "Draft retained", 1, true))
+    equal(RPHelperDB.custom.nextID, 1)
+end)
+
+test("repeated editor interactions reuse frames and cancellation preserves library position", function()
+    freshDatabase()
+    UI.Navigate("library")
+    local library = UI.GetLibraryPage()
+    library:SelectSection("generic"); library:SelectGroup("event:generic::library_event")
+    library.NextReactions:Click()
+    local frameCount = #frames
+    for _ = 1, 3 do
+        library.ReactionRows[1].Modify:Click()
+        UI.GetLibraryEditorPage().Cancel:Click()
+    end
+    equal(#frames, frameCount)
+    equal(next(RPHelperDB.custom.entries), nil)
+    equal(RPHelperDB.custom.nextID, 1)
+    equal(library:GetSelectedGroup().id, "event:generic::library_event")
+    equal(library.PreviousReactions:IsEnabled(), true)
+end)
+
+test("editor-created content and weights remain isolated per character", function()
+    freshDatabase()
+    truthy(Config.SetDefaultWeight("default:test:generic:dodge", 10))
+    local id = UserContent.Add(
+        { layer = "generic", trigger = "dodge" }, { type = "say", text = "First character." })
+    local first = RPHelperDB
+    freshDatabase()
+    local second = RPHelperDB
+    equal(Config.GetDefaultWeight("default:test:generic:dodge"), 1)
+    equal(#UserContent.List(), 0)
+    RPHelperDB = first; UserContent.Invalidate()
+    equal(Config.GetDefaultWeight("default:test:generic:dodge"), 10)
+    equal(UserContent.List()[1].id, id)
+    equal(next(second.reactionOverrides), nil)
 end)
 
 test("library navigation preserves Global Settings behaviour", function()

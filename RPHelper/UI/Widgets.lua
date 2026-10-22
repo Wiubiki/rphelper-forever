@@ -101,6 +101,22 @@ function Widgets.CreateSlider(parent, width, minimum, maximum, step)
     return slider
 end
 
+function Widgets.CreateEditBox(parent, width, height, multiline)
+    local editBox, templated = createFrame("EditBox", uniqueName("EditBox"), parent, "InputBoxTemplate")
+    Widgets.SetSize(editBox, width, height)
+    if editBox.SetAutoFocus then editBox:SetAutoFocus(false) end
+    if editBox.SetMultiLine then editBox:SetMultiLine(multiline == true) end
+    if editBox.SetFontObject and GameFontHighlight then editBox:SetFontObject(GameFontHighlight) end
+    if editBox.SetTextInsets then editBox:SetTextInsets(6, 6, 6, 6) end
+    if not templated and editBox.CreateTexture then
+        local background = editBox:CreateTexture(nil, "BACKGROUND")
+        background:SetAllPoints(editBox)
+        Widgets.SetSolidColor(background, 0.09, 0.09, 0.12, 1)
+        editBox.FallbackBackground = background
+    end
+    return editBox
+end
+
 function Widgets.SetSize(region, width, height)
     if region.SetSize then
         region:SetSize(width, height)

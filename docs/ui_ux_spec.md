@@ -5,9 +5,10 @@
 This document defines the approved V1.0 user experience. The first UI milestone
 implements the addon-owned window, approved navigation, and the Main tab's global
 settings and policy text. Milestone 2A adds character-specific Generic, Race, and
-Class library browsing plus individual reaction activation. Event settings and
-weights are read-only in this increment; custom-content editing and the final
-Guide/About content remain later milestones. The controls use the implemented schema-v2
+Class library browsing plus individual reaction activation. Milestone 2B adds
+event/ability settings, 1–10 weights, Custom CRUD, independent Built-in copies,
+and private preview. Final Guide/About content remains a later milestone. The
+controls use the implemented schema-v2
 persistence and runtime-policy model defined in
 [SavedVariables Architecture](savedvariables_architecture.md). Development-build
 settings are not a supported migration source.
@@ -121,6 +122,18 @@ Each event has:
   reaction chance for that event, and “Use global chance” deletes the override;
 - a **Priority** flag.
 
+The chance slider selects whole percentages. An existing valid fractional
+percentage is shown as stored precision and remains unchanged when another
+event setting is saved; moving the slider explicitly replaces it with the
+selected whole percentage. Clearing an override immediately shows the current
+effective Main reaction chance it will inherit.
+
+Saving event or ability settings writes only controls deliberately edited in
+that session. Untouched effective defaults are not materialized, while a player
+who explicitly edits a control back to its shipped default records that choice
+so a later addon-default change does not replace it. Existing untouched
+overrides and unknown metadata remain unchanged.
+
 Event chance and priority belong to the event, never an individual reaction.
 Priority bypasses the global cooldown only. It never starts, resets, extends, or
 otherwise modifies the cooldown timer. It still respects chance, encounter quota,
@@ -142,16 +155,17 @@ weight. Built-in and Custom origins are unmistakable.
 - Disabling a Built-in reaction records its permanent built-in ID; it never
   edits shipped content.
 - Built-in content is read-only. **Create modified copy** opens a new Custom
-  reaction based on it and, on save, disables the source as one atomic operation.
+  reaction based on it. Saving the copy does not change the source activation,
+  weight, preferences, or catalogue content.
 - Custom reactions can be activated/deactivated, edited, deleted, and previewed.
 - Weight belongs to the individual reaction. It is an integer relative weight
-  among eligible reactions for that event; default weight is 1. The final input
-  ceiling requires implementation review, but zero or negative values are not
-  valid weights. Disabled and ineligible reactions do not participate.
+  from 1 through 10 among eligible reactions for that event; default weight is
+  1. Zero, negative, fractional, string, NaN, infinite, and greater-than-10
+  values are invalid. Disabled and ineligible reactions do not participate.
 
-The Milestone 2A library exposes inspection and individual activation directly;
-it does not preview, edit, reweight, create, or delete reactions. The later full
-Customize mode exposes weighting, creation, editing, and deletion.
+The implemented library separates **View** inspection from **Modify** actions.
+It exposes activation, weighting, event settings, private preview, Custom
+creation/editing/deletion, and modified Built-in copies.
 Destructive deletion requires confirmation and does not recycle the custom ID.
 
 ### Weighted selection
@@ -240,6 +254,11 @@ optional `sourceDefaultID` provenance.
 - Dispatch omits an explicit target so the game retains its ordinary current-
   target behavior. RPHelper does not select, clear, replace, or restore targets.
 
+The current conservative editor offers canonical emote tokens already present
+in the shipped authored catalogue and preserves a valid token already stored on
+an edited Custom record. Expanding creation to the client's complete localized
+searchable catalogue remains blocked on Forever catalogue verification.
+
 **Custom Emote**
 
 - Free-text `/e`-style action.
@@ -250,6 +269,11 @@ optional `sourceDefaultID` provenance.
 Current entry validation, supported placeholders, and safe resolution rules
 remain applicable. Adding custom ability content does not create event detection
 or a spell mapping.
+
+Existing template/choice structures are preserved exactly. Because the bounded
+V1 editor cannot faithfully round-trip arbitrary structured choices, template
+content and type are read-only while activation and weight remain editable; the
+UI states this limitation instead of flattening the authored data.
 
 ### Preview
 
@@ -298,7 +322,8 @@ write SavedVariables.
 1. Select **Create modified copy** on the Built-in row.
 2. Edit the new Custom copy without altering the built-in catalogue.
 3. Preview and save.
-4. Saving atomically creates the custom entry and disables its source.
+4. Saving creates the independent Custom entry and leaves every source preference
+   unchanged.
 
 ## Guide tab
 

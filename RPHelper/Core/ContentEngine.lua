@@ -251,7 +251,7 @@ function ContentEngine.ChooseCandidate(pool, options)
         local weight = 1
         if candidate.customID then
             if RPHelper.Configuration
-                and RPHelper.Configuration.IsPositiveInteger(candidate.weight) then
+                and RPHelper.Configuration.IsValidWeight(candidate.weight) then
                 weight = candidate.weight
             end
         elseif candidate.defaultID and RPHelper.Configuration then
@@ -273,8 +273,8 @@ function ContentEngine.ChooseCandidate(pool, options)
         return nil
     end
 
-    -- Schema v2 deliberately has no arbitrary weight ceiling. Normalize only
-    -- when an integer draw could exceed conservative client RNG bounds.
+    -- Individual weights are capped at 10, but retain the normalized path for a
+    -- theoretically enormous aggregate pool that exceeds client integer RNG bounds.
     local chooser = options.randomWeight or math.random
     local ok, roll = pcall(chooser)
     if not ok or type(roll) ~= "number" or roll ~= roll or roll < 0 or roll >= 1 then return nil end

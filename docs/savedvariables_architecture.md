@@ -105,7 +105,7 @@ Schema-v2 shipped defaults and semantics are:
 - global cooldown `20` seconds; there are no event/reaction cooldowns;
 - encounter quota disabled, with retained value `2` and enabled range 1–10;
 - priority stored per event and bypassing only the global cooldown;
-- reaction weight `1`, overridden by positive integers;
+- reaction weight `1`, overridden only by integers from 1 through 10;
 - dungeon Say mode `"broadcast"`, with optional per-character `"local"`.
 
 Only successful emission increments enabled quota. Only successful non-priority
@@ -172,13 +172,13 @@ remain character-specific.
 - CRUD uses the management API, preserves promised unknown fields, invalidates
   its index, and never mutates shipped catalogue tables.
 - Adding ability content does not add detection or a spell mapping.
-- A modified built-in copy may store `sourceDefaultID` as UI provenance. Runtime
-  still uses addition plus exclusion, not a separate override engine.
-- Custom records may store sparse `enabled` and positive-integer `weight`
-  metadata. Built-in weights live under `reactionOverrides` so shipped entries
+- A modified built-in copy may store `sourceDefaultID` as UI provenance. Creating
+  or editing the copy never changes the source activation, weight, or content.
+- Custom records may store sparse `enabled` metadata and integer `weight` values
+  from 1 through 10. Built-in weights live under `reactionOverrides` so shipped entries
   remain immutable.
-- Creating a modified copy and disabling its source is one logical operation;
-  failure of either write rolls back the other.
+- Modified-copy cancellation creates nothing; a successful save allocates one
+  monotonic Custom ID and leaves all Built-in preferences unchanged.
 - Preview uses ordinary template, keyword, and Druid eligibility preparation but
   is local-only. It never dispatches output, applies probability, records
   cooldowns, or consumes encounter quota.
@@ -230,8 +230,8 @@ remain character-specific.
 - Chance failure is proven not to construct/filter a reaction pool.
 - Druid filtering removes Built-in and Custom Say reactions while retaining
   Emote and Custom Emote candidates; final output safeguards still run.
-- Weighted selection covers default/override weights, disabled/ineligible entries,
-  deterministic boundaries, and invalid/non-positive saved weights.
+- Weighted selection covers weights 1 and 10, disabled/ineligible entries,
+  deterministic boundaries, and every malformed/out-of-range saved weight.
 - Dungeon Say broadcast/local routing changes Say only.
 - Existing routing, Druid suppression, probability/frequency, cooldown, quota,
   out-of-combat, and dispatch-accounting tests remain green.
