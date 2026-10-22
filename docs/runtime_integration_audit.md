@@ -6,9 +6,10 @@ Baseline: merged `main` at the start of Milestone 4A
 
 Companion inventory: [runtime ability integration inventory](runtime_ability_integration_inventory.csv)
 
-This is a documentation-only audit. It does not add handlers, spell mappings,
-diagnostics, settings, tests, or catalogue content. “Mocked” means deterministic
-Lua coverage with replacement frame/API objects; it is not live-client evidence.
+Milestone 4A was a documentation-only audit. Milestone 4B adds the bounded,
+session-only diagnostic described in §7 without adding handlers, spell mappings,
+settings, or catalogue content. “Mocked” means deterministic Lua coverage with
+replacement frame/API objects; it is not live-client evidence.
 
 ## 1. Executive summary
 
@@ -39,6 +40,10 @@ implementation change. It is not evidence of live compatibility. Full class
 ability coverage is neither present nor required for v0.9 or V1; stable V1
 requires a deliberately small, documented, live-verified subset and honest UI
 status for everything else.
+
+The opt-in diagnostic is now implemented to collect RPHelper live evidence. Its
+records do not promote any trigger or ability to Category A: gameplay detectors
+remain unchanged, and no mapping has yet gained RPHelper live verification.
 
 ## 2. Evidence taxonomy and audit method
 
@@ -150,7 +155,7 @@ addon frame event
 | Content preparation | Disabled defaults/custom content, keyword eligibility, Druid pool replacement/Say suppression, weighted selection | Content/runtime/UI tests | Relevant target/pet context remains intentionally absent; form IDs pending |
 | Output routing | World/local Say, dungeon broadcast/local Say, built-in emote, custom emote; raid suppressed | Mocked API calls and failures | Automatic `SAY`/`EMOTE`/`DoEmote` permission and server acceptance pending |
 | State consumption | Cooldown/quota only after successful adapter dispatch | Mocked | Adapter success cannot prove server acknowledgement |
-| Diagnostics | Unimplemented | None | Proposed in §7; not a current feature |
+| Diagnostics | Implemented as an opt-in 100-record session ring over existing classification | Deterministic lifecycle, redaction, command, buffer and isolation tests | Live payload readability and collection workflow pending |
 
 Unknown trigger keys and spell IDs are rejected before content selection. Ability
 handling also verifies that the classified canonical key exists in the current
@@ -206,27 +211,49 @@ logs, infer an attacker from the current target, correlate nearby events, or
 substitute spell names for exact IDs. Those omissions are required safety
 boundaries, not missing fallbacks.
 
-## 7. Proposed opt-in local diagnostic
+## 7. Implemented opt-in local diagnostic
 
-Before expanding mappings, a separate milestone should add a minimal diagnostic
-mode solely for live validation. It should default off, be enabled explicitly
-for the current session, write only to a bounded local display/ring buffer, and
-never transmit chat, persist captures, or alter runtime decisions.
+The diagnostic defaults off and empty at initialization. `/rph debug on|off`
+controls capture for the current session; `status`, `show`, `clear`, and `help`
+inspect or manage the retained records. `show` prints at most the latest ten,
+oldest-to-newest within that selection. The buffer retains at most 100 records;
+disabling does not clear it, clearing does not alter capture state, and no timer,
+polling loop, SavedVariable, UI setting, or continuous chat output exists.
 
-For each relevant callback it may record a local sequence number, monotonic
-timestamp, event name, activity classification, and a reason code. Only after a
-field has been successfully inspected as nonsecret may it record the literal
-unit token, integer spell ID, canonical class, mapped/unmapped identity, or
-defensive action. It must never stringify/log secret or unreadable values,
-`castGUID`, target/name/chat text, combat-log text, or arbitrary payload tables.
-Unreadable fields should produce fixed labels such as `unit=restricted`.
+The existing runtime calls each defensive or spell classifier once. That
+classifier returns its existing canonical result plus a compact sanitized
+observation; combat transitions supply their existing semantic trigger. A record
+contains `sequence`, optional safe relative `time`, `event`, event `category`,
+fixed `result`, and `matched`, with approved optional `activity`, `trigger`,
+`unit`, `action`, `spellID`, `class`, and `ability` primitives. Activity is
+reused from the normal policy lookup when that lookup occurs, so diagnostics do
+not add an activity query. Relative time is likewise reused only when the normal
+policy path already obtained a safe monotonic clock value. Diagnostics perform
+no additional WoW API queries.
 
-The diagnostic must observe before/after classification without triggering a
-second policy attempt, changing chance/cooldown/quota, retrying output, or
-working around restrictions. Tests should prove opt-in behavior, redaction,
-bounded storage, no public APIs, and no effect on dispatch. Captures should note
-client build/interface, class, ability/rank, activity, success/failure scenario,
-and expected versus observed callback sequence outside the addon log itself.
+Fields are inspected through the same fail-closed `issecretvalue` boundary used
+by production classification before any type test, comparison, arithmetic,
+indexing, or display. Missing, failing, restricted, malformed, wrong-unit, and
+unsupported values become fixed reasons and labels. `castGUID`, names, target
+identity, chat/combat-log text, spell names, raw callback tables, and arbitrary
+object strings are neither read for diagnostics nor retained. A readable
+positive integer player spell ID is retained even when absent from the current
+allowlist and is marked `unmapped`.
+
+Capture is independent of the master reaction-enabled switch but remains
+passive. It does not call a handler, select content, evaluate policy a second
+time, change cooldown/quota/encounter state, register events, or dispatch local
+or public output. Automated tests cover those boundaries. The registered events,
+five generic trigger identities, and two Paladin mappings are unchanged.
+
+For live evidence collection, enable capture, perform one documented scenario,
+then use `show`. Record the client build/interface, character class, exact
+ability and rank, activity, expected event sequence, and observed diagnostic
+lines separately from the addon log. Repeat across success/failure, rank,
+context, and restricted-value cases. A diagnostic record is an observation, not
+automatic proof of a correct canonical mapping, full rank coverage, attribution,
+or successful server-side output. Mapping changes require separate review and
+must update the inventory only after repeatable evidence.
 
 ## 8. v0.9 prerelease blockers and validation gates
 
@@ -237,9 +264,8 @@ and expected versus observed callback sequence outside the addon log itself.
   from retail or an old export is not acceptable.
 - Package/install the unmodified addon and confirm `ADDON_LOADED`, schema-v2
   initialization, slash/UI opening, and clean startup on a disposable character.
-- Prefer implementing the §7 diagnostic in a separate reviewed change before a
-  capture campaign; this improves evidence quality but must not become a
-  restriction bypass.
+- Use the §7 diagnostic for the capture campaign without treating it as a
+  restriction bypass or as automatic mapping evidence.
 
 ### Broader prerelease validation (not required merely to install)
 
@@ -258,7 +284,7 @@ and expected versus observed callback sequence outside the addon log itself.
 Categories C–E, exhaustive class/rank coverage, outgoing criticals, death and
 resurrection, monster/NPC/pet triggers, channels, forms as abilities, queued
 attacks, passive procs, auto-attacks, target reconstruction, and diagnostics
-beyond the narrow opt-in capture tool are not v0.9 blockers.
+beyond the implemented narrow opt-in capture tool are not v0.9 blockers.
 
 ## 9. V1.0 completeness gaps
 
@@ -286,8 +312,8 @@ supported automatic behavior from browsable/customizable content.
 
 ## 10. Recommended next implementation milestones
 
-1. **Live-test bootstrap:** verify and add Interface metadata; optionally add the
-   bounded local diagnostic specified in §7 with focused tests.
+1. **Live-test bootstrap:** verify and add Interface metadata, then use the
+   bounded local diagnostic specified in §7 for focused captures.
 2. **Generic Category-B validation:** run the combat-transition and defensive
    capture matrix. Promote only evidence-backed rows to A; correct or disable a
    detector if attribution/readability fails.

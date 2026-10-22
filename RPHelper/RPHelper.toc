@@ -13,6 +13,7 @@ Core/ContentEngine.lua
 Core/Content.lua
 Core/UserContent.lua
 Core/RuntimeAPI.lua
+Core/Diagnostics.lua
 Core/Output.lua
 Core/Runtime.lua
 Core/Commands.lua

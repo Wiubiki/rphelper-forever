@@ -19,6 +19,10 @@ Shipped defaults and content remain immutable addon data. SavedVariables store
 only player-owned choices: explicit setting overrides, custom entries, disabled
 built-in IDs, and schema-version metadata.
 
+Opt-in runtime diagnostics are deliberately outside this database. Their enabled
+state, sequence counter, and bounded records are session-only, start disabled and
+empty on addon initialization, and are never materialized in `RPHelperDB`.
+
 Runtime content remains:
 
 ```text
