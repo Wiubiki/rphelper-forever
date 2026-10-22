@@ -4,9 +4,9 @@
 
 local A = RPHelper.Ability.WARRIOR
 local C = RPHelper.Class.WARRIOR
-local function add(ability, entryType, text)
+local function add(id, ability, entryType, text)
     A[ability] = A[ability] or ability
-    RPHelper.RegisterAbility(C, A[ability], { type = entryType, text = text })
+    RPHelper.RegisterAbility(C, A[ability], { id = id, type = entryType, text = text })
 end
 
 -- =====================================================================
@@ -25,15 +25,15 @@ RPHelper.RegisterAbility(C, "BATTLE_STANCE")
 -- ---------------------------------------------------------------------
 -- CHARGE
 -- ---------------------------------------------------------------------
-add("CHARGE", "emote", "CHARGE")
-add("CHARGE", "customemote", "yells {PP} head off as {SP} runs into battle.")
-add("CHARGE", "customemote", "charges at {TARGET}.")
-add("CHARGE", "customemote", "screams a battle cry and charges into combat.")
+add("default:ability:warrior:0002", "CHARGE", "emote", "CHARGE")
+add("default:ability:warrior:0003", "CHARGE", "customemote", "yells {PP} head off as {SP} runs into battle.")
+add("default:ability:warrior:0004", "CHARGE", "customemote", "charges at {TARGET}.")
+add("default:ability:warrior:0005", "CHARGE", "customemote", "screams a battle cry and charges into combat.")
 
 -- ---------------------------------------------------------------------
 -- HAMSTRING
 -- ---------------------------------------------------------------------
-add("HAMSTRING", "customemote", "hacks at {TARGET}'s hamstring.")
+add("default:ability:warrior:0006", "HAMSTRING", "customemote", "hacks at {TARGET}'s hamstring.")
 
 -- ---------------------------------------------------------------------
 -- HEROIC_STRIKE
@@ -47,7 +47,7 @@ RPHelper.RegisterAbility(C, "HEROIC_STRIKE")
 -- ---------------------------------------------------------------------
 -- MOCKING_BLOW
 -- ---------------------------------------------------------------------
-add("MOCKING_BLOW", "say", "Over here! {RINSULT}")
+add("default:ability:warrior:0007", "MOCKING_BLOW", "say", "Over here! {RINSULT}")
 
 -- ---------------------------------------------------------------------
 -- MORTAL_STRIKE
@@ -70,7 +70,7 @@ RPHelper.RegisterAbility(C, "OVERPOWER")
 -- ---------------------------------------------------------------------
 -- REND
 -- ---------------------------------------------------------------------
-add("REND", "say", "Bleed for me, {TARGET}.")
+add("default:ability:warrior:0008", "REND", "say", "Bleed for me, {TARGET}.")
 
 -- ---------------------------------------------------------------------
 -- RETALIATION
@@ -124,7 +124,7 @@ RPHelper.RegisterAbility(C, "VICTORY_RUSH")
 -- ---------------------------------------------------------------------
 -- BATTLE_SHOUT
 -- ---------------------------------------------------------------------
-add("BATTLE_SHOUT", "emote", "ROAR")
+add("default:ability:warrior:0009", "BATTLE_SHOUT", "emote", "ROAR")
 
 -- ---------------------------------------------------------------------
 -- BERSERKER_RAGE
@@ -156,7 +156,7 @@ RPHelper.RegisterAbility(C, "BLOODTHIRST")
 -- ---------------------------------------------------------------------
 -- CHALLENGING_SHOUT
 -- ---------------------------------------------------------------------
-add("CHALLENGING_SHOUT", "say", "Attack me you bastards!")
+add("default:ability:warrior:0010", "CHALLENGING_SHOUT", "say", "Attack me you bastards!")
 
 -- ---------------------------------------------------------------------
 -- CLEAVE
@@ -179,7 +179,7 @@ RPHelper.RegisterAbility(C, "DEATH_WISH")
 -- ---------------------------------------------------------------------
 -- DEMORALIZING_SHOUT
 -- ---------------------------------------------------------------------
-add("DEMORALIZING_SHOUT", "emote", "ROAR")
+add("default:ability:warrior:0011", "DEMORALIZING_SHOUT", "emote", "ROAR")
 
 -- ---------------------------------------------------------------------
 -- EXECUTE
@@ -202,9 +202,9 @@ RPHelper.RegisterAbility(C, "INTERCEPT")
 -- ---------------------------------------------------------------------
 -- INTIMIDATING_SHOUT
 -- ---------------------------------------------------------------------
-add("INTIMIDATING_SHOUT", "say", "Go away!")
-add("INTIMIDATING_SHOUT", "say", "Fear me!")
-add("INTIMIDATING_SHOUT", "say", "Run you bastards!")
+add("default:ability:warrior:0012", "INTIMIDATING_SHOUT", "say", "Go away!")
+add("default:ability:warrior:0013", "INTIMIDATING_SHOUT", "say", "Fear me!")
+add("default:ability:warrior:0014", "INTIMIDATING_SHOUT", "say", "Run you bastards!")
 
 -- ---------------------------------------------------------------------
 -- PIERCING_HOWL
@@ -236,7 +236,7 @@ RPHelper.RegisterAbility(C, "RECKLESSNESS")
 -- ---------------------------------------------------------------------
 -- SLAM
 -- ---------------------------------------------------------------------
-add("SLAM", "emote", "HI")
+add("default:ability:warrior:0015", "SLAM", "emote", "HI")
 
 -- ---------------------------------------------------------------------
 -- WHIRLWIND
@@ -254,11 +254,11 @@ RPHelper.RegisterAbility(C, "WHIRLWIND")
 -- ---------------------------------------------------------------------
 -- BLOODRAGE
 -- ---------------------------------------------------------------------
-add("BLOODRAGE", "emote", "ROAR")
-add("BLOODRAGE", "emote", "SNARL")
-add("BLOODRAGE", "customemote", "looks like {SP}'s getting angry.")
-add("BLOODRAGE", "customemote", "is going into a rage.")
-add("BLOODRAGE", "customemote", "goes into a furious rage.")
+add("default:ability:warrior:0016", "BLOODRAGE", "emote", "ROAR")
+add("default:ability:warrior:0017", "BLOODRAGE", "emote", "SNARL")
+add("default:ability:warrior:0018", "BLOODRAGE", "customemote", "looks like {SP}'s getting angry.")
+add("default:ability:warrior:0019", "BLOODRAGE", "customemote", "is going into a rage.")
+add("default:ability:warrior:0020", "BLOODRAGE", "customemote", "goes into a furious rage.")
 
 -- ---------------------------------------------------------------------
 -- CONCUSSION_BLOW
@@ -308,7 +308,7 @@ RPHelper.RegisterAbility(C, "REVENGE")
 -- ---------------------------------------------------------------------
 -- SHIELD_BASH
 -- ---------------------------------------------------------------------
-add("SHIELD_BASH", "customemote", "bashes {PP} shield into {TARGET}'s face.")
+add("default:ability:warrior:0021", "SHIELD_BASH", "customemote", "bashes {PP} shield into {TARGET}'s face.")
 
 -- ---------------------------------------------------------------------
 -- SHIELD_BLOCK
@@ -322,7 +322,7 @@ RPHelper.RegisterAbility(C, "SHIELD_BLOCK")
 -- ---------------------------------------------------------------------
 -- SHIELD_SLAM
 -- ---------------------------------------------------------------------
-add("SHIELD_SLAM", "customemote", "slams {PP} shield into {TARGET}'s face.")
+add("default:ability:warrior:0022", "SHIELD_SLAM", "customemote", "slams {PP} shield into {TARGET}'s face.")
 
 -- ---------------------------------------------------------------------
 -- SHIELD_WALL

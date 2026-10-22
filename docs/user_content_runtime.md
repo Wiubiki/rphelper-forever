@@ -1,19 +1,19 @@
 # User content and persistence runtime
 
-> **Current development implementation:** this document records unreleased schema
-> version 1. Milestone 2B has approved, but not implemented, sparse per-character
-> schema version 2 with permanent authored built-in IDs as the initial supported
-> V1.0 release schema. No release compatibility with this development schema is
-> required. See
-> [SavedVariables Architecture](savedvariables_architecture.md). Where the two
-> documents differ, this document describes current behavior and the architecture
-> document describes the approved next state.
+> **Historical runtime detail:** portions of this document describe the former
+> unreleased schema-v1 implementation. Schema v2 is now the initial supported
+> V1.0 persistence schema, with sparse per-character overrides and permanent
+> authored built-in IDs. No compatibility with the development schema is
+> provided. [SavedVariables Architecture](savedvariables_architecture.md) is the
+> source of truth where this historical detail differs.
 
 Implemented on `feat/user-content-runtime`. Custom content and individual shipped-entry exclusions participate in the existing content selection pipeline. No graphical editor, slash-command editing interface, new gameplay detection or production spell mapping is added. Verification is deterministic/mocked; live Forever output permissions remain unverified.
 
 ## Storage and initialization
 
-`RPHelperDB` remains per-character SavedVariables, schema version **1**. Existing `settings`, `triggers` and `abilities` contracts are unchanged. The previously reserved containers now support:
+`RPHelperDB` remains per-character SavedVariables, now schema version **2**.
+Initialization creates structural containers only; settings, triggers and
+abilities remain sparse. The custom-content containers support:
 
 ```lua
 RPHelperDB.custom = {

@@ -4,9 +4,9 @@
 
 local A = RPHelper.Ability.WARLOCK
 local C = RPHelper.Class.WARLOCK
-local function add(ability, entryType, text)
+local function add(id, ability, entryType, text)
     A[ability] = A[ability] or ability
-    RPHelper.RegisterAbility(C, A[ability], { type = entryType, text = text })
+    RPHelper.RegisterAbility(C, A[ability], { id = id, type = entryType, text = text })
 end
 
 -- =====================================================================
@@ -25,14 +25,14 @@ RPHelper.RegisterAbility(C, "AMPLIFY_CURSE")
 -- ---------------------------------------------------------------------
 -- BANE_OF_AGONY
 -- ---------------------------------------------------------------------
-add("BANE_OF_AGONY", "say", "You shall know pain and agony, {TARGET}!")
+add("default:ability:warlock:0002", "BANE_OF_AGONY", "say", "You shall know pain and agony, {TARGET}!")
 
 -- ---------------------------------------------------------------------
 -- BANE_OF_DOOM
 -- ---------------------------------------------------------------------
-add("BANE_OF_DOOM", "say", "I bring DOOM upon you!")
-add("BANE_OF_DOOM", "emote", "WRATH")
-add("BANE_OF_DOOM", "customemote", "threatens {TARGET} with the wrath of doom.")
+add("default:ability:warlock:0003", "BANE_OF_DOOM", "say", "I bring DOOM upon you!")
+add("default:ability:warlock:0004", "BANE_OF_DOOM", "emote", "WRATH")
+add("default:ability:warlock:0005", "BANE_OF_DOOM", "customemote", "threatens {TARGET} with the wrath of doom.")
 
 -- ---------------------------------------------------------------------
 -- CORRUPTION
@@ -46,27 +46,27 @@ RPHelper.RegisterAbility(C, "CORRUPTION")
 -- ---------------------------------------------------------------------
 -- CURSE_OF_EXHAUSTION
 -- ---------------------------------------------------------------------
-add("CURSE_OF_EXHAUSTION", "say", "Your limbs are heavier and heavier, {TARGET}! Just give up...")
+add("default:ability:warlock:0006", "CURSE_OF_EXHAUSTION", "say", "Your limbs are heavier and heavier, {TARGET}! Just give up...")
 
 -- ---------------------------------------------------------------------
 -- CURSE_OF_RECKLESSNESS
 -- ---------------------------------------------------------------------
-add("CURSE_OF_RECKLESSNESS", "say", "Reckless actions will lead you to death, {TARGET}.")
+add("default:ability:warlock:0007", "CURSE_OF_RECKLESSNESS", "say", "Reckless actions will lead you to death, {TARGET}.")
 
 -- ---------------------------------------------------------------------
 -- CURSE_OF_THE_ELEMENTS
 -- ---------------------------------------------------------------------
-add("CURSE_OF_THE_ELEMENTS", "say", "This is Elementary...")
+add("default:ability:warlock:0008", "CURSE_OF_THE_ELEMENTS", "say", "This is Elementary...")
 
 -- ---------------------------------------------------------------------
 -- CURSE_OF_TONGUES
 -- ---------------------------------------------------------------------
-add("CURSE_OF_TONGUES", "customemote", "makes {TARGET} speak in demonic.")
+add("default:ability:warlock:0009", "CURSE_OF_TONGUES", "customemote", "makes {TARGET} speak in demonic.")
 
 -- ---------------------------------------------------------------------
 -- CURSE_OF_WEAKNESS
 -- ---------------------------------------------------------------------
-add("CURSE_OF_WEAKNESS", "say", "I found your weakness, {TARGET} and now you'll meet your end.")
+add("default:ability:warlock:0010", "CURSE_OF_WEAKNESS", "say", "I found your weakness, {TARGET} and now you'll meet your end.")
 
 -- ---------------------------------------------------------------------
 -- DEATH_COIL
@@ -80,29 +80,29 @@ RPHelper.RegisterAbility(C, "DEATH_COIL")
 -- ---------------------------------------------------------------------
 -- DRAIN_LIFE
 -- ---------------------------------------------------------------------
-add("DRAIN_LIFE", "say", "I shall bleed you dry.")
+add("default:ability:warlock:0011", "DRAIN_LIFE", "say", "I shall bleed you dry.")
 
 -- ---------------------------------------------------------------------
 -- DRAIN_MANA
 -- ---------------------------------------------------------------------
-add("DRAIN_MANA", "say", "You won't need that mana anymore.")
+add("default:ability:warlock:0012", "DRAIN_MANA", "say", "You won't need that mana anymore.")
 
 -- ---------------------------------------------------------------------
 -- DRAIN_SOUL
 -- ---------------------------------------------------------------------
-add("DRAIN_SOUL", "say", "I'll swallow your soul.")
-add("DRAIN_SOUL", "say", "Your soul shall burn!")
-add("DRAIN_SOUL", "say", "You will know endless torment.")
-add("DRAIN_SOUL", "say", "Your soul is mine!")
-add("DRAIN_SOUL", "say", "Your soul will sustain my demons.")
-add("DRAIN_SOUL", "say", "My demons must feast.")
-add("DRAIN_SOUL", "say", "Your soul will feed my power.")
+add("default:ability:warlock:0013", "DRAIN_SOUL", "say", "I'll swallow your soul.")
+add("default:ability:warlock:0014", "DRAIN_SOUL", "say", "Your soul shall burn!")
+add("default:ability:warlock:0015", "DRAIN_SOUL", "say", "You will know endless torment.")
+add("default:ability:warlock:0016", "DRAIN_SOUL", "say", "Your soul is mine!")
+add("default:ability:warlock:0017", "DRAIN_SOUL", "say", "Your soul will sustain my demons.")
+add("default:ability:warlock:0018", "DRAIN_SOUL", "say", "My demons must feast.")
+add("default:ability:warlock:0019", "DRAIN_SOUL", "say", "Your soul will feed my power.")
 
 -- ---------------------------------------------------------------------
 -- FEAR
 -- ---------------------------------------------------------------------
-add("FEAR", "say", "Prepare to know the true meaning of fear.")
-add("FEAR", "say", "And once you know it - run.")
+add("default:ability:warlock:0020", "FEAR", "say", "Prepare to know the true meaning of fear.")
+add("default:ability:warlock:0021", "FEAR", "say", "And once you know it - run.")
 
 -- ---------------------------------------------------------------------
 -- HOWL_OF_TERROR
@@ -147,7 +147,7 @@ RPHelper.RegisterAbility(C, "WRACK")
 -- ---------------------------------------------------------------------
 -- BANISH
 -- ---------------------------------------------------------------------
-add("BANISH", "customemote", "banishes {TARGET} from this plane briefly.")
+add("default:ability:warlock:0022", "BANISH", "customemote", "banishes {TARGET} from this plane briefly.")
 
 -- ---------------------------------------------------------------------
 -- CREATE_FIRESTONE
@@ -242,7 +242,7 @@ RPHelper.RegisterAbility(C, "FEL_DOMINATION")
 -- ---------------------------------------------------------------------
 -- HEALTH_FUNNEL
 -- ---------------------------------------------------------------------
-add("HEALTH_FUNNEL", "customemote", "tends to {PP} demon's wounds.")
+add("default:ability:warlock:0023", "HEALTH_FUNNEL", "customemote", "tends to {PP} demon's wounds.")
 
 -- ---------------------------------------------------------------------
 -- INFERNO
@@ -265,13 +265,13 @@ RPHelper.RegisterAbility(C, "RITUAL_OF_DOOM")
 -- ---------------------------------------------------------------------
 -- RITUAL_OF_SUMMONING
 -- ---------------------------------------------------------------------
-add("RITUAL_OF_SUMMONING", "say", "Summoning {TARGET}.")
-add("RITUAL_OF_SUMMONING", "customemote", "chants in Demonic as {TARGET}'s name echoes through the air.")
+add("default:ability:warlock:0024", "RITUAL_OF_SUMMONING", "say", "Summoning {TARGET}.")
+add("default:ability:warlock:0025", "RITUAL_OF_SUMMONING", "customemote", "chants in Demonic as {TARGET}'s name echoes through the air.")
 
 -- ---------------------------------------------------------------------
 -- SENSE_DEMONS
 -- ---------------------------------------------------------------------
-add("SENSE_DEMONS", "say", "Hmm, let's see if we have some demons nearby to enslave...")
+add("default:ability:warlock:0026", "SENSE_DEMONS", "say", "Hmm, let's see if we have some demons nearby to enslave...")
 
 -- ---------------------------------------------------------------------
 -- SHADOW_WARD
@@ -294,7 +294,7 @@ RPHelper.RegisterAbility(C, "SOUL_LINK")
 -- ---------------------------------------------------------------------
 -- SUBJUGATE_DEMON
 -- ---------------------------------------------------------------------
-add("SUBJUGATE_DEMON", "emote", "GRIN")
+add("default:ability:warlock:0027", "SUBJUGATE_DEMON", "emote", "GRIN")
 
 -- ---------------------------------------------------------------------
 -- SUMMON_FELHUNTER
@@ -308,12 +308,12 @@ RPHelper.RegisterAbility(C, "SUMMON_FELHUNTER")
 -- ---------------------------------------------------------------------
 -- SUMMON_IMP
 -- ---------------------------------------------------------------------
-add("SUMMON_IMP", "say", "Did you think I would let you rest imp?")
-add("SUMMON_IMP", "say", "Time to get back to work, imp.")
-add("SUMMON_IMP", "say", "Your labor is not even close to finished, imp.")
-add("SUMMON_IMP", "say", "You cannot escape me that easily imp.")
-add("SUMMON_IMP", "say", "Weakness will not be tolerated imp.")
-add("SUMMON_IMP", "say", "You will never know rest imp, your labor will never be done.")
+add("default:ability:warlock:0028", "SUMMON_IMP", "say", "Did you think I would let you rest imp?")
+add("default:ability:warlock:0029", "SUMMON_IMP", "say", "Time to get back to work, imp.")
+add("default:ability:warlock:0030", "SUMMON_IMP", "say", "Your labor is not even close to finished, imp.")
+add("default:ability:warlock:0031", "SUMMON_IMP", "say", "You cannot escape me that easily imp.")
+add("default:ability:warlock:0032", "SUMMON_IMP", "say", "Weakness will not be tolerated imp.")
+add("default:ability:warlock:0033", "SUMMON_IMP", "say", "You will never know rest imp, your labor will never be done.")
 
 -- ---------------------------------------------------------------------
 -- SUMMON_INCUBUS
@@ -327,27 +327,27 @@ RPHelper.RegisterAbility(C, "SUMMON_INCUBUS")
 -- ---------------------------------------------------------------------
 -- SUMMON_SUCCUBUS
 -- ---------------------------------------------------------------------
-add("SUMMON_SUCCUBUS", "say", "Did you think I would let you rest minx?")
-add("SUMMON_SUCCUBUS", "say", "Succubus! Get back to work!")
-add("SUMMON_SUCCUBUS", "say", "Your labor is not even close to finished, temptress!")
-add("SUMMON_SUCCUBUS", "say", "You cannot escape me that easily, temptress!")
-add("SUMMON_SUCCUBUS", "say", "Weakness will not be tolerated, Succubus!")
-add("SUMMON_SUCCUBUS", "say", "You will never know rest temptress, your job is to heed your master!")
+add("default:ability:warlock:0034", "SUMMON_SUCCUBUS", "say", "Did you think I would let you rest minx?")
+add("default:ability:warlock:0035", "SUMMON_SUCCUBUS", "say", "Succubus! Get back to work!")
+add("default:ability:warlock:0036", "SUMMON_SUCCUBUS", "say", "Your labor is not even close to finished, temptress!")
+add("default:ability:warlock:0037", "SUMMON_SUCCUBUS", "say", "You cannot escape me that easily, temptress!")
+add("default:ability:warlock:0038", "SUMMON_SUCCUBUS", "say", "Weakness will not be tolerated, Succubus!")
+add("default:ability:warlock:0039", "SUMMON_SUCCUBUS", "say", "You will never know rest temptress, your job is to heed your master!")
 
 -- ---------------------------------------------------------------------
 -- SUMMON_VOIDWALKER
 -- ---------------------------------------------------------------------
-add("SUMMON_VOIDWALKER", "say", "Did you think I would let you rest, demon?")
-add("SUMMON_VOIDWALKER", "say", "Demon! Get back to work!")
-add("SUMMON_VOIDWALKER", "say", "Your labor is not even close to finished demon!")
-add("SUMMON_VOIDWALKER", "say", "You cannot escape me that easily demon!")
-add("SUMMON_VOIDWALKER", "say", "Weakness will not be tolerated, demon!")
-add("SUMMON_VOIDWALKER", "say", "You will never know rest demon, your labor will never be done!")
+add("default:ability:warlock:0040", "SUMMON_VOIDWALKER", "say", "Did you think I would let you rest, demon?")
+add("default:ability:warlock:0041", "SUMMON_VOIDWALKER", "say", "Demon! Get back to work!")
+add("default:ability:warlock:0042", "SUMMON_VOIDWALKER", "say", "Your labor is not even close to finished demon!")
+add("default:ability:warlock:0043", "SUMMON_VOIDWALKER", "say", "You cannot escape me that easily demon!")
+add("default:ability:warlock:0044", "SUMMON_VOIDWALKER", "say", "Weakness will not be tolerated, demon!")
+add("default:ability:warlock:0045", "SUMMON_VOIDWALKER", "say", "You will never know rest demon, your labor will never be done!")
 
 -- ---------------------------------------------------------------------
 -- UNENDING_BREATH
 -- ---------------------------------------------------------------------
-add("UNENDING_BREATH", "say", "Your breath will be unending.")
+add("default:ability:warlock:0046", "UNENDING_BREATH", "say", "Your breath will be unending.")
 
 -- =====================================================================
 -- Destruction
@@ -374,13 +374,13 @@ RPHelper.RegisterAbility(C, "CONFLAGRATE")
 -- ---------------------------------------------------------------------
 -- HELLFIRE
 -- ---------------------------------------------------------------------
-add("HELLFIRE", "say", "I shall set this world aflame!")
+add("default:ability:warlock:0047", "HELLFIRE", "say", "I shall set this world aflame!")
 
 -- ---------------------------------------------------------------------
 -- IMMOLATE
 -- ---------------------------------------------------------------------
-add("IMMOLATE", "say", "Mind if I turn up the heat a bit, {TARGET}?")
-add("IMMOLATE", "say", "Time to get a little hot under the collar, {TARGET}.")
+add("default:ability:warlock:0048", "IMMOLATE", "say", "Mind if I turn up the heat a bit, {TARGET}?")
+add("default:ability:warlock:0049", "IMMOLATE", "say", "Time to get a little hot under the collar, {TARGET}.")
 
 -- ---------------------------------------------------------------------
 -- INCINERATE
@@ -394,14 +394,14 @@ RPHelper.RegisterAbility(C, "INCINERATE")
 -- ---------------------------------------------------------------------
 -- RAIN_OF_FIRE
 -- ---------------------------------------------------------------------
-add("RAIN_OF_FIRE", "say", "Rain fire!")
-add("RAIN_OF_FIRE", "say", "Fire from the sky!")
-add("RAIN_OF_FIRE", "say", "Destruction by Fire!")
+add("default:ability:warlock:0050", "RAIN_OF_FIRE", "say", "Rain fire!")
+add("default:ability:warlock:0051", "RAIN_OF_FIRE", "say", "Fire from the sky!")
+add("default:ability:warlock:0052", "RAIN_OF_FIRE", "say", "Destruction by Fire!")
 
 -- ---------------------------------------------------------------------
 -- SEARING_PAIN
 -- ---------------------------------------------------------------------
-add("SEARING_PAIN", "say", "Pain should be searing from THIS!")
+add("default:ability:warlock:0053", "SEARING_PAIN", "say", "Pain should be searing from THIS!")
 
 -- ---------------------------------------------------------------------
 -- SHADOWBURN
@@ -424,5 +424,5 @@ RPHelper.RegisterAbility(C, "SHADOW_BOLT")
 -- ---------------------------------------------------------------------
 -- SOUL_FIRE
 -- ---------------------------------------------------------------------
-add("SOUL_FIRE", "say", "Your soul shall BURN!")
-add("SOUL_FIRE", "say", "Feel the fire with your VERY SOUL!")
+add("default:ability:warlock:0054", "SOUL_FIRE", "say", "Your soul shall BURN!")
+add("default:ability:warlock:0055", "SOUL_FIRE", "say", "Feel the fire with your VERY SOUL!")

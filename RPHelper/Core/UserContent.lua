@@ -76,10 +76,13 @@ local function ensureIndex()
         if type(record) == "table" then
             local key = scopeKey(record.scope)
             if key and RPHelper.ContentEngine.ValidateEntry(record.entry) then
-                local entry = normalizedEntry(record.entry)
-                entry.customID = id
-                index[key] = index[key] or {}
-                index[key][#index[key] + 1] = entry
+                if record.enabled ~= false then
+                    local entry = normalizedEntry(record.entry)
+                    entry.customID = id
+                    entry.weight = RPHelper.Configuration.IsPositiveInteger(record.weight) and record.weight or 1
+                    index[key] = index[key] or {}
+                    index[key][#index[key] + 1] = entry
+                end
             end
         end
     end
@@ -92,7 +95,7 @@ function UserContent.AppendCandidates(pool, scope)
     for _, entry in ipairs(index[key] or {}) do pool[#pool + 1] = entry end
 end
 
-function UserContent.Add(scope, entry)
+function UserContent.Add(scope, entry, metadata)
     if not scopeKey(scope) then return nil, "invalid_scope" end
     local valid, err = RPHelper.ContentEngine.ValidateEntry(entry)
     if not valid then return nil, err end
@@ -108,9 +111,36 @@ function UserContent.Add(scope, entry)
         if number >= 9007199254740991 then return nil, "invalid_counter" end
         id = "custom:" .. string.format("%.0f", number)
     end
+    metadata = metadata or {}
+    if type(metadata) ~= "table" then return nil, "invalid_metadata" end
+    if metadata.enabled ~= nil and type(metadata.enabled) ~= "boolean" then return nil, "invalid_enabled" end
+    if metadata.weight ~= nil and not RPHelper.Configuration.IsPositiveInteger(metadata.weight) then return nil, "invalid_weight" end
+    if metadata.sourceDefaultID ~= nil and (type(metadata.sourceDefaultID) ~= "string"
+        or not string.match(metadata.sourceDefaultID, "^default:")) then return nil, "invalid_id" end
     saved[id] = { scope = normalizedScope(scope), entry = normalizedEntry(entry) }
+    if metadata.enabled == false then saved[id].enabled = false end
+    if metadata.weight and metadata.weight ~= 1 then saved[id].weight = metadata.weight end
+    if metadata.sourceDefaultID then saved[id].sourceDefaultID = metadata.sourceDefaultID end
     custom.nextID = number + 1
     UserContent.Invalidate()
+    return id
+end
+
+function UserContent.CreateModifiedCopy(defaultID, scope, entry, metadata)
+    if type(defaultID) ~= "string" or not string.match(defaultID, "^default:") then return nil, "invalid_id" end
+    local wasEnabled = RPHelper.Configuration.IsDefaultEnabled(defaultID)
+    metadata = copy(metadata or {})
+    metadata.sourceDefaultID = defaultID
+    local id, err = UserContent.Add(scope, entry, metadata)
+    if not id then return nil, err end
+    local ok, disableErr = RPHelper.Configuration.SetDefaultEnabled(defaultID, false)
+    if not ok then
+        local saved = entries()
+        if saved then saved[id] = nil end
+        UserContent.Invalidate()
+        if wasEnabled then RPHelper.Configuration.SetDefaultEnabled(defaultID, true) end
+        return nil, disableErr
+    end
     return id
 end
 
@@ -154,7 +184,8 @@ function UserContent.List(scope)
     for id, record in pairs(saved) do
         if type(id) == "string" and type(record) == "table"
             and (not key or scopeKey(record.scope) == key) then
-            list[#list + 1] = { id = id, scope = copy(record.scope), entry = copy(record.entry) }
+            list[#list + 1] = { id = id, scope = copy(record.scope), entry = copy(record.entry),
+                enabled = record.enabled, weight = record.weight, sourceDefaultID = record.sourceDefaultID }
         end
     end
     table.sort(list, function(a, b) return a.id < b.id end)
@@ -162,17 +193,45 @@ function UserContent.List(scope)
 end
 
 function UserContent.SetDefaultDisabled(id, disabled)
-    if type(id) ~= "string" or not string.match(id, "^default:v1:") then return false, "invalid_id" end
     if type(disabled) ~= "boolean" then return false, "invalid_disabled" end
-    local saved = container("disabledDefaults")
-    if not saved then return false, "invalid_container" end
-    saved[id] = disabled or nil
-    return true
+    return RPHelper.Configuration.SetDefaultEnabled(id, not disabled)
 end
 
 function UserContent.IsDefaultDisabled(id)
-    local saved = container("disabledDefaults")
-    return type(id) == "string" and saved ~= nil and saved[id] == true
+    return type(id) == "string" and not RPHelper.Configuration.IsDefaultEnabled(id)
+end
+
+function UserContent.SetEnabled(id, enabled)
+    local saved = entries()
+    local record = saved and type(id) == "string" and saved[id]
+    if type(record) ~= "table" then return false, "not_found" end
+    if type(enabled) ~= "boolean" then return false, "invalid_enabled" end
+    record.enabled = enabled and nil or false
+    UserContent.Invalidate()
+    return true
+end
+
+function UserContent.IsEnabled(id)
+    local saved = entries()
+    local record = saved and type(id) == "string" and saved[id]
+    return type(record) == "table" and record.enabled ~= false
+end
+
+function UserContent.SetWeight(id, weight)
+    local saved = entries()
+    local record = saved and type(id) == "string" and saved[id]
+    if type(record) ~= "table" then return false, "not_found" end
+    if not RPHelper.Configuration.IsPositiveInteger(weight) then return false, "invalid_weight" end
+    record.weight = weight == 1 and nil or weight
+    UserContent.Invalidate()
+    return true
+end
+
+function UserContent.GetWeight(id)
+    local saved = entries()
+    local record = saved and type(id) == "string" and saved[id]
+    if type(record) ~= "table" then return nil, "not_found" end
+    return RPHelper.Configuration.IsPositiveInteger(record.weight) and record.weight or 1
 end
 
 -- Preparation eligibility only: runtime settings, probability, routing and quota

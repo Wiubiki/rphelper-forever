@@ -2,13 +2,9 @@
 
 ## Status
 
-Milestone 2B approves schema version 2 as the **initial supported V1.0 release
-schema**, but it is not yet implemented. The current development code still uses
-an unreleased schema version 1 that materializes defaults and generates
-content-derived built-in IDs. No released installation uses that development
-schema, so V1.0 has no v1-to-v2 compatibility requirement. See
-[User content and persistence runtime](user_content_runtime.md) only for the
-current development implementation.
+Schema version 2 is implemented as the **initial supported V1.0 release
+schema**. No released installation used the earlier development schema, so V1.0
+has no v1-to-v2 compatibility requirement.
 
 Schema version 2 remains per-character. It uses sparse explicit overrides,
 permanent authored built-in IDs, and future versioned migrations. There is

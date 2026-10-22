@@ -1,13 +1,24 @@
 local failures = 0
 local tests = 0
+local cleanups
 
 local function test(name, callback)
     tests = tests + 1
+    cleanups = {}
     local ok, message = pcall(callback)
+    for index = #cleanups, 1, -1 do
+        local cleaned, cleanupError = pcall(cleanups[index])
+        if ok and not cleaned then ok, message = false, cleanupError end
+    end
+    cleanups = nil
     if not ok then
         failures = failures + 1
         io.stderr:write("FAIL: " .. name .. "\n  " .. tostring(message) .. "\n")
     end
+end
+
+local function afterEach(callback)
+    table.insert(cleanups, callback)
 end
 
 local function equal(actual, expected)
@@ -25,6 +36,7 @@ end
 RPHelper = {}
 dofile("RPHelper/Core/Defaults.lua")
 dofile("RPHelper/Core/Database.lua")
+dofile("RPHelper/Core/Configuration.lua")
 dofile("RPHelper/Core/KeywordResolvers.lua")
 dofile("RPHelper/Core/DruidForms.lua")
 dofile("RPHelper/Core/ContentEngine.lua")
@@ -53,12 +65,16 @@ local function newFrame()
 end
 
 local function newAdapter(class, race, formID)
-    local adapter = { output = {}, combat = false, now = 0, activity = "dungeon", roll = 0 }
+    local adapter = { output = {}, combat = false, now = 0, clockStep = 5, activity = "dungeon", roll = 0 }
     adapter.ClassifyUnitCombat = RPHelper.RuntimeAPI.ClassifyUnitCombat
     adapter.RegisterDefensiveEvents = RPHelper.RuntimeAPI.RegisterDefensiveEvents
     adapter.ClassifySpellcastSucceeded = RPHelper.RuntimeAPI.ClassifySpellcastSucceeded
     adapter.RegisterAbilityEvents = RPHelper.RuntimeAPI.RegisterAbilityEvents
-    function adapter.GetTime() return adapter.now end
+    function adapter.GetTime()
+        local now = adapter.now
+        adapter.now = adapter.now + adapter.clockStep
+        return now
+    end
     function adapter.GetActivity() return adapter.activity end
     function adapter.Random() return adapter.roll end
     function adapter.RandomIndex() return 1 end
@@ -85,13 +101,40 @@ local function newAdapter(class, race, formID)
     return adapter
 end
 
+local function setSetting(name, value)
+    local ok, err = RPHelper.Configuration.SetSetting(name, value)
+    if not ok then error("cannot set " .. name .. ": " .. tostring(err), 2) end
+end
+
+local function setTrigger(trigger, name, value)
+    local ok, err = RPHelper.Configuration.SetEventSetting("trigger", nil, trigger, name, value)
+    if not ok then error("cannot set trigger " .. trigger .. "." .. name .. ": " .. tostring(err), 2) end
+end
+
+local function setAbility(class, ability, name, value)
+    local ok, err = RPHelper.Configuration.SetEventSetting("ability", class, ability, name, value)
+    if not ok then error("cannot set ability " .. class .. "." .. ability .. "." .. name .. ": " .. tostring(err), 2) end
+end
+
+local function enableQuota(maximum)
+    setSetting("maxAutomaticOutputsPerCombat", maximum)
+    setSetting("encounterQuotaEnabled", true)
+end
+
 local function initialize(adapter)
     RPHelperDB = nil
     RPHelper.InitializeDatabase()
-    RPHelperDB.triggers.leave_combat.enabled = true
-    RPHelperDB.settings.globalCooldown = 0
-    RPHelperDB.triggers.enter_combat.cooldown = 0
-    RPHelperDB.triggers.leave_combat.cooldown = 0
+    setSetting("enabled", true)
+    setSetting("globalCooldown", 5)
+    setSetting("encounterQuotaEnabled", false)
+    for _, trigger in ipairs({ "enter_combat", "leave_combat", "dodge", "parry", "block" }) do
+        setTrigger(trigger, "enabled", true)
+        setTrigger(trigger, "chance", 1)
+    end
+    for _, ability in ipairs({ "FLASH_OF_LIGHT", "SEAL_OF_RIGHTEOUSNESS" }) do
+        setAbility("PALADIN", ability, "enabled", true)
+        setAbility("PALADIN", ability, "chance", 1)
+    end
     local frame = newFrame()
     truthy(RPHelper.Runtime.Initialize(frame, adapter))
     return frame
@@ -109,7 +152,6 @@ test("historical reconciliation does not enable additional production ability ma
         end
     end
     equal(count, 2)
-    equal(RPHelper.Defaults.abilities.ROGUE, nil)
     local a = newAdapter("ROGUE", "HUMAN", nil)
     initialize(a)
     truthy(RPHelper.UserContent.Add({ layer = "ability", class = "ROGUE", ability = "EVISCERATE" },
@@ -209,7 +251,7 @@ end)
 test("master disabled setting prevents automatic output", function()
     local adapter = newAdapter("WARRIOR", "TAUREN", nil)
     initialize(adapter)
-    RPHelperDB.settings.enabled = false
+    setSetting("enabled", false)
     equal(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"), false)
     equal(#adapter.output, 0)
 end)
@@ -335,6 +377,12 @@ end)
 local function policyAdapter()
     local adapter = newAdapter("WARRIOR", "POLICY_TEST", nil)
     initialize(adapter)
+    local enterPool = RPHelper.Content.generic.entercombat
+    local leavePool = RPHelper.Content.generic.leavecombat
+    afterEach(function()
+        RPHelper.Content.generic.entercombat = enterPool
+        RPHelper.Content.generic.leavecombat = leavePool
+    end)
     RPHelper.Content.generic.entercombat = { { type = "say", text = "ready" } }
     RPHelper.Content.generic.leavecombat = { { type = "say", text = "done" } }
     return adapter
@@ -343,7 +391,7 @@ local function fire() return RPHelper.Runtime.HandleTrigger("entercombat") end
 
 test("disabled trigger still tracks combat transitions", function()
     local a = policyAdapter()
-    RPHelperDB.triggers.enter_combat.enabled = false
+    setTrigger("enter_combat", "enabled", false)
     equal(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"), false)
     equal(RPHelper.Runtime.IsInCombat(), true)
     truthy(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_ENABLED"))
@@ -352,49 +400,49 @@ end)
 
 test("probability uses strict boundaries and skips RNG at zero and one", function()
     local a = policyAdapter()
+    setTrigger("enter_combat", "chance", 0.2)
     a.roll = 0.2
     equal(fire(), false)
     a.roll = 0.1999
     truthy(fire())
-    RPHelperDB.triggers.enter_combat.chance = 0
+    setTrigger("enter_combat", "chance", 0)
     a.Random = function() error("must not roll") end
     equal(fire(), false)
-    RPHelperDB.triggers.enter_combat.chance = 1
+    setTrigger("enter_combat", "chance", 1)
     truthy(fire())
 end)
 
-test("frequency presets multiply default chance and clamp at one", function()
+test("event chance replaces the global chance", function()
     local a = policyAdapter()
-    for _, case in ipairs({{"low", 0.1}, {"normal", 0.2}, {"high", 0.4}}) do
-        RPHelperDB.settings.frequencyPreset = case[1]
-        a.roll = case[2]
-        equal(fire(), false)
-        a.roll = case[2] - 0.001
-        truthy(fire())
-    end
-    RPHelperDB.triggers.enter_combat.chance = 0.8
-    a.Random = function() error("clamped chance must not roll") end
+    setSetting("reactionChance", 0.2)
+    setTrigger("enter_combat", "chance", 0.4)
+    a.roll = 0.4
+    equal(fire(), false)
+    a.roll = 0.399
     truthy(fire())
+    truthy(RPHelper.Configuration.ResetEventSetting("trigger", nil, "enter_combat", "chance"))
+    a.roll = 0.2
+    equal(fire(), false)
 end)
 
-test("global and trigger cooldowns expire independently at exact boundaries", function()
+test("global cooldown expires at the exact boundary", function()
     local a = policyAdapter()
-    RPHelperDB.settings.globalCooldown = 10
-    RPHelperDB.triggers.enter_combat.cooldown = 30
+    a.clockStep = 0
+    setSetting("globalCooldown", 10)
     truthy(fire())
     a.now = 9
     equal(RPHelper.Runtime.HandleTrigger("leavecombat"), false)
     a.now = 10
     truthy(RPHelper.Runtime.HandleTrigger("leavecombat"))
-    a.now = 29
+    a.now = 19
     equal(fire(), false)
-    a.now = 30
+    a.now = 20
     truthy(fire())
 end)
 
 test("quota includes exit and resets only at encounter boundaries", function()
     local a = policyAdapter()
-    RPHelperDB.settings.maxAutomaticOutputsPerCombat = 1
+    enableQuota(1)
     truthy(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"))
     equal(fire(), false)
     equal(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"), false)
@@ -410,7 +458,7 @@ test("every output route consumes the shared encounter quota including exit", fu
     }) do
         local a = policyAdapter()
         a.activity = case[2]
-        RPHelperDB.settings.maxAutomaticOutputsPerCombat = 2
+        enableQuota(2)
         RPHelper.Content.generic.entercombat = { { type = case[1], text = "WAVE" } }
         RPHelper.Content.generic.leavecombat = { { type = case[1], text = "WAVE" } }
         truthy(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"))
@@ -429,11 +477,12 @@ test("every output route consumes the shared encounter quota including exit", fu
     end
 end)
 
-test("out-of-combat attempts ignore quota but obey chance and cooldowns", function()
+test("out-of-combat attempts ignore enabled quota but obey chance and global cooldown", function()
     local a = policyAdapter()
-    RPHelperDB.settings.maxAutomaticOutputsPerCombat = 0
-    RPHelperDB.settings.globalCooldown = 10
-    RPHelperDB.triggers.enter_combat.cooldown = 30
+    a.clockStep = 0
+    enableQuota(1)
+    setSetting("globalCooldown", 10)
+    setTrigger("enter_combat", "chance", 0.2)
     a.roll = 1
     equal(fire(), false)
     a.roll = 0
@@ -443,15 +492,12 @@ test("out-of-combat attempts ignore quota but obey chance and cooldowns", functi
     equal(RPHelper.Runtime.HandleTrigger("leavecombat"), false)
     a.now = 10
     truthy(RPHelper.Runtime.HandleTrigger("leavecombat"))
-    a.now = 29
-    equal(fire(), false)
-    a.now = 30
+    a.now = 20
     truthy(fire())
     -- Those successful attempts did not spend the next encounter's quota.
-    RPHelperDB.settings.maxAutomaticOutputsPerCombat = 1
-    a.now = 60
+    a.now = 30
     truthy(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"))
-    a.now = 90
+    a.now = 40
     equal(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_ENABLED"), false)
     equal(#a.output, 4)
 end)
@@ -460,19 +506,18 @@ test("reload in combat initializes quota without inventing an entry reaction", f
     local a = policyAdapter()
     a.combat = true
     RPHelper.Runtime.Initialize(newFrame(), a)
-    RPHelperDB.settings.maxAutomaticOutputsPerCombat = 1
+    enableQuota(1)
     equal(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"), false)
     truthy(fire())
     equal(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_ENABLED"), false)
-    RPHelperDB.settings.maxAutomaticOutputsPerCombat = 0
-    equal(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"), false)
+    setSetting("encounterQuotaEnabled", false)
+    truthy(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"))
 end)
 
 test("failed dispatch and rejected candidates consume neither cooldown nor quota", function()
     local a = policyAdapter()
-    RPHelperDB.settings.globalCooldown = 10
-    RPHelperDB.triggers.enter_combat.cooldown = 30
-    RPHelperDB.settings.maxAutomaticOutputsPerCombat = 1
+    setSetting("globalCooldown", 10)
+    enableQuota(1)
     local send = a.SendSay
     a.SendSay = function() return false end
     equal(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"), false)
@@ -498,11 +543,6 @@ test("activity routing preserves local say and both emote types", function()
     end
     a.activity = "raid"
     equal(fire(), false)
-    RPHelperDB.settings.enableInRaids = true
-    truthy(fire())
-    RPHelper.Content.generic.entercombat = { { type = "say", text = "safe" } }
-    truthy(fire())
-    equal(a.output[#a.output].type, "local")
     a.activity = "unsupported"
     equal(fire(), false)
     a.GetActivity = function() error("unavailable") end
@@ -519,17 +559,15 @@ end)
 
 test("invalid settings fall back without rewriting saved preferences", function()
     local a = policyAdapter()
-    RPHelperDB.settings.frequencyPreset = {}
+    a.clockStep = 0
     RPHelperDB.settings.globalCooldown = -1
     RPHelperDB.triggers.enter_combat.chance = 0/0
-    RPHelperDB.triggers.enter_combat.cooldown = math.huge
     truthy(fire())
-    a.now = 29
+    a.now = 19
     equal(fire(), false)
-    a.now = 30
+    a.now = 20
     truthy(fire())
     equal(RPHelperDB.settings.globalCooldown, -1)
-    equal(RPHelperDB.triggers.enter_combat.cooldown, math.huge)
     for _, value in ipairs({false, "broken", 123}) do
         RPHelperDB.settings = value
         RPHelperDB.triggers = value
@@ -537,13 +575,15 @@ test("invalid settings fall back without rewriting saved preferences", function(
         equal(RPHelperDB.settings, value)
         equal(RPHelperDB.triggers, value)
         RPHelper.Runtime.Initialize(newFrame(), a)
-        truthy(fire())
+        a.roll = 0.05
+        equal(fire(), false)
     end
     RPHelperDB = "broken root"
     RPHelper.InitializeDatabase()
     equal(RPHelperDB, "broken root")
     RPHelper.Runtime.Initialize(newFrame(), a)
-    truthy(fire())
+    a.roll = 0.05
+    equal(fire(), false)
 end)
 
 local function captureCommand(command)
@@ -613,8 +653,8 @@ end)
 
 test("status validates enabled and toggles modify only that preference", function()
     for _, enabled in ipairs({ false, true, 0, "broken", {} }) do
-        local saved = { settings = { enabled = enabled, frequencyPreset = "low" },
-            custom = { authored = "preserved" } }
+        local saved = { schemaVersion = 2, settings = { enabled = enabled },
+            custom = { nextID = 1, entries = {}, authored = "preserved" } }
         loadAddon(saved)
         equal(captureCommand("status")[1],
             enabled == false and "RPHelper is disabled." or "RPHelper is enabled.")
@@ -624,10 +664,9 @@ test("status validates enabled and toggles modify only that preference", functio
         equal(saved.settings.enabled, false)
         equal(captureCommand("on")[1], "RPHelper enabled.")
         equal(saved.settings.enabled, true)
-        equal(saved.settings.frequencyPreset, "low")
         equal(saved.custom.authored, "preserved")
     end
-    for _, saved in ipairs({ {}, { settings = {} } }) do
+    for _, saved in ipairs({ { schemaVersion = 2 }, { schemaVersion = 2, settings = {} } }) do
         loadAddon(saved)
         equal(captureCommand("off")[1], "RPHelper disabled.")
         equal(saved.settings.enabled, false)
@@ -639,6 +678,8 @@ end)
 
 test("bad clock and randomness fail safely before dispatch", function()
     local a = policyAdapter()
+    a.clockStep = 0
+    setTrigger("enter_combat", "chance", 0.5)
     for _, value in ipairs({-1, math.huge, 0/0, "bad"}) do
         a.now = value
         equal(fire(), false)
@@ -652,7 +693,7 @@ test("bad clock and randomness fail safely before dispatch", function()
     truthy(fire())
     a.now = 9
     equal(fire(), false)
-    a.now = 10
+    a.now = 20
     truthy(fire())
     a.GetTime = nil
     equal(fire(), false)
@@ -662,16 +703,17 @@ test("policy gates run before randomness and content selection", function()
     local a = policyAdapter()
     local calls = 0
     a.Random = function() calls = calls + 1; return 0 end
-    RPHelperDB.settings.enabled = false
+    setTrigger("enter_combat", "chance", 0.5)
+    setSetting("enabled", false)
     equal(fire(), false)
-    RPHelperDB.settings.enabled = true
+    setSetting("enabled", true)
     a.activity = "raid"
     equal(fire(), false)
     equal(calls, 0)
     a.activity = "world"
     truthy(fire())
     equal(calls, 1)
-    RPHelperDB.settings.globalCooldown = 10
+    setSetting("globalCooldown", 10)
     equal(fire(), false)
     equal(calls, 1)
 end)
@@ -733,7 +775,7 @@ test("runtime supplies player placeholders lazily and never falls back to select
     a.GetPlayerSex = function() sexCalls = sexCalls + 1; return 2 end
     a.GetPlayerPowerLabel = function() powerCalls = powerCalls + 1; return "rage" end
     initialize(a)
-    RPHelperDB.triggers.enter_combat.chance = 1
+    setTrigger("enter_combat", "chance", 1)
     local previous = RPHelper.Content.generic.entercombat
 
     RPHelper.Content.generic.entercombat = { { type = "say", text = "Static." } }
@@ -769,12 +811,10 @@ local function defensiveTest(name, callback)
         issecretvalue = function() return false end
         local a = newAdapter("WARRIOR", "DEFENSIVE_TEST", nil)
         local frame = initialize(a)
-        RPHelperDB.triggers.enter_combat.enabled = false
-        RPHelperDB.triggers.leave_combat.chance = 1
-        RPHelperDB.settings.maxAutomaticOutputsPerCombat = 10
+        setTrigger("enter_combat", "enabled", false)
+        setTrigger("leave_combat", "chance", 1)
         for _, trigger in ipairs({ "dodge", "parry", "block" }) do
-            RPHelperDB.triggers[trigger].chance = 1
-            RPHelperDB.triggers[trigger].cooldown = 0
+            setTrigger(trigger, "chance", 1)
         end
         local previousPools = {}
         for _, trigger in ipairs({ "dodge", "parry", "block", "leavecombat" }) do
@@ -833,9 +873,8 @@ end)
 
 defensiveTest("secret required fields fail closed without spending policies", function(a)
     RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
-    RPHelperDB.settings.maxAutomaticOutputsPerCombat = 1
-    RPHelperDB.settings.globalCooldown = 10
-    RPHelperDB.triggers.dodge.cooldown = 20
+    enableQuota(1)
+    setSetting("globalCooldown", 10)
     -- Mark otherwise valid strings secret: type checks alone would accept them.
     issecretvalue = function(value) return value == "player" end
     equal(defend("DODGE"), false)
@@ -894,43 +933,42 @@ defensiveTest("defensive individual toggles and master switch preserve encounter
     RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
     for _, action in ipairs({ "DODGE", "PARRY", "BLOCK" }) do
         local trigger = string.lower(action)
-        RPHelperDB.triggers[trigger].enabled = false
+        setTrigger(trigger, "enabled", false)
         equal(defend(action), false)
-        RPHelperDB.triggers[trigger].enabled = true
-        RPHelperDB.settings.enabled = false
+        setTrigger(trigger, "enabled", true)
+        setSetting("enabled", false)
         equal(defend(action), false)
-        RPHelperDB.settings.enabled = true
+        setSetting("enabled", true)
         truthy(defend(action))
     end
     equal(#a.output, 3)
     equal(RPHelper.Runtime.IsInCombat(), true)
 end)
 
-defensiveTest("defensive probability frequency and cooldowns retain exact boundaries", function(a)
+defensiveTest("defensive chance and global cooldown retain exact boundaries", function(a)
     RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
-    RPHelperDB.triggers.dodge.chance = 0.2
-    RPHelperDB.settings.frequencyPreset = "low"
-    a.roll = 0.1
+    a.clockStep = 0
+    setTrigger("dodge", "chance", 0.2)
+    a.roll = 0.2
     equal(defend("DODGE"), false)
-    a.roll = 0.099
-    RPHelperDB.settings.globalCooldown = 10
-    RPHelperDB.triggers.dodge.cooldown = 30
+    a.roll = 0.199
+    setSetting("globalCooldown", 10)
     truthy(defend("DODGE"))
     a.now = 9
     equal(defend("PARRY"), false)
     a.now = 10
     truthy(defend("PARRY"))
-    a.now = 29
+    a.now = 19
     equal(defend("DODGE"), false)
-    a.now = 30
+    a.now = 20
     truthy(defend("DODGE"))
     equal(#a.output, 3)
 end)
 
 defensiveTest("defenses share entry and exit quota without resetting it", function(a)
-    RPHelperDB.triggers.enter_combat.enabled = true
-    RPHelperDB.triggers.enter_combat.chance = 1
-    RPHelperDB.settings.maxAutomaticOutputsPerCombat = 2
+    setTrigger("enter_combat", "enabled", true)
+    setTrigger("enter_combat", "chance", 1)
+    enableQuota(2)
     truthy(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"))
     truthy(defend("DODGE"))
     equal(defend("PARRY"), false)
@@ -939,7 +977,7 @@ defensiveTest("defenses share entry and exit quota without resetting it", functi
     equal(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_ENABLED"), false)
     equal(RPHelper.Runtime.IsInCombat(), false)
     equal(#a.output, 2)
-    RPHelperDB.triggers.enter_combat.enabled = false
+    setTrigger("enter_combat", "enabled", false)
     RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
     truthy(defend("BLOCK"))
     truthy(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_ENABLED"))
@@ -948,9 +986,8 @@ end)
 
 defensiveTest("failed defensive dispatch and ineligible content spend no cooldown or quota", function(a)
     RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
-    RPHelperDB.settings.globalCooldown = 10
-    RPHelperDB.triggers.dodge.cooldown = 20
-    RPHelperDB.settings.maxAutomaticOutputsPerCombat = 1
+    setSetting("globalCooldown", 10)
+    enableQuota(1)
     local send = a.SendSay
     a.SendSay = function() return false end
     equal(defend("DODGE"), false)
@@ -1056,11 +1093,10 @@ local function abilityTest(name, callback)
         issecretvalue = function() return false end
         local a = newAdapter("PALADIN", "HUMAN", nil)
         local frame = initialize(a)
-        RPHelperDB.triggers.enter_combat.enabled = false
-        RPHelperDB.triggers.leave_combat.chance = 1
-        for _, settings in pairs(RPHelperDB.abilities.PALADIN) do
-            settings.chance, settings.cooldown = 1, 0
-        end
+        setTrigger("enter_combat", "enabled", false)
+        setTrigger("leave_combat", "chance", 1)
+        setAbility("PALADIN", "FLASH_OF_LIGHT", "chance", 1)
+        setAbility("PALADIN", "SEAL_OF_RIGHTEOUSNESS", "chance", 1)
         local ok, err = pcall(callback, a, frame)
         issecretvalue = inspect
         if not ok then error(err, 2) end
@@ -1168,7 +1204,7 @@ abilityTest("malformed required fields cannot enter the policy path", function(a
 end)
 
 abilityTest("secret unit spell and class fields fail closed without spending cooldown", function(a)
-    RPHelperDB.settings.globalCooldown = 10
+    setSetting("globalCooldown", 10)
     for _, fieldValue in ipairs({ "player", 19750, "PALADIN" }) do
         issecretvalue = function(value) return value == fieldValue end
         equal(activate(19750), false)
@@ -1191,8 +1227,8 @@ abilityTest("missing failing and invalid inspection disables detection", functio
     equal(activate(19750), false)
     equal(#a.output, 0)
     -- Generic combat functionality does not depend on the new inspector.
-    RPHelperDB.triggers.enter_combat.enabled = true
-    RPHelperDB.triggers.enter_combat.chance = 1
+    setTrigger("enter_combat", "enabled", true)
+    setTrigger("enter_combat", "chance", 1)
     truthy(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"))
 end)
 
@@ -1229,10 +1265,10 @@ end)
 abilityTest("master and individual switches reject before content selection", function(a)
     local choose = RPHelper.ChooseAbilityCandidate
     RPHelper.ChooseAbilityCandidate = function() error("disabled selection") end
-    RPHelperDB.settings.enabled = false
+    setSetting("enabled", false)
     local first = activate(19750)
-    RPHelperDB.settings.enabled = true
-    RPHelperDB.abilities.PALADIN.FLASH_OF_LIGHT.enabled = false
+    setSetting("enabled", true)
+    setAbility("PALADIN", "FLASH_OF_LIGHT", "enabled", false)
     local second = activate(19750)
     RPHelper.ChooseAbilityCandidate = choose
     equal(first, false)
@@ -1241,34 +1277,33 @@ abilityTest("master and individual switches reject before content selection", fu
     equal(#a.output, 1)
 end)
 
-abilityTest("chance frequency and cooldown boundaries use the shared policy", function(a)
-    local settings = RPHelperDB.abilities.PALADIN.FLASH_OF_LIGHT
-    settings.chance, settings.cooldown = 0.2, 30
-    RPHelperDB.settings.frequencyPreset = "low"
-    RPHelperDB.settings.globalCooldown = 10
-    a.roll = 0.1
+abilityTest("ability chance and global cooldown boundaries use the shared policy", function(a)
+    a.clockStep = 0
+    setAbility("PALADIN", "FLASH_OF_LIGHT", "chance", 0.2)
+    setSetting("globalCooldown", 10)
+    a.roll = 0.2
     equal(activate(19750), false)
-    a.roll = 0.099
+    a.roll = 0.199
     truthy(activate(19750))
     a.now = 9
     equal(activate(20288), false)
     a.now = 10
     truthy(activate(20288))
-    a.now = 29
+    a.now = 19
     equal(activate(19750), false)
-    a.now = 30
+    a.now = 20
     truthy(activate(19750))
     equal(#a.output, 3)
-    settings.chance = 0
+    setAbility("PALADIN", "FLASH_OF_LIGHT", "chance", 0)
     a.now = 100
     equal(activate(19750), false)
 end)
 
 abilityTest("entry abilities defenses and exit share encounter quota", function(a)
-    RPHelperDB.settings.maxAutomaticOutputsPerCombat = 3
-    RPHelperDB.triggers.enter_combat.enabled = true
-    RPHelperDB.triggers.enter_combat.chance = 1
-    RPHelperDB.triggers.dodge.chance = 1
+    enableQuota(3)
+    setTrigger("enter_combat", "enabled", true)
+    setTrigger("enter_combat", "chance", 1)
+    setTrigger("dodge", "chance", 1)
     truthy(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"))
     truthy(activate(19750))
     truthy(defend("DODGE"))
@@ -1276,7 +1311,7 @@ abilityTest("entry abilities defenses and exit share encounter quota", function(
     equal(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_ENABLED"), false)
     equal(#a.output, 3)
     truthy(activate(20288)) -- quota ended, cooldowns still apply normally
-    RPHelperDB.triggers.enter_combat.enabled = false
+    setTrigger("enter_combat", "enabled", false)
     RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
     truthy(activate(19750))
     truthy(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_ENABLED"))
@@ -1284,21 +1319,21 @@ abilityTest("entry abilities defenses and exit share encounter quota", function(
 end)
 
 abilityTest("outside combat has no quota and initialization inside combat does", function(a)
-    RPHelperDB.settings.maxAutomaticOutputsPerCombat = 0
+    enableQuota(1)
     truthy(activate(19750))
     truthy(activate(20288))
     a.combat = true
     RPHelper.Runtime.Initialize(newFrame(), a)
-    equal(activate(19750), false)
-    equal(#a.output, 2)
+    truthy(activate(19750))
+    equal(activate(20288), false)
+    equal(#a.output, 3)
     RPHelper.Runtime.HandleEvent("PLAYER_REGEN_ENABLED")
     truthy(activate(19750))
 end)
 
 abilityTest("failed dispatch and ineligible content spend no cooldown or quota", function(a)
-    RPHelperDB.settings.globalCooldown = 10
-    RPHelperDB.settings.maxAutomaticOutputsPerCombat = 1
-    RPHelperDB.abilities.PALADIN.FLASH_OF_LIGHT.cooldown = 30
+    setSetting("globalCooldown", 10)
+    enableQuota(1)
     RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
     local send = a.SendSay
     a.SendSay = function() return false end
@@ -1317,7 +1352,8 @@ abilityTest("failed dispatch and ineligible content spend no cooldown or quota",
 end)
 
 abilityTest("ability and generic outputs share the global cooldown both ways", function(a)
-    RPHelperDB.settings.globalCooldown = 10
+    a.clockStep = 0
+    setSetting("globalCooldown", 10)
     truthy(activate(19750))
     RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
     equal(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_ENABLED"), false)
@@ -1330,15 +1366,12 @@ abilityTest("ability and generic outputs share the global cooldown both ways", f
     truthy(activate(20288))
 end)
 
-abilityTest("activity routing uses local sayings world and raid opt in", function(a)
+abilityTest("activity routing uses local sayings in world and suppresses raids", function(a)
     a.activity = "world"
     truthy(activate(19750))
     equal(a.output[1].type, "local")
     a.activity = "raid"
     equal(activate(19750), false)
-    RPHelperDB.settings.enableInRaids = true
-    truthy(activate(19750))
-    equal(a.output[2].type, "local")
     a.activity = "unknown"
     equal(activate(19750), false)
 end)
@@ -1346,10 +1379,11 @@ end)
 abilityTest("Druid fixture keeps speech suppression and eligible emotes", function(a)
     -- Synthetic ID is test-only: no production Druid IDs are established.
     local mapping = RPHelper.RuntimeAPI.AbilitySpellIDs.DRUID
-    local defaults = RPHelper.Defaults.abilities.DRUID
+    local ability = RPHelper.Ability.DRUID.INNERVATE
     local pool = RPHelper.Content.ability.DRUID.INNERVATE
     RPHelper.RuntimeAPI.AbilitySpellIDs.DRUID = { [900001] = "INNERVATE" }
-    RPHelper.Defaults.abilities.DRUID = { INNERVATE = { enabled = true, chance = 1, cooldown = 0 } }
+    RPHelper.Ability.DRUID.INNERVATE = "INNERVATE"
+    setAbility("DRUID", "INNERVATE", "chance", 1)
     RPHelper.Content.ability.DRUID.INNERVATE = { { type = "say", text = "speech" } }
     a.GetPlayerClass = function() return "DRUID" end
     local ok, err = pcall(function()
@@ -1362,16 +1396,12 @@ abilityTest("Druid fixture keeps speech suppression and eligible emotes", functi
         table.insert(RPHelper.Content.ability.DRUID.INNERVATE, { type = "customemote", text = "emote" })
         truthy(activate(900001))
         equal(a.output[1].type, "customemote")
-        RPHelperDB.settings.suppressSayInForms = false
-        truthy(activate(900001))
-        equal(a.output[2].type, "say")
-        RPHelperDB.settings.suppressSayInForms = true
         a.GetShapeshiftFormID = function() return 0 end
         truthy(activate(900001))
-        equal(a.output[3].type, "say")
+        equal(a.output[2].type, "say")
     end)
     RPHelper.RuntimeAPI.AbilitySpellIDs.DRUID = mapping
-    RPHelper.Defaults.abilities.DRUID = defaults
+    RPHelper.Ability.DRUID.INNERVATE = ability
     RPHelper.Content.ability.DRUID.INNERVATE = pool
     if not ok then error(err) end
 end)
@@ -1416,7 +1446,7 @@ abilityTest("malformed saved ability settings preserve data and use conservative
         RPHelperDB.abilities = malformed
         RPHelper.InitializeDatabase()
         equal(RPHelperDB.abilities, malformed)
-        a.roll = 0.03
+        a.roll = 0.05
         equal(activate(19750), false) -- conservative chance boundary
     end
     for _, container in ipairs({
@@ -1427,7 +1457,7 @@ abilityTest("malformed saved ability settings preserve data and use conservative
         RPHelperDB.abilities = container
         RPHelper.InitializeDatabase()
         equal(RPHelperDB.abilities, container)
-        a.roll = 0.03
+        a.roll = 0.05
         equal(activate(19750), false)
     end
     local saved = { enabled = false, chance = 0.7, cooldown = 55, extra = "keep" }
@@ -1477,30 +1507,25 @@ abilityTest("saved custom ability content is selected by guarded successful acti
     equal(activate(19750), false)
 end)
 
-abilityTest("custom ability respects master individual chance and frequency settings", function(a)
+abilityTest("custom ability respects master individual and chance settings", function(a)
     truthy(customAbilityOnly("FLASH_OF_LIGHT", { type = "say", text = "Mine." }))
-    RPHelperDB.settings.enabled = false
+    setSetting("enabled", false)
     equal(activate(19750), false)
-    RPHelperDB.settings.enabled = true
-    local settings = RPHelperDB.abilities.PALADIN.FLASH_OF_LIGHT
-    settings.enabled = false
+    setSetting("enabled", true)
+    setAbility("PALADIN", "FLASH_OF_LIGHT", "enabled", false)
     equal(activate(19750), false)
-    settings.enabled = true
-    settings.chance = 0.4
-    RPHelperDB.settings.frequencyPreset = "low"
-    a.roll = 0.2;equal(activate(19750), false)
-    a.roll = 0.199;truthy(activate(19750))
-    RPHelperDB.settings.frequencyPreset = "high"
-    a.roll = 0.8;equal(activate(19750), false)
-    a.roll = 0.799;truthy(activate(19750))
-    equal(#a.output, 2)
+    setAbility("PALADIN", "FLASH_OF_LIGHT", "enabled", true)
+    setAbility("PALADIN", "FLASH_OF_LIGHT", "chance", 0.4)
+    a.roll = 0.4;equal(activate(19750), false)
+    a.roll = 0.399;truthy(activate(19750))
+    equal(#a.output, 1)
 end)
 
-abilityTest("custom global and per-ability cooldown boundaries stay independent", function(a)
+abilityTest("custom abilities share the global cooldown boundary", function(a)
     truthy(customAbilityOnly("FLASH_OF_LIGHT", { type = "say", text = "First." }))
     truthy(customAbilityOnly("SEAL_OF_RIGHTEOUSNESS", { type = "say", text = "Second." }))
-    RPHelperDB.settings.globalCooldown = 5
-    RPHelperDB.abilities.PALADIN.FLASH_OF_LIGHT.cooldown = 10
+    a.clockStep = 0
+    setSetting("globalCooldown", 5)
     truthy(activate(19750))
     a.now = 4.999;equal(activate(20288), false)
     a.now = 5;truthy(activate(20288))
@@ -1511,7 +1536,8 @@ end)
 
 abilityTest("custom activations share encounter quota with defensive and exit reactions", function(a)
     truthy(customAbilityOnly("FLASH_OF_LIGHT", { type = "say", text = "Cast." }))
-    RPHelperDB.triggers.dodge.chance, RPHelperDB.triggers.dodge.cooldown = 1, 0
+    setTrigger("dodge", "chance", 1)
+    enableQuota(2)
     disableShippedTrigger("dodge", "PALADIN", "HUMAN")
     truthy(RPHelper.UserContent.Add({ layer = "generic", trigger = "dodge" }, { type = "customemote", text = "sidesteps." }))
     equal(RPHelper.Runtime.HandleEvent("UNIT_COMBAT", "player", "DODGE"), false)
@@ -1527,9 +1553,8 @@ end)
 
 abilityTest("failed custom dispatch consumes neither quota nor cooldown", function(a)
     truthy(customAbilityOnly("FLASH_OF_LIGHT", { type = "say", text = "Mine." }))
-    RPHelperDB.settings.globalCooldown = 100
-    RPHelperDB.abilities.PALADIN.FLASH_OF_LIGHT.cooldown = 100
-    RPHelperDB.settings.maxAutomaticOutputsPerCombat = 1
+    setSetting("globalCooldown", 100)
+    enableQuota(1)
     RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
     local send = a.SendSay
     a.SendSay = function() return false end
@@ -1548,19 +1573,17 @@ abilityTest("custom say emote and customemote use existing activity routes", fun
     a.activity = "world";truthy(activate(19750));equal(a.output[1].type, "local")
     a.activity = "dungeon";truthy(activate(19750));equal(a.output[2].type, "say")
     a.activity = "raid";equal(activate(19750), false)
-    RPHelperDB.settings.enableInRaids = true
-    truthy(activate(19750));equal(a.output[3].type, "local")
     truthy(RPHelper.UserContent.Edit(id, scope, { type = "emote", text = "ROAR" }))
-    a.activity = "world";truthy(activate(19750));equal(a.output[4].type, "emote")
+    a.activity = "world";truthy(activate(19750));equal(a.output[3].type, "emote")
     truthy(RPHelper.UserContent.Edit(id, scope, { type = "customemote", text = "gestures." }))
-    truthy(activate(19750));equal(a.output[5].type, "customemote")
+    truthy(activate(19750));equal(a.output[4].type, "customemote")
     a.activity = "unknown";equal(activate(19750), false)
 end)
 
 abilityTest("missing custom target pet and invalid saved content do not consume quota", function(a)
     local id = customAbilityOnly("FLASH_OF_LIGHT", { type = "say", text = "Hello {TARGET}." })
     local scope = { layer = "ability", class = "PALADIN", ability = "FLASH_OF_LIGHT" }
-    RPHelperDB.settings.maxAutomaticOutputsPerCombat = 1
+    enableQuota(1)
     RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
     equal(activate(19750), false)
     truthy(RPHelper.UserContent.Edit(id, scope, { type = "say", text = "Hello {PNAME}." }))
@@ -1575,18 +1598,18 @@ end)
 
 abilityTest("custom defensive and combat-entry settings remain enforced", function(a)
     a.RandomIndex = function(size) return size end
-    RPHelperDB.triggers.enter_combat.enabled = true
-    RPHelperDB.triggers.enter_combat.chance = 1
+    setTrigger("enter_combat", "enabled", true)
+    setTrigger("enter_combat", "chance", 1)
     disableShippedTrigger("entercombat", "PALADIN", "HUMAN")
     truthy(RPHelper.UserContent.Add({ layer = "class", class = "PALADIN", trigger = "entercombat" }, { type = "say", text = "Ready." }))
     truthy(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"))
     equal(a.output[1].text, "Ready.")
     disableShippedTrigger("block", "PALADIN", "HUMAN")
     truthy(RPHelper.UserContent.Add({ layer = "generic", trigger = "block" }, { type = "emote", text = "ROAR" }))
-    RPHelperDB.triggers.block.enabled = false
+    setTrigger("block", "enabled", false)
     equal(RPHelper.Runtime.HandleEvent("UNIT_COMBAT", "player", "BLOCK"), false)
-    RPHelperDB.triggers.block.enabled = true
-    RPHelperDB.triggers.block.chance = 1
+    setTrigger("block", "enabled", true)
+    setTrigger("block", "chance", 1)
     truthy(RPHelper.Runtime.HandleEvent("UNIT_COMBAT", "player", "BLOCK"))
     equal(a.output[2].type, "emote")
 end)
@@ -1623,13 +1646,13 @@ end)
 test("customization: Druid custom content cannot bypass form speech suppression", function()
     local a = newAdapter("DRUID", "TAUREN", 1)
     initialize(a)
-    RPHelperDB.triggers.enter_combat.chance = 1
+    setTrigger("enter_combat", "chance", 1)
     disableShippedTrigger("entercombat", "DRUID", "TAUREN", { class = "DRUID", form = "CAT" })
     local scope = { layer = "generic", trigger = "entercombat" }
     local id = RPHelper.UserContent.Add(scope, { type = "say", text = "Forbidden speech." })
     truthy(id)
     equal(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"), false)
-    RPHelperDB.triggers.leave_combat.enabled = false
+    setTrigger("leave_combat", "enabled", false)
     RPHelper.Runtime.HandleEvent("PLAYER_REGEN_ENABLED")
     truthy(RPHelper.UserContent.Edit(id, scope, { type = "customemote", text = "bares its fangs." }))
     truthy(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"))
