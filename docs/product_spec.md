@@ -183,7 +183,7 @@ Approved V1 should support:
 - Global reaction chance, with replacing per-event overrides
 - One global cooldown and per-event priority bypass
 - Optional maximum automatic outputs per encounter
-- Positive-integer reaction weights
+- Integer reaction weights from 1 through 10
 
 Defaults should be conservative.
 
@@ -197,8 +197,8 @@ enabled state, quota, eligibility, routing, and output restrictions.
 
 Encounter quota is disabled by default. When enabled it is 1–10, initially 2,
 counts every successfully emitted reaction including priority, and resets at the
-start of a new encounter. Reaction weights are positive integers defaulting to 1
-and affect only weighted selection among eligible reactions.
+start of a new encounter. Reaction weights are integers from 1 through 10,
+default to 1, and affect only weighted selection among eligible reactions.
 
 Raid suppression precedes pipeline entry. In permitted environments the order is:
 quota, cooldown/priority, event enabled, chance, eligible-pool construction,
@@ -217,7 +217,7 @@ ability through one policy path:
 4. Check the master switch and event/ability switch.
 5. Apply the replacing event/ability chance, or the global chance when absent.
 6. Build and prepare the eligible content pool.
-7. Select among eligible reactions by positive integer weight.
+7. Select among eligible reactions by validated integer weight from 1 through 10.
 8. Route and dispatch the selected reaction.
 9. After successful output only, increment the active encounter quota and start
    the global cooldown for a non-Priority event.
@@ -244,8 +244,9 @@ encounter quota.
 
 Reaction selection occurs after preparation and eligibility filtering. Built-in
 weights resolve from sparse overrides keyed by permanent ID; Custom weights
-resolve from their records. Missing, malformed, or non-positive persisted
-weights safely use 1. Disabled Built-in and Custom entries never enter the
+resolve from their records. Missing, malformed, non-integer, or out-of-range
+persisted weights safely use 1 without rewriting the stored value. Disabled
+Built-in and Custom entries never enter the
 weighted pool. Shipped catalogue tables remain immutable.
 
 The current runtime detects combat entry/exit and player defensive DODGE, PARRY,
@@ -317,7 +318,7 @@ V1 target:
 - Encounter quota disabled by default; when enabled, 1–10 with retained default 2
 - Trigger toggles
 - Per-event chance from 0% to 100% and an event priority flag
-- Individual positive-integer reaction weights
+- Individual integer reaction weights from 1 through 10, default 1
 - Informational, non-configurable raid-output and Druid-form speech policies
 - Per-character dungeon Say routing: `/say` default or local-only
 - Preview generated content
@@ -328,7 +329,8 @@ These runtime settings and semantics are implemented through schema v2. The firs
 graphical milestone implements the master switch, global chance, global cooldown,
 encounter-quota toggle/value, dungeon Say routing, and informational raid/Druid
 policies. Milestone 2A adds character-library browsing and individual activation;
-event editing, weight editing, preview, and custom-content editing remain later work. These
+Milestone 2B adds event/ability editing, 1–10 weights, private preview, Custom
+CRUD, and independent modified copies of Built-in reactions. These
 settings supersede the earlier frequency-preset target. V1.0 starts fresh with
 schema v2 and does not import development settings. From V1.0 onward, explicit
 player choices survive updates while raid/Druid policies remain unconditional. See
@@ -370,7 +372,9 @@ settings and unknown fields through repeated initialization and normal code
 updates; malformed containers are retained rather than reset. Editing shipped
 wording retains its authored identity when the concept is unchanged; a new or
 repurposed reaction receives a new ID. The internal management API and graphical
-browsing/activation are implemented; graphical custom-content editing is not.
+browsing, activation, event settings, weighting, preview, and Custom CRUD are
+implemented. A modified Built-in copy records source provenance but does not
+change the source's activation, weight, or catalogue content.
 Basic create/edit/delete/preview is approved for V1.0. See
 [User content runtime](user_content_runtime.md) for current schema-v2 storage,
 validation, identity rules, API errors and guarantees, and

@@ -7,7 +7,11 @@
 > provided. [SavedVariables Architecture](savedvariables_architecture.md) is the
 > source of truth where this historical detail differs.
 
-Implemented on `feat/user-content-runtime`. Custom content and individual shipped-entry exclusions participate in the existing content selection pipeline. No graphical editor, slash-command editing interface, new gameplay detection or production spell mapping is added. Verification is deterministic/mocked; live Forever output permissions remain unverified.
+Custom content and individual shipped-entry exclusions participate in the
+existing content selection pipeline. The Character Library editor now uses this
+API; no slash-command editing interface, new gameplay detection, or production
+spell mapping is added. Verification is deterministic/mocked; live Forever
+output permissions remain unverified.
 
 ## Storage and initialization
 
@@ -95,7 +99,8 @@ Rejected candidates and failed dispatch consume neither cooldown nor quota.
 Empty pools produce no output. Target/pet context is never guessed to make a
 custom line eligible.
 
-Selection weights are applied only after candidate preparation. Built-in
+Selection weights are validated integers from 1 through 10 and are applied only
+after candidate preparation. Built-in
 weights resolve through permanent-ID overrides; Custom weights resolve from the
 Custom record. Missing or invalid persisted values use weight 1 without changing
 the saved value. Disabled entries do not enter the eligible pool.
@@ -108,12 +113,15 @@ Functions live on `RPHelper.UserContent`; no UI is required:
 
 | Function | Success | Failure |
 | --- | --- | --- |
-| `Add(scope, entry)` | New custom ID | `nil, errorCode` |
-| `Edit(id, scope, entry)` | `true`; ID retained | `false, errorCode` |
+| `Add(scope, entry, metadata?)` | New custom ID | `nil, errorCode` |
+| `Edit(id, scope, entry, metadata?)` | `true`; ID retained | `false, errorCode` |
+| `CreateModifiedCopy(defaultID, scope, entry, metadata?)` | New independent Custom ID | `nil, errorCode` |
 | `Remove(id)` | `true` | `false, errorCode` |
 | `List(scope?)` | ID-sorted array of `{id, scope, entry}` copies | `nil, errorCode` |
 | `SetDefaultDisabled(defaultID, boolean)` | `true`; false re-enables | `false, errorCode` |
 | `IsDefaultDisabled(defaultID)` | Boolean | Invalid/unavailable reads yield false |
+| `SetEnabled(id, boolean)` / `IsEnabled(id)` | Sparse Custom activation / effective Boolean | `false, errorCode` on rejected writes |
+| `SetWeight(id, 1..10)` / `GetWeight(id)` | Sparse Custom weight / effective weight | Rejected write or `nil, errorCode` |
 | `IsCustomEligible(id, scope, options?)` | Boolean preparation eligibility | `false`, optionally an error code |
 | `Invalidate()` | Clears the in-memory custom index | No saved-data changes |
 
@@ -135,10 +143,10 @@ Priority and shared-cooldown boundaries, optional shared quotas, weighted mixed
 Built-in/Custom pools, failed dispatch, activity routes, and Druid speech
 suppression.
 
-The graphical Library can now browse applicable content and toggle individual
-Built-in and Custom activation through these APIs. The custom-content editor is
-not implemented here. Milestone 2B now
-requires basic custom-content create/edit/delete/preview for V1.0 and permanently
+The graphical Library can browse applicable content, edit supported event and
+ability settings, manage 1–10 weights, create/edit/delete Custom reactions,
+create independent modified Built-in copies, and preview locally through these
+APIs. V1.0 permanently
 excludes account-wide settings/profiles, import/export, and character sharing
 from V1.0 and the immediate roadmap. Expanded spell/event coverage remains out of
 this runtime increment. Schema v2 will ship permanent authored IDs directly; it does
@@ -152,5 +160,6 @@ behavior are specified in [V1.0 UI/UX Specification](ui_ux_spec.md). Runtime
 policy v2 implements event Priority, reaction weights, Custom activation,
 replacing event chance, the single global cooldown, optional quota, and
 per-character dungeon Say routing. Raid suppression and Druid Say suppression
-are unconditional. Graphical browsing/activation is implemented; the graphical
-custom-content editor remains unimplemented.
+are unconditional. Graphical browsing and the bounded Custom editor are
+implemented; complete localized emote-catalogue discovery still requires live
+Forever verification.

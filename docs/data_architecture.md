@@ -75,12 +75,18 @@ documented in [V1.0 UI/UX Specification](ui_ux_spec.md). Runtime policy v2 now
 implements their chance, cooldown, optional quota, priority, weight, activation,
 and dungeon-routing semantics. The first UI milestone binds global chance,
 cooldown, quota, master activation, and dungeon routing through the shared
-configuration API. Milestone 2A adds read-only effective event/reaction metadata
-and sparse individual activation through the same APIs; event and weight editing
-remain later Library work.
+configuration API. Milestone 2A adds effective event/reaction metadata and sparse
+individual activation. Milestone 2B adds canonical event/ability editing, 1–10
+weights, Custom CRUD, independent Built-in copies, and private preview through
+the same APIs.
 
 Library event metadata is resolved only through the runtime's canonical trigger
 mapping. Generic, Race, Class, and Druid-form groups for the same trigger therefore
 share one `triggers[canonicalKey]` record; Druid forms do not own event settings.
 Catalogue-only triggers without a runtime detector have no synthetic raw-key
 configuration. Supported abilities continue to use `abilities[class][ability]`.
+
+Reaction weights are validated integers from 1 through 10. Invalid persisted
+weights remain stored for recovery but resolve to 1 in runtime and UI reads.
+Modified copies allocate a Custom record with source provenance and never change
+the source Built-in's activation, weight, or immutable catalogue object.

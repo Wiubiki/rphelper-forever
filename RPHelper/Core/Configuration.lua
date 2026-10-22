@@ -11,7 +11,9 @@ local validators = {
     dungeonSayMode = function(v) return v == "broadcast" or v == "local" end,
     chance = function(v) return type(v) == "number" and v == v and v >= 0 and v <= 1 end,
     priority = function(v) return type(v) == "boolean" end,
-    weight = function(v) return type(v) == "number" and v >= 1 and v % 1 == 0 end,
+    weight = function(v)
+        return type(v) == "number" and v == v and v >= 1 and v <= 10 and v % 1 == 0
+    end,
 }
 
 local function root()
@@ -75,6 +77,12 @@ function Config.GetEventSetting(layer, owner, event, name)
     if valid(name, value) then return value end
     return name == "chance" and Config.GetSetting("reactionChance") or RPHelper.Defaults.event[name]
 end
+function Config.GetEventOverride(layer, owner, event, name)
+    if name ~= "enabled" and name ~= "chance" and name ~= "priority" then return nil end
+    local record = eventRecord(layer, owner, event, false)
+    local value = record and record[name]
+    if valid(name, value) then return value end
+end
 function Config.SetEventSetting(layer, owner, event, name, value)
     if name ~= "enabled" and name ~= "chance" and name ~= "priority" then return false, "unknown_setting" end
     if not valid(name, value) then return false, "invalid_value" end
@@ -90,6 +98,56 @@ function Config.ResetEventSetting(layer, owner, event, name)
         local ownerTable = child(db.abilities, owner, false)
         prune(ownerTable, event); prune(db.abilities, owner)
     end
+    return true
+end
+
+-- Applies an editor save as one validated record replacement. Unknown fields on
+-- an existing record survive; resetChance removes only the chance leaf.
+function Config.UpdateEventSettings(layer, owner, event, changes)
+    if type(changes) ~= "table" then return false, "invalid_changes" end
+    if type(event) ~= "string" then return false, "invalid_container" end
+    if changes.enabled ~= nil and not valid("enabled", changes.enabled) then
+        return false, "invalid_value"
+    end
+    if changes.priority ~= nil and not valid("priority", changes.priority) then
+        return false, "invalid_value"
+    end
+    if changes.chance ~= nil and not valid("chance", changes.chance) then
+        return false, "invalid_value"
+    end
+    if changes.resetChance ~= nil and type(changes.resetChance) ~= "boolean" then
+        return false, "invalid_value"
+    end
+    if changes.resetChance and changes.chance ~= nil then return false, "invalid_value" end
+
+    local db = root()
+    local parent
+    if layer == "trigger" then
+        parent = db and type(db.triggers) == "table" and db.triggers
+    elseif layer == "ability" then
+        local abilities = db and type(db.abilities) == "table" and db.abilities
+        if not abilities or type(owner) ~= "string" then return false, "invalid_container" end
+        if abilities[owner] ~= nil and type(abilities[owner]) ~= "table" then
+            return false, "invalid_container"
+        end
+        parent = abilities[owner]
+        if not parent then parent = {}; abilities[owner] = parent end
+    else
+        return false, "invalid_container"
+    end
+    if not parent then return false, "invalid_container" end
+    if parent[event] ~= nil and type(parent[event]) ~= "table" then
+        return false, "invalid_container"
+    end
+
+    local replacement = {}
+    for key, value in pairs(parent[event] or {}) do replacement[key] = value end
+    if changes.enabled ~= nil then replacement.enabled = changes.enabled end
+    if changes.priority ~= nil then replacement.priority = changes.priority end
+    if changes.resetChance then replacement.chance = nil
+    elseif changes.chance ~= nil then replacement.chance = changes.chance end
+    parent[event] = next(replacement) and replacement or nil
+    if layer == "ability" and next(parent) == nil then db.abilities[owner] = nil end
     return true
 end
 
@@ -124,4 +182,6 @@ function Config.ResetDefaultWeight(id)
     if type(record) == "table" then record.weight = nil; prune(db.reactionOverrides, id) end
     return true
 end
-function Config.IsPositiveInteger(value) return valid("weight", value) end
+function Config.IsValidWeight(value) return valid("weight", value) end
+-- Retained for existing callers; reaction weights are now specifically 1-10.
+function Config.IsPositiveInteger(value) return Config.IsValidWeight(value) end

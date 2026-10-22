@@ -46,6 +46,8 @@ Data/Abilities/Priest.lua
 Data/Abilities/Warlock.lua
 UI/Widgets.lua
 UI/LibraryData.lua
+UI/LibraryEditorData.lua
 UI/LibraryPage.lua
+UI/LibraryEditorPage.lua
 UI/MainWindow.lua
 RPHelper.lua

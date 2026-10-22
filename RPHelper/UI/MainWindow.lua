@@ -4,6 +4,7 @@ local UI = RPHelper.UI
 local Config = RPHelper.Configuration
 local Widgets = RPHelper.UIWidgets
 local LibraryPage = RPHelper.LibraryPage
+local LibraryEditorPage = RPHelper.LibraryEditorPage
 
 local WINDOW_WIDTH = 720
 local WINDOW_HEIGHT = 650
@@ -216,6 +217,25 @@ local function createWindow()
     pages.main = createMainPage(content)
     pages.library = LibraryPage.Create(content, {
         onBack = function() UI.Navigate("main") end,
+        onModifyGroup = function(group)
+            if pages.editor:OpenEvent(group) then UI.Navigate("editor") end
+        end,
+        onAddReaction = function(group)
+            local model = pages.library:GetModel()
+            if pages.editor:OpenReaction(group, nil, "create", model and model.context) then
+                UI.Navigate("editor")
+            end
+        end,
+        onModifyReaction = function(group, reaction, mode)
+            local model = pages.library:GetModel()
+            if pages.editor:OpenReaction(group, reaction, mode, model and model.context) then
+                UI.Navigate("editor")
+            end
+        end,
+    })
+    pages.editor = LibraryEditorPage.Create(content, {
+        onCancel = function() UI.Navigate("library") end,
+        onSaved = function() UI.Navigate("library") end,
     })
     controls.libraryBack = pages.library.BackButton
     pages.guide = createPlaceholder(content, "Guide",
@@ -329,3 +349,4 @@ function UI.GetControl(name) return controls[name] end
 function UI.GetCurrentPage() return currentPage end
 function UI.GetPage(name) return pages[name] end
 function UI.GetLibraryPage() return pages.library end
+function UI.GetLibraryEditorPage() return pages.editor end

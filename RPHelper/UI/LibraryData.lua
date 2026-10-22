@@ -13,6 +13,16 @@ local typeLabels = {
 
 local groupOrder = { event = 1, form = 2, ability = 3 }
 
+local function copy(value, seen)
+    if type(value) ~= "table" then return value end
+    seen = seen or {}
+    if seen[value] then return seen[value] end
+    local result = {}
+    seen[value] = result
+    for key, child in pairs(value) do result[key] = copy(child, seen) end
+    return result
+end
+
 local function canonicalToken(value)
     if type(value) ~= "string" or not string.match(value, "^[A-Z][A-Z0-9_]*$") then return nil end
     return value
@@ -64,7 +74,7 @@ local function summary(text)
     return string.sub(text, 1, 49) .. "..."
 end
 
-local function builtInReaction(entry)
+local function builtInReaction(entry, scope)
     local id = type(entry) == "table" and entry.defaultID or nil
     local text = entryText(entry)
     return {
@@ -77,6 +87,8 @@ local function builtInReaction(entry)
         text = text,
         summary = summary(text),
         canActivate = type(id) == "string" and string.match(id, "^default:") ~= nil,
+        entry = copy(entry),
+        scope = copy(scope),
     }
 end
 
@@ -94,6 +106,9 @@ local function customReaction(record)
         text = text,
         summary = summary(text),
         canActivate = type(id) == "string" and string.match(id, "^custom:[1-9]%d*$") ~= nil,
+        entry = copy(record.entry),
+        scope = copy(record.scope),
+        sourceDefaultID = record.sourceDefaultID,
     }
 end
 
@@ -131,6 +146,7 @@ local function groupSettings(group)
         configKey = key,
         enabled = Config.GetEventSetting(layer, owner, key, "enabled") == true,
         chance = Config.GetEventSetting(layer, owner, key, "chance"),
+        chanceOverride = Config.GetEventOverride(layer, owner, key, "chance"),
         priority = Config.GetEventSetting(layer, owner, key, "priority") == true,
         detected = true,
     }
@@ -147,7 +163,9 @@ end
 
 local function addBuiltIns(group, pool)
     if type(pool) ~= "table" then return end
-    for _, entry in ipairs(pool) do group.reactions[#group.reactions + 1] = builtInReaction(entry) end
+    for _, entry in ipairs(pool) do
+        group.reactions[#group.reactions + 1] = builtInReaction(entry, group.scope)
+    end
 end
 
 local function addEventGroups(groups, section, owner, container)

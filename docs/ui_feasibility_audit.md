@@ -21,13 +21,15 @@ repository uses it now. Neither substitutes for live testing in WoW Forever.
 - The addon-owned window provides Main, Guide, and About navigation. Main contains
   working global controls and a Character Library entry point. Milestone 2A adds
   bounded Generic, current-Race, and current-Class browsing with reaction
-  inspection and activation; Guide and About remain unfinished.
+  inspection and activation. Milestone 2B adds event settings, 1–10 weights,
+  Custom CRUD, independent Built-in copies, and private preview; Guide and About
+  remain unfinished.
 - `RPHelper.lua` creates one event frame, initializes `RPHelperDB`, initializes
   the UI, registers slash commands, and starts the runtime.
 - `/rph` toggles the window while `/rph on`, `/rph off`, `/rph status`, and help
   remain available. The Library reads through the configuration/content APIs and
-  uses the user-content activation and built-in exclusion APIs. Creation,
-  editing, deletion, weighting, and preview remain outside this increment.
+  uses shared configuration and user-content APIs for activation, event settings,
+  weighting, creation, editing, deletion, and preview.
 - Current output uses global `DoEmote(token)`, `SendChatMessage(..., "EMOTE")`,
   `SendChatMessage(..., "SAY")`, and local chat-frame display through an adapter.
 - Schema v2 and runtime policy v2 are implemented; no development-settings
@@ -146,13 +148,13 @@ schema-v2 sparse-default behavior and V1.0-onward update guarantees.
 | Encounter quota | Active by default at 2. | Disabled by default; retained value 2 when enabled. | Do not import v1 quota state. Fresh schema v2 inherits disabled/value 2 without materializing overrides. |
 | Raid policy | `enableInRaids` can be true. | Unconditional pre-pipeline suppression. | Do not carry the development toggle into schema v2. No release setting can override policy. |
 | Druid speech | Suppression can be false. | Unconditional Say filtering while shapeshifted. | Do not carry the development toggle into schema v2. Apply policy to Built-in and Custom Say candidates. |
-| Selection | Uniform among eligible candidates. | Integer reaction weights. | Weighted selection runs after eligibility without changing chance, routing, cooldown, or quota order. |
+| Selection | Uniform among eligible candidates. | Integer reaction weights from 1 through 10. | Weighted selection runs after eligibility without changing chance, routing, cooldown, or quota order. |
 | Priority | No priority behavior existed. | Bypasses global cooldown only and never modifies its timer. | Implemented at the cooldown gate; it still obeys quota, enabled state, chance, eligibility, routing, and final safety. No queue exists. |
 | Dungeon Say | Dungeon Say always broadcast. | Per-character broadcast default or local-only. | Sparse `dungeonSayMode`; a fresh absent value inherits `broadcast`. This affects Say only. |
 
 These runtime dependencies are implemented and tested. Main settings and the
-Milestone 2A Library bind through existing shared APIs rather than duplicating
-policy logic. Later editor controls must follow the same boundary.
+Library/editor bind through existing shared APIs rather than duplicating policy
+logic.
 
 ### Policy preservation
 
@@ -162,7 +164,7 @@ policy logic. Later editor controls must follow the same boundary.
 - Druid suppression remains part of candidate preparation.
 - Output adapters retain final safety checks after selection.
 - Effective event chance is rolled before any candidate pool is built or filtered.
-- Eligible candidates are selected with positive-integer weights, default 1.
+- Eligible candidates are selected with integer weights from 1 through 10, default 1.
 - Environmental routing is owned by the output layer; do not add redundant
   activity checks inside the normal pipeline.
 - Failed preview, ineligible candidates, and failed dispatch consume no runtime
@@ -219,7 +221,9 @@ but blocks it from release UI.
 The implemented milestones confirm that the addon-owned window, navigation,
 checkboxes, sliders, routing selection, and bounded library rows can use ordinary
 frame/widget primitives. Mocked tests do not replace Forever-client verification
-of templates, widget behavior, scale, input, and combat safety. Editor, search,
-and local-preview work remains subject to the catalogue, weight-ceiling, policy,
-and live-client checks above. Approved schema-v2 priority, raid, Druid, and
-dungeon-routing semantics are no longer open questions.
+of templates, widget behavior, scale, input, and combat safety. Editor and search
+work remains subject to catalogue, input, policy, and live-client checks above.
+The current Emote editor deliberately limits selection to tokens already present
+in shipped content until the complete Forever catalogue is verified. Approved
+schema-v2 priority, raid, Druid, and dungeon-routing semantics are no longer open
+questions.
