@@ -5,6 +5,8 @@ local Config = RPHelper.Configuration
 local Widgets = RPHelper.UIWidgets
 local LibraryPage = RPHelper.LibraryPage
 local LibraryEditorPage = RPHelper.LibraryEditorPage
+local GuidePage = RPHelper.GuidePage
+local AboutPage = RPHelper.AboutPage
 
 local WINDOW_WIDTH = 720
 local WINDOW_HEIGHT = 650
@@ -159,20 +161,6 @@ local function createMainPage(parent)
     return page
 end
 
-local function createPlaceholder(parent, title, message, withBack)
-    local page = CreateFrame("Frame", nil, parent)
-    page:SetAllPoints(parent)
-    addHeading(page, title, 0)
-    addDescription(page, message, -38)
-    if withBack then
-        local back = Widgets.CreateButton(page, "Back to Main", 140, 26)
-        back:SetPoint("TOPLEFT", 0, -82)
-        back:SetScript("OnClick", function() UI.Navigate("main") end)
-        controls.libraryBack = back
-    end
-    return page
-end
-
 local function createTab(parent, name, text, x)
     local button = Widgets.CreateButton(parent, text, 110, 26)
     button:SetPoint("TOPLEFT", x, -48)
@@ -238,10 +226,10 @@ local function createWindow()
         onSaved = function() UI.Navigate("library") end,
     })
     controls.libraryBack = pages.library.BackButton
-    pages.guide = createPlaceholder(content, "Guide",
-        "The in-game guide is planned for a later UI milestone.", false)
-    pages.about = createPlaceholder(content, "About",
-        "Credits, links, and release information are planned for a later UI milestone.", false)
+    pages.guide = GuidePage.Create(content, { onBack = function() UI.Navigate("main") end })
+    pages.about = AboutPage.Create(content, { onBack = function() UI.Navigate("main") end })
+    controls.guideBack = pages.guide.BackButton
+    controls.aboutBack = pages.about.BackButton
 
     statusText = createText(frame, "GameFontHighlightSmall", "", CONTENT_WIDTH)
     statusText:SetPoint("BOTTOMLEFT", 35, 9)
@@ -315,6 +303,10 @@ function UI.Navigate(destination)
         UI.Refresh()
     elseif destination == "library" then
         pages.library:RefreshLibrary()
+    elseif destination == "guide" then
+        pages.guide:Refresh()
+    elseif destination == "about" then
+        pages.about:Refresh()
     end
     return true
 end

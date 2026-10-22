@@ -14,14 +14,17 @@ The project carries forward the spirit of the original RoleplayingHelper addon. 
 
 ## Project status
 
-Pre-alpha. The game-integration layer is intentionally thin until WoW Forever can be tested directly.
+v0.9 prerelease, intended for live testing when WoW Forever is available. The
+game-integration layer has deterministic mocked coverage but is not yet fully
+verified in the live client, and this is not a V1.0-stable release.
 
 ## Historical credits
 
 Full credit and many thanks to the original authors and contributors of the add-on:
 
 - **Talyn & Overlord-Q** – The original authors of RoleplayingHelper.
-- **Mithyk** – Contributor of many default RPs.
+- **Mithyk & Syrsa** – Contributors of original default RP content.
+- **crashinbrn** – Contributor credited in preserved Rogue content lineage.
 - **Duerma** – Developer of RPHelper 2 (The Burning Crusade version).
 - **Wiubiki** (yours truly) - Turtle WoW adaptation and WoW Forever rewrite.
 

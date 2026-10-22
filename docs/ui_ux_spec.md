@@ -7,7 +7,8 @@ implements the addon-owned window, approved navigation, and the Main tab's globa
 settings and policy text. Milestone 2A adds character-specific Generic, Race, and
 Class library browsing plus individual reaction activation. Milestone 2B adds
 event/ability settings, 1–10 weights, Custom CRUD, independent Built-in copies,
-and private preview. Final Guide/About content remains a later milestone. The
+and private preview. Milestone 3 implements the bounded Guide and About pages
+for the v0.9 prerelease without claiming live-client or V1.0-stable status. The
 controls use the implemented schema-v2
 persistence and runtime-policy model defined in
 [SavedVariables Architecture](savedvariables_architecture.md). Development-build
@@ -327,7 +328,8 @@ write SavedVariables.
 
 ## Guide tab
 
-The Guide is a brief plain-English reference covering:
+The implemented Guide is a brief plain-English reference with fixed section
+buttons and bounded page-by-page navigation. It covers:
 
 - **Events** — game situations RPHelper can react to; a configured event is not
   necessarily detectable until its runtime support is implemented and verified.
@@ -349,23 +351,28 @@ The Guide must not describe unimplemented event detection as available.
 
 ## About tab
 
-The provisional About content includes:
+The implemented About content includes:
 
 - **Purpose:** “RPHelper adds occasional contextual character reactions to make
   roleplay feel more expressive without becoming spammy.”
 - **Credits:** acknowledge Talyn and Overlord-Q as original RoleplayingHelper
-  authors; mithyk and Syrsa as original content contributors; Duerma for
-  RPHelper 2; Wiubiki for the Turtle WoW adaptation and WoW Forever rewrite; and
-  retain further contributor acknowledgements as lineage is recovered.
+  authors; mithyk and Syrsa as original content contributors; crashinbrn for
+  preserved Rogue content attribution; Duerma for RPHelper 2; and Wiubiki for
+  the Turtle WoW adaptation and WoW Forever rewrite.
 - **Repository:** `https://github.com/Wiubiki/rphelper-forever`.
-- **Ko-fi:** `https://ko-fi.com/V7V71A0D8Q`, visibly marked **pending policy
-  verification** in this specification. It must not appear in the shipped in-game
-  UI unless policy review affirmatively permits it.
-- **Version:** addon version from release metadata, plus “pre-alpha” or another
-  release-status label while applicable.
+- **Support:** `https://github.com/Wiubiki/rphelper-forever/issues`.
+- **Version:** addon version from release metadata when available, with an
+  explicit prerelease and pending-live-verification statement.
+- **AI assistance:** a concise acknowledgement that development and content
+  review used AI-assisted tools under human direction and repository review.
 
-Final copywriting, capitalization, link presentation, and contributor wording
-are provisional and require editorial review before release.
+The repository URL is presented in a selectable field with a safe selection
+button; the addon does not automatically open external links. Ko-fi remains
+excluded pending policy confirmation. The repository currently has no license
+file, so the UI makes no license claim.
+
+Contributor lineage and the absence of a repository license file should receive
+editorial review before a stable release.
 
 ## Accessibility and error behavior
 
