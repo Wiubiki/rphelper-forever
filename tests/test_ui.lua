@@ -70,6 +70,8 @@ local function newWidget(frameType, name, parent)
     function widget:SetFontObject(value) self.fontObject = value end
     function widget:SetTextInsets(...) self.textInsets = { ... } end
     function widget:ClearFocus() self.focusCleared = true end
+    function widget:SetFocus() self.focused = true end
+    function widget:HighlightText() self.highlighted = true end
     function widget:SetNormalFontObject(value) self.normalFont = value end
     function widget:SetHighlightFontObject(value) self.highlightFont = value end
     function widget:SetDisabledFontObject(value) self.disabledFont = value end
@@ -124,6 +126,11 @@ GameFontDisable = {}
 UnitClass = function() return "Druid", "DRUID" end
 UnitRace = function() return "Tauren", "TAUREN" end
 GetShapeshiftFormID = function() return 0 end
+C_AddOns = {
+    GetAddOnMetadata = function(addon, field)
+        if addon == "RPHelper" and field == "Version" then return "0.9.0-prerelease" end
+    end,
+}
 CreateFrame = function(frameType, name, parent, template)
     if template and rejectTemplates then
         rejectedTemplateCount = rejectedTemplateCount + 1
@@ -148,6 +155,8 @@ dofile("RPHelper/UI/LibraryData.lua")
 dofile("RPHelper/UI/LibraryEditorData.lua")
 dofile("RPHelper/UI/LibraryPage.lua")
 dofile("RPHelper/UI/LibraryEditorPage.lua")
+dofile("RPHelper/UI/GuidePage.lua")
+dofile("RPHelper/UI/AboutPage.lua")
 
 local longReaction = "This deliberately long authored reaction remains intact in the detail view so the player can read every part of its meaning, including the ending that would otherwise disappear from a short list row. "
     .. "The final words remain visible through bounded detail pagination."
@@ -280,7 +289,7 @@ test("widget helpers fall back when templates and newer sizing APIs are unavaila
     truthy(made.editBox.FallbackBackground)
 end)
 
-test("approved navigation reaches placeholders and returns from library", function()
+test("approved navigation reaches implemented pages and returns to Main", function()
     UI.Navigate("library")
     equal(UI.GetCurrentPage(), "library")
     equal(UI.GetPage("library"):IsShown(), true)
@@ -289,9 +298,109 @@ test("approved navigation reaches placeholders and returns from library", functi
     equal(UI.GetCurrentPage(), "main")
     UI.Navigate("guide")
     equal(UI.GetCurrentPage(), "guide")
+    UI.GetPage("guide").BackButton:Click()
+    equal(UI.GetCurrentPage(), "main")
     UI.Navigate("about")
     equal(UI.GetCurrentPage(), "about")
+    UI.GetPage("about").BackButton:Click()
+    equal(UI.GetCurrentPage(), "main")
     equal(UI.Navigate("unapproved"), false)
+end)
+
+test("Guide renders every bounded section and paginates long content", function()
+    UI.Navigate("guide")
+    local page = UI.GetPage("guide")
+    equal(page:GetSectionCount(), 7)
+    equal(page.Body.width, 450)
+    equal(page.Body.height, 380)
+    local renderedPages = 0
+    for section = 1, page:GetSectionCount() do
+        page.SectionButtons[section]:Click()
+        equal(page:GetCurrentSection(), section)
+        equal(page:GetCurrentContentPage(), 1)
+        truthy(page.SectionTitle:GetText() ~= "")
+        local pageCount = page:GetCurrentPageCount()
+        truthy(pageCount >= 2)
+        for contentPage = 1, pageCount do
+            equal(page:GetCurrentContentPage(), contentPage)
+            local text = page.Body:GetText()
+            truthy(type(text) == "string" and text ~= "")
+            truthy(#text < 1300)
+            renderedPages = renderedPages + 1
+            if contentPage < pageCount then page.Next:Click() end
+        end
+        equal(page.Next:IsEnabled(), false)
+        if pageCount > 1 then
+            page.Previous:Click()
+            equal(page:GetCurrentContentPage(), pageCount - 1)
+        end
+    end
+    truthy(renderedPages > page:GetSectionCount())
+    page.BackButton:Click()
+    equal(UI.GetCurrentPage(), "main")
+end)
+
+test("About uses metadata fallbacks and keeps external URLs selectable only", function()
+    local modern, legacy = C_AddOns, GetAddOnMetadata
+    local page = UI.GetPage("about")
+
+    UI.Navigate("about")
+    equal(page.VersionText:GetText(), "Version: 0.9.0-prerelease")
+    equal(page.URLBox:GetText(), "https://github.com/Wiubiki/rphelper-forever")
+    truthy(string.find(page.SupportText:GetText(), "/issues", 1, true))
+
+    C_AddOns = {}
+    GetAddOnMetadata = function(addon, field)
+        if addon == "RPHelper" and field == "Version" then return "0.8-legacy-api" end
+    end
+    page:Refresh()
+    equal(page.VersionText:GetText(), "Version: 0.8-legacy-api")
+
+    GetAddOnMetadata = nil
+    page:Refresh()
+    equal(page.VersionText:GetText(), "Version metadata unavailable (prerelease)")
+
+    local externalCalls = 0
+    OpenURL = function() externalCalls = externalCalls + 1 end
+    page.SelectURL:Click()
+    equal(externalCalls, 0)
+    equal(page.URLBox.focused, true)
+    equal(page.URLBox.highlighted, true)
+    equal(page.URLBox:GetText(), "https://github.com/Wiubiki/rphelper-forever")
+    OpenURL = nil
+    C_AddOns, GetAddOnMetadata = modern, legacy
+    page:Refresh()
+end)
+
+test("Guide and About browsing is side-effect free and reuses frames", function()
+    freshDatabase()
+    local database = RPHelperDB
+    local settings, triggers, abilities = database.settings, database.triggers, database.abilities
+    local customEntries = database.custom.entries
+    local combat = RPHelper.Runtime.IsInCombat()
+    local oldSend, oldEmote, outputCalls = SendChatMessage, DoEmote, 0
+    SendChatMessage = function() outputCalls = outputCalls + 1 end
+    DoEmote = function() outputCalls = outputCalls + 1 end
+    local frameCount = #frames
+
+    for _ = 1, 12 do
+        UI.Navigate("guide")
+        UI.GetPage("guide").SectionButtons[7]:Click()
+        UI.GetPage("guide").Next:Click()
+        UI.Navigate("about")
+        UI.GetPage("about").SelectURL:Click()
+        UI.Navigate("main")
+    end
+
+    SendChatMessage, DoEmote = oldSend, oldEmote
+    equal(#frames, frameCount)
+    equal(outputCalls, 0)
+    equal(RPHelperDB, database)
+    equal(database.settings, settings); equal(next(settings), nil)
+    equal(database.triggers, triggers); equal(next(triggers), nil)
+    equal(database.abilities, abilities); equal(next(abilities), nil)
+    equal(database.custom.entries, customEntries); equal(next(customEntries), nil)
+    equal(RPHelper.Runtime.IsInCombat(), combat)
 end)
 
 test("effective defaults display without materializing settings", function()

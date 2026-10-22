@@ -22,8 +22,10 @@ repository uses it now. Neither substitutes for live testing in WoW Forever.
   working global controls and a Character Library entry point. Milestone 2A adds
   bounded Generic, current-Race, and current-Class browsing with reaction
   inspection and activation. Milestone 2B adds event settings, 1–10 weights,
-  Custom CRUD, independent Built-in copies, and private preview; Guide and About
-  remain unfinished.
+  Custom CRUD, independent Built-in copies, and private preview. Milestone 3
+  replaces the Guide and About placeholders with bounded paginated reference
+  content, metadata-backed prerelease identity, attribution, and a selectable
+  repository URL.
 - `RPHelper.lua` creates one event frame, initializes `RPHelperDB`, initializes
   the UI, registers slash commands, and starts the runtime.
 - `/rph` toggles the window while `/rph on`, `/rph off`, `/rph status`, and help

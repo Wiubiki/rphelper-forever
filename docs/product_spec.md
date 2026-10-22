@@ -330,8 +330,10 @@ graphical milestone implements the master switch, global chance, global cooldown
 encounter-quota toggle/value, dungeon Say routing, and informational raid/Druid
 policies. Milestone 2A adds character-library browsing and individual activation;
 Milestone 2B adds event/ability editing, 1–10 weights, private preview, Custom
-CRUD, and independent modified copies of Built-in reactions. These
-settings supersede the earlier frequency-preset target. V1.0 starts fresh with
+CRUD, and independent modified copies of Built-in reactions. Milestone 3 adds
+the bounded in-game Guide and metadata-backed About/attribution pages for the
+v0.9 prerelease. These settings supersede the earlier frequency-preset target.
+V1.0 starts fresh with
 schema v2 and does not import development settings. From V1.0 onward, explicit
 player choices survive updates while raid/Druid policies remain unconditional. See
 [V1.0 UI/UX Specification](ui_ux_spec.md) and

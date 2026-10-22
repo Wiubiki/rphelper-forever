@@ -1,7 +1,7 @@
 RPHelper = RPHelper or {}
 
 local function printHelp()
-    print("RPHelper pre-alpha commands:")
+    print("RPHelper prerelease commands:")
     print("/rph  (toggle settings window)")
     print("/rph help")
     print("/rph on")
@@ -35,7 +35,7 @@ function RPHelper.HandleSlashCommand(message)
         local enabled = RPHelper.Configuration.GetSetting("enabled")
         print("RPHelper is " .. (enabled and "enabled" or "disabled") .. ".")
     elseif command == "spell" then
-        print("RPHelper pre-alpha spell trigger requested: " .. (rest ~= "" and rest or "<missing>"))
+        print("RPHelper prerelease spell trigger requested: " .. (rest ~= "" and rest or "<missing>"))
     else
         printHelp()
     end
