@@ -3,10 +3,11 @@
 ## Status and scope
 
 This document defines the approved V1.0 user experience. The first UI milestone
-implements the addon-owned window, approved navigation, the Main tab's global
-settings and policy text, and unfinished destinations for the Character Library,
-Guide, and About views. Library browsing/editing and the final Guide/About
-content remain later milestones. The controls use the implemented schema-v2
+implements the addon-owned window, approved navigation, and the Main tab's global
+settings and policy text. Milestone 2A adds character-specific Generic, Race, and
+Class library browsing plus individual reaction activation. Event settings and
+weights are read-only in this increment; custom-content editing and the final
+Guide/About content remain later milestones. The controls use the implemented schema-v2
 persistence and runtime-policy model defined in
 [SavedVariables Architecture](savedvariables_architecture.md). Development-build
 settings are not a supported migration source.
@@ -148,8 +149,9 @@ weight. Built-in and Custom origins are unmistakable.
   ceiling requires implementation review, but zero or negative values are not
   valid weights. Disabled and ineligible reactions do not participate.
 
-Browse mode exposes inspection and local preview but no mutation actions.
-Customize mode exposes activation, weighting, creation, editing, and deletion.
+The Milestone 2A library exposes inspection and individual activation directly;
+it does not preview, edit, reweight, create, or delete reactions. The later full
+Customize mode exposes weighting, creation, editing, and deletion.
 Destructive deletion requires confirmation and does not recycle the custom ID.
 
 ### Weighted selection

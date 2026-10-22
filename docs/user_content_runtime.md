@@ -135,7 +135,9 @@ Priority and shared-cooldown boundaries, optional shared quotas, weighted mixed
 Built-in/Custom pools, failed dispatch, activity routes, and Druid speech
 suppression.
 
-The graphical settings/content editor is not implemented here. Milestone 2B now
+The graphical Library can now browse applicable content and toggle individual
+Built-in and Custom activation through these APIs. The custom-content editor is
+not implemented here. Milestone 2B now
 requires basic custom-content create/edit/delete/preview for V1.0 and permanently
 excludes account-wide settings/profiles, import/export, and character sharing
 from V1.0 and the immediate roadmap. Expanded spell/event coverage remains out of
@@ -150,4 +152,5 @@ behavior are specified in [V1.0 UI/UX Specification](ui_ux_spec.md). Runtime
 policy v2 implements event Priority, reaction weights, Custom activation,
 replacing event chance, the single global cooldown, optional quota, and
 per-character dungeon Say routing. Raid suppression and Druid Say suppression
-are unconditional. The graphical editor remains unimplemented.
+are unconditional. Graphical browsing/activation is implemented; the graphical
+custom-content editor remains unimplemented.
