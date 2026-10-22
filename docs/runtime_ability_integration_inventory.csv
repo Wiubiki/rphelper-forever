@@ -1,0 +1,475 @@
+class,canonical ability key,catalogue status,reaction count,detector,mapping,category,evidence,next action
+WARRIOR,BATTLE_SHOUT,reaction-bearing,1,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+WARRIOR,BATTLE_STANCE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARRIOR,BERSERKER_RAGE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARRIOR,BERSERKER_STANCE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARRIOR,BLOODRAGE,reaction-bearing,5,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+WARRIOR,BLOODTHIRST,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARRIOR,CHALLENGING_SHOUT,reaction-bearing,1,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+WARRIOR,CHARGE,reaction-bearing,4,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+WARRIOR,CLEAVE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARRIOR,CONCUSSION_BLOW,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARRIOR,DEATH_WISH,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARRIOR,DEFENSIVE_STANCE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARRIOR,DEMORALIZING_SHOUT,reaction-bearing,1,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+WARRIOR,DISARM,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARRIOR,EXECUTE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARRIOR,HAMSTRING,reaction-bearing,1,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+WARRIOR,HEROIC_STRIKE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARRIOR,INTERCEPT,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARRIOR,INTIMIDATING_SHOUT,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+WARRIOR,LAST_STAND,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARRIOR,MOCKING_BLOW,reaction-bearing,1,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+WARRIOR,MORTAL_STRIKE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARRIOR,OVERPOWER,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARRIOR,PIERCING_HOWL,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARRIOR,PUMMEL,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARRIOR,RECKLESSNESS,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARRIOR,REND,reaction-bearing,1,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+WARRIOR,RETALIATION,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARRIOR,REVENGE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARRIOR,SHIELD_BASH,reaction-bearing,1,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+WARRIOR,SHIELD_BLOCK,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARRIOR,SHIELD_SLAM,reaction-bearing,1,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+WARRIOR,SHIELD_WALL,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARRIOR,SLAM,reaction-bearing,1,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+WARRIOR,SPEARING_STRIKE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARRIOR,SUNDER_ARMOR,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARRIOR,SWEEPING_STRIKES,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARRIOR,TAUNT,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARRIOR,THUNDER_CLAP,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARRIOR,VICTORY_RUSH,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARRIOR,WHIRLWIND,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,ADRENALINE_RUSH,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,AMBUSH,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,BACKSTAB,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,BLADE_FLURRY,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,BLIND,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,BLINDING_POWDER,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,CHEAP_SHOT,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,COLD_BLOOD,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,CRIPPLING_POISON,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,DEADLY_POISON,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,DISARM_TRAP,reaction-bearing,1,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+ROGUE,DISTRACT,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,EVASION,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,EVISCERATE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,EXPOSE_ARMOR,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,FEINT,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,GARROTE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,GHOSTLY_STRIKE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,GOUGE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,HEMORRHAGE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,INSTANT_POISON,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,KICK,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,KIDNEY_SHOT,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,MIND_NUMBING_POISON,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,MUTILATE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,PICK_POCKET,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,PREMEDITATION,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,PREPARATION,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,RIPOSTE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,RUPTURE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,SAP,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,SINISTER_STRIKE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,SLICE_AND_DICE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,SPRINT,reaction-bearing,1,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+ROGUE,STEALTH,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,VANISH,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,VENOM,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+ROGUE,WOUND_POISON,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+HUNTER,AIMED_SHOT,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,ARCANE_SHOT,reaction-bearing,5,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,ASPECT_OF_THE_BEAST,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,ASPECT_OF_THE_CHEETAH,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,ASPECT_OF_THE_HAWK,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,ASPECT_OF_THE_MONKEY,reaction-bearing,4,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,ASPECT_OF_THE_PACK,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,ASPECT_OF_THE_WILD,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,AUTO_SHOT,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+HUNTER,BEAST_LORE,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,BESTIAL_WRATH,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,CALL_PET,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+HUNTER,CONCUSSIVE_SHOT,reaction-bearing,5,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,COUNTERATTACK,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,DETERRENCE,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,DISENGAGE,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,DISMISS_PET,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+HUNTER,DISTRACTING_SHOT,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,EAGLE_EYE,reaction-bearing,3,excluded: channel,none,E,Prior spell audit marks this mechanism unsupported/deferred,Requires separate design and live evidence before reconsideration
+HUNTER,ENCHANTED_FLARE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+HUNTER,EXPLOSIVE_TRAP,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,EYES_OF_THE_BEAST,reaction-bearing,3,excluded: channel,none,E,Prior spell audit marks this mechanism unsupported/deferred,Requires separate design and live evidence before reconsideration
+HUNTER,FEED_PET,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+HUNTER,FEIGN_DEATH,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,FLARE,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,FREEZING_TRAP,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,FROST_TRAP,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,HUNTERS_MARK,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,IMMOLATION_TRAP,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,INTIMIDATION,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+HUNTER,LACERATE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+HUNTER,MEND_PET,reaction-bearing,3,excluded: channel,none,E,Prior spell audit marks this mechanism unsupported/deferred,Requires separate design and live evidence before reconsideration
+HUNTER,MONGOOSE_BITE,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,MULTI_SHOT,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,RAPID_FIRE,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,RAPTOR_STRIKE,reaction-bearing,3,excluded: queued melee,none,E,Prior spell audit marks this mechanism unsupported/deferred,Requires separate design and live evidence before reconsideration
+HUNTER,REVIVE_PET,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+HUNTER,SCARE_BEAST,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,SCATTER_SHOT,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,SCORPID_STING,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,SERPENT_STING,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,SNIPER_SHOT,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+HUNTER,STRIDER_KICK,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+HUNTER,SUMMON_HAWK,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+HUNTER,TAME_BEAST,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+HUNTER,TRACK_BEASTS,reaction-bearing,4,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Prior audit uncertain; activation/ID candidates remain unverified,Live-capture mechanism and exact IDs before mapping
+HUNTER,TRACK_DEMONS,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Prior audit uncertain; activation/ID candidates remain unverified,Live-capture mechanism and exact IDs before mapping
+HUNTER,TRACK_DRAGONKIN,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Prior audit uncertain; activation/ID candidates remain unverified,Live-capture mechanism and exact IDs before mapping
+HUNTER,TRACK_ELEMENTALS,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Prior audit uncertain; activation/ID candidates remain unverified,Live-capture mechanism and exact IDs before mapping
+HUNTER,TRACK_GIANTS,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Prior audit uncertain; activation/ID candidates remain unverified,Live-capture mechanism and exact IDs before mapping
+HUNTER,TRACK_HIDDEN,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Prior audit uncertain; activation/ID candidates remain unverified,Live-capture mechanism and exact IDs before mapping
+HUNTER,TRACK_HUMANOIDS,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Prior audit uncertain; activation/ID candidates remain unverified,Live-capture mechanism and exact IDs before mapping
+HUNTER,TRACK_UNDEAD,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Prior audit uncertain; activation/ID candidates remain unverified,Live-capture mechanism and exact IDs before mapping
+HUNTER,TRANQUILIZING_SHOT,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,TRUESHOT_AURA,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,VIPER_STING,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+HUNTER,VOLLEY,reaction-bearing,3,excluded: channel,none,E,Prior spell audit marks this mechanism unsupported/deferred,Requires separate design and live evidence before reconsideration
+HUNTER,WING_CLIP,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,ANCESTRAL_SPIRIT,reaction-bearing,6,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,ASTRAL_RECALL,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+SHAMAN,CALL_OF_THE_ANCESTORS,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+SHAMAN,CALL_OF_THE_ELEMENTS,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+SHAMAN,CALL_OF_THE_SPIRITS,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+SHAMAN,CHAIN_HEAL,reaction-bearing,4,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,CHAIN_LIGHTNING,reaction-bearing,6,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,CURE_DISEASE,reaction-bearing,5,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,CURE_POISON,reaction-bearing,5,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,DISEASE_CLEANSING_TOTEM,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,EARTHBIND_TOTEM,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,EARTH_SHOCK,reaction-bearing,8,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,ELEMENTAL_MASTERY,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+SHAMAN,FAR_SIGHT,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+SHAMAN,FIRE_NOVA,reaction-bearing,2,none,none,D,Current authored identity lacks a reviewed detector/mapping row,Reconcile availability and mechanism before runtime work
+SHAMAN,FIRE_RESISTANCE_TOTEM,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,FLAMETONGUE_TOTEM,reaction-bearing,4,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,FLAMETONGUE_WEAPON,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,FLAME_SHOCK,reaction-bearing,5,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,FROSTBRAND_WEAPON,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,FROST_RESISTANCE_TOTEM,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,FROST_SHOCK,reaction-bearing,5,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,GHOST_WOLF,reaction-bearing,4,excluded: shapeshift/form transition,none,E,Prior spell audit marks this mechanism unsupported/deferred,Requires separate design and live evidence before reconsideration
+SHAMAN,GRACE_OF_AIR_TOTEM,reaction-bearing,4,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,GROUNDING_TOTEM,reaction-bearing,4,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,HEALING_STREAM_TOTEM,reaction-bearing,4,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,HEALING_WAVE,reaction-bearing,5,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,LAVA_BURST,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+SHAMAN,LESSER_HEALING_WAVE,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,LIGHTNING_BOLT,reaction-bearing,6,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,LIGHTNING_SHIELD,reaction-bearing,6,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,MAGMA_TOTEM,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,MANA_SPRING_TOTEM,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,MANA_TIDE_TOTEM,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,NATURES_SWIFTNESS,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,NATURE_RESISTANCE_TOTEM,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,POISON_CLEANSING_TOTEM,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,PURGE,reaction-bearing,5,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,RAGE_OF_THE_FARSEER,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+SHAMAN,REINCARNATION,reaction-bearing,4,excluded: death-interface self-resurrection,none,E,Prior spell audit marks this mechanism unsupported/deferred,Requires separate design and live evidence before reconsideration
+SHAMAN,RIPTIDE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+SHAMAN,ROCKBITER_WEAPON,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,SEARING_TOTEM,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,SENTRY_TOTEM,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,STONECLAW_TOTEM,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,STONESKIN_TOTEM,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,STORMSTRIKE,reaction-bearing,10,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,STRENGTH_OF_EARTH_TOTEM,reaction-bearing,4,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,TOTEMIC_PROJECTION,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+SHAMAN,TOTEMIC_RECALL,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,TREMOR_TOTEM,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,WATER_BREATHING,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+SHAMAN,WATER_SHIELD,reaction-bearing,6,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,WATER_WALKING,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+SHAMAN,WINDFURY_TOTEM,reaction-bearing,4,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,WINDFURY_WEAPON,reaction-bearing,9,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+SHAMAN,WINDWALL_TOTEM,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+DRUID,ABOLISH_POISON,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,AQUATIC_FORM,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,BARKSKIN,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,BASH,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,BEAR_FORM,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,BERSERK,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,CAT_FORM,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,CHALLENGING_ROAR,reaction-bearing,1,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+DRUID,CLAW,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,COWER,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,CURE_POISON,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,DASH,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,DEMORALIZING_ROAR,reaction-bearing,1,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+DRUID,DIRE_BEAR_FORM,reaction-bearing,1,excluded: shapeshift/form transition,none,E,Prior spell audit marks this mechanism unsupported/deferred,Requires separate design and live evidence before reconsideration
+DRUID,ENRAGE,reaction-bearing,1,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+DRUID,ENTANGLING_ROOTS,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+DRUID,FAERIE_FIRE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,FERAL_CHARGE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,FEROCIOUS_BITE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,FRENZIED_REGENERATION,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,GIFT_OF_THE_WILD,reaction-bearing,1,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+DRUID,GROWL,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,HEALING_TOUCH,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,HIBERNATE,reaction-bearing,6,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+DRUID,HURRICANE,reaction-bearing,2,excluded: channel,none,E,Prior spell audit marks this mechanism unsupported/deferred,Requires separate design and live evidence before reconsideration
+DRUID,INNERVATE,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+DRUID,INSECT_SWARM,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,LACERATE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,MARK_OF_THE_WILD,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,MAUL,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,MOONKIN_FORM,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,MOON_FIRE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,NATURES_GRASP,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,NATURES_SWIFTNESS,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,POUNCE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,PRIMAL_BITE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,PROWL,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,RAKE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,RAVAGE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,REBIRTH,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+DRUID,REGROWTH,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,REJUVENATION,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,REMOVE_CURSE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,REVIVE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,RIP,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,SHIFTING_POWER,reaction-bearing,2,none,none,D,Current authored identity lacks a reviewed detector/mapping row,Reconcile availability and mechanism before runtime work
+DRUID,SHRED,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,SOOTHE_ANIMAL,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,STARFIRE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,SWIFTMEND,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,SWIPE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,TELEPORT_MOONGLADE,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+DRUID,THORNS,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,TRACK_HUMANOIDS,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,TRANQUILITY,reaction-bearing,3,excluded: channel,none,E,Prior spell audit marks this mechanism unsupported/deferred,Requires separate design and live evidence before reconsideration
+DRUID,TRAVEL_FORM,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,WILD_GROWTH,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+DRUID,WRATH,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+PALADIN,BLESSING_OF_FREEDOM,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,BLESSING_OF_KINGS,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,BLESSING_OF_LIGHT,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,BLESSING_OF_MIGHT,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,BLESSING_OF_PROTECTION,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,BLESSING_OF_SACRIFICE,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,BLESSING_OF_WISDOM,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,CLEANSE,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,CONCENTRATION_AURA,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,CONSECRATION,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,DEVOTION_AURA,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,DIVINE_FAVOR,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,DIVINE_INTERVENTION,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,DIVINE_PROTECTION,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,DIVINE_SHIELD,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,EXORCISM,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,FIRE_RESISTANCE_AURA,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,FLASH_OF_LIGHT,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED,19750 -> FLASH_OF_LIGHT,B,Third-party Forever success ID; mocked production classifier/policy; no RPHelper live test,"Live-verify exact rank, payload readability, contexts, and duplicates"
+PALADIN,FROST_RESISTANCE_AURA,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,GREATER_BLESSING_OF_KINGS,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+PALADIN,GREATER_BLESSING_OF_LIGHT,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+PALADIN,GREATER_BLESSING_OF_MIGHT,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,GREATER_BLESSING_OF_WISDOM,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+PALADIN,HAMMER_OF_JUSTICE,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,HAMMER_OF_WRATH,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,HOLY_LIGHT,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Third-party success ID 647; not production-mapped or RPHelper-live-verified,RPHelper-live-verify exact ID/rank before mapping
+PALADIN,HOLY_SHIELD,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,HOLY_SHOCK,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,HOLY_STRIKE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+PALADIN,HOLY_WRATH,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,JUDGEMENT,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Third-party success ID 20271; not production-mapped or RPHelper-live-verified,RPHelper-live-verify exact ID/rank before mapping
+PALADIN,LAY_ON_HANDS,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,LIGHTS_VIGIL,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+PALADIN,MASS_SALVATION,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+PALADIN,PURIFY,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,REDEMPTION,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,REPENTANCE,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,RETRIBUTION_AURA,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,REVOKE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+PALADIN,RIGHTEOUS_FURY,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,SALVATION,reaction-bearing,2,none,none,D,Current authored identity lacks a reviewed detector/mapping row,Reconcile availability and mechanism before runtime work
+PALADIN,SEAL_OF_COMMAND,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,SEAL_OF_FURY,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+PALADIN,SEAL_OF_JUSTICE,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,SEAL_OF_LIGHT,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,SEAL_OF_RIGHTEOUSNESS,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED,20288 -> SEAL_OF_RIGHTEOUSNESS,B,Third-party Forever success ID; mocked production classifier/policy; no RPHelper live test,"Live-verify exact rank, payload readability, contexts, and duplicates"
+PALADIN,SEAL_OF_THE_CRUSADER,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,SEAL_OF_WISDOM,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,SENSE_UNDEAD,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,SHADOW_RESISTANCE_AURA,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,SWIFT_JUDGEMENT,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+PALADIN,TEMPLARS_BULWARK,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+PALADIN,TURN_UNDEAD,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PALADIN,VOICE_OF_TRUTH,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+MAGE,AMPLIFY_MAGIC,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,ARCANE_BLAST,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+MAGE,ARCANE_BRILLIANCE,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,ARCANE_EXPLOSION,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,ARCANE_INTELLECT,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,ARCANE_MISSILES,reaction-bearing,3,excluded: channel,none,E,Prior spell audit marks this mechanism unsupported/deferred,Requires separate design and live evidence before reconsideration
+MAGE,ARCANE_POWER,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,ARCANE_WRATH,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+MAGE,BLAST_WAVE,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,BLINK,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,BLIZZARD,reaction-bearing,3,excluded: channel,none,E,Prior spell audit marks this mechanism unsupported/deferred,Requires separate design and live evidence before reconsideration
+MAGE,COLD_SNAP,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,COMBUSTION,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,CONE_OF_COLD,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,CONJURE_FOOD,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,CONJURE_MANA_AGATE,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,CONJURE_MANA_CITRINE,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,CONJURE_MANA_JADE,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,CONJURE_MANA_RUBY,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,CONJURE_WATER,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,COUNTERSPELL,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,DAMPEN_MAGIC,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,EVOCATION,reaction-bearing,3,excluded: channel,none,E,Prior spell audit marks this mechanism unsupported/deferred,Requires separate design and live evidence before reconsideration
+MAGE,FIREBALL,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,FIRE_BLAST,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,FIRE_WARD,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,FLAMESTRIKE,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,FROSTBOLT,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,FROSTFIRE_BOLT,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+MAGE,FROST_ARMOR,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,FROST_BLAST,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+MAGE,FROST_NOVA,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,FROST_WARD,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,ICE_ARMOR,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,ICE_BARRIER,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,ICE_BLOCK,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,ICE_LANCE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+MAGE,MAGE_ARMOR,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,MANA_SHIELD,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,POLYMORPH,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,POLYMORPH_PIG,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+MAGE,POLYMORPH_TURTLE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+MAGE,PORTAL_DARNASSUS,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,PORTAL_IRONFORGE,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,PORTAL_ORGRIMMAR,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,PORTAL_STORMWIND,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,PORTAL_THUNDER_BLUFF,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,PORTAL_UNDERCITY,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,PRESENCE_OF_MIND,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,PYROBLAST,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,REMOVE_LESSER_CURSE,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,SCORCH,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,SLOW_FALL,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,TELEPORT_DALARAN,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+MAGE,TELEPORT_DARNASSUS,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,TELEPORT_IRONFORGE,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,TELEPORT_ORGRIMMAR,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,TELEPORT_STORMWIND,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,TELEPORT_THUNDER_BLUFF,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+MAGE,TELEPORT_UNDERCITY,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PRIEST,ABOLISH_DISEASE,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PRIEST,BINDING_HEAL,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+PRIEST,CHASTISE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+PRIEST,CONFOUNDING_FLASH,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+PRIEST,CONTINGENCY_PLAN,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+PRIEST,CURE_DISEASE,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PRIEST,DARK_SACRIFICE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+PRIEST,DESPERATE_PRAYER,reaction-bearing,4,none,none,D,Current authored identity lacks a reviewed detector/mapping row,Reconcile availability and mechanism before runtime work
+PRIEST,DEVOURING_PLAGUE,reaction-bearing,3,none,none,D,Current authored identity lacks a reviewed detector/mapping row,Reconcile availability and mechanism before runtime work
+PRIEST,DISPEL_MAGIC,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PRIEST,DIVINE_GRACE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+PRIEST,DIVINE_SPIRIT,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PRIEST,ELUNES_GRACE,reaction-bearing,3,none,none,D,Current authored identity lacks a reviewed detector/mapping row,Reconcile availability and mechanism before runtime work
+PRIEST,FADE,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PRIEST,FEAR_WARD,reaction-bearing,3,none,none,D,Current authored identity lacks a reviewed detector/mapping row,Reconcile availability and mechanism before runtime work
+PRIEST,FEEDBACK,reaction-bearing,3,none,none,D,Current authored identity lacks a reviewed detector/mapping row,Reconcile availability and mechanism before runtime work
+PRIEST,FLASH_HEAL,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PRIEST,GREATER_HEAL,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PRIEST,HEAL,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PRIEST,HEX_OF_WEAKNESS,reaction-bearing,3,none,none,D,Current authored identity lacks a reviewed detector/mapping row,Reconcile availability and mechanism before runtime work
+PRIEST,HOLY_FIRE,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PRIEST,HOLY_NOVA,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PRIEST,INNER_FIRE,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PRIEST,INNER_FOCUS,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PRIEST,LESSER_HEAL,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PRIEST,LEVITATE,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PRIEST,MANA_BURN,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PRIEST,MIND_BLAST,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PRIEST,MIND_CONTROL,reaction-bearing,3,excluded: channel,none,E,Prior spell audit marks this mechanism unsupported/deferred,Requires separate design and live evidence before reconsideration
+PRIEST,MIND_FLAY,reaction-bearing,3,excluded: channel,none,E,Prior spell audit marks this mechanism unsupported/deferred,Requires separate design and live evidence before reconsideration
+PRIEST,MIND_SOOTHE,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PRIEST,MIND_VISION,reaction-bearing,3,excluded: channel,none,E,Prior spell audit marks this mechanism unsupported/deferred,Requires separate design and live evidence before reconsideration
+PRIEST,PENANCE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+PRIEST,POWER_INFUSION,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PRIEST,POWER_WORD_FORTITUDE,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PRIEST,POWER_WORD_SHIELD,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PRIEST,PRAYER_OF_FORTITUDE,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PRIEST,PRAYER_OF_HEALING,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PRIEST,PRAYER_OF_MENDING,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+PRIEST,PRAYER_OF_SHADOW_PROTECTION,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+PRIEST,PRAYER_OF_SPIRIT,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+PRIEST,PSYCHIC_SCREAM,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PRIEST,RENEW,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PRIEST,RESURRECTION,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PRIEST,SHACKLE_UNDEAD,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PRIEST,SHADOWFORM,reaction-bearing,3,excluded: shapeshift/form transition,none,E,Prior spell audit marks this mechanism unsupported/deferred,Requires separate design and live evidence before reconsideration
+PRIEST,SHADOWGUARD,reaction-bearing,3,none,none,D,Current authored identity lacks a reviewed detector/mapping row,Reconcile availability and mechanism before runtime work
+PRIEST,SHADOW_PROTECTION,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PRIEST,SHADOW_WORD_DEATH,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+PRIEST,SHADOW_WORD_PAIN,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PRIEST,SILENCE,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PRIEST,SMITE,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+PRIEST,STARSHARDS,reaction-bearing,3,none,none,D,Current authored identity lacks a reviewed detector/mapping row,Reconcile availability and mechanism before runtime work
+PRIEST,TOUCH_OF_WEAKNESS,reaction-bearing,3,none,none,D,Current authored identity lacks a reviewed detector/mapping row,Reconcile availability and mechanism before runtime work
+PRIEST,VAMPIRIC_EMBRACE,reaction-bearing,3,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+WARLOCK,AMPLIFY_CURSE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARLOCK,BANE_OF_AGONY,reaction-bearing,1,none,none,D,Current authored identity lacks a reviewed detector/mapping row,Reconcile availability and mechanism before runtime work
+WARLOCK,BANE_OF_DOOM,reaction-bearing,3,none,none,D,Current authored identity lacks a reviewed detector/mapping row,Reconcile availability and mechanism before runtime work
+WARLOCK,BANE_OF_HAVOC,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARLOCK,BANISH,reaction-bearing,1,none,none,D,Current authored identity lacks a reviewed detector/mapping row,Reconcile availability and mechanism before runtime work
+WARLOCK,CONFLAGRATE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARLOCK,CORRUPTION,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARLOCK,CREATE_FIRESTONE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARLOCK,CREATE_HEALTHSTONE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARLOCK,CREATE_SOULSTONE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARLOCK,CREATE_SPELLSTONE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARLOCK,CURSE_OF_EXHAUSTION,reaction-bearing,1,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+WARLOCK,CURSE_OF_RECKLESSNESS,reaction-bearing,1,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+WARLOCK,CURSE_OF_THE_ELEMENTS,reaction-bearing,1,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+WARLOCK,CURSE_OF_TONGUES,reaction-bearing,1,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+WARLOCK,CURSE_OF_WEAKNESS,reaction-bearing,1,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+WARLOCK,DEATH_COIL,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARLOCK,DEMONIC_SACRIFICE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARLOCK,DEMON_ARMOR,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARLOCK,DEMON_SKIN,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARLOCK,DETECT_INVISIBILITY,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARLOCK,DRAIN_LIFE,reaction-bearing,1,excluded: channel,none,E,Prior spell audit marks this mechanism unsupported/deferred,Requires separate design and live evidence before reconsideration
+WARLOCK,DRAIN_MANA,reaction-bearing,1,excluded: channel,none,E,Prior spell audit marks this mechanism unsupported/deferred,Requires separate design and live evidence before reconsideration
+WARLOCK,DRAIN_SOUL,reaction-bearing,7,excluded: channel,none,E,Prior spell audit marks this mechanism unsupported/deferred,Requires separate design and live evidence before reconsideration
+WARLOCK,EYE_OF_KILROGG,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARLOCK,FEAR,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+WARLOCK,FEL_DOMINATION,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARLOCK,HEALTH_FUNNEL,reaction-bearing,1,excluded: channel,none,E,Prior spell audit marks this mechanism unsupported/deferred,Requires separate design and live evidence before reconsideration
+WARLOCK,HELLFIRE,reaction-bearing,1,excluded: channel,none,E,Prior spell audit marks this mechanism unsupported/deferred,Requires separate design and live evidence before reconsideration
+WARLOCK,HOWL_OF_TERROR,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARLOCK,IMMOLATE,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+WARLOCK,INCINERATE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARLOCK,INFERNO,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARLOCK,LIFE_TAP,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARLOCK,RAIN_OF_FIRE,reaction-bearing,3,excluded: channel,none,E,Prior spell audit marks this mechanism unsupported/deferred,Requires separate design and live evidence before reconsideration
+WARLOCK,RITUAL_OF_DOOM,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARLOCK,RITUAL_OF_SUMMONING,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+WARLOCK,SEARING_PAIN,reaction-bearing,1,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+WARLOCK,SENSE_DEMONS,reaction-bearing,1,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Prior audit uncertain; activation/ID candidates remain unverified,Live-capture mechanism and exact IDs before mapping
+WARLOCK,SHADOWBURN,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARLOCK,SHADOW_BOLT,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARLOCK,SHADOW_WARD,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARLOCK,SIPHON_LIFE,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARLOCK,SOUL_FIRE,reaction-bearing,2,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+WARLOCK,SOUL_LINK,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARLOCK,SUBJUGATE_DEMON,reaction-bearing,1,none,none,D,Current authored identity lacks a reviewed detector/mapping row,Reconcile availability and mechanism before runtime work
+WARLOCK,SUMMON_FELHUNTER,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARLOCK,SUMMON_IMP,reaction-bearing,6,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+WARLOCK,SUMMON_INCUBUS,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
+WARLOCK,SUMMON_SUCCUBUS,reaction-bearing,6,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+WARLOCK,SUMMON_VOIDWALKER,reaction-bearing,6,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+WARLOCK,UNENDING_BREATH,reaction-bearing,1,UNIT_SPELLCAST_SUCCEEDED candidate,none,C,Candidate IDs/mechanism only; no RPHelper live verification,Live-capture exact IDs/ranks before mapping
+WARLOCK,WRACK,defined-empty,0,none,none,E,Current shipped pool is empty; catalogue identity only,Defer until authored content and verified activation are in scope
