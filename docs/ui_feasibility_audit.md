@@ -18,15 +18,16 @@ repository uses it now. Neither substitutes for live testing in WoW Forever.
 
 ## Current repository state
 
-- The first graphical milestone provides an addon-owned window with Main, Guide,
-  and About navigation. Main contains working global controls and a Character
-  Library entry point; Library, Guide, and About content is clearly unfinished.
+- The addon-owned window provides Main, Guide, and About navigation. Main contains
+  working global controls and a Character Library entry point. Milestone 2A adds
+  bounded Generic, current-Race, and current-Class browsing with reaction
+  inspection and activation; Guide and About remain unfinished.
 - `RPHelper.lua` creates one event frame, initializes `RPHelperDB`, initializes
   the UI, registers slash commands, and starts the runtime.
 - `/rph` toggles the window while `/rph on`, `/rph off`, `/rph status`, and help
-  remain available. The internal user-content API already supports
-  add/edit/remove/list, default exclusion, and preparation eligibility, but the
-  unfinished Library UI does not call it.
+  remain available. The Library reads through the configuration/content APIs and
+  uses the user-content activation and built-in exclusion APIs. Creation,
+  editing, deletion, weighting, and preview remain outside this increment.
 - Current output uses global `DoEmote(token)`, `SendChatMessage(..., "EMOTE")`,
   `SendChatMessage(..., "SAY")`, and local chat-frame display through an adapter.
 - Schema v2 and runtime policy v2 are implemented; no development-settings
@@ -149,10 +150,9 @@ schema-v2 sparse-default behavior and V1.0-onward update guarantees.
 | Priority | No priority behavior existed. | Bypasses global cooldown only and never modifies its timer. | Implemented at the cooldown gate; it still obeys quota, enabled state, chance, eligibility, routing, and final safety. No queue exists. |
 | Dungeon Say | Dungeon Say always broadcast. | Per-character broadcast default or local-only. | Sparse `dungeonSayMode`; a fresh absent value inherits `broadcast`. This affects Say only. |
 
-These runtime dependencies are implemented and tested. The Main graphical
-settings bind through the existing shared configuration API rather than
-duplicating policy logic. Later library/editor controls must follow the same
-boundary.
+These runtime dependencies are implemented and tested. Main settings and the
+Milestone 2A Library bind through existing shared APIs rather than duplicating
+policy logic. Later editor controls must follow the same boundary.
 
 ### Policy preservation
 
@@ -216,10 +216,10 @@ but blocks it from release UI.
 
 ## Feasibility conclusion
 
-The first milestone confirms that the addon-owned Main window, navigation,
-checkboxes, sliders, and routing selection can be implemented with ordinary
+The implemented milestones confirm that the addon-owned window, navigation,
+checkboxes, sliders, routing selection, and bounded library rows can use ordinary
 frame/widget primitives. Mocked tests do not replace Forever-client verification
-of templates, widget behavior, scale, input, and combat safety. Library, editor,
-search, and local-preview work remains subject to the catalogue, weight-ceiling,
-policy, and live-client checks above. Approved schema-v2 priority, raid, Druid,
-and dungeon-routing semantics are no longer open questions.
+of templates, widget behavior, scale, input, and combat safety. Editor, search,
+and local-preview work remains subject to the catalogue, weight-ceiling, policy,
+and live-client checks above. Approved schema-v2 priority, raid, Druid, and
+dungeon-routing semantics are no longer open questions.

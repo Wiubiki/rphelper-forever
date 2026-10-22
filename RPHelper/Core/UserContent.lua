@@ -206,7 +206,7 @@ function UserContent.SetEnabled(id, enabled)
     local record = saved and type(id) == "string" and saved[id]
     if type(record) ~= "table" then return false, "not_found" end
     if type(enabled) ~= "boolean" then return false, "invalid_enabled" end
-    record.enabled = enabled and nil or false
+    if enabled then record.enabled = nil else record.enabled = false end
     UserContent.Invalidate()
     return true
 end

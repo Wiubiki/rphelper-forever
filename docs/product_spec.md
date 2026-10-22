@@ -327,7 +327,8 @@ V1 target:
 These runtime settings and semantics are implemented through schema v2. The first
 graphical milestone implements the master switch, global chance, global cooldown,
 encounter-quota toggle/value, dungeon Say routing, and informational raid/Druid
-policies. Event and reaction management remains for the Library milestone. These
+policies. Milestone 2A adds character-library browsing and individual activation;
+event editing, weight editing, preview, and custom-content editing remain later work. These
 settings supersede the earlier frequency-preset target. V1.0 starts fresh with
 schema v2 and does not import development settings. From V1.0 onward, explicit
 player choices survive updates while raid/Druid policies remain unconditional. See
@@ -368,8 +369,8 @@ catalogue. Per-character SavedVariables preserve custom content, exclusions,
 settings and unknown fields through repeated initialization and normal code
 updates; malformed containers are retained rather than reset. Editing shipped
 wording retains its authored identity when the concept is unchanged; a new or
-repurposed reaction receives a new ID. The internal management API is
-implemented; graphical editing is not.
+repurposed reaction receives a new ID. The internal management API and graphical
+browsing/activation are implemented; graphical custom-content editing is not.
 Basic create/edit/delete/preview is approved for V1.0. See
 [User content runtime](user_content_runtime.md) for current schema-v2 storage,
 validation, identity rules, API errors and guarantees, and

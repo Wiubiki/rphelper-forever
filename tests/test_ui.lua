@@ -64,6 +64,7 @@ local function newWidget(frameType, name, parent)
     function widget:GetText() return self.text end
     function widget:SetTextColor(...) self.textColor = { ... } end
     function widget:SetJustifyH(value) self.justifyH = value end
+    function widget:SetJustifyV(value) self.justifyV = value end
     function widget:SetNormalFontObject(value) self.normalFont = value end
     function widget:SetHighlightFontObject(value) self.highlightFont = value end
     function widget:SetDisabledFontObject(value) self.disabledFont = value end
@@ -115,6 +116,9 @@ UISpecialFrames = {}
 GameFontNormal = {}
 GameFontHighlight = {}
 GameFontDisable = {}
+UnitClass = function() return "Druid", "DRUID" end
+UnitRace = function() return "Tauren", "TAUREN" end
+GetShapeshiftFormID = function() return 0 end
 CreateFrame = function(frameType, name, parent, template)
     if template and rejectTemplates then
         rejectedTemplateCount = rejectedTemplateCount + 1
@@ -127,17 +131,80 @@ RPHelper = {}
 dofile("RPHelper/Core/Defaults.lua")
 dofile("RPHelper/Core/Database.lua")
 dofile("RPHelper/Core/Configuration.lua")
+dofile("RPHelper/Core/KeywordResolvers.lua")
+dofile("RPHelper/Core/DruidForms.lua")
+dofile("RPHelper/Core/ContentEngine.lua")
+dofile("RPHelper/Core/Content.lua")
+dofile("RPHelper/Core/UserContent.lua")
+dofile("RPHelper/Core/RuntimeAPI.lua")
+dofile("RPHelper/Core/Runtime.lua")
 dofile("RPHelper/UI/Widgets.lua")
+dofile("RPHelper/UI/LibraryData.lua")
+dofile("RPHelper/UI/LibraryPage.lua")
+
+local longReaction = "This deliberately long authored reaction remains intact in the detail view so the player can read every part of its meaning, including the ending that would otherwise disappear from a short list row. "
+    .. "The final words remain visible through bounded detail pagination."
+for index = 1, 7 do
+    RPHelper.RegisterGeneric("library_event", {
+        id = string.format("default:test:generic:%04d", index),
+        type = index == 2 and "emote" or "say",
+        text = index == 1 and longReaction or (index == 2 and "WAVE" or "Generic reaction " .. index),
+    })
+end
+RPHelper.RegisterGeneric("dodge", { id = "default:test:generic:dodge", type = "say", text = "Mock dodge." })
+RPHelper.RegisterGeneric("entercombat",
+    { id = "default:test:generic:entercombat", type = "say", text = "Generic combat entry." })
+RPHelper.RegisterRace("TAUREN", "library_event",
+    { id = "default:test:race:tauren", type = "customemote", text = "stamps a hoof." })
+RPHelper.RegisterRace("TAUREN", "entercombat",
+    { id = "default:test:race:entercombat", type = "say", text = "Tauren combat entry." })
+RPHelper.RegisterRace("ORC", "library_event",
+    { id = "default:test:race:orc", type = "say", text = "Unrelated orc reaction." })
+RPHelper.RegisterClass("DRUID", "library_event",
+    { id = "default:test:class:druid", type = "say", text = "Druid reaction." })
+RPHelper.RegisterClass("DRUID", "entercombat",
+    { id = "default:test:class:entercombat", type = "say", text = "Druid combat entry." })
+RPHelper.RegisterClass("WARRIOR", "library_event",
+    { id = "default:test:class:warrior", type = "say", text = "Unrelated warrior reaction." })
+RPHelper.RegisterDruidForm("CAT", "library_event",
+    { id = "default:test:form:cat", type = "customemote", text = "flicks its tail." })
+RPHelper.RegisterDruidForm("CAT", "entercombat",
+    { id = "default:test:form:entercombat", type = "customemote", text = "bares its claws." })
+RPHelper.RegisterAbility("PALADIN", "FLASH_OF_LIGHT", {
+    id = "default:test:ability:flash_of_light",
+    type = "say",
+    text = "Light answers.",
+})
+for index = 1, 11 do
+    local ability = string.format("LIBRARY_ABILITY_%02d", index)
+    RPHelper.RegisterAbility("DRUID", ability, {
+        id = string.format("default:test:ability:%04d", index),
+        type = "say",
+        text = "Ability reaction " .. index,
+    })
+end
+
 dofile("RPHelper/UI/MainWindow.lua")
 dofile("RPHelper/Core/Commands.lua")
 
 local Config = RPHelper.Configuration
 local UI = RPHelper.UI
 local Widgets = RPHelper.UIWidgets
+local LibraryData = RPHelper.LibraryData
+local UserContent = RPHelper.UserContent
 
 local function freshDatabase()
     RPHelperDB = nil
     truthy(RPHelper.InitializeDatabase())
+end
+
+local function findReaction(group, id)
+    if not group then return nil end
+    for _, reaction in ipairs(group.reactions) do if reaction.id == id then return reaction end end
+end
+
+local function findGroup(model, id)
+    return LibraryData.FindGroup(model, id)
 end
 
 test("window initializes hidden and opens, closes, and toggles", function()
@@ -365,6 +432,308 @@ test("empty slash command toggles UI while existing help remains available", fun
     print = oldPrint
     truthy(#messages > 1)
     equal(messages[2], "/rph  (toggle settings window)")
+end)
+
+test("library filters character layers and groups events, abilities, and Druid forms", function()
+    freshDatabase()
+    local generic = LibraryData.BuildSection("generic")
+    truthy(findGroup(generic, "event:generic::library_event"))
+    truthy(findGroup(generic, "event:generic::dodge"))
+
+    local race = LibraryData.BuildSection("race")
+    truthy(findGroup(race, "event:race:TAUREN:library_event"))
+    equal(findGroup(race, "event:race:ORC:library_event"), nil)
+
+    local class = LibraryData.BuildSection("class")
+    truthy(findGroup(class, "event:class:DRUID:library_event"))
+    truthy(findGroup(class, "ability:DRUID:LIBRARY_ABILITY_01"))
+    truthy(findGroup(class, "form:CAT:library_event"))
+    equal(findGroup(class, "event:class:WARRIOR:library_event"), nil)
+
+    local empty = LibraryData.BuildSection("race", { race = "GNOME", class = "DRUID" })
+    equal(#empty.groups, 0)
+    truthy(string.find(empty.emptyMessage, "No registered Race reactions", 1, true))
+end)
+
+test("library exposes provenance, raw authored content, activation, weights, and event state", function()
+    freshDatabase()
+    truthy(Config.SetDefaultWeight("default:test:generic:0001", 4))
+    local customID = UserContent.Add(
+        { layer = "generic", trigger = "library_event" },
+        { type = "customemote", text = "checks a custom library entry." },
+        { enabled = false, weight = 3 })
+    truthy(customID)
+
+    local model = LibraryData.BuildSection("generic")
+    local group = findGroup(model, "event:generic::library_event")
+    local builtIn = findReaction(group, "default:test:generic:0001")
+    local custom = findReaction(group, customID)
+    equal(builtIn.provenance, "Built-in")
+    equal(builtIn.typeLabel, "Say")
+    equal(builtIn.weight, 4)
+    equal(builtIn.text, longReaction)
+    equal(custom.provenance, "Custom")
+    equal(custom.typeLabel, "Custom Emote")
+    equal(custom.enabled, false)
+    equal(custom.weight, 3)
+    equal(group.settings.supported, false)
+    equal(group.settings.detected, false)
+    equal(group.settings.configKey, nil)
+    equal(group.settings.enabled, nil)
+    equal(group.settings.chance, nil)
+    equal(group.settings.priority, nil)
+    local supported = findGroup(model, "event:generic::dodge").settings
+    equal(supported.supported, true)
+    equal(supported.detected, true)
+    equal(supported.configLayer, "trigger")
+    equal(supported.configKey, "dodge")
+    equal(supported.enabled, true)
+    equal(supported.chance, 0.05)
+    equal(supported.priority, false)
+    equal(next(RPHelperDB.triggers), nil)
+    equal(next(RPHelperDB.abilities), nil)
+end)
+
+test("library shares canonical event metadata across layers and Druid forms", function()
+    freshDatabase()
+    truthy(Config.SetEventSetting("trigger", nil, "enter_combat", "enabled", false))
+    truthy(Config.SetEventSetting("trigger", nil, "enter_combat", "chance", 0.37))
+    truthy(Config.SetEventSetting("trigger", nil, "enter_combat", "priority", true))
+
+    local groups = {
+        findGroup(LibraryData.BuildSection("generic"), "event:generic::entercombat"),
+        findGroup(LibraryData.BuildSection("race"), "event:race:TAUREN:entercombat"),
+        findGroup(LibraryData.BuildSection("class"), "event:class:DRUID:entercombat"),
+        findGroup(LibraryData.BuildSection("class"), "form:CAT:entercombat"),
+    }
+    for _, group in ipairs(groups) do
+        truthy(group)
+        equal(group.settings.supported, true)
+        equal(group.settings.configLayer, "trigger")
+        equal(group.settings.configOwner, nil)
+        equal(group.settings.configKey, "enter_combat")
+        equal(group.settings.enabled, false)
+        equal(group.settings.chance, 0.37)
+        equal(group.settings.priority, true)
+    end
+    equal(RPHelperDB.triggers.entercombat, nil)
+    equal(RPHelperDB.triggers.enter_combat.enabled, false)
+end)
+
+test("library distinguishes unsupported catalogue triggers from event configuration", function()
+    freshDatabase()
+    truthy(Config.SetEventSetting("trigger", nil, "library_event", "chance", 0.91))
+    local group = findGroup(LibraryData.BuildSection("generic"), "event:generic::library_event")
+    equal(group.settings.supported, false)
+    equal(group.settings.configKey, nil)
+    equal(group.settings.chance, nil)
+
+    UI.Navigate("library")
+    local page = UI.GetLibraryPage()
+    page:SelectSection("generic")
+    page:SelectGroup("event:generic::library_event")
+    equal(page.EventState:GetText(), "Not currently detected | Event settings unavailable")
+end)
+
+test("library maps supported abilities to canonical class and ability settings", function()
+    freshDatabase()
+    truthy(Config.SetEventSetting("ability", "PALADIN", "FLASH_OF_LIGHT", "enabled", false))
+    truthy(Config.SetEventSetting("ability", "PALADIN", "FLASH_OF_LIGHT", "chance", 0.62))
+    truthy(Config.SetEventSetting("ability", "PALADIN", "FLASH_OF_LIGHT", "priority", true))
+    local model = LibraryData.BuildSection("class", { class = "PALADIN", race = "HUMAN" })
+    local settings = findGroup(model, "ability:PALADIN:FLASH_OF_LIGHT").settings
+    equal(settings.supported, true)
+    equal(settings.detected, true)
+    equal(settings.configLayer, "ability")
+    equal(settings.configOwner, "PALADIN")
+    equal(settings.configKey, "FLASH_OF_LIGHT")
+    equal(settings.enabled, false)
+    equal(settings.chance, 0.62)
+    equal(settings.priority, true)
+
+    local unsupported = findGroup(LibraryData.BuildSection("class"),
+        "ability:DRUID:LIBRARY_ABILITY_01").settings
+    equal(unsupported.supported, false)
+    equal(unsupported.configKey, nil)
+    equal(unsupported.chance, nil)
+end)
+
+test("library construction and refresh do not materialize persistence defaults", function()
+    freshDatabase()
+    UI.Navigate("library")
+    local page = UI.GetLibraryPage()
+    page:SelectSection("generic")
+    page:SelectSection("race")
+    page:SelectSection("class")
+    page:RefreshLibrary()
+    equal(next(RPHelperDB.settings), nil)
+    equal(next(RPHelperDB.triggers), nil)
+    equal(next(RPHelperDB.abilities), nil)
+    equal(next(RPHelperDB.disabledDefaults), nil)
+    equal(next(RPHelperDB.reactionOverrides), nil)
+    equal(next(RPHelperDB.custom.entries), nil)
+end)
+
+test("library activation uses sparse built-in and custom persistence", function()
+    freshDatabase()
+    local customID = UserContent.Add(
+        { layer = "generic", trigger = "custom_ui_event" },
+        { type = "say", text = "Custom activation test." },
+        { weight = 2 })
+    RPHelperDB.custom.entries[customID].futureField = "preserve"
+
+    UI.Navigate("library")
+    local page = UI.GetLibraryPage()
+    page:SelectSection("generic")
+    truthy(page:SelectGroup("event:generic::library_event"))
+    local row = page.ReactionRows[1]
+    equal(row.Reaction.id, "default:test:generic:0001")
+    equal(row.CheckBox:GetChecked(), true)
+    row.CheckBox:Click()
+    equal(RPHelperDB.disabledDefaults[row.Reaction.id], true)
+    equal(row.CheckBox:GetChecked(), false)
+    row.CheckBox:Click()
+    equal(RPHelperDB.disabledDefaults[row.Reaction.id], nil)
+    equal(row.CheckBox:GetChecked(), true)
+
+    truthy(page:SelectGroup("event:generic::custom_ui_event"))
+    row = page.ReactionRows[1]
+    equal(row.Reaction.id, customID)
+    row.CheckBox:Click()
+    equal(RPHelperDB.custom.entries[customID].enabled, false)
+    equal(RPHelperDB.custom.entries[customID].weight, 2)
+    equal(RPHelperDB.custom.entries[customID].futureField, "preserve")
+    equal(row.CheckBox:IsEnabled(), true)
+    equal(row.CheckBox:GetChecked(), false)
+    equal(row.Reaction.id, customID)
+    row.CheckBox:Click()
+    equal(RPHelperDB.custom.entries[customID].enabled, nil)
+    equal(findReaction(findGroup(LibraryData.BuildSection("generic"),
+        "event:generic::custom_ui_event"), customID).enabled, true)
+    equal(row.CheckBox:GetChecked(), true)
+    equal(RPHelperDB.custom.entries[customID].futureField, "preserve")
+end)
+
+test("library restores effective state when an activation write is rejected", function()
+    freshDatabase()
+    UI.Navigate("library")
+    local page = UI.GetLibraryPage()
+    page:SelectSection("generic")
+    truthy(page:SelectGroup("event:generic::library_event"))
+    local row = page.ReactionRows[1]
+    local original = UserContent.SetDefaultDisabled
+    UserContent.SetDefaultDisabled = function() return false, "injected_failure" end
+    row.CheckBox:Click()
+    UserContent.SetDefaultDisabled = original
+    equal(row.CheckBox:GetChecked(), true)
+    equal(RPHelperDB.disabledDefaults[row.Reaction.id], nil)
+    truthy(string.find(page.Message:GetText(), "could not be saved", 1, true))
+end)
+
+test("library activation is isolated per character and survives refresh and reopen", function()
+    freshDatabase()
+    truthy(UserContent.SetDefaultDisabled("default:test:generic:0001", true))
+    local first = RPHelperDB
+    local second
+
+    freshDatabase()
+    second = RPHelperDB
+    local model = LibraryData.BuildSection("generic")
+    equal(findReaction(findGroup(model, "event:generic::library_event"),
+        "default:test:generic:0001").enabled, true)
+
+    RPHelperDB = first
+    UI.Navigate("library")
+    local page = UI.GetLibraryPage()
+    page:SelectSection("generic")
+    page:SelectGroup("event:generic::library_event")
+    equal(page.ReactionRows[1].CheckBox:GetChecked(), false)
+    UI.Close()
+    UI.Open()
+    equal(page.ReactionRows[1].CheckBox:GetChecked(), false)
+    equal(second.disabledDefaults["default:test:generic:0001"], nil)
+end)
+
+test("library activation survives UI module reload", function()
+    freshDatabase()
+    truthy(UserContent.SetDefaultDisabled("default:test:generic:0001", true))
+    RPHelper.UI = nil
+    dofile("RPHelper/UI/MainWindow.lua")
+    UI = RPHelper.UI
+    UI.Initialize()
+    UI.Open("library")
+    local page = UI.GetLibraryPage()
+    page:SelectGroup("event:generic::library_event")
+    equal(page.ReactionRows[1].CheckBox:GetChecked(), false)
+end)
+
+test("library uses bounded controls and paginates complete long authored text", function()
+    freshDatabase()
+    UI.Navigate("library")
+    local page = UI.GetLibraryPage()
+    page:SelectSection("generic")
+    page:SelectGroup("event:generic::library_event")
+    equal(#page.ReactionRows, 5)
+    equal(page:GetVisibleReactionCount(), 5)
+    truthy(page.NextReactions:IsEnabled())
+    page.ReactionRows[1].Inspect:Click()
+    truthy(#page.DetailPages > 1)
+    equal(string.find(table.concat(page.DetailPages), "The final words remain visible", 1, true) ~= nil, true)
+    local firstPage = page.DetailText:GetText()
+    page.NextDetail:Click()
+    truthy(page.DetailText:GetText() ~= firstPage)
+
+    local frameCount = #frames
+    page:SelectSection("class")
+    page:SelectSection("race")
+    page:SelectSection("class")
+    equal(#frames, frameCount)
+    equal(#page.GroupButtons, 9)
+    truthy(page.NextGroups:IsEnabled())
+end)
+
+test("library handles unavailable context and malformed persistence without unrelated content", function()
+    freshDatabase()
+    local oldClass, oldRace = RPHelper.RuntimeAPI.GetPlayerClass, RPHelper.RuntimeAPI.GetPlayerRace
+    RPHelper.RuntimeAPI.GetPlayerClass = function() error("unavailable") end
+    RPHelper.RuntimeAPI.GetPlayerRace = function() return "not-a-token" end
+    local race = LibraryData.BuildSection("race")
+    local class = LibraryData.BuildSection("class")
+    equal(#race.groups, 0)
+    equal(race.emptyMessage, "Current character race is unavailable.")
+    equal(#class.groups, 0)
+    equal(class.emptyMessage, "Current character class is unavailable.")
+    truthy(#LibraryData.BuildSection("generic").groups > 0)
+    RPHelper.RuntimeAPI.GetPlayerClass, RPHelper.RuntimeAPI.GetPlayerRace = oldClass, oldRace
+
+    RPHelperDB = "broken root"
+    local model = LibraryData.BuildSection("generic")
+    truthy(#model.groups > 0)
+    truthy(string.find(model.warning, "Custom reactions are unavailable", 1, true))
+    local reaction = findReaction(findGroup(model, "event:generic::library_event"),
+        "default:test:generic:0001")
+    equal(LibraryData.SetReactionEnabled(reaction, false), false)
+    equal(RPHelperDB, "broken root")
+    UI.Navigate("library")
+    local page = UI.GetLibraryPage()
+    page:SelectSection("generic")
+    page:SelectGroup("event:generic::library_event")
+    page.ReactionRows[1].CheckBox:Click()
+    equal(page.ReactionRows[1].CheckBox:GetChecked(), true)
+    truthy(string.find(page.Message:GetText(), "could not be saved", 1, true))
+    equal(RPHelperDB, "broken root")
+end)
+
+test("library navigation preserves Global Settings behaviour", function()
+    freshDatabase()
+    truthy(Config.SetSetting("reactionChance", 0.11))
+    UI.Navigate("library")
+    local page = UI.GetLibraryPage()
+    page:SelectSection("race")
+    page.BackButton:Click()
+    equal(UI.GetCurrentPage(), "main")
+    equal(UI.GetControl("reactionChance"):GetValue(), 11)
+    equal(RPHelperDB.settings.reactionChance, 0.11)
 end)
 
 test("addon startup initializes the UI and preserves runtime initialization", function()

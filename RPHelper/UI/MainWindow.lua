@@ -3,6 +3,7 @@ RPHelper.UI = RPHelper.UI or {}
 local UI = RPHelper.UI
 local Config = RPHelper.Configuration
 local Widgets = RPHelper.UIWidgets
+local LibraryPage = RPHelper.LibraryPage
 
 local WINDOW_WIDTH = 720
 local WINDOW_HEIGHT = 650
@@ -151,7 +152,7 @@ local function createMainPage(parent)
     library:SetScript("OnClick", function() UI.Navigate("library") end)
     controls.openLibrary = library
     local libraryNote = createText(page, "GameFontHighlightSmall",
-        "Library browsing and customization arrive in a later UI milestone.", 420)
+        "Browse Generic, Race, and Class reactions for this character.", 420)
     libraryNote:SetPoint("LEFT", library, "RIGHT", 12, 0)
 
     return page
@@ -213,8 +214,10 @@ local function createWindow()
     content:SetPoint("BOTTOMRIGHT", -35, 28)
 
     pages.main = createMainPage(content)
-    pages.library = createPlaceholder(content, "Character Library",
-        "Library browsing and custom-reaction management are not implemented in this milestone.", true)
+    pages.library = LibraryPage.Create(content, {
+        onBack = function() UI.Navigate("main") end,
+    })
+    controls.libraryBack = pages.library.BackButton
     pages.guide = createPlaceholder(content, "Guide",
         "The in-game guide is planned for a later UI milestone.", false)
     pages.about = createPlaceholder(content, "About",
@@ -288,7 +291,11 @@ function UI.Navigate(destination)
     for name, button in pairs(navigation) do
         setEnabled(button, name ~= destination)
     end
-    if destination == "main" then UI.Refresh() end
+    if destination == "main" then
+        UI.Refresh()
+    elseif destination == "library" then
+        pages.library:RefreshLibrary()
+    end
     return true
 end
 
@@ -304,6 +311,7 @@ function UI.Open(destination)
     ensureWindow()
     if destination then UI.Navigate(destination) end
     UI.Refresh()
+    if currentPage == "library" then pages.library:RefreshLibrary() end
     frame:Show()
 end
 
@@ -320,3 +328,4 @@ function UI.GetWindow() return frame end
 function UI.GetControl(name) return controls[name] end
 function UI.GetCurrentPage() return currentPage end
 function UI.GetPage(name) return pages[name] end
+function UI.GetLibraryPage() return pages.library end
