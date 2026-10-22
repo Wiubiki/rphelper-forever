@@ -120,6 +120,7 @@ test("invalid structures and unsupported schemas are non-destructive", function(
     local malformed = { schemaVersion = 2, settings = false, triggers = {}, abilities = {}, custom = false,
         disabledDefaults = {}, reactionOverrides = {}, future = { keep = true } }
     RPHelperDB = malformed; truthy(RPHelper.InitializeDatabase()); equal(RPHelperDB.settings, false); truthy(RPHelperDB.future.keep)
+    equal(Config.GetSetting("enabled"), true); equal(Config.CanWriteSettings(), false)
     local newer = { schemaVersion = 3, future = "keep" }; RPHelperDB = newer
     equal(RPHelper.InitializeDatabase(), false); equal(RPHelperDB, newer); equal(newer.future, "keep")
 end)

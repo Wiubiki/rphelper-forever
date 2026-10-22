@@ -2,12 +2,14 @@
 
 ## Status and scope
 
-This document defines the approved V1.0 user experience. It is a design
-specification, not a claim that the UI or its settings semantics are implemented.
-The current build has no graphical settings interface. It uses the implemented
-schema-v2 persistence and runtime-policy model defined in
-[SavedVariables Architecture](savedvariables_architecture.md).
-Development-build settings are not a supported migration source.
+This document defines the approved V1.0 user experience. The first UI milestone
+implements the addon-owned window, approved navigation, the Main tab's global
+settings and policy text, and unfinished destinations for the Character Library,
+Guide, and About views. Library browsing/editing and the final Guide/About
+content remain later milestones. The controls use the implemented schema-v2
+persistence and runtime-policy model defined in
+[SavedVariables Architecture](savedvariables_architecture.md). Development-build
+settings are not a supported migration source.
 
 The UI is character-specific. It does not provide account settings, profiles,
 import/export, or character-to-character sharing. Final labels and explanatory
@@ -379,6 +381,7 @@ Raid suppression and Druid Say suppression are unconditional policies, not saved
 settings. No schema-v2 fields can override them.
 
 `reactionChance`, `encounterQuotaEnabled`, priority, reaction weights, and
-`reactionOverrides` are implemented schema-v2/runtime fields. The future UI can
-bind to their shared configuration and content-management APIs; they require no
-schema-v1 compatibility code.
+`reactionOverrides` are implemented schema-v2/runtime fields. The Main settings
+UI binds through the shared configuration API. Later library/editor work must use
+the shared configuration and content-management APIs and requires no schema-v1
+compatibility code.

@@ -2,7 +2,8 @@
 
 ## Scope and evidence levels
 
-This is a read-only pre-implementation audit. No UI code was added. Findings use:
+This document began as the read-only pre-implementation audit. Its feasibility
+findings use:
 
 - the current RPHelper repository and tests;
 - the community-maintained [WoW: Forever API reference](https://github.com/Atraeau/WoW-Addons/blob/main/docs/api/README.md), whose inventory includes UI Widgets & Frames;
@@ -17,12 +18,15 @@ repository uses it now. Neither substitutes for live testing in WoW Forever.
 
 ## Current repository state
 
-- There is no graphical settings, library, editor, Guide, or About UI.
-- `RPHelper.lua` creates one event frame, initializes `RPHelperDB`, registers
-  slash commands, and starts the runtime.
-- User-facing configuration is limited to `/rph on`, `/rph off`, `/rph status`,
-  and help. The internal user-content API already supports add/edit/remove/list,
-  default exclusion, and preparation eligibility, but no UI calls it.
+- The first graphical milestone provides an addon-owned window with Main, Guide,
+  and About navigation. Main contains working global controls and a Character
+  Library entry point; Library, Guide, and About content is clearly unfinished.
+- `RPHelper.lua` creates one event frame, initializes `RPHelperDB`, initializes
+  the UI, registers slash commands, and starts the runtime.
+- `/rph` toggles the window while `/rph on`, `/rph off`, `/rph status`, and help
+  remain available. The internal user-content API already supports
+  add/edit/remove/list, default exclusion, and preparation eligibility, but the
+  unfinished Library UI does not call it.
 - Current output uses global `DoEmote(token)`, `SendChatMessage(..., "EMOTE")`,
   `SendChatMessage(..., "SAY")`, and local chat-frame display through an adapter.
 - Schema v2 and runtime policy v2 are implemented; no development-settings
@@ -145,9 +149,10 @@ schema-v2 sparse-default behavior and V1.0-onward update guarantees.
 | Priority | No priority behavior existed. | Bypasses global cooldown only and never modifies its timer. | Implemented at the cooldown gate; it still obeys quota, enabled state, chance, eligibility, routing, and final safety. No queue exists. |
 | Dungeon Say | Dungeon Say always broadcast. | Per-character broadcast default or local-only. | Sparse `dungeonSayMode`; a fresh absent value inherits `broadcast`. This affects Say only. |
 
-These runtime dependencies are implemented and tested. The future graphical UI
-must bind controls through the existing shared APIs rather than duplicating
-policy logic.
+These runtime dependencies are implemented and tested. The Main graphical
+settings bind through the existing shared configuration API rather than
+duplicating policy logic. Later library/editor controls must follow the same
+boundary.
 
 ### Policy preservation
 
@@ -211,11 +216,10 @@ but blocks it from release UI.
 
 ## Feasibility conclusion
 
-The Main, Guide, About, slider, library, editor, search, and local-preview UI is
-feasible with ordinary frame/widget primitives, subject to Forever template/API
-verification. The largest blockers are semantic rather than visual: implementing
-schema v2 for weights/activation/dungeon routing, choosing a practical positive weight ceiling,
-validating the emote catalogue and character-attached bubble feasibility, and
-resolving donation-link policy. Approved priority, raid, and Druid semantics are
-no longer open questions. No production UI work should begin until the remaining
-matters have explicit tests and V1.0-onward persistence rules.
+The first milestone confirms that the addon-owned Main window, navigation,
+checkboxes, sliders, and routing selection can be implemented with ordinary
+frame/widget primitives. Mocked tests do not replace Forever-client verification
+of templates, widget behavior, scale, input, and combat safety. Library, editor,
+search, and local-preview work remains subject to the catalogue, weight-ceiling,
+policy, and live-client checks above. Approved schema-v2 priority, raid, Druid,
+and dungeon-routing semantics are no longer open questions.
