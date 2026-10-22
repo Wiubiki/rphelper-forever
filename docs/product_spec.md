@@ -26,6 +26,39 @@ When detection is uncertain, prefer a simple conservative implementation, or def
 
 Ordinary addon event processing does not inherently generate network traffic. Its main costs are CPU and memory; actual public chat messages also create server traffic and affect other players. Optimise for avoiding unnecessary processing and excessive public output, rather than an assumed API-related ping cost.
 
+### Opt-in runtime diagnostics
+
+The v0.9 prerelease includes a local, session-only observation mode for the four
+already registered gameplay paths. It is disabled and empty at addon
+initialization and is controlled only by:
+
+- `/rph debug on`
+- `/rph debug off`
+- `/rph debug status`
+- `/rph debug show`
+- `/rph debug clear`
+- `/rph debug help`
+
+`show` displays the latest ten retained records in sequence order. Capture uses
+a 100-record ring buffer, has no timer or polling loop, and continues to observe
+event delivery when the master reaction switch is disabled. Turning capture off
+retains the current records; clearing records does not change the on/off state.
+
+Diagnostic state and records are never written to `RPHelperDB` or any other
+SavedVariable. Records contain only normalized, already-inspected fields: a
+session sequence number, a safe relative timestamp when available, event and
+activity categories where observed, fixed classification reasons, and approved
+unit/action/class/spell/ability values. They never retain callback argument
+tables, cast GUIDs, names, target identity, chat or combat-log text, spell names,
+or arbitrary object representations. Restricted and malformed fields use fixed
+labels or reasons instead of being coerced or displayed.
+
+Capture is passive: it neither invokes a reaction nor changes event registration,
+chance, cooldown, quota, encounter state, selection, or output routing. A record
+shows what the client delivered and how the current classifier interpreted it;
+it is not by itself proof that a mapping is correct or that the server accepted
+an automatic output.
+
 ## Output behaviour by context
 
 RPHelper distinguishes between custom emotes, spoken sayings, and local-only sayings.

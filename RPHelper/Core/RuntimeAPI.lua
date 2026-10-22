@@ -3,6 +3,11 @@ RPHelper.RuntimeAPI = RPHelper.RuntimeAPI or {}
 
 local API = RPHelper.RuntimeAPI
 
+local playableClasses = {
+    WARRIOR = true, ROGUE = true, HUNTER = true, SHAMAN = true, DRUID = true,
+    PALADIN = true, MAGE = true, PRIEST = true, WARLOCK = true,
+}
+
 local function call(api, ...)
     if type(api) ~= "function" then
         return false
@@ -11,17 +16,45 @@ local function call(api, ...)
 end
 
 -- Forever defensive feedback only. Unused flag/amount/school fields are never read.
+local function safeField(value)
+    local ok, secret = call(issecretvalue, value)
+    if not ok or secret ~= false then return nil, "restricted" end
+    return value, "readable"
+end
+
+local function safeUnitToken(value)
+    if type(value) ~= "string" then return "invalid" end
+    if value == "player" then return "player" end
+    if value == "target" or value == "targettarget" or value == "focus"
+        or value == "pet" or value == "vehicle" or value == "mouseover"
+        or string.match(value, "^party%d+$") or string.match(value, "^raid%d+$")
+        or string.match(value, "^nameplate%d+$") or string.match(value, "^boss%d+$")
+        or string.match(value, "^arena%d+$") then return value end
+    return "other"
+end
+
 function API.ClassifyUnitCombat(unitTarget, action)
-    local unitOK, unitSecret = call(issecretvalue, unitTarget)
-    local actionOK, actionSecret = call(issecretvalue, action)
-    if not unitOK or unitSecret ~= false or not actionOK or actionSecret ~= false then
-        return nil
-    end
-    if type(unitTarget) ~= "string" or type(action) ~= "string" then return nil end
-    if unitTarget ~= "player" then return nil end
-    if action == "DODGE" then return "dodge" end
-    if action == "PARRY" then return "parry" end
-    if action == "BLOCK" then return "block" end
+    local safeUnit, unitState = safeField(unitTarget)
+    local safeAction, actionState = safeField(action)
+    local detail = {
+        unit = unitState == "readable" and safeUnitToken(safeUnit) or "restricted",
+        action = actionState == "readable" and type(safeAction) == "string"
+            and ({ DODGE = "DODGE", PARRY = "PARRY", BLOCK = "BLOCK" })[safeAction]
+            or (actionState == "readable" and "unsupported" or "restricted"),
+        matched = false,
+    }
+    if unitState ~= "readable" then detail.result = "unit_restricted"; return nil, detail end
+    if actionState ~= "readable" then detail.result = "action_restricted"; return nil, detail end
+    if type(safeUnit) ~= "string" then detail.result = "invalid_unit_type"; return nil, detail end
+    if type(safeAction) ~= "string" then detail.result = "invalid_action_type"; return nil, detail end
+    if safeUnit ~= "player" then detail.result = "wrong_unit"; return nil, detail end
+    local trigger
+    if safeAction == "DODGE" then trigger = "dodge" end
+    if safeAction == "PARRY" then trigger = "parry" end
+    if safeAction == "BLOCK" then trigger = "block" end
+    if not trigger then detail.result = "unsupported_action"; return nil, detail end
+    detail.result, detail.matched = "matched", true
+    return trigger, detail
 end
 
 -- Ordinary registration avoids assuming unit-filtered registration is supported.
@@ -42,17 +75,34 @@ API.AbilitySpellIDs = {
 
 -- GUID and cast-bar fields are intentionally unused, including when secret.
 function API.ClassifySpellcastSucceeded(unitTarget, castGUID, spellID, class)
-    local unitOK, unitSecret = call(issecretvalue, unitTarget)
-    if not unitOK or unitSecret ~= false then return nil end
-    if type(unitTarget) ~= "string" or unitTarget ~= "player" then return nil end
-    local spellOK, spellSecret = call(issecretvalue, spellID)
-    if not spellOK or spellSecret ~= false then return nil end
-    if type(spellID) ~= "number" or spellID <= 0 or spellID >= math.huge
-        or spellID ~= spellID or spellID % 1 ~= 0 then return nil end
-    local classOK, classSecret = call(issecretvalue, class)
-    if not classOK or classSecret ~= false or type(class) ~= "string" then return nil end
-    local spells = API.AbilitySpellIDs[class]
-    return spells and spells[spellID] or nil
+    local safeUnit, unitState = safeField(unitTarget)
+    local detail = {
+        unit = unitState == "readable" and safeUnitToken(safeUnit) or "restricted",
+        class = "unavailable",
+        matched = false,
+    }
+    if unitState ~= "readable" then detail.result = "unit_restricted"; return nil, detail end
+    if type(safeUnit) ~= "string" then detail.result = "invalid_unit_type"; return nil, detail end
+    if safeUnit ~= "player" then detail.result = "wrong_unit"; return nil, detail end
+
+    local safeSpell, spellState = safeField(spellID)
+    if spellState ~= "readable" then detail.result = "spell_restricted"; return nil, detail end
+    if type(safeSpell) ~= "number" or safeSpell <= 0 or safeSpell >= math.huge
+        or safeSpell ~= safeSpell or safeSpell % 1 ~= 0 then
+        detail.result = "invalid_spell_id"; return nil, detail
+    end
+    detail.spellID = safeSpell
+
+    local safeClass, classState = safeField(class)
+    if classState ~= "readable" or type(safeClass) ~= "string" or not playableClasses[safeClass] then
+        detail.result = "unmapped"; return nil, detail
+    end
+    detail.class = safeClass
+    local spells = API.AbilitySpellIDs[safeClass]
+    local ability = spells and spells[safeSpell] or nil
+    if not ability then detail.result = "unmapped"; return nil, detail end
+    detail.result, detail.matched, detail.ability = "mapped", true, ability
+    return ability, detail
 end
 
 function API.RegisterAbilityEvents(frame)
