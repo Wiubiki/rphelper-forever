@@ -3,7 +3,6 @@ local tests = 0
 
 local function test(name, callback)
     if string.find(name, " migration") or string.find(name, " migrations")
-        or name == "Druid speech suppression follows initialized saved settings"
         or name == "customization: shipped duplicate text and reused input table have independent IDs"
         or name == "customization: reload and unrelated additions preserve IDs while text edits get new identities" then
         return
@@ -2436,32 +2435,33 @@ test("Druid speech is suppressed in recognised and unknown forms", function()
     end
 end)
 
-test("Druid speech returns in humanoid form and can be configured later", function()
+test("Druid speech returns only in humanoid form", function()
     local humanoid = Engine.PrepareCandidate(
         { type = "say", text = "Spoken." },
         { class = RPHelper.Class.DRUID, form = "HUMANOID", resolvers = {} }
     )
     equal(humanoid.text, "Spoken.")
 
-    local optedOut = Engine.PrepareCandidate(
+    local cannotOptOut = Engine.PrepareCandidate(
         { type = "say", text = "Spoken." },
         { class = RPHelper.Class.DRUID, form = "CAT", suppressSayInForms = false, resolvers = {} }
     )
-    equal(optedOut.text, "Spoken.")
+    equal(cannotOptOut, nil)
 end)
 
-test("Druid speech suppression follows initialized saved settings", function()
+test("Druid speech suppression ignores retired saved settings", function()
     local previousDatabase = RPHelperDB
     RPHelperDB = nil
     RPHelper.InitializeDatabase()
-    equal(RPHelperDB.settings.suppressSayInForms, true)
+    equal(RPHelperDB.settings.suppressSayInForms, nil)
 
     RPHelperDB.settings.suppressSayInForms = false
     local candidate = Engine.PrepareCandidate(
         { type = "say", text = "Spoken." },
         { class = RPHelper.Class.DRUID, form = "CAT", resolvers = {} }
     )
-    equal(candidate.text, "Spoken.")
+    equal(candidate, nil)
+    equal(RPHelperDB.settings.suppressSayInForms, false)
     RPHelperDB = previousDatabase
 end)
 
@@ -2809,7 +2809,7 @@ customTest("form replacement and speech suppression apply to custom content", fu
     truthy(User.SetDefaultDisabled(RPHelper.GetDruidFormPool("CAT", trigger)[1].defaultID, true))
     equal(#RPHelper.GetPreparedContentPool(trigger, nil, "DRUID", options), 2)
     RPHelperDB.settings.suppressSayInForms = false
-    equal(#RPHelper.GetPreparedContentPool(trigger, nil, "DRUID", options), 3)
+    equal(#RPHelper.GetPreparedContentPool(trigger, nil, "DRUID", options), 2)
 end)
 
 customTest("index is reused and edits invalidate it", function()

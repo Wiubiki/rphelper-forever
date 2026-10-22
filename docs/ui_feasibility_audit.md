@@ -25,9 +25,10 @@ repository uses it now. Neither substitutes for live testing in WoW Forever.
   default exclusion, and preparation eligibility, but no UI calls it.
 - Current output uses global `DoEmote(token)`, `SendChatMessage(..., "EMOTE")`,
   `SendChatMessage(..., "SAY")`, and local chat-frame display through an adapter.
-- The unreleased development code uses schema v1. V1.0 starts with approved but
-  unimplemented schema v2; no development-settings migration is required.
-- Current selection is uniform; event priority and reaction weights do not exist.
+- Schema v2 and runtime policy v2 are implemented; no development-settings
+  migration is required.
+- Current selection is weighted after eligibility; event Priority bypasses only
+  the shared cooldown, and dungeon Say routing is character-configurable.
 
 ## UI API and widget feasibility
 
@@ -114,7 +115,7 @@ a local textual sample only.
 
 ## Runtime and schema-v2 interactions
 
-The UI design requires new approved-but-unimplemented data and behavior:
+The UI design uses the following implemented runtime data and behavior:
 
 - global `reactionChance` baseline;
 - optional per-event chance replacing that baseline;
@@ -125,28 +126,28 @@ The UI design requires new approved-but-unimplemented data and behavior:
 - per-built-in weight storage keyed by permanent ID.
 - per-character dungeon Say routing (`broadcast` or `local`).
 
-The simplest schema extension is sparse character fields plus
+Schema v2 uses sparse character fields plus
 `reactionOverrides[permanentID].weight`; Built-in activation continues to use
 `disabledDefaults`, while Custom activation/weight live on each custom record.
 All UI reads/writes must go through shared validation/resolution APIs and retain
 schema-v2 sparse-default behavior and V1.0-onward update guarantees.
 
-### Conflicts with current behavior
+### Implemented runtime transition
 
-| Area | Current unreleased schema-v1/runtime | V1.0 release | Release treatment |
+| Area | Retired development behavior | Implemented V1.0 behavior | Release treatment |
 | --- | --- | --- | --- |
 | Baseline chance | Per-trigger defaults vary and a preset multiplies them. | Global 5%, replaced by optional event override. | Do not import v1 settings. Fresh schema v2 inherits 5% until the player writes an override. |
 | Cooldown | Global default 10 seconds plus per-trigger cooldowns. | One global cooldown, default 20; priority bypasses only it. | Do not import v1 cooldowns. Schema v2 contains no event/reaction cooldown fields. |
 | Encounter quota | Active by default at 2. | Disabled by default; retained value 2 when enabled. | Do not import v1 quota state. Fresh schema v2 inherits disabled/value 2 without materializing overrides. |
 | Raid policy | `enableInRaids` can be true. | Unconditional pre-pipeline suppression. | Do not carry the development toggle into schema v2. No release setting can override policy. |
 | Druid speech | Suppression can be false. | Unconditional Say filtering while shapeshifted. | Do not carry the development toggle into schema v2. Apply policy to Built-in and Custom Say candidates. |
-| Selection | Uniform among eligible candidates. | Integer reaction weights. | Implement weighted selection after eligibility without changing chance, routing, cooldown, or quota order. |
-| Priority | No priority behavior exists. | Bypasses global cooldown only and never modifies its timer. | Implement at the cooldown gate; it still obeys quota, enabled state, chance, eligibility, routing, and final safety. No queue is required. |
-| Dungeon Say | Dungeon Say always broadcasts. | Per-character broadcast default or local-only. | Add sparse `dungeonSayMode`; a fresh absent value inherits `broadcast`. This affects Say only. |
+| Selection | Uniform among eligible candidates. | Integer reaction weights. | Weighted selection runs after eligibility without changing chance, routing, cooldown, or quota order. |
+| Priority | No priority behavior existed. | Bypasses global cooldown only and never modifies its timer. | Implemented at the cooldown gate; it still obeys quota, enabled state, chance, eligibility, routing, and final safety. No queue exists. |
+| Dungeon Say | Dungeon Say always broadcast. | Per-character broadcast default or local-only. | Sparse `dungeonSayMode`; a fresh absent value inherits `broadcast`. This affects Say only. |
 
-These are specification dependencies, not reasons the widgets themselves are
-infeasible. The approved runtime behavior must be implemented and tested before
-binding controls.
+These runtime dependencies are implemented and tested. The future graphical UI
+must bind controls through the existing shared APIs rather than duplicating
+policy logic.
 
 ### Policy preservation
 

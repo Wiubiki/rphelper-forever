@@ -4,11 +4,10 @@
 
 This document defines the approved V1.0 user experience. It is a design
 specification, not a claim that the UI or its settings semantics are implemented.
-The current unreleased development build has no graphical settings interface and
-uses SavedVariables schema version 1. V1.0 starts with the approved but
-unimplemented schema-v2 persistence model defined in
-[SavedVariables Architecture](savedvariables_architecture.md). Development-build
-settings are not a supported migration source.
+The current build has no graphical settings interface. It uses the implemented
+schema-v2 persistence and runtime-policy model defined in
+[SavedVariables Architecture](savedvariables_architecture.md).
+Development-build settings are not a supported migration source.
 
 The UI is character-specific. It does not provide account settings, profiles,
 import/export, or character-to-character sharing. Final labels and explanatory
@@ -159,8 +158,8 @@ change event chance, cooldown, priority, quota, or routing. A weight of 2 gives 
 reaction twice the selection weight of a reaction with weight 1; it does not
 guarantee output or a fixed percentage over a small sample.
 
-Weighted selection is approved but not currently implemented; current candidate
-selection is uniform.
+Weighted selection is implemented in the shared runtime content path after
+eligibility filtering.
 
 ## Approved reaction-processing flow
 
@@ -380,6 +379,6 @@ Raid suppression and Druid Say suppression are unconditional policies, not saved
 settings. No schema-v2 fields can override them.
 
 `reactionChance`, `encounterQuotaEnabled`, priority, reaction weights, and
-`reactionOverrides` are schema-v2 requirements. They are absent from the current
-development code and require implementation/validation before the UI can bind to
-them; they do not require schema-v1 compatibility code.
+`reactionOverrides` are implemented schema-v2/runtime fields. The future UI can
+bind to their shared configuration and content-management APIs; they require no
+schema-v1 compatibility code.

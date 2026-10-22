@@ -23,8 +23,6 @@ local abilityEventsRegistered = false
 local defensiveTriggers = { dodge = true, parry = true, block = true }
 
 local lastGlobal, lastObserved
-local lastTrigger = {}
-local lastAbility = {}
 local combatOutputs = 0
 
 local function field(container, key)
@@ -57,18 +55,23 @@ end
 local function handleReaction(trigger, abilityClass)
     if not abilityClass and defensiveTriggers[trigger] and not inCombat then return false end
     local key = abilityClass and trigger or Runtime.TriggerConfigKey[trigger]
-    if not key or not setting("enabled") or not setting("enabled", key, abilityClass) then return false end
+    if not key then return false end
     local activity = call("GetActivity")
-    if not RPHelper.Output.IsActivityAllowed(activity, false) then return false end
+    if not RPHelper.Output.IsActivityAllowed(activity) then return false end
 
+    -- Encounter quota is the first configurable policy gate. Exit reactions are
+    -- evaluated while the encounter is still active and therefore share it.
+    local quotaEnabled = setting("encounterQuotaEnabled")
+    if quotaEnabled and inCombat
+        and combatOutputs >= setting("maxAutomaticOutputsPerCombat") then return false end
+
+    local priority = setting("priority", key, abilityClass)
     local now = call("GetTime")
     if not finite(now) or now < 0 or (lastObserved and now < lastObserved) then return false end
     lastObserved = now
-    if lastGlobal and now - lastGlobal < setting("globalCooldown") then return false end
-    -- Every automatic output during an encounter shares its quota, including exit.
-    -- Out-of-combat attempts still obey probability and cooldowns.
-    if setting("encounterQuotaEnabled") and inCombat
-        and combatOutputs >= setting("maxAutomaticOutputsPerCombat") then return false end
+    if not priority and lastGlobal and now - lastGlobal < setting("globalCooldown") then return false end
+
+    if not setting("enabled") or not setting("enabled", key, abilityClass) then return false end
 
     local chance = setting("chance", key, abilityClass)
     if chance <= 0 then return false end
@@ -85,13 +88,13 @@ local function handleReaction(trigger, abilityClass)
     local options = {
         class = class,
         context = { class = class, values = values, api = api },
-        suppressSayInForms = true,
         getShapeshiftFormID = function()
             local fn = field(api, "GetShapeshiftFormID")
             if type(fn) ~= "function" then error("form API unavailable") end
             return fn()
         end,
         randomIndex = field(api, "RandomIndex"),
+        randomWeight = field(api, "Random"),
     }
     local candidate
     if abilityClass then
@@ -99,17 +102,12 @@ local function handleReaction(trigger, abilityClass)
     else
         candidate = RPHelper.ChooseContentCandidate(trigger, race, class, options)
     end
-    if not candidate or not RPHelper.Output.Dispatch(candidate, api, activity, false) then
+    if not candidate or not RPHelper.Output.Dispatch(candidate, api, activity,
+        setting("dungeonSayMode")) then
         return false
     end
-    lastGlobal = now
-    if abilityClass then
-        lastAbility[class] = lastAbility[class] or {}
-        lastAbility[class][trigger] = now
-    else
-        lastTrigger[trigger] = now
-    end
-    if inCombat then combatOutputs = combatOutputs + 1 end
+    if not priority then lastGlobal = now end
+    if quotaEnabled and inCombat then combatOutputs = combatOutputs + 1 end
     return true
 end
 
@@ -125,7 +123,7 @@ end
 
 function Runtime.HandleEvent(event, ...)
     if event == "UNIT_SPELLCAST_SUCCEEDED" then
-        if not abilityEventsRegistered or not setting("enabled") then return false end
+        if not abilityEventsRegistered then return false end
         local unitTarget, castGUID, spellID = ...
         local class = call("GetPlayerClass")
         local ability = call("ClassifySpellcastSucceeded", unitTarget, castGUID, spellID, class)
@@ -165,8 +163,6 @@ function Runtime.Initialize(frame, adapter)
     defensiveEventsRegistered = false
     abilityEventsRegistered = false
     lastGlobal, lastObserved = nil, nil
-    lastTrigger = {}
-    lastAbility = {}
     combatOutputs = 0
     local currentState = call("IsPlayerInCombat")
     inCombat = currentState == true
