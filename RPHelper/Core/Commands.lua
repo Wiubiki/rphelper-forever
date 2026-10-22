@@ -2,6 +2,7 @@ RPHelper = RPHelper or {}
 
 local function printHelp()
     print("RPHelper pre-alpha commands:")
+    print("/rph  (toggle settings window)")
     print("/rph help")
     print("/rph on")
     print("/rph off")
@@ -19,7 +20,9 @@ function RPHelper.HandleSlashCommand(message)
     local command, rest = string.match(message or "", "^(%S*)%s*(.-)$")
     command = string.lower(command or "")
 
-    if command == "" or command == "help" then
+    if command == "" then
+        if RPHelper.UI and RPHelper.UI.Toggle then RPHelper.UI.Toggle() else printHelp() end
+    elseif command == "help" then
         printHelp()
     elseif command == "on" or command == "off" then
         local settings = savedSettings()

@@ -73,4 +73,6 @@ import/export, or character-to-character sharing.
 The approved character-facing controls and their sparse schema fields are
 documented in [V1.0 UI/UX Specification](ui_ux_spec.md). Runtime policy v2 now
 implements their chance, cooldown, optional quota, priority, weight, activation,
-and dungeon-routing semantics. The graphical controls remain unimplemented.
+and dungeon-routing semantics. The first UI milestone binds global chance,
+cooldown, quota, master activation, and dungeon routing through the shared
+configuration API; event/reaction controls remain for the Library milestone.

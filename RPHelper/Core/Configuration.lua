@@ -39,9 +39,15 @@ function Config.GetSetting(name)
     local fallback = RPHelper.Defaults.settings[name]
     if fallback == nil then return nil end
     local db = root()
-    local value = db and type(db.settings) == "table" and db.settings[name]
+    local value
+    if db and type(db.settings) == "table" then value = db.settings[name] end
     if valid(name, value) then return value end
     return fallback
+end
+function Config.CanWriteSettings()
+    local db = root()
+    if not db or type(db.settings) ~= "table" then return false, "invalid_container" end
+    return true
 end
 function Config.SetSetting(name, value)
     if RPHelper.Defaults.settings[name] == nil then return false, "unknown_setting" end

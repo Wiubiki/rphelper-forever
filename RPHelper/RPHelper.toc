@@ -44,4 +44,6 @@ Data/Abilities/Paladin.lua
 Data/Abilities/Mage.lua
 Data/Abilities/Priest.lua
 Data/Abilities/Warlock.lua
+UI/Widgets.lua
+UI/MainWindow.lua
 RPHelper.lua

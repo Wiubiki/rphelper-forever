@@ -298,7 +298,8 @@ materialize defaults. No schema migration is introduced by runtime policy v2.
 `/rph status` reports the effective enabled value, falling back to the default
 for invalid saved values. `/rph on` and `/rph off` update a valid settings table;
 if the root or settings container is malformed, they report that the setting
-cannot be saved and preserve the existing data.
+cannot be saved and preserve the existing data. `/rph` toggles the addon-owned
+settings window; the existing command forms remain available.
 
 The injected runtime API supplies `GetTime()` (finite, nonnegative monotonic
 seconds), `Random()` (probability rolls), and `RandomIndex(size)` (content/template
@@ -323,11 +324,13 @@ V1 target:
 - SavedVariables persistence
 - Basic create/edit/delete for supported custom content
 
-These runtime settings and semantics are implemented through schema v2; the
-graphical controls remain unimplemented. They supersede the earlier
-frequency-preset target. V1.0 starts fresh with schema v2 and does not import
-development settings. From V1.0 onward, explicit player choices survive updates
-while raid/Druid policies remain unconditional. See
+These runtime settings and semantics are implemented through schema v2. The first
+graphical milestone implements the master switch, global chance, global cooldown,
+encounter-quota toggle/value, dungeon Say routing, and informational raid/Druid
+policies. Event and reaction management remains for the Library milestone. These
+settings supersede the earlier frequency-preset target. V1.0 starts fresh with
+schema v2 and does not import development settings. From V1.0 onward, explicit
+player choices survive updates while raid/Druid policies remain unconditional. See
 [V1.0 UI/UX Specification](ui_ux_spec.md) and
 [UI Technical Feasibility Audit](ui_feasibility_audit.md).
 
@@ -343,8 +346,8 @@ modified custom copy. Untouched settings follow current shipped defaults, while
 explicit player choices survive addon updates from V1.0 onward. Milestone 2B
 approves sparse explicit overrides and permanent authored built-in IDs in schema
 version 2, the initial supported release schema. No legacy-addon or unreleased
-development-settings compatibility is required. Schema v2 is not yet implemented;
-see [SavedVariables Architecture](savedvariables_architecture.md).
+development-settings compatibility is required. Schema v2 is implemented; see
+[SavedVariables Architecture](savedvariables_architecture.md).
 
 ## Explicitly deferred
 
