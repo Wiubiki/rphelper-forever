@@ -3,6 +3,7 @@ RPHelper.ContentEngine = RPHelper.ContentEngine or {}
 
 local ContentEngine = RPHelper.ContentEngine
 local insultProvider
+local MAX_WEIGHTED_INDEX = 2147483647
 
 local function chooseIndex(size, randomIndex)
     local chooser = randomIndex or math.random
@@ -244,6 +245,44 @@ function ContentEngine.ChooseCandidate(pool, options)
         return nil
     end
 
-    local index = chooseIndex(#eligible, options.randomIndex)
-    return index and eligible[index] or nil
+    local totalWeight, maximumWeight = 0, 0
+    local weights = {}
+    for index, candidate in ipairs(eligible) do
+        local weight = 1
+        if candidate.customID then
+            if RPHelper.Configuration
+                and RPHelper.Configuration.IsPositiveInteger(candidate.weight) then
+                weight = candidate.weight
+            end
+        elseif candidate.defaultID and RPHelper.Configuration then
+            weight = RPHelper.Configuration.GetDefaultWeight(candidate.defaultID)
+        end
+        weights[index] = weight
+        totalWeight = totalWeight + weight
+        if weight > maximumWeight then maximumWeight = weight end
+    end
+
+    if totalWeight < math.huge and totalWeight <= MAX_WEIGHTED_INDEX then
+        local selected = chooseIndex(totalWeight, options.randomIndex)
+        if not selected then return nil end
+        local boundary = 0
+        for index, candidate in ipairs(eligible) do
+            boundary = boundary + weights[index]
+            if selected <= boundary then return candidate end
+        end
+        return nil
+    end
+
+    -- Schema v2 deliberately has no arbitrary weight ceiling. Normalize only
+    -- when an integer draw could exceed conservative client RNG bounds.
+    local chooser = options.randomWeight or math.random
+    local ok, roll = pcall(chooser)
+    if not ok or type(roll) ~= "number" or roll ~= roll or roll < 0 or roll >= 1 then return nil end
+    local scaledTotal = 0
+    for _, weight in ipairs(weights) do scaledTotal = scaledTotal + weight / maximumWeight end
+    local selected, boundary = roll * scaledTotal, 0
+    for index, candidate in ipairs(eligible) do
+        boundary = boundary + weights[index] / maximumWeight
+        if selected < boundary then return candidate end
+    end
 end

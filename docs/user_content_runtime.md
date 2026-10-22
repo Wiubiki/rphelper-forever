@@ -30,7 +30,12 @@ RPHelperDB.disabledDefaults = {
 }
 ```
 
-Initialization fills only missing fields and recursively applies missing setting defaults. It preserves valid false values, existing table identities, custom records, counters, overrides, obsolete exclusions and unknown fields. It does not bump or overwrite an existing schema version. No migration is introduced: older unrelated custom fields are preserved without guessing their meaning.
+Initialization creates only missing structural schema-v2 containers. Settings,
+triggers, abilities, and reaction overrides remain sparse; shipped defaults are
+resolved at read time. Valid false values, existing table identities, custom
+records, counters, overrides, obsolete exclusions, and unknown fields are
+preserved. Unsupported schema versions are not mutated. No migration is
+introduced by runtime policy v2.
 
 Malformed roots/containers/subcontainers are preserved, not reset. An invalid custom container disables custom selection/writes while shipped content and runtime setting fallbacks remain available. A malformed exclusion container has no filtering effect and cannot be written by the customization API. Commands retain their existing behavior for malformed settings. Repeated initialization is safe and invalidates only the in-memory custom index.
 
@@ -64,20 +69,14 @@ New entries store supported scope/content fields; a supplied `defaultID` cannot 
 
 ## Stable shipped identities
 
-Every registration function assigns a `defaultID` to its registered entry, without changing the caller's input table. Raw shipped pool getters still expose the catalogue and IDs for future editors. Custom entries use separate monotonic `custom:N` keys.
-
-A shipped ID begins `default:v1:` and encodes:
-
-1. Layer and owner (race/class/form where applicable).
-2. Semantic trigger or canonical ability key.
-3. Output type, exact text or template, and ordered choice arrays.
-4. An occurrence suffix among otherwise identical entries in that scope.
-
-Components use length-prefix encoding rather than a hash, so distinct supported attributes cannot collide through hash truncation or delimiters. No locale conversion, punctuation normalization or registration-position ID is used. IDs are longer than hashes; only excluded IDs are persisted, and no per-event identity generation occurs.
-
-Unrelated content additions, ordering changes of different entries and simulated reloads preserve IDs. Identical texts in different scopes/types have different IDs. Exact duplicates within one scope receive distinct occurrence suffixes and can be individually disabled, even if the same input table was registered twice.
-
-Editing text, output type, template choices or scope produces a new identity. The edited/replacement reaction therefore starts enabled; an old exclusion remains stored and harmless. Removing a reaction does not delete its exclusion, so restoring the exact identity restores that choice. Completely identical duplicates have no intrinsic authorship distinction: changing/removing members of that identical group can reassign occurrence suffixes. Preserving a specific indistinguishable member across such edits would require explicit authored IDs, which this milestone does not add. Ordinary unrelated additions do not reassign them.
+Every shipped reaction has a repository-unique permanent authored `defaultID`.
+Registration validates and copies that ID without changing the caller's input
+table. IDs identify conceptual reactions rather than derived text, order, or
+duplicate occurrence, so ordinary wording and catalogue-order changes retain
+identity. A genuinely new or repurposed reaction receives a new ID. Exact
+duplicates have distinct authored IDs and can be managed independently. Raw
+shipped pool getters expose these IDs; Custom entries use separate monotonic
+`custom:N` keys.
 
 `disabledDefaults[id] == true` excludes an entry; other values do not. Re-enabling removes that key. Unknown/obsolete IDs remain safe to store. This does not alter or remove shipped content, and exclusions never apply to custom entries.
 
@@ -87,7 +86,19 @@ Character selection filters shipped Generic/Race/Class candidates, then appends 
 
 `GetContentPool` and `GetAbilityContentPool` return applicable candidates before keyword/form preparation. `GetPrepared*`/`Choose*` continue to use `ContentEngine.PrepareCandidate` and the existing chooser. Raw `GetGenericPool`, `GetRacePool`, `GetClassPool`, `GetDruidFormPool`, `GetAbilityPool` remain shipped-catalogue accessors. Filtering occurs before template expansion/resolution.
 
-Prepared custom entries reach `Runtime` and `Output` through the same path as defaults. They obey master/individual settings, chance and frequency, global and reaction cooldowns, the shared combat quota through exit, activity routing and Druid restrictions. Eligible out-of-combat ability activations retain the existing no-encounter-quota behavior. Rejected candidates/failed dispatch consume no cooldown or quota. Empty pools produce no output. Target/pet context is never guessed to make a custom line eligible.
+Prepared custom entries reach `Runtime` and `Output` through the same path as
+defaults. They obey master/individual settings, replacing event chance, the
+shared global cooldown and Priority behavior, the optional combat quota through
+exit, weighted selection, activity routing, and Druid restrictions. Eligible
+out-of-combat ability activations do not check or consume encounter quota.
+Rejected candidates and failed dispatch consume neither cooldown nor quota.
+Empty pools produce no output. Target/pet context is never guessed to make a
+custom line eligible.
+
+Selection weights are applied only after candidate preparation. Built-in
+weights resolve through permanent-ID overrides; Custom weights resolve from the
+Custom record. Missing or invalid persisted values use weight 1 without changing
+the saved value. Disabled entries do not enter the eligible pool.
 
 Custom IDs appear as `customID` on candidates; shipped IDs appear as `defaultID`. Preparation copies the candidate before expansion. Pool/registration objects are internal read-only references; callers must not mutate them.
 
@@ -114,7 +125,15 @@ Add copies caller data; list returns copies. Management mutations invalidate a s
 
 ## Verification and remaining work
 
-Deterministic coverage includes CRUD/reload persistence, scope/type/keyword/template eligibility, malformed and future records, empty/duplicate pools, secret/missing context, stable default identities across simulated content updates, obsolete exclusions, cache reuse/invalidation, unknown-field preservation, malformed database containers, guarded cast-success and defensive events, master/individual settings, probability/frequency, cooldown boundaries, shared quotas, failed dispatch, activity routes and Druid speech suppression.
+Deterministic coverage includes CRUD/reload persistence,
+scope/type/keyword/template eligibility, malformed and future records,
+empty/duplicate pools, secret/missing context, stable default identities across
+simulated content updates, obsolete exclusions, cache reuse/invalidation,
+unknown-field preservation, malformed database containers, guarded cast-success
+and defensive events, master/individual settings, replacing probability,
+Priority and shared-cooldown boundaries, optional shared quotas, weighted mixed
+Built-in/Custom pools, failed dispatch, activity routes, and Druid speech
+suppression.
 
 The graphical settings/content editor is not implemented here. Milestone 2B now
 requires basic custom-content create/edit/delete/preview for V1.0 and permanently
@@ -127,11 +146,8 @@ and existing automatic-output permissions; mocked tests do not establish those
 client guarantees.
 
 The approved navigation, library, editor, reaction types, and local-preview
-behavior are specified in [V1.0 UI/UX Specification](ui_ux_spec.md). Event
-priority, reaction weights, Custom activation metadata, and the new global
-frequency controls described there are approved but absent from this schema-v1
-runtime. Schema v2 removes event/reaction cooldowns, makes quota optional, and
-adds per-character dungeon Say routing. It enforces raid suppression and Druid
-Say suppression as policies without carrying development toggles forward. This
-paragraph describes the approved V1.0 state; the behavior above remains only the
-current unreleased implementation.
+behavior are specified in [V1.0 UI/UX Specification](ui_ux_spec.md). Runtime
+policy v2 implements event Priority, reaction weights, Custom activation,
+replacing event chance, the single global cooldown, optional quota, and
+per-character dungeon Say routing. Raid suppression and Druid Say suppression
+are unconditional. The graphical editor remains unimplemented.

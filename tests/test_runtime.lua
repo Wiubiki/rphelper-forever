@@ -121,6 +121,11 @@ local function enableQuota(maximum)
     setSetting("encounterQuotaEnabled", true)
 end
 
+local function setDefaultWeight(id, weight)
+    local ok, err = RPHelper.Configuration.SetDefaultWeight(id, weight)
+    if not ok then error("cannot set reaction weight: " .. tostring(err), 2) end
+end
+
 local function initialize(adapter)
     RPHelperDB = nil
     RPHelper.InitializeDatabase()
@@ -425,6 +430,18 @@ test("event chance replaces the global chance", function()
     equal(fire(), false)
 end)
 
+test("chance rejection occurs before candidate-pool construction", function()
+    local a = policyAdapter()
+    setTrigger("enter_combat", "chance", 0.2)
+    a.roll = 0.2
+    local choose = RPHelper.ChooseContentCandidate
+    RPHelper.ChooseContentCandidate = function() error("pool must not be constructed") end
+    local ok, result = pcall(fire)
+    RPHelper.ChooseContentCandidate = choose
+    truthy(ok)
+    equal(result, false)
+end)
+
 test("global cooldown expires at the exact boundary", function()
     local a = policyAdapter()
     a.clockStep = 0
@@ -440,6 +457,68 @@ test("global cooldown expires at the exact boundary", function()
     truthy(fire())
 end)
 
+test("priority bypasses cooldown and does not reset it", function()
+    local a = policyAdapter()
+    a.clockStep = 0
+    setSetting("globalCooldown", 20)
+    truthy(fire())
+    setTrigger("leave_combat", "priority", true)
+    a.now = 1
+    truthy(RPHelper.Runtime.HandleTrigger("leavecombat"))
+    a.now = 19
+    equal(fire(), false)
+    a.now = 20
+    truthy(fire())
+    equal(#a.output, 3)
+end)
+
+test("priority remains subject to quota and raid suppression", function()
+    local a = policyAdapter()
+    setTrigger("enter_combat", "priority", true)
+    enableQuota(1)
+    a.activity = "raid"
+    equal(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"), false)
+    a.activity = "dungeon"
+    setTrigger("enter_combat", "enabled", false)
+    equal(fire(), false)
+    setTrigger("enter_combat", "enabled", true)
+    setTrigger("enter_combat", "chance", 0)
+    equal(fire(), false)
+    setTrigger("enter_combat", "chance", 1)
+    truthy(fire())
+    setTrigger("leave_combat", "priority", true)
+    equal(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_ENABLED"), false)
+    equal(#a.output, 1)
+end)
+
+test("failed priority dispatch consumes neither quota nor cooldown", function()
+    local a = policyAdapter()
+    a.clockStep = 0
+    enableQuota(1)
+    setSetting("globalCooldown", 20)
+    setTrigger("enter_combat", "priority", true)
+    local send = a.SendSay
+    a.SendSay = function() return false end
+    equal(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"), false)
+    a.SendSay = send
+    setTrigger("enter_combat", "priority", false)
+    truthy(fire())
+    equal(fire(), false)
+    equal(#a.output, 1)
+end)
+
+test("priority still requires a valid monotonic clock", function()
+    local a = policyAdapter()
+    a.clockStep = 0
+    setTrigger("enter_combat", "priority", true)
+    for _, value in ipairs({ -1, math.huge, 0/0, "bad" }) do
+        a.now = value
+        equal(fire(), false)
+    end
+    a.now = 0
+    truthy(fire())
+end)
+
 test("quota includes exit and resets only at encounter boundaries", function()
     local a = policyAdapter()
     enableQuota(1)
@@ -449,6 +528,17 @@ test("quota includes exit and resets only at encounter boundaries", function()
     equal(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_ENABLED"), false)
     truthy(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"))
     equal(#a.output, 2)
+end)
+
+test("outputs while quota is disabled do not pre-consume a later enabled quota", function()
+    local a = policyAdapter()
+    truthy(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"))
+    truthy(fire())
+    enableQuota(1)
+    truthy(fire())
+    equal(fire(), false)
+    equal(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_ENABLED"), false)
+    equal(#a.output, 3)
 end)
 
 test("every output route consumes the shared encounter quota including exit", function()
@@ -547,6 +637,101 @@ test("activity routing preserves local say and both emote types", function()
     equal(fire(), false)
     a.GetActivity = function() error("unavailable") end
     equal(fire(), false)
+end)
+
+test("dungeon Say routing respects the local-only preference", function()
+    local a = policyAdapter()
+    truthy(fire())
+    equal(a.output[1].type, "say")
+    setSetting("dungeonSayMode", "local")
+    truthy(fire())
+    equal(a.output[2].type, "local")
+    RPHelper.Content.generic.entercombat = { { type = "emote", text = "ROAR" } }
+    truthy(fire())
+    equal(a.output[3].type, "emote")
+    RPHelper.Content.generic.entercombat = { { type = "customemote", text = "nods." } }
+    truthy(fire())
+    equal(a.output[4].type, "customemote")
+end)
+
+test("weighted selection combines built-in and custom reaction weights", function()
+    local a = newAdapter("WEIGHT_TEST", "NO_RACE", nil)
+    initialize(a)
+    local previous = RPHelper.Content.generic.entercombat
+    afterEach(function() RPHelper.Content.generic.entercombat = previous end)
+    local defaultID = "default:test:runtime_weighted_builtin"
+    RPHelper.Content.generic.entercombat = {
+        { type = "say", text = "Built-in.", defaultID = defaultID },
+    }
+    setDefaultWeight(defaultID, 2)
+    local customID = RPHelper.UserContent.Add(
+        { layer = "generic", trigger = "entercombat" },
+        { type = "say", text = "Custom." },
+        { weight = 3 })
+    truthy(customID)
+
+    local selections = { 2, 3 }
+    a.RandomIndex = function(size)
+        equal(size, 5)
+        return table.remove(selections, 1)
+    end
+    truthy(RPHelper.Runtime.HandleTrigger("entercombat"))
+    truthy(RPHelper.Runtime.HandleTrigger("entercombat"))
+    equal(a.output[1].text, "Built-in.")
+    equal(a.output[2].text, "Custom.")
+
+    truthy(RPHelper.UserContent.SetDefaultDisabled(defaultID, true))
+    a.RandomIndex = function(size) equal(size, 3); return 1 end
+    truthy(RPHelper.Runtime.HandleTrigger("entercombat"))
+    equal(a.output[3].text, "Custom.")
+    truthy(RPHelper.UserContent.SetEnabled(customID, false))
+    equal(RPHelper.Runtime.HandleTrigger("entercombat"), false)
+end)
+
+test("weighted selection filters ineligible content and falls back from invalid weights", function()
+    local a = newAdapter("WEIGHT_TEST", "NO_RACE", nil)
+    initialize(a)
+    local previous = RPHelper.Content.generic.entercombat
+    afterEach(function() RPHelper.Content.generic.entercombat = previous end)
+    local defaultID = "default:test:runtime_weighted_ineligible"
+    local invalidDefaultID = "default:test:runtime_weighted_invalid"
+    RPHelper.Content.generic.entercombat = {
+        { type = "say", text = "Attack {TARGET}.", defaultID = defaultID },
+        { type = "say", text = "Built-in fallback.", defaultID = invalidDefaultID },
+    }
+    setDefaultWeight(defaultID, 100)
+    RPHelperDB.reactionOverrides[invalidDefaultID] = { weight = 0 }
+    local customID = RPHelper.UserContent.Add(
+        { layer = "generic", trigger = "entercombat" },
+        { type = "say", text = "Safe." },
+        { weight = 4 })
+    truthy(customID)
+    RPHelperDB.custom.entries[customID].weight = 0
+    RPHelper.UserContent.Invalidate()
+    a.RandomIndex = function(size) equal(size, 2); return 2 end
+    truthy(RPHelper.Runtime.HandleTrigger("entercombat"))
+    equal(a.output[1].text, "Safe.")
+    equal(RPHelperDB.custom.entries[customID].weight, 0)
+    equal(RPHelperDB.reactionOverrides[invalidDefaultID].weight, 0)
+end)
+
+test("weighted selection normalizes valid weights beyond integer RNG bounds", function()
+    local a = newAdapter("WEIGHT_TEST", "NO_RACE", nil)
+    initialize(a)
+    local previous = RPHelper.Content.generic.entercombat
+    afterEach(function() RPHelper.Content.generic.entercombat = previous end)
+    local firstID = "default:test:runtime_weighted_huge_first"
+    local secondID = "default:test:runtime_weighted_huge_second"
+    RPHelper.Content.generic.entercombat = {
+        { type = "say", text = "First.", defaultID = firstID },
+        { type = "say", text = "Second.", defaultID = secondID },
+    }
+    setDefaultWeight(firstID, 1e308)
+    setDefaultWeight(secondID, 1e308)
+    a.roll = 0.75
+    a.RandomIndex = function() error("oversized integer draw must not run") end
+    truthy(RPHelper.Runtime.HandleTrigger("entercombat"))
+    equal(a.output[1].text, "Second.")
 end)
 
 test("missing local display never falls back to transmission", function()
@@ -946,8 +1131,8 @@ defensiveTest("defensive individual toggles and master switch preserve encounter
 end)
 
 defensiveTest("defensive chance and global cooldown retain exact boundaries", function(a)
-    RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
     a.clockStep = 0
+    RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
     setTrigger("dodge", "chance", 0.2)
     a.roll = 0.2
     equal(defend("DODGE"), false)
@@ -1366,6 +1551,20 @@ abilityTest("ability and generic outputs share the global cooldown both ways", f
     truthy(activate(20288))
 end)
 
+abilityTest("priority ability bypasses cooldown without delaying normal events", function(a)
+    a.clockStep = 0
+    setSetting("globalCooldown", 20)
+    truthy(activate(19750))
+    setAbility("PALADIN", "SEAL_OF_RIGHTEOUSNESS", "priority", true)
+    a.now = 1
+    truthy(activate(20288))
+    a.now = 19
+    equal(activate(19750), false)
+    a.now = 20
+    truthy(activate(19750))
+    equal(#a.output, 3)
+end)
+
 abilityTest("activity routing uses local sayings in world and suppresses raids", function(a)
     a.activity = "world"
     truthy(activate(19750))
@@ -1376,7 +1575,7 @@ abilityTest("activity routing uses local sayings in world and suppresses raids",
     equal(activate(19750), false)
 end)
 
-abilityTest("Druid fixture keeps speech suppression and eligible emotes", function(a)
+abilityTest("Druid fixture keeps speech suppression and eligible emotes for priority", function(a)
     -- Synthetic ID is test-only: no production Druid IDs are established.
     local mapping = RPHelper.RuntimeAPI.AbilitySpellIDs.DRUID
     local ability = RPHelper.Ability.DRUID.INNERVATE
@@ -1384,6 +1583,7 @@ abilityTest("Druid fixture keeps speech suppression and eligible emotes", functi
     RPHelper.RuntimeAPI.AbilitySpellIDs.DRUID = { [900001] = "INNERVATE" }
     RPHelper.Ability.DRUID.INNERVATE = "INNERVATE"
     setAbility("DRUID", "INNERVATE", "chance", 1)
+    setAbility("DRUID", "INNERVATE", "priority", true)
     RPHelper.Content.ability.DRUID.INNERVATE = { { type = "say", text = "speech" } }
     a.GetPlayerClass = function() return "DRUID" end
     local ok, err = pcall(function()

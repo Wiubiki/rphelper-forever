@@ -70,6 +70,7 @@ schema change must be migratable.
 V1.0 and the immediate roadmap do not include account-wide settings, profiles,
 import/export, or character-to-character sharing.
 
-The approved character-facing controls and their additional sparse schema needs
-are documented in [V1.0 UI/UX Specification](ui_ux_spec.md). They remain
-unimplemented and do not describe current schema-v1 runtime behavior.
+The approved character-facing controls and their sparse schema fields are
+documented in [V1.0 UI/UX Specification](ui_ux_spec.md). Runtime policy v2 now
+implements their chance, cooldown, optional quota, priority, weight, activation,
+and dungeon-routing semantics. The graphical controls remain unimplemented.

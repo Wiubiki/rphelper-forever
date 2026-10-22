@@ -74,17 +74,5 @@ function DruidForms.ShouldSuppressSay(options)
     if playerClass(options) ~= "DRUID" then
         return false
     end
-
-    local enabled = options.suppressSayInForms
-    if enabled == nil and type(RPHelperDB) == "table" and type(RPHelperDB.settings) == "table" then
-        enabled = RPHelperDB.settings.suppressSayInForms
-    end
-    if enabled == nil and RPHelper.Defaults and RPHelper.Defaults.settings then
-        enabled = RPHelper.Defaults.settings.suppressSayInForms
-    end
-    if enabled == nil then
-        enabled = true
-    end
-
-    return enabled and DruidForms.IsShapeshifted(DruidForms.GetCurrentForm(options))
+    return DruidForms.IsShapeshifted(DruidForms.GetCurrentForm(options))
 end

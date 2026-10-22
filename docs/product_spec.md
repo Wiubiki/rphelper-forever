@@ -187,7 +187,7 @@ Approved V1 should support:
 
 Defaults should be conservative.
 
-### Approved V1 reaction policy (unimplemented)
+### Implemented V1 reaction policy
 
 The global chance defaults to 5%. Events inherit it unless a sparse 0–100%
 override replaces it. The global cooldown defaults to 20 seconds; no event or
@@ -208,51 +208,50 @@ suppression occurs during pool construction for Built-in and Custom content;
 Emote and Custom Emote remain eligible. Every failed/suppressed attempt consumes
 neither cooldown nor quota.
 
-The unreleased schema-v1 development behavior below remains documented for
-current-state accuracy. Schema v2 is the initial supported V1.0 release schema;
-no v1 settings migration is required.
+The runtime evaluates every generic trigger, defensive action, and mapped class
+ability through one policy path:
 
-### Implemented minimal runtime policy
+1. Reject unsupported activity, including every raid.
+2. Reject an exhausted enabled encounter quota.
+3. Check the shared global cooldown unless the event is Priority.
+4. Check the master switch and event/ability switch.
+5. Apply the replacing event/ability chance, or the global chance when absent.
+6. Build and prepare the eligible content pool.
+7. Select among eligible reactions by positive integer weight.
+8. Route and dispatch the selected reaction.
+9. After successful output only, increment the active encounter quota and start
+   the global cooldown for a non-Priority event.
+
+A uniform probability roll in [0, 1) succeeds strictly below the effective
+chance. Zero rejects without content-pool construction; one succeeds without a
+probability roll. Invalid clocks, backward time, invalid random values, missing
+APIs, ineligible pools, and dispatch failure suppress the attempt without
+spending cooldown or quota.
+
+The cooldown is session-only, shared by every automatic source, and permits
+output at its exact expiry boundary. Priority bypasses only this cooldown. A
+successful Priority reaction neither starts nor changes its timer, but still
+obeys activity, quota, enablement, chance, content eligibility, and final output
+safety.
+
+An encounter begins before the entry reaction and ends after the exit reaction,
+so both share an enabled quota with defensive actions and abilities. The counter
+resets when a new encounter begins and after exit handling. Initialization while
+already in combat starts an empty session counter without inventing an entry
+reaction. Duplicate combat transitions do not emit or reset state. Out-of-combat
+ability/trigger attempts obey all other policies but do not check or consume the
+encounter quota.
+
+Reaction selection occurs after preparation and eligibility filtering. Built-in
+weights resolve from sparse overrides keyed by permanent ID; Custom weights
+resolve from their records. Missing, malformed, or non-positive persisted
+weights safely use 1. Disabled Built-in and Custom entries never enter the
+weighted pool. Shipped catalogue tables remain immutable.
 
 The current runtime detects combat entry/exit and player defensive DODGE, PARRY,
 and direct BLOCK feedback through `UNIT_COMBAT`. Defensive detection requires
 readable unit/action fields and an active runtime encounter; live Forever
 verification remains pending (see [Combat trigger API audit](combat_trigger_api_audit.md)).
-It evaluates each
-supported trigger in this order:
-
-1. Check master and individual trigger enabled settings, then activity permission.
-2. Read monotonic time; check global cooldown, per-trigger cooldown, and encounter quota.
-3. Apply the trigger probability multiplied by the frequency preset.
-4. Prepare and select eligible content using the existing keyword and Druid-form safeguards.
-5. Route and dispatch the selected candidate.
-6. Record cooldown timestamps and increment the encounter count only on successful dispatch.
-
-Frequency presets are `low` (0.5×), `normal` (1×), and `high` (2×). They multiply
-probability only, capped at 1; they do not shorten cooldowns or raise quotas.
-Existing default probabilities remain unchanged (combat entry 0.20, exit 0.15).
-A uniform roll in [0, 1) succeeds strictly below the effective probability;
-zero always rejects and one always passes without drawing a roll.
-
-Cooldowns use seconds and allow output at the exact expiry boundary. Both global
-and per-trigger cooldowns must expire. Defaults remain 10 seconds globally,
-30 seconds for each combat transition, and two automatic outputs per encounter.
-Zero cooldown permits immediate reuse; zero quota prevents all encounter output.
-All successfully dispatched types, including local sayings, count equally.
-
-An encounter begins before the entry reaction and ends after the exit reaction,
-so both share its quota. Duplicate combat events neither emit nor reset the
-counter. Initialization while already in combat starts an empty session quota
-without inventing an entry reaction. Exit clears the counter, and the next entry
-starts a new encounter. Cooldowns persist across encounters but are session-only;
-reloading resets cooldowns and quota. Disabled or suppressed reactions still
-update encounter state.
-
-Outside an encounter, trigger attempts obey the same enabled, activity,
-probability, and cooldown policies, but neither check nor consume the combat
-quota (even when it is zero). They still record successful output cooldowns.
-Defensive triggers are accepted only during an active encounter, including direct
-trigger attempts. Supported ability activations may also react outside combat.
 
 ### Implemented first ability increment
 
@@ -267,40 +266,35 @@ mapped, based on attributable third-party Forever observations. Other ranks and
 variants are not inferred. See the [spellcasting audit](spell_casting_api_audit.md#6-first-runtime-increment)
 for evidence and pending live checks; this is not RPHelper live verification.
 
-Each mapped ability defaults to enabled, 3% chance and a 30-second cooldown.
-Individual overrides live at `RPHelperDB.abilities[class][canonicalAbility]`,
-with `enabled`, `chance` and `cooldown` fields. Missing/malformed values use
-these defaults without overwriting recoverable data. There is no ability settings
-editor in this increment.
+Mapped abilities use the same schema-v2 event resolver as generic triggers:
+enabled by default, inheriting the global 5% chance unless a sparse ability
+chance replaces it, and non-Priority unless explicitly overridden. There is no
+ability cooldown. Malformed values remain stored and safely resolve to shipped
+defaults without overwriting recoverable data.
 
 Ability reactions use existing ability-content preparation, keyword eligibility
-and Druid speech suppression. They share the master switch, frequency multiplier,
-global cooldown, activity routing and combat encounter quota with generic
-reactions; ability cooldowns are distinct. Only successful dispatch spends
-cooldowns/quota. Outside combat, no encounter quota applies. Target context is
-not guessed.
+and Druid speech suppression. They share the master switch, replacing chance,
+global cooldown/priority behavior, weighted selection, activity routing, and
+optional encounter quota with generic reactions. Outside combat, no encounter
+quota applies. Target context is not guessed.
 
 Channels, form transitions, passive procs, auto-attacks, queued melee exceptions,
 empower/reticle behaviour and pets remain unsupported. No pending-cast state or
 duplicate suppression is introduced; duplicate delivery remains a live-validation
 question. Generic combat reactions retain their existing semantics.
 
-The current schema-v1 runtime behaves as follows. Open-world sayings use a
-prefixed `[RPHelper]` message in the player's existing
+Open-world sayings use a prefixed `[RPHelper]` message in the player's existing
 chat display via `AddMessage`; no chat message is transmitted. Dungeon sayings
-use `SAY`. Custom emotes use `EMOTE`; built-in emotes use `DoEmote`.
-The additive boolean setting `enableInRaids` defaults to false. When explicitly
-enabled, raid sayings remain local and both emote types are permitted.
-Unknown, inconsistent, or unsupported activity contexts suppress all output.
-Missing local display never falls back to public chat. Party redirection is not
-implemented and is not part of the approved V1 routing model.
+use `SAY` by default and use the same local display when the character's
+`dungeonSayMode` is `"local"`. Custom emotes use `EMOTE`; built-in emotes use
+`DoEmote`. Raids and unknown/inconsistent activity contexts suppress all output
+without an override. Missing local display never falls back to public chat.
+Character-attached local speech bubbles are not implemented.
 
-Runtime settings are validated without rewriting saved values. Missing or invalid
-values fall back to shipped defaults: toggles must be booleans, probabilities
-finite numbers in [0, 1], cooldowns finite nonnegative numbers, quotas finite
-nonnegative integers, and presets one of the three names above. Database startup
-preserves malformed existing containers and skips default merging into them.
-No schema version change or migration is introduced.
+Runtime settings are resolved through schema-v2 accessors without rewriting
+saved values. Missing or invalid values fall back independently to shipped
+defaults. Database startup preserves malformed existing containers and does not
+materialize defaults. No schema migration is introduced by runtime policy v2.
 `/rph status` reports the effective enabled value, falling back to the default
 for invalid saved values. `/rph on` and `/rph off` update a valid settings table;
 if the root or settings container is malformed, they report that the setting
@@ -329,12 +323,11 @@ V1 target:
 - SavedVariables persistence
 - Basic create/edit/delete for supported custom content
 
-These are approved V1.0 UI requirements and are not implemented. They supersede
-the earlier frequency-preset UI target but do not silently change current runtime
-behavior. The unreleased development runtime still uses schema-v1 defaults and
-policy described above, but V1.0 starts fresh with schema v2 and does not import
-those settings. From V1.0 onward, explicit player choices survive updates while
-raid/Druid policies remain unconditional. See
+These runtime settings and semantics are implemented through schema v2; the
+graphical controls remain unimplemented. They supersede the earlier
+frequency-preset target. V1.0 starts fresh with schema v2 and does not import
+development settings. From V1.0 onward, explicit player choices survive updates
+while raid/Druid policies remain unconditional. See
 [V1.0 UI/UX Specification](ui_ux_spec.md) and
 [UI Technical Feasibility Audit](ui_feasibility_audit.md).
 
@@ -367,15 +360,16 @@ see [SavedVariables Architecture](savedvariables_architecture.md).
 
 User-authored generic, race, class, ability and Druid-form entries now participate
 in the ordinary content and runtime policy path. Shipped entries have stable
-content-derived identities and can be individually disabled without editing the
+authored permanent identities and can be individually disabled without editing the
 catalogue. Per-character SavedVariables preserve custom content, exclusions,
 settings and unknown fields through repeated initialization and normal code
 updates; malformed containers are retained rather than reset. Editing shipped
-text creates a new identity, and exact duplicate groups have documented occurrence
-limits. The internal management API is implemented; graphical editing is not.
+wording retains its authored identity when the concept is unchanged; a new or
+repurposed reaction receives a new ID. The internal management API is
+implemented; graphical editing is not.
 Basic create/edit/delete/preview is approved for V1.0. See
-[User content runtime](user_content_runtime.md) for current schema-v1 storage,
+[User content runtime](user_content_runtime.md) for current schema-v2 storage,
 validation, identity rules, API errors and guarantees, and
-[SavedVariables Architecture](savedvariables_architecture.md) for the approved
-but unimplemented schema-v2 design. Live Forever persistence/output verification
+[SavedVariables Architecture](savedvariables_architecture.md) for the implemented
+schema-v2 design. Live Forever persistence/output verification
 remains pending.
