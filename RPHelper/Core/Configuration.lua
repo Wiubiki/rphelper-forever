@@ -40,7 +40,8 @@ function Config.GetSetting(name)
     if fallback == nil then return nil end
     local db = root()
     local value = db and type(db.settings) == "table" and db.settings[name]
-    return valid(name, value) and value or fallback
+    if valid(name, value) then return value end
+    return fallback
 end
 function Config.SetSetting(name, value)
     if RPHelper.Defaults.settings[name] == nil then return false, "unknown_setting" end
