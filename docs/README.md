@@ -65,7 +65,8 @@ automatic chat/emote permission, emote-token availability, Druid form IDs, or
 SavedVariables persistence across a real logout, reload, and addon update. See
 [runtime API assumptions](runtime_api_assumptions.md), the [combat audit](audits/combat_trigger_api_audit.md),
 and the [spellcasting audit](spell_casting_api_audit.md). No workaround for
-client restrictions is intended.
+client restrictions is intended. The correct current Forever `## Interface`
+value is also unverified and remains absent from the TOC.
 
 ## Audience and release documentation
 
@@ -80,11 +81,21 @@ The [licensing, attribution and redistribution audit](licensing_and_attribution_
 records the current provenance and permission evidence for maintainers preparing
 public distribution. It is a planning audit, not a license or legal conclusion.
 
-CurseForge publishing copy, GitHub release notes, concise installation/update
-instructions, a packaging/release checklist, verified client/interface support,
-and release screenshots are not yet repository documents. They belong to a
-separate distribution milestone; they should summarize rather than duplicate
-the in-game Guide.
+## Release and distribution
+
+- Player installation and update instructions are in the root
+  [README](../README.md#installation).
+- [CurseForge readiness](curseforge_readiness.md) records current official
+  packaging/upload guidance, the available Forever flavor, and unresolved
+  client/Interface gates.
+- The [v0.9 release checklist](release_checklist.md) covers reproducible local
+  packaging, GitHub Releases, CurseForge metadata, and launch-day checks.
+
+The deterministic local package command is
+`python3 scripts/package_addon.py build`; validation is
+`python3 scripts/package_addon.py validate`. These prepare an ignored local ZIP
+but do not publish it. Marketing copy and screenshots remain outside this
+milestone and should summarize rather than duplicate the in-game Guide.
 
 ## File inventory and disposition
 
@@ -114,6 +125,8 @@ dated. No file is proposed for deletion.
 | [forever_ability_reconciliation.md](forever_ability_reconciliation.md) | Authoritative specification | Keep directly under `docs/`; ability-review method, not a runtime allowlist. |
 | [runtime_api_assumptions.md](runtime_api_assumptions.md) | Active reference | Keep directly under `docs/`; current adapter and live-test boundaries. |
 | [user_content_runtime.md](user_content_runtime.md) | Active reference | Keep directly under `docs/`; implemented editor/runtime API details. |
+| [curseforge_readiness.md](curseforge_readiness.md) | Active reference | Keep directly under `docs/`; current platform evidence and unresolved submission gates. |
+| [release_checklist.md](release_checklist.md) | Active reference | Keep directly under `docs/`; reproducible prerelease and publication handoff. |
 | [licensing_and_attribution_audit.md](licensing_and_attribution_audit.md) | Historical audit | Keep at its required path as the dated distribution-rights evidence baseline; revisit before publication. |
 | [spell_casting_api_audit.md](spell_casting_api_audit.md) | Historical audit | Keep at its existing path because production source cites it; index it with other audits. |
 
@@ -129,6 +142,7 @@ dated. No file is proposed for deletion.
 | [hunter_beta_reconciliation.md](audits/hunter_beta_reconciliation.md) | Historical audit | Retain under `docs/audits/` with its CSV. |
 | [hunter_pet_reconciliation.md](audits/hunter_pet_reconciliation.md) | Historical audit | Retain under `docs/audits/` with its CSV. |
 | [mage_beta_reconciliation.md](audits/mage_beta_reconciliation.md) | Historical audit | Retain under `docs/audits/` with its CSV. |
+| [milestone_5a_offline_integration_audit.md](audits/milestone_5a_offline_integration_audit.md) | Historical audit | Retain as the pre-packaging offline coverage and live-client boundary record. |
 | [paladin_beta_reconciliation.md](audits/paladin_beta_reconciliation.md) | Historical audit | Retain under `docs/audits/` with its CSV. |
 | [pet_command_feasibility_audit.md](audits/pet_command_feasibility_audit.md) | Historical audit | Retain under `docs/audits/` with its inventory. |
 | [pet_runtime_feasibility_audit.md](audits/pet_runtime_feasibility_audit.md) | Historical audit | Retain under `docs/audits/` with its inventory. |
@@ -170,5 +184,5 @@ dated. No file is proposed for deletion.
 No current authoritative specification is classified as superseded. No direct
 approved-behavior/implementation contradiction was found during consolidation.
 The remaining gaps are explicitly scoped unimplemented trigger families,
-limited runtime ability mappings, missing distribution documentation/metadata,
-and live-client verification—not silent changes to approved behavior.
+limited runtime ability mappings, unverified Forever Interface metadata, and
+live-client verification—not silent changes to approved behavior.
