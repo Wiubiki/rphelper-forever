@@ -150,6 +150,7 @@ dofile("RPHelper/Core/Content.lua")
 dofile("RPHelper/Core/UserContent.lua")
 dofile("RPHelper/Core/RuntimeAPI.lua")
 dofile("RPHelper/Core/Diagnostics.lua")
+dofile("RPHelper/Core/Output.lua")
 dofile("RPHelper/Core/Runtime.lua")
 dofile("RPHelper/UI/Widgets.lua")
 dofile("RPHelper/UI/LibraryData.lua")
@@ -1410,6 +1411,112 @@ test("library navigation preserves Global Settings behaviour", function()
     equal(UI.GetCurrentPage(), "main")
     equal(UI.GetControl("reactionChance"):GetValue(), 11)
     equal(RPHelperDB.settings.reactionChance, 0.11)
+end)
+
+test("UI choices drive runtime output and remain isolated after database replacement", function()
+    freshDatabase()
+    UI.Navigate("main")
+    UI.Refresh()
+    UI.GetControl("reactionChance"):SetValue(20)
+    UI.GetControl("dungeonSayLocal"):Click()
+    equal(Config.GetSetting("reactionChance"), 0.20)
+    equal(Config.GetSetting("dungeonSayMode"), "local")
+    equal(RPHelperDB.settings.reactionChance, 0.20)
+    equal(RPHelperDB.settings.dungeonSayMode, "local")
+
+    local customID = UserContent.Add(
+        { layer = "generic", trigger = "dodge" },
+        { type = "say", text = "First character dodges." })
+    truthy(customID)
+    UI.Navigate("library")
+    local page = UI.GetLibraryPage()
+    page:SelectSection("generic")
+    truthy(page:SelectGroup("event:generic::dodge"))
+    local builtIn = findVisibleRow(page, "default:test:generic:dodge")
+    truthy(builtIn)
+    builtIn.CheckBox:Click()
+    equal(Config.IsDefaultEnabled("default:test:generic:dodge"), false)
+
+    local function newRuntimeAdapter()
+        local adapter = { output = {}, now = 0, roll = 0 }
+        function adapter.ClassifyUnitCombat(...)
+            local previousSecretInspector = issecretvalue
+            issecretvalue = function() return false end
+            local ok, trigger, detail = pcall(RPHelper.RuntimeAPI.ClassifyUnitCombat, ...)
+            issecretvalue = previousSecretInspector
+            if not ok then error(trigger) end
+            return trigger, detail
+        end
+        adapter.ClassifySpellcastSucceeded = RPHelper.RuntimeAPI.ClassifySpellcastSucceeded
+        adapter.RegisterDefensiveEvents = RPHelper.RuntimeAPI.RegisterDefensiveEvents
+        adapter.RegisterAbilityEvents = RPHelper.RuntimeAPI.RegisterAbilityEvents
+        function adapter.GetTime() return adapter.now end
+        function adapter.GetActivity() return "dungeon" end
+        function adapter.GetPlayerClass() return "WARRIOR" end
+        function adapter.GetPlayerRace() return "NO_RACE" end
+        function adapter.GetShapeshiftFormID() return nil end
+        function adapter.IsPlayerInCombat() return false end
+        function adapter.Random() return adapter.roll end
+        function adapter.RandomIndex() return 1 end
+        function adapter.DisplayLocal(text)
+            table.insert(adapter.output, { route = "local", text = text })
+            return true
+        end
+        function adapter.SendSay(text)
+            table.insert(adapter.output, { route = "say", text = text })
+            return true
+        end
+        function adapter.RunEmote(text)
+            table.insert(adapter.output, { route = "emote", text = text })
+            return true
+        end
+        function adapter.SendCustomEmote(text)
+            table.insert(adapter.output, { route = "customemote", text = text })
+            return true
+        end
+        return adapter
+    end
+
+    local first = RPHelperDB
+    local firstAdapter = newRuntimeAdapter()
+    truthy(RPHelper.Runtime.Initialize(newWidget("Frame"), firstAdapter))
+    truthy(Config.SetEventSetting("trigger", nil, "enter_combat", "enabled", false))
+    equal(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"), false)
+    truthy(RPHelper.Runtime.HandleEvent("UNIT_COMBAT", "player", "DODGE"))
+    equal(#firstAdapter.output, 1)
+    equal(firstAdapter.output[1].route, "local")
+    equal(firstAdapter.output[1].text, "First character dodges.")
+
+    freshDatabase()
+    local second = RPHelperDB
+    UI.Refresh()
+    equal(Config.GetSetting("reactionChance"), 0.05)
+    equal(Config.GetSetting("dungeonSayMode"), "broadcast")
+    equal(Config.IsDefaultEnabled("default:test:generic:dodge"), true)
+    equal(#UserContent.List(), 0)
+    local secondAdapter = newRuntimeAdapter()
+    truthy(RPHelper.Runtime.Initialize(newWidget("Frame"), secondAdapter))
+    truthy(Config.SetEventSetting("trigger", nil, "enter_combat", "enabled", false))
+    equal(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"), false)
+    truthy(RPHelper.Runtime.HandleEvent("UNIT_COMBAT", "player", "DODGE"))
+    equal(#secondAdapter.output, 1)
+    equal(secondAdapter.output[1].route, "say")
+    equal(secondAdapter.output[1].text, "Mock dodge.")
+
+    RPHelperDB = first
+    truthy(RPHelper.InitializeDatabase())
+    UI.Refresh()
+    equal(Config.GetSetting("dungeonSayMode"), "local")
+    equal(Config.IsDefaultEnabled("default:test:generic:dodge"), false)
+    equal(UserContent.List()[1].id, customID)
+    equal(second.settings.dungeonSayMode, nil)
+    equal(second.disabledDefaults["default:test:generic:dodge"], nil)
+    local restoredAdapter = newRuntimeAdapter()
+    truthy(RPHelper.Runtime.Initialize(newWidget("Frame"), restoredAdapter))
+    equal(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"), false)
+    truthy(RPHelper.Runtime.HandleEvent("UNIT_COMBAT", "player", "DODGE"))
+    equal(restoredAdapter.output[1].route, "local")
+    equal(restoredAdapter.output[1].text, "First character dodges.")
 end)
 
 test("addon startup initializes the UI and preserves runtime initialization", function()
