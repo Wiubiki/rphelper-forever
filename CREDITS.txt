@@ -1,0 +1,47 @@
+RPHELPER FOREVER CREDITS
+
+RPHelper Forever is a new implementation inspired by the historical
+RoleplayingHelper addon family. It retains elements of the historical reaction
+catalogue while replacing the runtime, user interface, configuration, and
+persistence implementation.
+
+Documented lineage
+
+- Talyn is identified as the original RoleplayingHelper author in recovered
+  historical metadata and in the later TurtleRoleplayingHelper repository.
+- Overlord-Q is credited alongside Talyn as an original developer in the
+  RPHelper 2 distribution metadata and later project acknowledgements.
+- mithyk is credited for many default reactions in RPHelper 2 and in historical
+  generic, race, Rogue, and random-insult source headers.
+- Syrsa is credited in historical generic and several race-content headers.
+- crashinbrn is credited on a preserved Rogue reaction.
+- Duerma authored and distributed the second-generation RPHelper 2 release.
+- Privelgus is credited for German translations in RPHelper 2. Older historical
+  material also credits ArminAce and Isjari for translation or related help;
+  those contributions are not identified as part of the current English addon.
+- Vaaslite maintained a documented community adaptation for Turtle WoW.
+- Wiubiki maintained the later RPhelper_twow adaptation and created the new
+  RPHelper Forever implementation.
+
+The surviving historical record is incomplete and not fully consistent. In
+particular, some original contribution boundaries and the spelling “mithyk”
+versus “mythik” remain uncertain. The statements above report the attributions
+found in the cited sources; they do not determine ownership, claim permission,
+or imply endorsement of RPHelper Forever by any historical contributor.
+
+Source references
+
+- Archived original RoleplayingHelper listing referenced by later metadata:
+  https://web.archive.org/web/*/http://ui.worldofwar.net/ui.php?id=2914
+- RPHelper 2 by Duerma:
+  https://www.wowinterface.com/downloads/info9721-RoleplayingHelper2.html
+- TurtleRoleplayingHelper community adaptation by Vaaslite:
+  https://github.com/vaaslite/TurtleRoleplayingHelper
+- RPhelper_twow adaptation by Wiubiki:
+  https://github.com/Wiubiki/RPhelper_twow
+- RPHelper Forever:
+  https://github.com/Wiubiki/rphelper-forever
+
+The detailed content lineage and unresolved permission evidence are recorded in
+LEGACY_CONTENT.txt and docs/licensing_and_attribution_audit.md. Attribution is
+preserved as historical acknowledgement; it is not a license grant.

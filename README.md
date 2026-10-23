@@ -18,18 +18,17 @@ v0.9 prerelease, intended for live testing when WoW Forever is available. The
 game-integration layer has deterministic mocked coverage but is not yet fully
 verified in the live client, and this is not a V1.0-stable release.
 
-## Historical credits
+## Origins, Credits and Licensing
 
-Full credit and many thanks to the original authors and contributors of the add-on:
+RPHelper Forever is a new implementation inspired by the original
+RoleplayingHelper and retains elements of its historical reaction catalogue.
+Known original authors, contributors, and community adaptations are acknowledged
+in [CREDITS.txt](CREDITS.txt); no endorsement by those contributors is implied.
 
-- **Talyn & Overlord-Q** – The original authors of RoleplayingHelper.
-- **Mithyk & Syrsa** – Contributors of original default RP content.
-- **crashinbrn** – Contributor credited in preserved Rogue content lineage.
-- **Duerma** – Developer of RPHelper 2 (The Burning Crusade version).
-- **Wiubiki** (yours truly) - Turtle WoW adaptation and WoW Forever rewrite.
-
-I did my best to track down the history of this add-on, but since it’s a **very old and discontinued project**, it was difficult to find all contributors.  
-If I missed someone, I sincerely apologize -it wasn’t intentional! Feel free to reach out if you have more info.
+Independently authored Forever software code is released under the
+[MIT License](LICENSE). Inherited creative reaction content is excluded from
+that grant. See [CONTENT_RIGHTS.txt](CONTENT_RIGHTS.txt) for the exact scope and
+[LEGACY_CONTENT.txt](LEGACY_CONTENT.txt) for the reference inventory.
 
 
 ---

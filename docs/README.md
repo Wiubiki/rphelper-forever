@@ -22,6 +22,20 @@ boundaries. The [runtime integration audit](audits/runtime_integration_audit.md)
 is the dated implementation/verification matrix, not a replacement for approved
 product policy.
 
+## Licensing and attribution
+
+- The repository [MIT License](../LICENSE) applies to independently authored
+  Forever software code.
+- [Content rights and license scope](../CONTENT_RIGHTS.txt) expressly excludes
+  inherited creative reaction content from that MIT grant.
+- [Credits](../CREDITS.txt) preserves known historical acknowledgements without
+  asserting endorsement or permission.
+- The [legacy-content inventory](../LEGACY_CONTENT.txt) records all current and
+  potentially inherited reaction strings and their stable source locators.
+- The [licensing and attribution audit](licensing_and_attribution_audit.md)
+  remains the dated evidence record that preceded the project owner's licensing
+  decision. Its unresolved historical-permission findings have not been rewritten.
+
 ## Current implementation boundary
 
 The runtime detects five generic triggers: combat entry, combat exit, player
@@ -62,6 +76,10 @@ client restrictions is intended.
 - Auditors and future contributors should use the dated reports and companion
   inventories under [audits](audits/).
 
+The [licensing, attribution and redistribution audit](licensing_and_attribution_audit.md)
+records the current provenance and permission evidence for maintainers preparing
+public distribution. It is a planning audit, not a license or legal conclusion.
+
 CurseForge publishing copy, GitHub release notes, concise installation/update
 instructions, a packaging/release checklist, verified client/interface support,
 and release screenshots are not yet repository documents. They belong to a
@@ -80,6 +98,10 @@ dated. No file is proposed for deletion.
 | --- | --- | --- |
 | [Root README](../README.md) | Active reference | Keep as the short player/project entry point. |
 | [AGENTS.md](../AGENTS.md) | Active reference | Keep at root as the maintainer workflow contract. |
+| [LICENSE](../LICENSE) | Authoritative specification | MIT terms for the independently authored Forever software code, subject to the documented scope. |
+| [CONTENT_RIGHTS.txt](../CONTENT_RIGHTS.txt) | Authoritative specification | Defines the MIT boundary and inherited-content exclusion. |
+| [CREDITS.txt](../CREDITS.txt) | Active reference | Preserve verified and qualified historical acknowledgements and source links. |
+| [LEGACY_CONTENT.txt](../LEGACY_CONTENT.txt) | Machine-readable inventory | Retain as the complete reference inventory of inherited or potentially inherited creative strings. |
 | [Bug report template](../.github/ISSUE_TEMPLATE/bug_report.md) | Active reference | Keep under `.github`; contributor workflow. |
 | [Content suggestion template](../.github/ISSUE_TEMPLATE/content_suggestion.md) | Active reference | Keep under `.github`; contributor workflow. |
 | [Feature request template](../.github/ISSUE_TEMPLATE/feature_request.md) | Active reference | Keep under `.github`; contributor workflow. |
@@ -92,6 +114,7 @@ dated. No file is proposed for deletion.
 | [forever_ability_reconciliation.md](forever_ability_reconciliation.md) | Authoritative specification | Keep directly under `docs/`; ability-review method, not a runtime allowlist. |
 | [runtime_api_assumptions.md](runtime_api_assumptions.md) | Active reference | Keep directly under `docs/`; current adapter and live-test boundaries. |
 | [user_content_runtime.md](user_content_runtime.md) | Active reference | Keep directly under `docs/`; implemented editor/runtime API details. |
+| [licensing_and_attribution_audit.md](licensing_and_attribution_audit.md) | Historical audit | Keep at its required path as the dated distribution-rights evidence baseline; revisit before publication. |
 | [spell_casting_api_audit.md](spell_casting_api_audit.md) | Historical audit | Keep at its existing path because production source cites it; index it with other audits. |
 
 ### Historical reports

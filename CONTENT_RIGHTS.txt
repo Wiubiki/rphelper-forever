@@ -1,0 +1,24 @@
+RPHELPER FOREVER CONTENT AND LICENSE SCOPE
+
+The MIT License in LICENSE applies only to independently authored RPHelper
+Forever software code, including the runtime, user interface, configuration,
+persistence, and related original implementation.
+
+Some catalogue files mix that original implementation with creative reaction
+text inherited or adapted from earlier versions of RoleplayingHelper. Inherited
+sayings, emotes, template wording, random-insult fragments, and other historical
+creative content are explicitly excluded from the RPHelper Forever MIT grant.
+The same exclusion applies to inherited content recorded in LEGACY_CONTENT.txt.
+
+Historical acknowledgements are provided in CREDITS.txt. No independent
+redistribution, modification, or sublicensing permission is asserted here for
+inherited content whose original terms are undocumented. No separate formal
+license is assigned to that material by this project.
+
+Project names, branding, artwork, and material obtained from separate sources
+are not automatically covered by the MIT grant. Their applicable rights, if any,
+must be established from their own source and terms.
+
+This document defines the scope of RPHelper Forever's license statement. It is
+not a substitute for permission from a relevant rights holder and does not imply
+that every file or every element in this repository is MIT-licensed.
