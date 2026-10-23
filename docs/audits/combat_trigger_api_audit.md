@@ -40,9 +40,9 @@ source or substitute restricted combat-log events or deprecated APIs.
 
 ## Repository baseline at initial audit
 
-Sources inspected: [product specification](product_spec.md),
-[content-engine contract](content_engine.md),
-[runtime API assumptions](runtime_api_assumptions.md),
+Sources inspected: [product specification](../product_spec.md),
+[content-engine contract](../content_engine.md),
+[runtime API assumptions](../runtime_api_assumptions.md),
 `RPHelper/RPHelper.lua`, `Core/Runtime.lua`, `Core/RuntimeAPI.lua`,
 `Core/Defaults.lua`, and the relevant generic content registrations.
 

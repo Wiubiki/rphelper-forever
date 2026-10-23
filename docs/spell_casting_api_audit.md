@@ -1,6 +1,6 @@
 # Spellcasting and ability API compatibility audit
 
-Research date: 2026-10-11. The research findings remain unverified by RPHelper in the live client; §6 records the first runtime increment. This audit complements [the combat API audit](combat_trigger_api_audit.md); it does not change generic combat triggers or the deferred status of `youcrit`.
+Research date: 2026-10-11. The research findings remain unverified by RPHelper in the live client; §6 records the first runtime increment. This audit complements [the combat API audit](audits/combat_trigger_api_audit.md); it does not change generic combat triggers or the deferred status of `youcrit`.
 
 ## Evidence and boundaries
 
@@ -185,7 +185,7 @@ behaviour. Automated coverage is mocked and makes no live compatibility claim.
 
 The original ability-spell discovery inventory covered the **297 pre-reconciliation,
 authored-content-driven class/ability pairs**, not every historical definition.
-[Historical catalogue reconciliation](ability_catalogue_reconciliation.md) now
+[Historical catalogue reconciliation](audits/ability_catalogue_reconciliation.md) now
 accounts for 492 historical keys and 465 canonical definitions, including empty
 abilities. Its additional definitions do not imply new verified spell IDs,
 production mappings, event support or enabled ability settings. The original

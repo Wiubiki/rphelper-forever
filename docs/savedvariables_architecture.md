@@ -2,9 +2,11 @@
 
 ## Status
 
-Schema version 2 is implemented as the **initial supported V1.0 release
-schema**. No released installation used the earlier development schema, so V1.0
-has no v1-to-v2 compatibility requirement.
+Schema version 2 is implemented in the **v0.9 prerelease** and is the candidate
+initial supported V1.0 release schema. No released installation used the earlier
+development schema, so V1.0 has no v1-to-v2 compatibility requirement. The
+long-term update-survival guarantee begins with the eventual V1.0 stable release;
+v0.9 remains a prerelease for live-client verification.
 
 Schema version 2 remains per-character. It uses sparse explicit overrides,
 permanent authored built-in IDs, and future versioned migrations. There is

@@ -23,7 +23,7 @@ The [machine-readable reconciliation inventory](ability_catalogue_reconciliation
 
 ## Sources and inclusion rules
 
-Inspected the read-only sibling `../RPhelper_twow/`, clean at commit [`0b0b1ef94aa7a664842fae7046c60305991234a0`](https://github.com/Wiubiki/RPhelper_twow/tree/0b0b1ef94aa7a664842fae7046c60305991234a0), especially all nine `English/CLASS.lua` files, `English/ANY.lua`, `localization.lua` and the legacy random-phrase routing. Current contracts come from `Core/Content.lua`, `Core/UserContent.lua`, the content/runtime suites and [data architecture](data_architecture.md), [content engine](content_engine.md), [user content runtime](user_content_runtime.md) and prior spell audits.
+Inspected the read-only sibling `../../RPhelper_twow/`, clean at commit [`0b0b1ef94aa7a664842fae7046c60305991234a0`](https://github.com/Wiubiki/RPhelper_twow/tree/0b0b1ef94aa7a664842fae7046c60305991234a0), especially all nine `English/CLASS.lua` files, `English/ANY.lua`, `localization.lua` and the legacy random-phrase routing. Current contracts come from `Core/Content.lua`, `Core/UserContent.lua`, the content/runtime suites and [data architecture](../data_architecture.md), [content engine](../content_engine.md), [user content runtime](../user_content_runtime.md) and prior spell audits.
 
 Historical definition counts use unique keys from the union of:
 

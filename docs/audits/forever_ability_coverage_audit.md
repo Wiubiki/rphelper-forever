@@ -5,7 +5,7 @@ Research only; no catalogue, authored content, production mappings, runtime, def
 
 > **Status:** This October 11, 2026 audit remains valuable supporting research,
 > but its merged-source inventory is neither a definitive Forever beta spellbook
-> nor an implementation allowlist. The [Forever ability reconciliation](forever_ability_reconciliation.md)
+> nor an implementation allowlist. The [Forever ability reconciliation](../forever_ability_reconciliation.md)
 > specification now defines the Milestone 2B methodology. The original findings,
 > counts, classifications and comparison CSV remain intact.
 
@@ -157,8 +157,8 @@ Rank/variant limitations requiring review:
 1. **Review canonical gaps before runtime expansion.** Start with officially named ordinary activations: universal Priest Fear Ward/Devouring Plague, Druid Growl/Revive, Warrior Taunt, and low-level Paladin Holy Strike/Seal of Fury. Their respective class articles/Paladin recap support identity proposals; numerical candidates require learned-spell capture. Adding an empty definition is a separate content decision, not a reason to enable detection.
 2. **Review replacements and aliases independently.** Use the linked official Warlock rename/removal notes and Shaman replacement/removal notes; preserve authored text and user content. Review community-only removals against the current client. Do not migrate or delete automatically.
 3. **Prefer content that already exists when expanding exact mappings.** Consider the previously observed Holy Light `647` and Judgement `20271` only after current-build capture and review of existing content/guards. Keep the current two-ID allowlist unchanged during this research.
-4. **Validate active talent groups next.** Official Mage/Shaman/Rogue/Warlock/Hunter previews support identity groups, but high-level availability, ranks, variants and event delivery remain unverified. Defer channels, form transitions, queued attacks, automatic procs and pet-owned casts under the current [spellcasting contract](spell_casting_api_audit.md).
-5. **Keep catalogue coverage separate from reaction coverage.** Passive talents can remain documented without inventing output. Racial content belongs in a race or exceptional race/class layer. Use the [product philosophy](product_spec.md) and [content contracts](content_engine.md): simple event-driven flavour, conservative readable exact IDs, no polling, correlations, combat reconstruction or automatic full-catalogue activation.
+4. **Validate active talent groups next.** Official Mage/Shaman/Rogue/Warlock/Hunter previews support identity groups, but high-level availability, ranks, variants and event delivery remain unverified. Defer channels, form transitions, queued attacks, automatic procs and pet-owned casts under the current [spellcasting contract](../spell_casting_api_audit.md).
+5. **Keep catalogue coverage separate from reaction coverage.** Passive talents can remain documented without inventing output. Racial content belongs in a race or exceptional race/class layer. Use the [product philosophy](../product_spec.md) and [content contracts](../content_engine.md): simple event-driven flavour, conservative readable exact IDs, no polling, correlations, combat reconstruction or automatic full-catalogue activation.
 
 ## Live-client verification checklist
 

@@ -55,9 +55,9 @@ remain unchanged, and no mapping has yet gained RPHelper live verification.
 | **D — catalogue only** | Authored reactions exist, but there is no reviewed executable detector/mapping path for the current canonical identity. |
 | **E — excluded or deferred** | The mechanism is explicitly outside the current adapter, the shipped pool is empty, or the trigger family is intentionally deferred/unsupported. |
 
-The inventory was derived from the files loaded by [`RPHelper.toc`](../RPHelper/RPHelper.toc),
+The inventory was derived from the files loaded by [`RPHelper.toc`](../../RPHelper/RPHelper.toc),
 the canonical definitions and registered pools in `Data/Abilities/*.lua`, the
-runtime allowlist in [`RuntimeAPI.lua`](../RPHelper/Core/RuntimeAPI.lua), and the
+runtime allowlist in [`RuntimeAPI.lua`](../../RPHelper/Core/RuntimeAPI.lua), and the
 prior [ability spell-mapping audit](ability_spell_mapping_audit.md). Archive
 files are not loaded and are not active catalogue definitions. Existing audit
 labels such as “Verified” refer to third-party observations unless explicitly

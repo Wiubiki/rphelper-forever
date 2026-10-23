@@ -285,7 +285,7 @@ weighted pool. Shipped catalogue tables remain immutable.
 The current runtime detects combat entry/exit and player defensive DODGE, PARRY,
 and direct BLOCK feedback through `UNIT_COMBAT`. Defensive detection requires
 readable unit/action fields and an active runtime encounter; live Forever
-verification remains pending (see [Combat trigger API audit](combat_trigger_api_audit.md)).
+verification remains pending (see [Combat trigger API audit](audits/combat_trigger_api_audit.md)).
 
 ### Implemented first ability increment
 
@@ -370,7 +370,7 @@ V1.0 starts fresh with
 schema v2 and does not import development settings. From V1.0 onward, explicit
 player choices survive updates while raid/Druid policies remain unconditional. See
 [V1.0 UI/UX Specification](ui_ux_spec.md) and
-[UI Technical Feasibility Audit](ui_feasibility_audit.md).
+[UI Technical Feasibility Audit](audits/ui_feasibility_audit.md).
 
 ### Approved SavedVariables ownership and update policy
 

@@ -1,5 +1,10 @@
 # Pre-launch Development Plan
 
+> **Status note — 2026-10-23:** Superseded planning snapshot. Most repository-side
+> implementation items below are complete for the v0.9 prerelease, while the
+> client-verification items remain relevant. Current status and validation gates
+> are tracked in the [runtime integration audit](runtime_integration_audit.md).
+
 ## Can be completed now
 
 - Repository structure and development conventions
