@@ -1,6 +1,11 @@
 # Content Engine Specification
 
-This document defines the intended RPHelper Forever content-processing contract. It is a design specification, not a claim that the described keyword or trigger support is implemented.
+This document defines the approved RPHelper Forever content-processing contract.
+Candidate preparation, templates, supported keyword resolution, shipped/custom
+pool integration, weighting, and Druid Say suppression are implemented. Catalogue
+entries and documented trigger semantics do not by themselves imply a runtime
+detector; actual generic and ability coverage is listed in the documentation
+index and runtime integration audit.
 
 ## Compatibility status
 

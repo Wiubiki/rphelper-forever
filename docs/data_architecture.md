@@ -24,8 +24,8 @@ The implemented SavedVariable is per-character:
 
 `RPHelperDB`
 
-The implementation uses schema version 2 as the initial supported V1.0 release
-schema. The design keeps `RPHelperDB`
+The v0.9 prerelease implementation uses schema version 2 as the candidate initial
+supported V1.0 release schema. The design keeps `RPHelperDB`
 character-specific, stores settings as sparse explicit overrides, and adds
 permanent authored built-in IDs plus future sequential migrations. See
 [SavedVariables Architecture](savedvariables_architecture.md).
@@ -57,8 +57,9 @@ This ensures users automatically receive new default content in future releases 
 
 ## Release schema migrations
 
-Schema v2 is the initial supported release schema. No legacy-addon or unreleased
-development-settings migration is required. From V1.0 onward, every persisted
+Schema v2 is the candidate initial supported V1.0 release schema and is already
+exercised by v0.9 prerelease builds. No legacy-addon or unreleased development-settings
+migration is required. From the V1.0 stable release onward, every persisted
 schema change must be migratable.
 
 - Store `schemaVersion`.

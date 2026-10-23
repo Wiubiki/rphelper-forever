@@ -28,7 +28,7 @@ Adapter methods fail safely when their underlying global is unavailable. The sha
 | `DEFAULT_CHAT_FRAME:AddMessage(text)` | Minimal local-only sayings display with an RPHelper prefix. | Confirm visibility and availability; no public fallback exists. |
 | `math.random()`, `math.random(size)` | Probability rolls and content selection, separately injectable. | Standard Lua assumptions; no random seed changes. |
 | `UNIT_COMBAT` / `RegisterDefensiveEvents(frame)` | Protected ordinary registration; failure leaves combat transitions functional. | Confirm registration and delivery on the actual Forever build. |
-| `issecretvalue` / `ClassifyUnitCombat(unitTarget, action)` | Required fields must inspect as nonsecret strings; exact player DODGE/PARRY/direct BLOCK only. Missing/failing inspection rejects detection; unused fields are ignored. | Confirm readability and attribution in ordinary addon execution, restricted contexts, and encounter-boundary ordering. See [combat audit](combat_trigger_api_audit.md). |
+| `issecretvalue` / `ClassifyUnitCombat(unitTarget, action)` | Required fields must inspect as nonsecret strings; exact player DODGE/PARRY/direct BLOCK only. Missing/failing inspection rejects detection; unused fields are ignored. | Confirm readability and attribution in ordinary addon execution, restricted contexts, and encounter-boundary ordering. See [combat audit](audits/combat_trigger_api_audit.md). |
 | `UNIT_SPELLCAST_SUCCEEDED` / `RegisterAbilityEvents(frame)` | Protected ordinary registration; failure disables only ability detection. | Confirm ordinary-addon registration and delivery across activities; no unit-filtered registration assumption. |
 | `issecretvalue` / `ClassifySpellcastSucceeded(unitTarget, castGUID, spellID, class)` | Exact readable player unit, valid readable positive integer ID and readable class; two explicit Paladin mappings. GUID/cast-bar fields ignored. | Verify readability across restricted contexts, rank IDs and duplicate delivery. ID evidence is third-party, not RPHelper live verification; see [spellcasting audit](spell_casting_api_audit.md#6-first-runtime-increment). |
 
@@ -55,10 +55,11 @@ Gameplay event coverage includes combat entry/exit, the three audited defensive
 reactions (active encounters only), and the two mapped Paladin abilities through
 guarded cast-success events. RPHelper verification remains mocked only.
 Offensive criticals, partial-block flags, and combat-text/combat-log fallbacks
-remain unimplemented. Interface metadata,
-other triggers, a graphical settings editor, and general migrations remain
-unimplemented. User-content pooling and disabled-default filtering are now
-implemented through the existing selection/policy path; see
+remain unimplemented. Interface metadata and other trigger families remain
+unimplemented; future post-V1 schema changes will require migrations. The
+graphical settings window, Character Library/editor, Guide, and About pages are
+implemented. User-content pooling and disabled-default filtering are implemented
+through the existing selection/policy path; see
 [User content runtime](user_content_runtime.md). Customization adds no game APIs
 or events. Actual SavedVariables persistence across logout/reload and addon
 updates still requires live Forever verification.
