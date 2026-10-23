@@ -68,6 +68,10 @@ and the [spellcasting audit](spell_casting_api_audit.md). No workaround for
 client restrictions is intended. The correct current Forever `## Interface`
 value is also unverified and remains absent from the TOC.
 
+Use the operational [live-client verification guide](live_client_verification.md)
+for reproducible test cases and evidence capture. The compact [launch-session
+checklist](launch_test_checklist.md) is designed to remain open beside the game.
+
 ## Audience and release documentation
 
 - Players should start with the root [README](../README.md) and use the completed
@@ -90,6 +94,9 @@ public distribution. It is a planning audit, not a license or legal conclusion.
   client/Interface gates.
 - The [v0.9 release checklist](release_checklist.md) covers reproducible local
   packaging, GitHub Releases, CurseForge metadata, and launch-day checks.
+- [Live-client verification](live_client_verification.md) is the complete manual
+  v0.9 test procedure; the [launch-session checklist](launch_test_checklist.md)
+  is its short in-game companion.
 
 The deterministic local package command is
 `python3 scripts/package_addon.py build`; validation is
@@ -127,6 +134,8 @@ dated. No file is proposed for deletion.
 | [user_content_runtime.md](user_content_runtime.md) | Active reference | Keep directly under `docs/`; implemented editor/runtime API details. |
 | [curseforge_readiness.md](curseforge_readiness.md) | Active reference | Keep directly under `docs/`; current platform evidence and unresolved submission gates. |
 | [release_checklist.md](release_checklist.md) | Active reference | Keep directly under `docs/`; reproducible prerelease and publication handoff. |
+| [live_client_verification.md](live_client_verification.md) | Active reference | Keep directly under `docs/`; operational v0.9 live-client test and evidence procedure. |
+| [launch_test_checklist.md](launch_test_checklist.md) | Active reference | Keep directly under `docs/`; short companion checklist for live sessions. |
 | [licensing_and_attribution_audit.md](licensing_and_attribution_audit.md) | Historical audit | Keep at its required path as the dated distribution-rights evidence baseline; revisit before publication. |
 | [spell_casting_api_audit.md](spell_casting_api_audit.md) | Historical audit | Keep at its existing path because production source cites it; index it with other audits. |
 
