@@ -1,0 +1,1705 @@
+# Event and reaction inventory summary
+
+This inventory reflects the active Lua files loaded by `RPHelper/RPHelper.toc`. It excludes adjacent archive files and character SavedVariables/custom content.
+Scoped `event_id` values follow the active Library group identity scheme; `event_key` retains the repository's canonical trigger or ability key and is never derived from a display name.
+
+## Totals
+
+- Canonical events: **651**
+- Existing reactions: **1567**
+  - `say`: **1041**
+  - `emote`: **59**
+  - `customemote`: **467**
+- Empty events: **192**
+- Partially populated events: **437**
+- Events with all three reaction types: **22**
+
+## Events by category
+
+- General: **14**
+- Race: **62**
+  - DWARF: 9
+  - GNOME: 8
+  - HUMAN: 8
+  - NIGHTELF: 7
+  - ORC: 6
+  - TAUREN: 8
+  - TROLL: 8
+  - UNDEAD: 8
+- Class: **86**
+  - DRUID: 1
+  - HUNTER: 13
+  - MAGE: 12
+  - PALADIN: 13
+  - PRIEST: 16
+  - ROGUE: 5
+  - SHAMAN: 12
+  - WARLOCK: 8
+  - WARRIOR: 6
+- Druid Form: **15**
+  - BEAR: 5
+  - CAT: 5
+  - MOONKIN: 5
+- Ability: **474**
+  - DRUID: 58
+  - HUNTER: 58
+  - MAGE: 60
+  - PALADIN: 54
+  - PRIEST: 55
+  - ROGUE: 38
+  - SHAMAN: 57
+  - WARLOCK: 53
+  - WARRIOR: 41
+
+## Events with no reactions
+
+- `ability:DRUID:ABOLISH_POISON`
+- `ability:DRUID:AQUATIC_FORM`
+- `ability:DRUID:BARKSKIN`
+- `ability:DRUID:BASH`
+- `ability:DRUID:BEAR_FORM`
+- `ability:DRUID:BERSERK`
+- `ability:DRUID:CAT_FORM`
+- `ability:DRUID:CLAW`
+- `ability:DRUID:COWER`
+- `ability:DRUID:CURE_POISON`
+- `ability:DRUID:DASH`
+- `ability:DRUID:FAERIE_FIRE`
+- `ability:DRUID:FERAL_CHARGE`
+- `ability:DRUID:FEROCIOUS_BITE`
+- `ability:DRUID:FRENZIED_REGENERATION`
+- `ability:DRUID:GROWL`
+- `ability:DRUID:HEALING_TOUCH`
+- `ability:DRUID:INSECT_SWARM`
+- `ability:DRUID:LACERATE`
+- `ability:DRUID:MARK_OF_THE_WILD`
+- `ability:DRUID:MAUL`
+- `ability:DRUID:MOONKIN_FORM`
+- `ability:DRUID:MOON_FIRE`
+- `ability:DRUID:NATURES_GRASP`
+- `ability:DRUID:NATURES_SWIFTNESS`
+- `ability:DRUID:POUNCE`
+- `ability:DRUID:PRIMAL_BITE`
+- `ability:DRUID:PROWL`
+- `ability:DRUID:RAKE`
+- `ability:DRUID:RAVAGE`
+- `ability:DRUID:REGROWTH`
+- `ability:DRUID:REJUVENATION`
+- `ability:DRUID:REMOVE_CURSE`
+- `ability:DRUID:REVIVE`
+- `ability:DRUID:RIP`
+- `ability:DRUID:SHRED`
+- `ability:DRUID:SOOTHE_ANIMAL`
+- `ability:DRUID:STARFIRE`
+- `ability:DRUID:SWIFTMEND`
+- `ability:DRUID:SWIPE`
+- `ability:DRUID:THORNS`
+- `ability:DRUID:TRACK_HUMANOIDS`
+- `ability:DRUID:TRAVEL_FORM`
+- `ability:DRUID:WILD_GROWTH`
+- `ability:DRUID:WRATH`
+- `ability:HUNTER:AUTO_SHOT`
+- `ability:HUNTER:CALL_PET`
+- `ability:HUNTER:DISMISS_PET`
+- `ability:HUNTER:ENCHANTED_FLARE`
+- `ability:HUNTER:FEED_PET`
+- `ability:HUNTER:INTIMIDATION`
+- `ability:HUNTER:LACERATE`
+- `ability:HUNTER:REVIVE_PET`
+- `ability:HUNTER:SNIPER_SHOT`
+- `ability:HUNTER:STRIDER_KICK`
+- `ability:HUNTER:SUMMON_HAWK`
+- `ability:HUNTER:TAME_BEAST`
+- `ability:MAGE:ARCANE_BLAST`
+- `ability:MAGE:ARCANE_WRATH`
+- `ability:MAGE:FROSTFIRE_BOLT`
+- `ability:MAGE:FROST_BLAST`
+- `ability:MAGE:ICE_LANCE`
+- `ability:MAGE:POLYMORPH_PIG`
+- `ability:MAGE:POLYMORPH_TURTLE`
+- `ability:MAGE:TELEPORT_DALARAN`
+- `ability:PALADIN:GREATER_BLESSING_OF_KINGS`
+- `ability:PALADIN:GREATER_BLESSING_OF_LIGHT`
+- `ability:PALADIN:GREATER_BLESSING_OF_WISDOM`
+- `ability:PALADIN:HOLY_STRIKE`
+- `ability:PALADIN:LIGHTS_VIGIL`
+- `ability:PALADIN:MASS_SALVATION`
+- `ability:PALADIN:REVOKE`
+- `ability:PALADIN:SEAL_OF_FURY`
+- `ability:PALADIN:SWIFT_JUDGEMENT`
+- `ability:PALADIN:TEMPLARS_BULWARK`
+- `ability:PALADIN:VOICE_OF_TRUTH`
+- `ability:PRIEST:BINDING_HEAL`
+- `ability:PRIEST:CHASTISE`
+- `ability:PRIEST:CONFOUNDING_FLASH`
+- `ability:PRIEST:CONTINGENCY_PLAN`
+- `ability:PRIEST:DARK_SACRIFICE`
+- `ability:PRIEST:DIVINE_GRACE`
+- `ability:PRIEST:PENANCE`
+- `ability:PRIEST:PRAYER_OF_MENDING`
+- `ability:PRIEST:PRAYER_OF_SHADOW_PROTECTION`
+- `ability:PRIEST:PRAYER_OF_SPIRIT`
+- `ability:PRIEST:SHADOW_WORD_DEATH`
+- `ability:ROGUE:ADRENALINE_RUSH`
+- `ability:ROGUE:AMBUSH`
+- `ability:ROGUE:BACKSTAB`
+- `ability:ROGUE:BLADE_FLURRY`
+- `ability:ROGUE:BLIND`
+- `ability:ROGUE:BLINDING_POWDER`
+- `ability:ROGUE:CHEAP_SHOT`
+- `ability:ROGUE:COLD_BLOOD`
+- `ability:ROGUE:CRIPPLING_POISON`
+- `ability:ROGUE:DEADLY_POISON`
+- `ability:ROGUE:DISTRACT`
+- `ability:ROGUE:EVASION`
+- `ability:ROGUE:EVISCERATE`
+- `ability:ROGUE:EXPOSE_ARMOR`
+- `ability:ROGUE:FEINT`
+- `ability:ROGUE:GARROTE`
+- `ability:ROGUE:GHOSTLY_STRIKE`
+- `ability:ROGUE:GOUGE`
+- `ability:ROGUE:HEMORRHAGE`
+- `ability:ROGUE:INSTANT_POISON`
+- `ability:ROGUE:KICK`
+- `ability:ROGUE:KIDNEY_SHOT`
+- `ability:ROGUE:MIND_NUMBING_POISON`
+- `ability:ROGUE:MUTILATE`
+- `ability:ROGUE:PICK_POCKET`
+- `ability:ROGUE:PREMEDITATION`
+- `ability:ROGUE:PREPARATION`
+- `ability:ROGUE:RIPOSTE`
+- `ability:ROGUE:RUPTURE`
+- `ability:ROGUE:SAP`
+- `ability:ROGUE:SINISTER_STRIKE`
+- `ability:ROGUE:SLICE_AND_DICE`
+- `ability:ROGUE:STEALTH`
+- `ability:ROGUE:VANISH`
+- `ability:ROGUE:VENOM`
+- `ability:ROGUE:WOUND_POISON`
+- `ability:SHAMAN:ASTRAL_RECALL`
+- `ability:SHAMAN:CALL_OF_THE_ANCESTORS`
+- `ability:SHAMAN:CALL_OF_THE_ELEMENTS`
+- `ability:SHAMAN:CALL_OF_THE_SPIRITS`
+- `ability:SHAMAN:ELEMENTAL_MASTERY`
+- `ability:SHAMAN:FAR_SIGHT`
+- `ability:SHAMAN:LAVA_BURST`
+- `ability:SHAMAN:RAGE_OF_THE_FARSEER`
+- `ability:SHAMAN:RIPTIDE`
+- `ability:SHAMAN:TOTEMIC_PROJECTION`
+- `ability:SHAMAN:WATER_BREATHING`
+- `ability:SHAMAN:WATER_WALKING`
+- `ability:WARLOCK:AMPLIFY_CURSE`
+- `ability:WARLOCK:BANE_OF_HAVOC`
+- `ability:WARLOCK:CONFLAGRATE`
+- `ability:WARLOCK:CORRUPTION`
+- `ability:WARLOCK:CREATE_FIRESTONE`
+- `ability:WARLOCK:CREATE_HEALTHSTONE`
+- `ability:WARLOCK:CREATE_SOULSTONE`
+- `ability:WARLOCK:CREATE_SPELLSTONE`
+- `ability:WARLOCK:DEATH_COIL`
+- `ability:WARLOCK:DEMONIC_SACRIFICE`
+- `ability:WARLOCK:DEMON_ARMOR`
+- `ability:WARLOCK:DEMON_SKIN`
+- `ability:WARLOCK:DETECT_INVISIBILITY`
+- `ability:WARLOCK:EYE_OF_KILROGG`
+- `ability:WARLOCK:FEL_DOMINATION`
+- `ability:WARLOCK:HOWL_OF_TERROR`
+- `ability:WARLOCK:INCINERATE`
+- `ability:WARLOCK:INFERNO`
+- `ability:WARLOCK:LIFE_TAP`
+- `ability:WARLOCK:RITUAL_OF_DOOM`
+- `ability:WARLOCK:SHADOWBURN`
+- `ability:WARLOCK:SHADOW_BOLT`
+- `ability:WARLOCK:SHADOW_WARD`
+- `ability:WARLOCK:SIPHON_LIFE`
+- `ability:WARLOCK:SOUL_LINK`
+- `ability:WARLOCK:SUMMON_FELHUNTER`
+- `ability:WARLOCK:SUMMON_INCUBUS`
+- `ability:WARLOCK:WRACK`
+- `ability:WARRIOR:BATTLE_STANCE`
+- `ability:WARRIOR:BERSERKER_RAGE`
+- `ability:WARRIOR:BERSERKER_STANCE`
+- `ability:WARRIOR:BLOODTHIRST`
+- `ability:WARRIOR:CLEAVE`
+- `ability:WARRIOR:CONCUSSION_BLOW`
+- `ability:WARRIOR:DEATH_WISH`
+- `ability:WARRIOR:DEFENSIVE_STANCE`
+- `ability:WARRIOR:DISARM`
+- `ability:WARRIOR:EXECUTE`
+- `ability:WARRIOR:HEROIC_STRIKE`
+- `ability:WARRIOR:INTERCEPT`
+- `ability:WARRIOR:LAST_STAND`
+- `ability:WARRIOR:MORTAL_STRIKE`
+- `ability:WARRIOR:OVERPOWER`
+- `ability:WARRIOR:PIERCING_HOWL`
+- `ability:WARRIOR:PUMMEL`
+- `ability:WARRIOR:RECKLESSNESS`
+- `ability:WARRIOR:RETALIATION`
+- `ability:WARRIOR:REVENGE`
+- `ability:WARRIOR:SHIELD_BLOCK`
+- `ability:WARRIOR:SHIELD_WALL`
+- `ability:WARRIOR:SPEARING_STRIKE`
+- `ability:WARRIOR:SUNDER_ARMOR`
+- `ability:WARRIOR:SWEEPING_STRIKES`
+- `ability:WARRIOR:TAUNT`
+- `ability:WARRIOR:THUNDER_CLAP`
+- `ability:WARRIOR:VICTORY_RUSH`
+- `ability:WARRIOR:WHIRLWIND`
+
+## Events missing one or more reaction types
+
+- `event:generic::absorb` — missing `emote`
+- `event:generic::block` — missing `emote`
+- `event:generic::death` — missing `emote`
+- `event:generic::dodge` — missing `emote`
+- `event:generic::entercombat` — missing `emote`
+- `event:generic::hurt` — missing `emote`
+- `event:generic::leavecombat` — missing `emote`
+- `event:generic::miss` — missing `emote`
+- `event:generic::monster_emote_enrage` — missing `emote`
+- `event:generic::monster_emote_help` — missing `emote`
+- `event:generic::parry` — missing `emote`
+- `event:generic::resurrect` — missing `emote`
+- `event:race:DWARF:absorb` — missing `emote`, `customemote`
+- `event:race:DWARF:block` — missing `emote`, `customemote`
+- `event:race:DWARF:death` — missing `emote`, `customemote`
+- `event:race:DWARF:entercombat` — missing `emote`
+- `event:race:DWARF:hurt` — missing `emote`
+- `event:race:DWARF:leavecombat` — missing `emote`
+- `event:race:DWARF:parry` — missing `emote`, `customemote`
+- `event:race:DWARF:resurrect` — missing `emote`
+- `event:race:DWARF:youcrit` — missing `emote`
+- `event:race:GNOME:death` — missing `emote`, `customemote`
+- `event:race:GNOME:dodge` — missing `emote`, `customemote`
+- `event:race:GNOME:entercombat` — missing `emote`
+- `event:race:GNOME:hurt` — missing `emote`
+- `event:race:GNOME:leavecombat` — missing `emote`
+- `event:race:GNOME:miss` — missing `emote`, `customemote`
+- `event:race:GNOME:resurrect` — missing `emote`
+- `event:race:GNOME:youcrit` — missing `emote`
+- `event:race:HUMAN:block` — missing `emote`, `customemote`
+- `event:race:HUMAN:death` — missing `emote`, `customemote`
+- `event:race:HUMAN:entercombat` — missing `emote`
+- `event:race:HUMAN:hurt` — missing `emote`
+- `event:race:HUMAN:leavecombat` — missing `emote`
+- `event:race:HUMAN:parry` — missing `emote`, `customemote`
+- `event:race:HUMAN:resurrect` — missing `emote`
+- `event:race:HUMAN:youcrit` — missing `emote`
+- `event:race:NIGHTELF:death` — missing `emote`, `customemote`
+- `event:race:NIGHTELF:dodge` — missing `emote`
+- `event:race:NIGHTELF:entercombat` — missing `emote`
+- `event:race:NIGHTELF:leavecombat` — missing `emote`
+- `event:race:NIGHTELF:miss` — missing `emote`, `customemote`
+- `event:race:NIGHTELF:youcrit` — missing `emote`
+- `event:race:ORC:death` — missing `emote`, `customemote`
+- `event:race:ORC:hurt` — missing `emote`
+- `event:race:ORC:leavecombat` — missing `emote`
+- `event:race:ORC:resurrect` — missing `emote`
+- `event:race:ORC:youcrit` — missing `emote`
+- `event:race:TAUREN:death` — missing `emote`, `customemote`
+- `event:race:TAUREN:dodge` — missing `customemote`
+- `event:race:TAUREN:entercombat` — missing `emote`
+- `event:race:TAUREN:hurt` — missing `emote`
+- `event:race:TAUREN:leavecombat` — missing `emote`
+- `event:race:TAUREN:miss` — missing `customemote`
+- `event:race:TAUREN:resurrect` — missing `emote`
+- `event:race:TAUREN:youcrit` — missing `emote`
+- `event:race:TROLL:death` — missing `emote`, `customemote`
+- `event:race:TROLL:dodge` — missing `emote`, `customemote`
+- `event:race:TROLL:entercombat` — missing `emote`
+- `event:race:TROLL:hurt` — missing `emote`
+- `event:race:TROLL:leavecombat` — missing `emote`
+- `event:race:TROLL:miss` — missing `emote`, `customemote`
+- `event:race:TROLL:resurrect` — missing `emote`
+- `event:race:TROLL:youcrit` — missing `emote`
+- `event:race:UNDEAD:death` — missing `emote`, `customemote`
+- `event:race:UNDEAD:dodge` — missing `emote`, `customemote`
+- `event:race:UNDEAD:hurt` — missing `emote`
+- `event:race:UNDEAD:leavecombat` — missing `emote`
+- `event:race:UNDEAD:miss` — missing `emote`, `customemote`
+- `event:race:UNDEAD:resurrect` — missing `emote`
+- `event:race:UNDEAD:youcrit` — missing `emote`
+- `event:class:DRUID:entercombat` — missing `customemote`
+- `event:class:HUNTER:deferred_youcritspell` — missing `emote`
+- `event:class:HUNTER:petattackstop` — missing `emote`
+- `event:class:HUNTER:petdies` — missing `emote`
+- `event:class:HUNTER:youcrit` — missing `emote`
+- `event:class:MAGE:deferred_youcritspell` — missing `emote`
+- `event:class:MAGE:dodge` — missing `emote`
+- `event:class:MAGE:entercombat` — missing `customemote`
+- `event:class:MAGE:leavecombat` — missing `emote`, `customemote`
+- `event:class:MAGE:miss` — missing `emote`
+- `event:class:MAGE:parry` — missing `emote`
+- `event:class:MAGE:petattackstart` — missing `emote`
+- `event:class:MAGE:petattackstop` — missing `emote`
+- `event:class:MAGE:resurrect` — missing `emote`
+- `event:class:MAGE:youcrit` — missing `emote`
+- `event:class:PALADIN:absorb` — missing `emote`
+- `event:class:PALADIN:block` — missing `emote`
+- `event:class:PALADIN:deferred_youcritspell` — missing `emote`
+- `event:class:PALADIN:dodge` — missing `emote`
+- `event:class:PALADIN:entercombat` — missing `customemote`
+- `event:class:PALADIN:hurt` — missing `emote`
+- `event:class:PALADIN:leavecombat` — missing `emote`
+- `event:class:PALADIN:miss` — missing `emote`
+- `event:class:PALADIN:parry` — missing `emote`
+- `event:class:PALADIN:resurrect` — missing `customemote`
+- `event:class:PALADIN:youcrit` — missing `emote`
+- `event:class:PALADIN:youcritheal` — missing `emote`
+- `event:class:PALADIN:youheal` — missing `emote`
+- `event:class:PRIEST:absorb` — missing `emote`
+- `event:class:PRIEST:block` — missing `emote`
+- `event:class:PRIEST:deferred_youcritspell` — missing `emote`
+- `event:class:PRIEST:dodge` — missing `emote`
+- `event:class:PRIEST:entercombat` — missing `emote`
+- `event:class:PRIEST:hurt` — missing `emote`
+- `event:class:PRIEST:leavecombat` — missing `emote`
+- `event:class:PRIEST:miss` — missing `emote`
+- `event:class:PRIEST:parry` — missing `emote`
+- `event:class:PRIEST:petattackstart` — missing `emote`
+- `event:class:PRIEST:petattackstop` — missing `emote`
+- `event:class:PRIEST:petdies` — missing `emote`
+- `event:class:PRIEST:youcrit` — missing `emote`
+- `event:class:PRIEST:youcritheal` — missing `emote`
+- `event:class:PRIEST:youheal` — missing `emote`
+- `event:class:ROGUE:deferred_youcritspell` — missing `emote`, `customemote`
+- `event:class:ROGUE:dodge` — missing `emote`, `customemote`
+- `event:class:ROGUE:entercombat` — missing `customemote`
+- `event:class:ROGUE:leavecombat` — missing `emote`, `customemote`
+- `event:class:ROGUE:youcrit` — missing `emote`, `customemote`
+- `event:class:SHAMAN:absorb` — missing `emote`
+- `event:class:SHAMAN:block` — missing `emote`
+- `event:class:SHAMAN:deferred_youcritspell` — missing `emote`
+- `event:class:SHAMAN:dodge` — missing `emote`
+- `event:class:SHAMAN:leavecombat` — missing `emote`
+- `event:class:SHAMAN:miss` — missing `emote`
+- `event:class:SHAMAN:parry` — missing `emote`
+- `event:class:SHAMAN:youcrit` — missing `emote`
+- `event:class:SHAMAN:youcritheal` — missing `emote`
+- `event:class:SHAMAN:youheal` — missing `emote`
+- `event:class:WARLOCK:absorb` — missing `say`, `customemote`
+- `event:class:WARLOCK:entercombat` — missing `customemote`
+- `event:class:WARLOCK:npctalksenemy` — missing `emote`, `customemote`
+- `event:class:WARLOCK:npctalksfriend` — missing `emote`, `customemote`
+- `event:class:WARLOCK:petattackstart` — missing `emote`, `customemote`
+- `event:class:WARLOCK:petattackstop` — missing `emote`, `customemote`
+- `event:class:WARLOCK:petdies` — missing `emote`, `customemote`
+- `event:class:WARLOCK:resurrect` — missing `emote`, `customemote`
+- `event:class:WARRIOR:absorb` — missing `emote`, `customemote`
+- `event:class:WARRIOR:dodge` — missing `emote`, `customemote`
+- `event:class:WARRIOR:entercombat` — missing `customemote`
+- `event:class:WARRIOR:hurt` — missing `customemote`
+- `event:class:WARRIOR:parry` — missing `emote`, `customemote`
+- `event:class:WARRIOR:youcrit` — missing `say`
+- `form:BEAR:dodge` — missing `say`, `emote`
+- `form:BEAR:entercombat` — missing `say`
+- `form:BEAR:hurt` — missing `say`, `emote`
+- `form:BEAR:leavecombat` — missing `say`, `emote`
+- `form:BEAR:youcrit` — missing `say`, `emote`
+- `form:CAT:dodge` — missing `say`, `emote`
+- `form:CAT:entercombat` — missing `say`
+- `form:CAT:hurt` — missing `say`, `emote`
+- `form:CAT:leavecombat` — missing `say`, `emote`
+- `form:CAT:youcrit` — missing `say`, `emote`
+- `form:MOONKIN:dodge` — missing `say`, `emote`
+- `form:MOONKIN:entercombat` — missing `say`
+- `form:MOONKIN:hurt` — missing `say`, `emote`
+- `form:MOONKIN:leavecombat` — missing `say`, `emote`
+- `form:MOONKIN:youcrit` — missing `say`, `emote`
+- `ability:DRUID:ABOLISH_POISON` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:AQUATIC_FORM` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:BARKSKIN` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:BASH` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:BEAR_FORM` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:BERSERK` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:CAT_FORM` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:CHALLENGING_ROAR` — missing `say`, `customemote`
+- `ability:DRUID:CLAW` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:COWER` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:CURE_POISON` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:DASH` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:DEMORALIZING_ROAR` — missing `say`, `customemote`
+- `ability:DRUID:DIRE_BEAR_FORM` — missing `say`, `customemote`
+- `ability:DRUID:ENRAGE` — missing `say`, `customemote`
+- `ability:DRUID:ENTANGLING_ROOTS` — missing `emote`, `customemote`
+- `ability:DRUID:FAERIE_FIRE` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:FERAL_CHARGE` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:FEROCIOUS_BITE` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:FRENZIED_REGENERATION` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:GIFT_OF_THE_WILD` — missing `say`, `emote`
+- `ability:DRUID:GROWL` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:HEALING_TOUCH` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:HIBERNATE` — missing `emote`
+- `ability:DRUID:HURRICANE` — missing `emote`
+- `ability:DRUID:INNERVATE` — missing `emote`
+- `ability:DRUID:INSECT_SWARM` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:LACERATE` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:MARK_OF_THE_WILD` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:MAUL` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:MOONKIN_FORM` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:MOON_FIRE` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:NATURES_GRASP` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:NATURES_SWIFTNESS` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:POUNCE` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:PRIMAL_BITE` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:PROWL` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:RAKE` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:RAVAGE` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:REBIRTH` — missing `emote`, `customemote`
+- `ability:DRUID:REGROWTH` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:REJUVENATION` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:REMOVE_CURSE` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:REVIVE` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:RIP` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:SHIFTING_POWER` — missing `say`
+- `ability:DRUID:SHRED` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:SOOTHE_ANIMAL` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:STARFIRE` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:SWIFTMEND` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:SWIPE` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:TELEPORT_MOONGLADE` — missing `say`, `emote`
+- `ability:DRUID:THORNS` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:TRACK_HUMANOIDS` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:TRANQUILITY` — missing `emote`
+- `ability:DRUID:TRAVEL_FORM` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:WILD_GROWTH` — missing `say`, `emote`, `customemote`
+- `ability:DRUID:WRATH` — missing `say`, `emote`, `customemote`
+- `ability:HUNTER:AIMED_SHOT` — missing `emote`
+- `ability:HUNTER:ARCANE_SHOT` — missing `emote`
+- `ability:HUNTER:ASPECT_OF_THE_BEAST` — missing `emote`
+- `ability:HUNTER:ASPECT_OF_THE_CHEETAH` — missing `emote`
+- `ability:HUNTER:ASPECT_OF_THE_HAWK` — missing `emote`
+- `ability:HUNTER:ASPECT_OF_THE_PACK` — missing `emote`
+- `ability:HUNTER:ASPECT_OF_THE_WILD` — missing `emote`
+- `ability:HUNTER:AUTO_SHOT` — missing `say`, `emote`, `customemote`
+- `ability:HUNTER:BEAST_LORE` — missing `emote`
+- `ability:HUNTER:BESTIAL_WRATH` — missing `emote`
+- `ability:HUNTER:CALL_PET` — missing `say`, `emote`, `customemote`
+- `ability:HUNTER:CONCUSSIVE_SHOT` — missing `emote`
+- `ability:HUNTER:COUNTERATTACK` — missing `emote`
+- `ability:HUNTER:DETERRENCE` — missing `emote`
+- `ability:HUNTER:DISENGAGE` — missing `emote`
+- `ability:HUNTER:DISMISS_PET` — missing `say`, `emote`, `customemote`
+- `ability:HUNTER:DISTRACTING_SHOT` — missing `emote`
+- `ability:HUNTER:EAGLE_EYE` — missing `emote`
+- `ability:HUNTER:ENCHANTED_FLARE` — missing `say`, `emote`, `customemote`
+- `ability:HUNTER:EXPLOSIVE_TRAP` — missing `emote`
+- `ability:HUNTER:EYES_OF_THE_BEAST` — missing `emote`
+- `ability:HUNTER:FEED_PET` — missing `say`, `emote`, `customemote`
+- `ability:HUNTER:FEIGN_DEATH` — missing `emote`
+- `ability:HUNTER:FLARE` — missing `emote`
+- `ability:HUNTER:FREEZING_TRAP` — missing `emote`
+- `ability:HUNTER:FROST_TRAP` — missing `emote`
+- `ability:HUNTER:HUNTERS_MARK` — missing `emote`
+- `ability:HUNTER:IMMOLATION_TRAP` — missing `emote`
+- `ability:HUNTER:INTIMIDATION` — missing `say`, `emote`, `customemote`
+- `ability:HUNTER:LACERATE` — missing `say`, `emote`, `customemote`
+- `ability:HUNTER:MEND_PET` — missing `emote`
+- `ability:HUNTER:MONGOOSE_BITE` — missing `emote`
+- `ability:HUNTER:MULTI_SHOT` — missing `emote`
+- `ability:HUNTER:RAPID_FIRE` — missing `emote`
+- `ability:HUNTER:RAPTOR_STRIKE` — missing `emote`
+- `ability:HUNTER:REVIVE_PET` — missing `say`, `emote`, `customemote`
+- `ability:HUNTER:SCARE_BEAST` — missing `emote`
+- `ability:HUNTER:SCATTER_SHOT` — missing `emote`
+- `ability:HUNTER:SCORPID_STING` — missing `emote`
+- `ability:HUNTER:SERPENT_STING` — missing `emote`
+- `ability:HUNTER:SNIPER_SHOT` — missing `say`, `emote`, `customemote`
+- `ability:HUNTER:STRIDER_KICK` — missing `say`, `emote`, `customemote`
+- `ability:HUNTER:SUMMON_HAWK` — missing `say`, `emote`, `customemote`
+- `ability:HUNTER:TAME_BEAST` — missing `say`, `emote`, `customemote`
+- `ability:HUNTER:TRACK_BEASTS` — missing `emote`
+- `ability:HUNTER:TRACK_DEMONS` — missing `emote`
+- `ability:HUNTER:TRACK_DRAGONKIN` — missing `emote`
+- `ability:HUNTER:TRACK_ELEMENTALS` — missing `emote`
+- `ability:HUNTER:TRACK_GIANTS` — missing `emote`
+- `ability:HUNTER:TRACK_HIDDEN` — missing `emote`
+- `ability:HUNTER:TRACK_HUMANOIDS` — missing `emote`
+- `ability:HUNTER:TRACK_UNDEAD` — missing `emote`
+- `ability:HUNTER:TRANQUILIZING_SHOT` — missing `emote`
+- `ability:HUNTER:TRUESHOT_AURA` — missing `emote`
+- `ability:HUNTER:VIPER_STING` — missing `emote`
+- `ability:HUNTER:VOLLEY` — missing `emote`
+- `ability:HUNTER:WING_CLIP` — missing `emote`
+- `ability:MAGE:AMPLIFY_MAGIC` — missing `emote`
+- `ability:MAGE:ARCANE_BLAST` — missing `say`, `emote`, `customemote`
+- `ability:MAGE:ARCANE_BRILLIANCE` — missing `emote`
+- `ability:MAGE:ARCANE_EXPLOSION` — missing `emote`
+- `ability:MAGE:ARCANE_INTELLECT` — missing `emote`
+- `ability:MAGE:ARCANE_MISSILES` — missing `emote`
+- `ability:MAGE:ARCANE_POWER` — missing `emote`
+- `ability:MAGE:ARCANE_WRATH` — missing `say`, `emote`, `customemote`
+- `ability:MAGE:BLAST_WAVE` — missing `emote`
+- `ability:MAGE:BLINK` — missing `emote`
+- `ability:MAGE:BLIZZARD` — missing `emote`
+- `ability:MAGE:COLD_SNAP` — missing `emote`
+- `ability:MAGE:COMBUSTION` — missing `emote`
+- `ability:MAGE:CONE_OF_COLD` — missing `emote`
+- `ability:MAGE:CONJURE_FOOD` — missing `emote`
+- `ability:MAGE:CONJURE_MANA_AGATE` — missing `emote`
+- `ability:MAGE:CONJURE_MANA_CITRINE` — missing `emote`
+- `ability:MAGE:CONJURE_MANA_JADE` — missing `emote`
+- `ability:MAGE:CONJURE_MANA_RUBY` — missing `emote`
+- `ability:MAGE:CONJURE_WATER` — missing `emote`
+- `ability:MAGE:COUNTERSPELL` — missing `emote`
+- `ability:MAGE:DAMPEN_MAGIC` — missing `emote`
+- `ability:MAGE:EVOCATION` — missing `emote`
+- `ability:MAGE:FIREBALL` — missing `emote`
+- `ability:MAGE:FIRE_BLAST` — missing `emote`
+- `ability:MAGE:FIRE_WARD` — missing `emote`
+- `ability:MAGE:FLAMESTRIKE` — missing `emote`
+- `ability:MAGE:FROSTBOLT` — missing `emote`
+- `ability:MAGE:FROSTFIRE_BOLT` — missing `say`, `emote`, `customemote`
+- `ability:MAGE:FROST_ARMOR` — missing `emote`
+- `ability:MAGE:FROST_BLAST` — missing `say`, `emote`, `customemote`
+- `ability:MAGE:FROST_NOVA` — missing `emote`
+- `ability:MAGE:FROST_WARD` — missing `emote`
+- `ability:MAGE:ICE_ARMOR` — missing `emote`
+- `ability:MAGE:ICE_BARRIER` — missing `emote`
+- `ability:MAGE:ICE_BLOCK` — missing `emote`
+- `ability:MAGE:ICE_LANCE` — missing `say`, `emote`, `customemote`
+- `ability:MAGE:MAGE_ARMOR` — missing `emote`
+- `ability:MAGE:MANA_SHIELD` — missing `emote`
+- `ability:MAGE:POLYMORPH` — missing `emote`
+- `ability:MAGE:POLYMORPH_PIG` — missing `say`, `emote`, `customemote`
+- `ability:MAGE:POLYMORPH_TURTLE` — missing `say`, `emote`, `customemote`
+- `ability:MAGE:PORTAL_DARNASSUS` — missing `emote`
+- `ability:MAGE:PORTAL_IRONFORGE` — missing `emote`
+- `ability:MAGE:PORTAL_ORGRIMMAR` — missing `emote`
+- `ability:MAGE:PORTAL_STORMWIND` — missing `emote`
+- `ability:MAGE:PORTAL_THUNDER_BLUFF` — missing `emote`
+- `ability:MAGE:PORTAL_UNDERCITY` — missing `emote`
+- `ability:MAGE:PRESENCE_OF_MIND` — missing `emote`
+- `ability:MAGE:PYROBLAST` — missing `emote`
+- `ability:MAGE:REMOVE_LESSER_CURSE` — missing `emote`
+- `ability:MAGE:SCORCH` — missing `emote`
+- `ability:MAGE:SLOW_FALL` — missing `emote`
+- `ability:MAGE:TELEPORT_DALARAN` — missing `say`, `emote`, `customemote`
+- `ability:MAGE:TELEPORT_DARNASSUS` — missing `emote`
+- `ability:MAGE:TELEPORT_IRONFORGE` — missing `emote`
+- `ability:MAGE:TELEPORT_ORGRIMMAR` — missing `emote`
+- `ability:MAGE:TELEPORT_STORMWIND` — missing `emote`
+- `ability:MAGE:TELEPORT_THUNDER_BLUFF` — missing `emote`
+- `ability:MAGE:TELEPORT_UNDERCITY` — missing `emote`
+- `ability:PALADIN:BLESSING_OF_FREEDOM` — missing `emote`
+- `ability:PALADIN:BLESSING_OF_KINGS` — missing `emote`
+- `ability:PALADIN:BLESSING_OF_LIGHT` — missing `emote`
+- `ability:PALADIN:BLESSING_OF_MIGHT` — missing `emote`
+- `ability:PALADIN:BLESSING_OF_PROTECTION` — missing `emote`
+- `ability:PALADIN:BLESSING_OF_SACRIFICE` — missing `emote`
+- `ability:PALADIN:BLESSING_OF_WISDOM` — missing `emote`
+- `ability:PALADIN:CLEANSE` — missing `emote`
+- `ability:PALADIN:CONCENTRATION_AURA` — missing `emote`
+- `ability:PALADIN:CONSECRATION` — missing `emote`
+- `ability:PALADIN:DEVOTION_AURA` — missing `emote`
+- `ability:PALADIN:DIVINE_FAVOR` — missing `emote`
+- `ability:PALADIN:DIVINE_INTERVENTION` — missing `emote`
+- `ability:PALADIN:DIVINE_PROTECTION` — missing `emote`
+- `ability:PALADIN:DIVINE_SHIELD` — missing `emote`
+- `ability:PALADIN:EXORCISM` — missing `emote`
+- `ability:PALADIN:FIRE_RESISTANCE_AURA` — missing `emote`
+- `ability:PALADIN:FLASH_OF_LIGHT` — missing `emote`
+- `ability:PALADIN:FROST_RESISTANCE_AURA` — missing `emote`
+- `ability:PALADIN:GREATER_BLESSING_OF_KINGS` — missing `say`, `emote`, `customemote`
+- `ability:PALADIN:GREATER_BLESSING_OF_LIGHT` — missing `say`, `emote`, `customemote`
+- `ability:PALADIN:GREATER_BLESSING_OF_MIGHT` — missing `emote`
+- `ability:PALADIN:GREATER_BLESSING_OF_WISDOM` — missing `say`, `emote`, `customemote`
+- `ability:PALADIN:HAMMER_OF_JUSTICE` — missing `emote`
+- `ability:PALADIN:HAMMER_OF_WRATH` — missing `emote`
+- `ability:PALADIN:HOLY_LIGHT` — missing `emote`
+- `ability:PALADIN:HOLY_SHIELD` — missing `emote`
+- `ability:PALADIN:HOLY_SHOCK` — missing `emote`
+- `ability:PALADIN:HOLY_STRIKE` — missing `say`, `emote`, `customemote`
+- `ability:PALADIN:HOLY_WRATH` — missing `emote`
+- `ability:PALADIN:JUDGEMENT` — missing `emote`
+- `ability:PALADIN:LAY_ON_HANDS` — missing `emote`
+- `ability:PALADIN:LIGHTS_VIGIL` — missing `say`, `emote`, `customemote`
+- `ability:PALADIN:MASS_SALVATION` — missing `say`, `emote`, `customemote`
+- `ability:PALADIN:PURIFY` — missing `emote`
+- `ability:PALADIN:REDEMPTION` — missing `emote`
+- `ability:PALADIN:REPENTANCE` — missing `emote`
+- `ability:PALADIN:RETRIBUTION_AURA` — missing `emote`
+- `ability:PALADIN:REVOKE` — missing `say`, `emote`, `customemote`
+- `ability:PALADIN:RIGHTEOUS_FURY` — missing `emote`
+- `ability:PALADIN:SALVATION` — missing `emote`
+- `ability:PALADIN:SEAL_OF_COMMAND` — missing `emote`
+- `ability:PALADIN:SEAL_OF_FURY` — missing `say`, `emote`, `customemote`
+- `ability:PALADIN:SEAL_OF_JUSTICE` — missing `emote`
+- `ability:PALADIN:SEAL_OF_LIGHT` — missing `emote`
+- `ability:PALADIN:SEAL_OF_RIGHTEOUSNESS` — missing `emote`
+- `ability:PALADIN:SEAL_OF_THE_CRUSADER` — missing `emote`
+- `ability:PALADIN:SEAL_OF_WISDOM` — missing `emote`
+- `ability:PALADIN:SENSE_UNDEAD` — missing `emote`
+- `ability:PALADIN:SHADOW_RESISTANCE_AURA` — missing `emote`
+- `ability:PALADIN:SWIFT_JUDGEMENT` — missing `say`, `emote`, `customemote`
+- `ability:PALADIN:TEMPLARS_BULWARK` — missing `say`, `emote`, `customemote`
+- `ability:PALADIN:TURN_UNDEAD` — missing `emote`
+- `ability:PALADIN:VOICE_OF_TRUTH` — missing `say`, `emote`, `customemote`
+- `ability:PRIEST:ABOLISH_DISEASE` — missing `emote`
+- `ability:PRIEST:BINDING_HEAL` — missing `say`, `emote`, `customemote`
+- `ability:PRIEST:CHASTISE` — missing `say`, `emote`, `customemote`
+- `ability:PRIEST:CONFOUNDING_FLASH` — missing `say`, `emote`, `customemote`
+- `ability:PRIEST:CONTINGENCY_PLAN` — missing `say`, `emote`, `customemote`
+- `ability:PRIEST:CURE_DISEASE` — missing `emote`
+- `ability:PRIEST:DARK_SACRIFICE` — missing `say`, `emote`, `customemote`
+- `ability:PRIEST:DEVOURING_PLAGUE` — missing `emote`
+- `ability:PRIEST:DISPEL_MAGIC` — missing `emote`
+- `ability:PRIEST:DIVINE_GRACE` — missing `say`, `emote`, `customemote`
+- `ability:PRIEST:DIVINE_SPIRIT` — missing `emote`
+- `ability:PRIEST:ELUNES_GRACE` — missing `emote`
+- `ability:PRIEST:FADE` — missing `emote`
+- `ability:PRIEST:FEAR_WARD` — missing `emote`
+- `ability:PRIEST:FEEDBACK` — missing `emote`
+- `ability:PRIEST:FLASH_HEAL` — missing `emote`
+- `ability:PRIEST:GREATER_HEAL` — missing `emote`
+- `ability:PRIEST:HEAL` — missing `emote`
+- `ability:PRIEST:HEX_OF_WEAKNESS` — missing `emote`
+- `ability:PRIEST:HOLY_FIRE` — missing `emote`
+- `ability:PRIEST:HOLY_NOVA` — missing `emote`
+- `ability:PRIEST:INNER_FIRE` — missing `emote`
+- `ability:PRIEST:INNER_FOCUS` — missing `emote`
+- `ability:PRIEST:LESSER_HEAL` — missing `emote`
+- `ability:PRIEST:LEVITATE` — missing `emote`
+- `ability:PRIEST:MANA_BURN` — missing `emote`
+- `ability:PRIEST:MIND_BLAST` — missing `emote`
+- `ability:PRIEST:MIND_CONTROL` — missing `emote`
+- `ability:PRIEST:MIND_FLAY` — missing `emote`
+- `ability:PRIEST:MIND_SOOTHE` — missing `emote`
+- `ability:PRIEST:MIND_VISION` — missing `emote`
+- `ability:PRIEST:PENANCE` — missing `say`, `emote`, `customemote`
+- `ability:PRIEST:POWER_INFUSION` — missing `emote`
+- `ability:PRIEST:POWER_WORD_FORTITUDE` — missing `emote`
+- `ability:PRIEST:POWER_WORD_SHIELD` — missing `emote`
+- `ability:PRIEST:PRAYER_OF_FORTITUDE` — missing `emote`
+- `ability:PRIEST:PRAYER_OF_HEALING` — missing `emote`
+- `ability:PRIEST:PRAYER_OF_MENDING` — missing `say`, `emote`, `customemote`
+- `ability:PRIEST:PRAYER_OF_SHADOW_PROTECTION` — missing `say`, `emote`, `customemote`
+- `ability:PRIEST:PRAYER_OF_SPIRIT` — missing `say`, `emote`, `customemote`
+- `ability:PRIEST:PSYCHIC_SCREAM` — missing `emote`
+- `ability:PRIEST:RENEW` — missing `emote`
+- `ability:PRIEST:RESURRECTION` — missing `emote`
+- `ability:PRIEST:SHACKLE_UNDEAD` — missing `emote`
+- `ability:PRIEST:SHADOWFORM` — missing `emote`
+- `ability:PRIEST:SHADOWGUARD` — missing `emote`
+- `ability:PRIEST:SHADOW_PROTECTION` — missing `emote`
+- `ability:PRIEST:SHADOW_WORD_DEATH` — missing `say`, `emote`, `customemote`
+- `ability:PRIEST:SHADOW_WORD_PAIN` — missing `emote`
+- `ability:PRIEST:SILENCE` — missing `emote`
+- `ability:PRIEST:SMITE` — missing `emote`
+- `ability:PRIEST:STARSHARDS` — missing `emote`
+- `ability:PRIEST:TOUCH_OF_WEAKNESS` — missing `emote`
+- `ability:PRIEST:VAMPIRIC_EMBRACE` — missing `emote`
+- `ability:ROGUE:ADRENALINE_RUSH` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:AMBUSH` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:BACKSTAB` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:BLADE_FLURRY` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:BLIND` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:BLINDING_POWDER` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:CHEAP_SHOT` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:COLD_BLOOD` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:CRIPPLING_POISON` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:DEADLY_POISON` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:DISARM_TRAP` — missing `emote`, `customemote`
+- `ability:ROGUE:DISTRACT` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:EVASION` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:EVISCERATE` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:EXPOSE_ARMOR` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:FEINT` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:GARROTE` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:GHOSTLY_STRIKE` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:GOUGE` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:HEMORRHAGE` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:INSTANT_POISON` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:KICK` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:KIDNEY_SHOT` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:MIND_NUMBING_POISON` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:MUTILATE` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:PICK_POCKET` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:PREMEDITATION` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:PREPARATION` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:RIPOSTE` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:RUPTURE` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:SAP` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:SINISTER_STRIKE` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:SLICE_AND_DICE` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:SPRINT` — missing `emote`, `customemote`
+- `ability:ROGUE:STEALTH` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:VANISH` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:VENOM` — missing `say`, `emote`, `customemote`
+- `ability:ROGUE:WOUND_POISON` — missing `say`, `emote`, `customemote`
+- `ability:SHAMAN:ANCESTRAL_SPIRIT` — missing `emote`
+- `ability:SHAMAN:ASTRAL_RECALL` — missing `say`, `emote`, `customemote`
+- `ability:SHAMAN:CALL_OF_THE_ANCESTORS` — missing `say`, `emote`, `customemote`
+- `ability:SHAMAN:CALL_OF_THE_ELEMENTS` — missing `say`, `emote`, `customemote`
+- `ability:SHAMAN:CALL_OF_THE_SPIRITS` — missing `say`, `emote`, `customemote`
+- `ability:SHAMAN:CHAIN_HEAL` — missing `emote`
+- `ability:SHAMAN:CHAIN_LIGHTNING` — missing `emote`
+- `ability:SHAMAN:CURE_DISEASE` — missing `emote`
+- `ability:SHAMAN:CURE_POISON` — missing `emote`
+- `ability:SHAMAN:DISEASE_CLEANSING_TOTEM` — missing `emote`
+- `ability:SHAMAN:EARTHBIND_TOTEM` — missing `emote`
+- `ability:SHAMAN:EARTH_SHOCK` — missing `emote`
+- `ability:SHAMAN:ELEMENTAL_MASTERY` — missing `say`, `emote`, `customemote`
+- `ability:SHAMAN:FAR_SIGHT` — missing `say`, `emote`, `customemote`
+- `ability:SHAMAN:FIRE_NOVA` — missing `emote`
+- `ability:SHAMAN:FIRE_RESISTANCE_TOTEM` — missing `emote`
+- `ability:SHAMAN:FLAMETONGUE_TOTEM` — missing `emote`
+- `ability:SHAMAN:FLAMETONGUE_WEAPON` — missing `emote`
+- `ability:SHAMAN:FLAME_SHOCK` — missing `emote`
+- `ability:SHAMAN:FROSTBRAND_WEAPON` — missing `emote`
+- `ability:SHAMAN:FROST_RESISTANCE_TOTEM` — missing `emote`
+- `ability:SHAMAN:FROST_SHOCK` — missing `emote`
+- `ability:SHAMAN:GHOST_WOLF` — missing `emote`
+- `ability:SHAMAN:GRACE_OF_AIR_TOTEM` — missing `emote`
+- `ability:SHAMAN:GROUNDING_TOTEM` — missing `emote`
+- `ability:SHAMAN:HEALING_STREAM_TOTEM` — missing `emote`
+- `ability:SHAMAN:HEALING_WAVE` — missing `emote`
+- `ability:SHAMAN:LAVA_BURST` — missing `say`, `emote`, `customemote`
+- `ability:SHAMAN:LESSER_HEALING_WAVE` — missing `emote`
+- `ability:SHAMAN:LIGHTNING_BOLT` — missing `emote`
+- `ability:SHAMAN:LIGHTNING_SHIELD` — missing `emote`
+- `ability:SHAMAN:MAGMA_TOTEM` — missing `emote`
+- `ability:SHAMAN:MANA_SPRING_TOTEM` — missing `emote`
+- `ability:SHAMAN:MANA_TIDE_TOTEM` — missing `emote`
+- `ability:SHAMAN:NATURES_SWIFTNESS` — missing `emote`
+- `ability:SHAMAN:NATURE_RESISTANCE_TOTEM` — missing `emote`
+- `ability:SHAMAN:POISON_CLEANSING_TOTEM` — missing `emote`
+- `ability:SHAMAN:PURGE` — missing `emote`
+- `ability:SHAMAN:RAGE_OF_THE_FARSEER` — missing `say`, `emote`, `customemote`
+- `ability:SHAMAN:REINCARNATION` — missing `emote`
+- `ability:SHAMAN:RIPTIDE` — missing `say`, `emote`, `customemote`
+- `ability:SHAMAN:ROCKBITER_WEAPON` — missing `emote`
+- `ability:SHAMAN:SEARING_TOTEM` — missing `emote`
+- `ability:SHAMAN:SENTRY_TOTEM` — missing `emote`
+- `ability:SHAMAN:STONECLAW_TOTEM` — missing `emote`
+- `ability:SHAMAN:STONESKIN_TOTEM` — missing `emote`
+- `ability:SHAMAN:STORMSTRIKE` — missing `emote`
+- `ability:SHAMAN:STRENGTH_OF_EARTH_TOTEM` — missing `emote`
+- `ability:SHAMAN:TOTEMIC_PROJECTION` — missing `say`, `emote`, `customemote`
+- `ability:SHAMAN:TOTEMIC_RECALL` — missing `emote`
+- `ability:SHAMAN:TREMOR_TOTEM` — missing `emote`
+- `ability:SHAMAN:WATER_BREATHING` — missing `say`, `emote`, `customemote`
+- `ability:SHAMAN:WATER_SHIELD` — missing `emote`
+- `ability:SHAMAN:WATER_WALKING` — missing `say`, `emote`, `customemote`
+- `ability:SHAMAN:WINDFURY_TOTEM` — missing `emote`
+- `ability:SHAMAN:WINDFURY_WEAPON` — missing `emote`
+- `ability:SHAMAN:WINDWALL_TOTEM` — missing `emote`
+- `ability:WARLOCK:AMPLIFY_CURSE` — missing `say`, `emote`, `customemote`
+- `ability:WARLOCK:BANE_OF_AGONY` — missing `emote`, `customemote`
+- `ability:WARLOCK:BANE_OF_HAVOC` — missing `say`, `emote`, `customemote`
+- `ability:WARLOCK:BANISH` — missing `say`, `emote`
+- `ability:WARLOCK:CONFLAGRATE` — missing `say`, `emote`, `customemote`
+- `ability:WARLOCK:CORRUPTION` — missing `say`, `emote`, `customemote`
+- `ability:WARLOCK:CREATE_FIRESTONE` — missing `say`, `emote`, `customemote`
+- `ability:WARLOCK:CREATE_HEALTHSTONE` — missing `say`, `emote`, `customemote`
+- `ability:WARLOCK:CREATE_SOULSTONE` — missing `say`, `emote`, `customemote`
+- `ability:WARLOCK:CREATE_SPELLSTONE` — missing `say`, `emote`, `customemote`
+- `ability:WARLOCK:CURSE_OF_EXHAUSTION` — missing `emote`, `customemote`
+- `ability:WARLOCK:CURSE_OF_RECKLESSNESS` — missing `emote`, `customemote`
+- `ability:WARLOCK:CURSE_OF_THE_ELEMENTS` — missing `emote`, `customemote`
+- `ability:WARLOCK:CURSE_OF_TONGUES` — missing `say`, `emote`
+- `ability:WARLOCK:CURSE_OF_WEAKNESS` — missing `emote`, `customemote`
+- `ability:WARLOCK:DEATH_COIL` — missing `say`, `emote`, `customemote`
+- `ability:WARLOCK:DEMONIC_SACRIFICE` — missing `say`, `emote`, `customemote`
+- `ability:WARLOCK:DEMON_ARMOR` — missing `say`, `emote`, `customemote`
+- `ability:WARLOCK:DEMON_SKIN` — missing `say`, `emote`, `customemote`
+- `ability:WARLOCK:DETECT_INVISIBILITY` — missing `say`, `emote`, `customemote`
+- `ability:WARLOCK:DRAIN_LIFE` — missing `emote`, `customemote`
+- `ability:WARLOCK:DRAIN_MANA` — missing `emote`, `customemote`
+- `ability:WARLOCK:DRAIN_SOUL` — missing `emote`, `customemote`
+- `ability:WARLOCK:EYE_OF_KILROGG` — missing `say`, `emote`, `customemote`
+- `ability:WARLOCK:FEAR` — missing `emote`, `customemote`
+- `ability:WARLOCK:FEL_DOMINATION` — missing `say`, `emote`, `customemote`
+- `ability:WARLOCK:HEALTH_FUNNEL` — missing `say`, `emote`
+- `ability:WARLOCK:HELLFIRE` — missing `emote`, `customemote`
+- `ability:WARLOCK:HOWL_OF_TERROR` — missing `say`, `emote`, `customemote`
+- `ability:WARLOCK:IMMOLATE` — missing `emote`, `customemote`
+- `ability:WARLOCK:INCINERATE` — missing `say`, `emote`, `customemote`
+- `ability:WARLOCK:INFERNO` — missing `say`, `emote`, `customemote`
+- `ability:WARLOCK:LIFE_TAP` — missing `say`, `emote`, `customemote`
+- `ability:WARLOCK:RAIN_OF_FIRE` — missing `emote`, `customemote`
+- `ability:WARLOCK:RITUAL_OF_DOOM` — missing `say`, `emote`, `customemote`
+- `ability:WARLOCK:RITUAL_OF_SUMMONING` — missing `emote`
+- `ability:WARLOCK:SEARING_PAIN` — missing `emote`, `customemote`
+- `ability:WARLOCK:SENSE_DEMONS` — missing `emote`, `customemote`
+- `ability:WARLOCK:SHADOWBURN` — missing `say`, `emote`, `customemote`
+- `ability:WARLOCK:SHADOW_BOLT` — missing `say`, `emote`, `customemote`
+- `ability:WARLOCK:SHADOW_WARD` — missing `say`, `emote`, `customemote`
+- `ability:WARLOCK:SIPHON_LIFE` — missing `say`, `emote`, `customemote`
+- `ability:WARLOCK:SOUL_FIRE` — missing `emote`, `customemote`
+- `ability:WARLOCK:SOUL_LINK` — missing `say`, `emote`, `customemote`
+- `ability:WARLOCK:SUBJUGATE_DEMON` — missing `say`, `customemote`
+- `ability:WARLOCK:SUMMON_FELHUNTER` — missing `say`, `emote`, `customemote`
+- `ability:WARLOCK:SUMMON_IMP` — missing `emote`, `customemote`
+- `ability:WARLOCK:SUMMON_INCUBUS` — missing `say`, `emote`, `customemote`
+- `ability:WARLOCK:SUMMON_SUCCUBUS` — missing `emote`, `customemote`
+- `ability:WARLOCK:SUMMON_VOIDWALKER` — missing `emote`, `customemote`
+- `ability:WARLOCK:UNENDING_BREATH` — missing `emote`, `customemote`
+- `ability:WARLOCK:WRACK` — missing `say`, `emote`, `customemote`
+- `ability:WARRIOR:BATTLE_SHOUT` — missing `say`, `customemote`
+- `ability:WARRIOR:BATTLE_STANCE` — missing `say`, `emote`, `customemote`
+- `ability:WARRIOR:BERSERKER_RAGE` — missing `say`, `emote`, `customemote`
+- `ability:WARRIOR:BERSERKER_STANCE` — missing `say`, `emote`, `customemote`
+- `ability:WARRIOR:BLOODRAGE` — missing `say`
+- `ability:WARRIOR:BLOODTHIRST` — missing `say`, `emote`, `customemote`
+- `ability:WARRIOR:CHALLENGING_SHOUT` — missing `emote`, `customemote`
+- `ability:WARRIOR:CHARGE` — missing `say`
+- `ability:WARRIOR:CLEAVE` — missing `say`, `emote`, `customemote`
+- `ability:WARRIOR:CONCUSSION_BLOW` — missing `say`, `emote`, `customemote`
+- `ability:WARRIOR:DEATH_WISH` — missing `say`, `emote`, `customemote`
+- `ability:WARRIOR:DEFENSIVE_STANCE` — missing `say`, `emote`, `customemote`
+- `ability:WARRIOR:DEMORALIZING_SHOUT` — missing `say`, `customemote`
+- `ability:WARRIOR:DISARM` — missing `say`, `emote`, `customemote`
+- `ability:WARRIOR:EXECUTE` — missing `say`, `emote`, `customemote`
+- `ability:WARRIOR:HAMSTRING` — missing `say`, `emote`
+- `ability:WARRIOR:HEROIC_STRIKE` — missing `say`, `emote`, `customemote`
+- `ability:WARRIOR:INTERCEPT` — missing `say`, `emote`, `customemote`
+- `ability:WARRIOR:INTIMIDATING_SHOUT` — missing `emote`, `customemote`
+- `ability:WARRIOR:LAST_STAND` — missing `say`, `emote`, `customemote`
+- `ability:WARRIOR:MOCKING_BLOW` — missing `emote`, `customemote`
+- `ability:WARRIOR:MORTAL_STRIKE` — missing `say`, `emote`, `customemote`
+- `ability:WARRIOR:OVERPOWER` — missing `say`, `emote`, `customemote`
+- `ability:WARRIOR:PIERCING_HOWL` — missing `say`, `emote`, `customemote`
+- `ability:WARRIOR:PUMMEL` — missing `say`, `emote`, `customemote`
+- `ability:WARRIOR:RECKLESSNESS` — missing `say`, `emote`, `customemote`
+- `ability:WARRIOR:REND` — missing `emote`, `customemote`
+- `ability:WARRIOR:RETALIATION` — missing `say`, `emote`, `customemote`
+- `ability:WARRIOR:REVENGE` — missing `say`, `emote`, `customemote`
+- `ability:WARRIOR:SHIELD_BASH` — missing `say`, `emote`
+- `ability:WARRIOR:SHIELD_BLOCK` — missing `say`, `emote`, `customemote`
+- `ability:WARRIOR:SHIELD_SLAM` — missing `say`, `emote`
+- `ability:WARRIOR:SHIELD_WALL` — missing `say`, `emote`, `customemote`
+- `ability:WARRIOR:SLAM` — missing `say`, `customemote`
+- `ability:WARRIOR:SPEARING_STRIKE` — missing `say`, `emote`, `customemote`
+- `ability:WARRIOR:SUNDER_ARMOR` — missing `say`, `emote`, `customemote`
+- `ability:WARRIOR:SWEEPING_STRIKES` — missing `say`, `emote`, `customemote`
+- `ability:WARRIOR:TAUNT` — missing `say`, `emote`, `customemote`
+- `ability:WARRIOR:THUNDER_CLAP` — missing `say`, `emote`, `customemote`
+- `ability:WARRIOR:VICTORY_RUSH` — missing `say`, `emote`, `customemote`
+- `ability:WARRIOR:WHIRLWIND` — missing `say`, `emote`, `customemote`
+
+## Events containing all three reaction types
+
+- `event:generic::monster_emote_fear`
+- `event:generic::youcrit`
+- `event:race:NIGHTELF:resurrect`
+- `event:race:ORC:entercombat`
+- `event:race:UNDEAD:entercombat`
+- `event:class:HUNTER:absorb`
+- `event:class:HUNTER:dodge`
+- `event:class:HUNTER:entercombat`
+- `event:class:HUNTER:hurt`
+- `event:class:HUNTER:leavecombat`
+- `event:class:HUNTER:miss`
+- `event:class:HUNTER:parry`
+- `event:class:HUNTER:petattackstart`
+- `event:class:HUNTER:resurrect`
+- `event:class:MAGE:absorb`
+- `event:class:MAGE:hurt`
+- `event:class:PRIEST:resurrect`
+- `event:class:SHAMAN:entercombat`
+- `event:class:SHAMAN:hurt`
+- `ability:HUNTER:ASPECT_OF_THE_MONKEY`
+- `ability:PRIEST:DESPERATE_PRAYER`
+- `ability:WARLOCK:BANE_OF_DOOM`
+
+## Confirmed structural findings
+
+- Duplicate canonical event IDs: **0**.
+- Duplicate authored reaction IDs: **0**.
+- Ambiguous event-to-scope or spell-to-ability mappings: **0 found**.
+- Inconsistent, unsupported, or malformed registered reaction structures: **0**.
+- Events without an active runtime detector or spell mapping: **579**. These remain canonical catalogue/ability definitions but are not currently dispatched automatically.
+- Explicit empty ability registrations: **192**. The registration API explicitly supports a `nil` entry as an ability definition with an empty shipped pool.
+- Manifest-excluded ability archive files: **7**. They were inspected for activation status and excluded because the addon manifest does not load them.
+- Parameterized reactions are exported as one authored reaction each. In `reactions.csv`, `reaction_text` contains the exact template and `template_choices_json` contains the exact ordered choice pools; `events.json` retains `template` and `choices` as separate fields.
+
+### Events without active runtime detection
+
+- `event:generic::absorb`
+- `event:generic::death`
+- `event:generic::hurt`
+- `event:generic::miss`
+- `event:generic::monster_emote_enrage`
+- `event:generic::monster_emote_fear`
+- `event:generic::monster_emote_help`
+- `event:generic::resurrect`
+- `event:generic::youcrit`
+- `event:race:DWARF:absorb`
+- `event:race:DWARF:death`
+- `event:race:DWARF:hurt`
+- `event:race:DWARF:resurrect`
+- `event:race:DWARF:youcrit`
+- `event:race:GNOME:death`
+- `event:race:GNOME:hurt`
+- `event:race:GNOME:miss`
+- `event:race:GNOME:resurrect`
+- `event:race:GNOME:youcrit`
+- `event:race:HUMAN:death`
+- `event:race:HUMAN:hurt`
+- `event:race:HUMAN:resurrect`
+- `event:race:HUMAN:youcrit`
+- `event:race:NIGHTELF:death`
+- `event:race:NIGHTELF:miss`
+- `event:race:NIGHTELF:resurrect`
+- `event:race:NIGHTELF:youcrit`
+- `event:race:ORC:death`
+- `event:race:ORC:hurt`
+- `event:race:ORC:resurrect`
+- `event:race:ORC:youcrit`
+- `event:race:TAUREN:death`
+- `event:race:TAUREN:hurt`
+- `event:race:TAUREN:miss`
+- `event:race:TAUREN:resurrect`
+- `event:race:TAUREN:youcrit`
+- `event:race:TROLL:death`
+- `event:race:TROLL:hurt`
+- `event:race:TROLL:miss`
+- `event:race:TROLL:resurrect`
+- `event:race:TROLL:youcrit`
+- `event:race:UNDEAD:death`
+- `event:race:UNDEAD:hurt`
+- `event:race:UNDEAD:miss`
+- `event:race:UNDEAD:resurrect`
+- `event:race:UNDEAD:youcrit`
+- `event:class:HUNTER:absorb`
+- `event:class:HUNTER:deferred_youcritspell`
+- `event:class:HUNTER:hurt`
+- `event:class:HUNTER:miss`
+- `event:class:HUNTER:petattackstart`
+- `event:class:HUNTER:petattackstop`
+- `event:class:HUNTER:petdies`
+- `event:class:HUNTER:resurrect`
+- `event:class:HUNTER:youcrit`
+- `event:class:MAGE:absorb`
+- `event:class:MAGE:deferred_youcritspell`
+- `event:class:MAGE:hurt`
+- `event:class:MAGE:miss`
+- `event:class:MAGE:petattackstart`
+- `event:class:MAGE:petattackstop`
+- `event:class:MAGE:resurrect`
+- `event:class:MAGE:youcrit`
+- `event:class:PALADIN:absorb`
+- `event:class:PALADIN:deferred_youcritspell`
+- `event:class:PALADIN:hurt`
+- `event:class:PALADIN:miss`
+- `event:class:PALADIN:resurrect`
+- `event:class:PALADIN:youcrit`
+- `event:class:PALADIN:youcritheal`
+- `event:class:PALADIN:youheal`
+- `event:class:PRIEST:absorb`
+- `event:class:PRIEST:deferred_youcritspell`
+- `event:class:PRIEST:hurt`
+- `event:class:PRIEST:miss`
+- `event:class:PRIEST:petattackstart`
+- `event:class:PRIEST:petattackstop`
+- `event:class:PRIEST:petdies`
+- `event:class:PRIEST:resurrect`
+- `event:class:PRIEST:youcrit`
+- `event:class:PRIEST:youcritheal`
+- `event:class:PRIEST:youheal`
+- `event:class:ROGUE:deferred_youcritspell`
+- `event:class:ROGUE:youcrit`
+- `event:class:SHAMAN:absorb`
+- `event:class:SHAMAN:deferred_youcritspell`
+- `event:class:SHAMAN:hurt`
+- `event:class:SHAMAN:miss`
+- `event:class:SHAMAN:youcrit`
+- `event:class:SHAMAN:youcritheal`
+- `event:class:SHAMAN:youheal`
+- `event:class:WARLOCK:absorb`
+- `event:class:WARLOCK:npctalksenemy`
+- `event:class:WARLOCK:npctalksfriend`
+- `event:class:WARLOCK:petattackstart`
+- `event:class:WARLOCK:petattackstop`
+- `event:class:WARLOCK:petdies`
+- `event:class:WARLOCK:resurrect`
+- `event:class:WARRIOR:absorb`
+- `event:class:WARRIOR:hurt`
+- `event:class:WARRIOR:youcrit`
+- `form:BEAR:hurt`
+- `form:BEAR:youcrit`
+- `form:CAT:hurt`
+- `form:CAT:youcrit`
+- `form:MOONKIN:hurt`
+- `form:MOONKIN:youcrit`
+- `ability:DRUID:ABOLISH_POISON`
+- `ability:DRUID:AQUATIC_FORM`
+- `ability:DRUID:BARKSKIN`
+- `ability:DRUID:BASH`
+- `ability:DRUID:BEAR_FORM`
+- `ability:DRUID:BERSERK`
+- `ability:DRUID:CAT_FORM`
+- `ability:DRUID:CHALLENGING_ROAR`
+- `ability:DRUID:CLAW`
+- `ability:DRUID:COWER`
+- `ability:DRUID:CURE_POISON`
+- `ability:DRUID:DASH`
+- `ability:DRUID:DEMORALIZING_ROAR`
+- `ability:DRUID:DIRE_BEAR_FORM`
+- `ability:DRUID:ENRAGE`
+- `ability:DRUID:ENTANGLING_ROOTS`
+- `ability:DRUID:FAERIE_FIRE`
+- `ability:DRUID:FERAL_CHARGE`
+- `ability:DRUID:FEROCIOUS_BITE`
+- `ability:DRUID:FRENZIED_REGENERATION`
+- `ability:DRUID:GIFT_OF_THE_WILD`
+- `ability:DRUID:GROWL`
+- `ability:DRUID:HEALING_TOUCH`
+- `ability:DRUID:HIBERNATE`
+- `ability:DRUID:HURRICANE`
+- `ability:DRUID:INNERVATE`
+- `ability:DRUID:INSECT_SWARM`
+- `ability:DRUID:LACERATE`
+- `ability:DRUID:MARK_OF_THE_WILD`
+- `ability:DRUID:MAUL`
+- `ability:DRUID:MOONKIN_FORM`
+- `ability:DRUID:MOON_FIRE`
+- `ability:DRUID:NATURES_GRASP`
+- `ability:DRUID:NATURES_SWIFTNESS`
+- `ability:DRUID:POUNCE`
+- `ability:DRUID:PRIMAL_BITE`
+- `ability:DRUID:PROWL`
+- `ability:DRUID:RAKE`
+- `ability:DRUID:RAVAGE`
+- `ability:DRUID:REBIRTH`
+- `ability:DRUID:REGROWTH`
+- `ability:DRUID:REJUVENATION`
+- `ability:DRUID:REMOVE_CURSE`
+- `ability:DRUID:REVIVE`
+- `ability:DRUID:RIP`
+- `ability:DRUID:SHIFTING_POWER`
+- `ability:DRUID:SHRED`
+- `ability:DRUID:SOOTHE_ANIMAL`
+- `ability:DRUID:STARFIRE`
+- `ability:DRUID:SWIFTMEND`
+- `ability:DRUID:SWIPE`
+- `ability:DRUID:TELEPORT_MOONGLADE`
+- `ability:DRUID:THORNS`
+- `ability:DRUID:TRACK_HUMANOIDS`
+- `ability:DRUID:TRANQUILITY`
+- `ability:DRUID:TRAVEL_FORM`
+- `ability:DRUID:WILD_GROWTH`
+- `ability:DRUID:WRATH`
+- `ability:HUNTER:AIMED_SHOT`
+- `ability:HUNTER:ARCANE_SHOT`
+- `ability:HUNTER:ASPECT_OF_THE_BEAST`
+- `ability:HUNTER:ASPECT_OF_THE_CHEETAH`
+- `ability:HUNTER:ASPECT_OF_THE_HAWK`
+- `ability:HUNTER:ASPECT_OF_THE_MONKEY`
+- `ability:HUNTER:ASPECT_OF_THE_PACK`
+- `ability:HUNTER:ASPECT_OF_THE_WILD`
+- `ability:HUNTER:AUTO_SHOT`
+- `ability:HUNTER:BEAST_LORE`
+- `ability:HUNTER:BESTIAL_WRATH`
+- `ability:HUNTER:CALL_PET`
+- `ability:HUNTER:CONCUSSIVE_SHOT`
+- `ability:HUNTER:COUNTERATTACK`
+- `ability:HUNTER:DETERRENCE`
+- `ability:HUNTER:DISENGAGE`
+- `ability:HUNTER:DISMISS_PET`
+- `ability:HUNTER:DISTRACTING_SHOT`
+- `ability:HUNTER:EAGLE_EYE`
+- `ability:HUNTER:ENCHANTED_FLARE`
+- `ability:HUNTER:EXPLOSIVE_TRAP`
+- `ability:HUNTER:EYES_OF_THE_BEAST`
+- `ability:HUNTER:FEED_PET`
+- `ability:HUNTER:FEIGN_DEATH`
+- `ability:HUNTER:FLARE`
+- `ability:HUNTER:FREEZING_TRAP`
+- `ability:HUNTER:FROST_TRAP`
+- `ability:HUNTER:HUNTERS_MARK`
+- `ability:HUNTER:IMMOLATION_TRAP`
+- `ability:HUNTER:INTIMIDATION`
+- `ability:HUNTER:LACERATE`
+- `ability:HUNTER:MEND_PET`
+- `ability:HUNTER:MONGOOSE_BITE`
+- `ability:HUNTER:MULTI_SHOT`
+- `ability:HUNTER:RAPID_FIRE`
+- `ability:HUNTER:RAPTOR_STRIKE`
+- `ability:HUNTER:REVIVE_PET`
+- `ability:HUNTER:SCARE_BEAST`
+- `ability:HUNTER:SCATTER_SHOT`
+- `ability:HUNTER:SCORPID_STING`
+- `ability:HUNTER:SERPENT_STING`
+- `ability:HUNTER:SNIPER_SHOT`
+- `ability:HUNTER:STRIDER_KICK`
+- `ability:HUNTER:SUMMON_HAWK`
+- `ability:HUNTER:TAME_BEAST`
+- `ability:HUNTER:TRACK_BEASTS`
+- `ability:HUNTER:TRACK_DEMONS`
+- `ability:HUNTER:TRACK_DRAGONKIN`
+- `ability:HUNTER:TRACK_ELEMENTALS`
+- `ability:HUNTER:TRACK_GIANTS`
+- `ability:HUNTER:TRACK_HIDDEN`
+- `ability:HUNTER:TRACK_HUMANOIDS`
+- `ability:HUNTER:TRACK_UNDEAD`
+- `ability:HUNTER:TRANQUILIZING_SHOT`
+- `ability:HUNTER:TRUESHOT_AURA`
+- `ability:HUNTER:VIPER_STING`
+- `ability:HUNTER:VOLLEY`
+- `ability:HUNTER:WING_CLIP`
+- `ability:MAGE:AMPLIFY_MAGIC`
+- `ability:MAGE:ARCANE_BLAST`
+- `ability:MAGE:ARCANE_BRILLIANCE`
+- `ability:MAGE:ARCANE_EXPLOSION`
+- `ability:MAGE:ARCANE_INTELLECT`
+- `ability:MAGE:ARCANE_MISSILES`
+- `ability:MAGE:ARCANE_POWER`
+- `ability:MAGE:ARCANE_WRATH`
+- `ability:MAGE:BLAST_WAVE`
+- `ability:MAGE:BLINK`
+- `ability:MAGE:BLIZZARD`
+- `ability:MAGE:COLD_SNAP`
+- `ability:MAGE:COMBUSTION`
+- `ability:MAGE:CONE_OF_COLD`
+- `ability:MAGE:CONJURE_FOOD`
+- `ability:MAGE:CONJURE_MANA_AGATE`
+- `ability:MAGE:CONJURE_MANA_CITRINE`
+- `ability:MAGE:CONJURE_MANA_JADE`
+- `ability:MAGE:CONJURE_MANA_RUBY`
+- `ability:MAGE:CONJURE_WATER`
+- `ability:MAGE:COUNTERSPELL`
+- `ability:MAGE:DAMPEN_MAGIC`
+- `ability:MAGE:EVOCATION`
+- `ability:MAGE:FIREBALL`
+- `ability:MAGE:FIRE_BLAST`
+- `ability:MAGE:FIRE_WARD`
+- `ability:MAGE:FLAMESTRIKE`
+- `ability:MAGE:FROSTBOLT`
+- `ability:MAGE:FROSTFIRE_BOLT`
+- `ability:MAGE:FROST_ARMOR`
+- `ability:MAGE:FROST_BLAST`
+- `ability:MAGE:FROST_NOVA`
+- `ability:MAGE:FROST_WARD`
+- `ability:MAGE:ICE_ARMOR`
+- `ability:MAGE:ICE_BARRIER`
+- `ability:MAGE:ICE_BLOCK`
+- `ability:MAGE:ICE_LANCE`
+- `ability:MAGE:MAGE_ARMOR`
+- `ability:MAGE:MANA_SHIELD`
+- `ability:MAGE:POLYMORPH`
+- `ability:MAGE:POLYMORPH_PIG`
+- `ability:MAGE:POLYMORPH_TURTLE`
+- `ability:MAGE:PORTAL_DARNASSUS`
+- `ability:MAGE:PORTAL_IRONFORGE`
+- `ability:MAGE:PORTAL_ORGRIMMAR`
+- `ability:MAGE:PORTAL_STORMWIND`
+- `ability:MAGE:PORTAL_THUNDER_BLUFF`
+- `ability:MAGE:PORTAL_UNDERCITY`
+- `ability:MAGE:PRESENCE_OF_MIND`
+- `ability:MAGE:PYROBLAST`
+- `ability:MAGE:REMOVE_LESSER_CURSE`
+- `ability:MAGE:SCORCH`
+- `ability:MAGE:SLOW_FALL`
+- `ability:MAGE:TELEPORT_DALARAN`
+- `ability:MAGE:TELEPORT_DARNASSUS`
+- `ability:MAGE:TELEPORT_IRONFORGE`
+- `ability:MAGE:TELEPORT_ORGRIMMAR`
+- `ability:MAGE:TELEPORT_STORMWIND`
+- `ability:MAGE:TELEPORT_THUNDER_BLUFF`
+- `ability:MAGE:TELEPORT_UNDERCITY`
+- `ability:PALADIN:BLESSING_OF_FREEDOM`
+- `ability:PALADIN:BLESSING_OF_KINGS`
+- `ability:PALADIN:BLESSING_OF_LIGHT`
+- `ability:PALADIN:BLESSING_OF_MIGHT`
+- `ability:PALADIN:BLESSING_OF_PROTECTION`
+- `ability:PALADIN:BLESSING_OF_SACRIFICE`
+- `ability:PALADIN:BLESSING_OF_WISDOM`
+- `ability:PALADIN:CLEANSE`
+- `ability:PALADIN:CONCENTRATION_AURA`
+- `ability:PALADIN:CONSECRATION`
+- `ability:PALADIN:DEVOTION_AURA`
+- `ability:PALADIN:DIVINE_FAVOR`
+- `ability:PALADIN:DIVINE_INTERVENTION`
+- `ability:PALADIN:DIVINE_PROTECTION`
+- `ability:PALADIN:DIVINE_SHIELD`
+- `ability:PALADIN:EXORCISM`
+- `ability:PALADIN:FIRE_RESISTANCE_AURA`
+- `ability:PALADIN:FROST_RESISTANCE_AURA`
+- `ability:PALADIN:GREATER_BLESSING_OF_KINGS`
+- `ability:PALADIN:GREATER_BLESSING_OF_LIGHT`
+- `ability:PALADIN:GREATER_BLESSING_OF_MIGHT`
+- `ability:PALADIN:GREATER_BLESSING_OF_WISDOM`
+- `ability:PALADIN:HAMMER_OF_JUSTICE`
+- `ability:PALADIN:HAMMER_OF_WRATH`
+- `ability:PALADIN:HOLY_LIGHT`
+- `ability:PALADIN:HOLY_SHIELD`
+- `ability:PALADIN:HOLY_SHOCK`
+- `ability:PALADIN:HOLY_STRIKE`
+- `ability:PALADIN:HOLY_WRATH`
+- `ability:PALADIN:JUDGEMENT`
+- `ability:PALADIN:LAY_ON_HANDS`
+- `ability:PALADIN:LIGHTS_VIGIL`
+- `ability:PALADIN:MASS_SALVATION`
+- `ability:PALADIN:PURIFY`
+- `ability:PALADIN:REDEMPTION`
+- `ability:PALADIN:REPENTANCE`
+- `ability:PALADIN:RETRIBUTION_AURA`
+- `ability:PALADIN:REVOKE`
+- `ability:PALADIN:RIGHTEOUS_FURY`
+- `ability:PALADIN:SALVATION`
+- `ability:PALADIN:SEAL_OF_COMMAND`
+- `ability:PALADIN:SEAL_OF_FURY`
+- `ability:PALADIN:SEAL_OF_JUSTICE`
+- `ability:PALADIN:SEAL_OF_LIGHT`
+- `ability:PALADIN:SEAL_OF_THE_CRUSADER`
+- `ability:PALADIN:SEAL_OF_WISDOM`
+- `ability:PALADIN:SENSE_UNDEAD`
+- `ability:PALADIN:SHADOW_RESISTANCE_AURA`
+- `ability:PALADIN:SWIFT_JUDGEMENT`
+- `ability:PALADIN:TEMPLARS_BULWARK`
+- `ability:PALADIN:TURN_UNDEAD`
+- `ability:PALADIN:VOICE_OF_TRUTH`
+- `ability:PRIEST:ABOLISH_DISEASE`
+- `ability:PRIEST:BINDING_HEAL`
+- `ability:PRIEST:CHASTISE`
+- `ability:PRIEST:CONFOUNDING_FLASH`
+- `ability:PRIEST:CONTINGENCY_PLAN`
+- `ability:PRIEST:CURE_DISEASE`
+- `ability:PRIEST:DARK_SACRIFICE`
+- `ability:PRIEST:DESPERATE_PRAYER`
+- `ability:PRIEST:DEVOURING_PLAGUE`
+- `ability:PRIEST:DISPEL_MAGIC`
+- `ability:PRIEST:DIVINE_GRACE`
+- `ability:PRIEST:DIVINE_SPIRIT`
+- `ability:PRIEST:ELUNES_GRACE`
+- `ability:PRIEST:FADE`
+- `ability:PRIEST:FEAR_WARD`
+- `ability:PRIEST:FEEDBACK`
+- `ability:PRIEST:FLASH_HEAL`
+- `ability:PRIEST:GREATER_HEAL`
+- `ability:PRIEST:HEAL`
+- `ability:PRIEST:HEX_OF_WEAKNESS`
+- `ability:PRIEST:HOLY_FIRE`
+- `ability:PRIEST:HOLY_NOVA`
+- `ability:PRIEST:INNER_FIRE`
+- `ability:PRIEST:INNER_FOCUS`
+- `ability:PRIEST:LESSER_HEAL`
+- `ability:PRIEST:LEVITATE`
+- `ability:PRIEST:MANA_BURN`
+- `ability:PRIEST:MIND_BLAST`
+- `ability:PRIEST:MIND_CONTROL`
+- `ability:PRIEST:MIND_FLAY`
+- `ability:PRIEST:MIND_SOOTHE`
+- `ability:PRIEST:MIND_VISION`
+- `ability:PRIEST:PENANCE`
+- `ability:PRIEST:POWER_INFUSION`
+- `ability:PRIEST:POWER_WORD_FORTITUDE`
+- `ability:PRIEST:POWER_WORD_SHIELD`
+- `ability:PRIEST:PRAYER_OF_FORTITUDE`
+- `ability:PRIEST:PRAYER_OF_HEALING`
+- `ability:PRIEST:PRAYER_OF_MENDING`
+- `ability:PRIEST:PRAYER_OF_SHADOW_PROTECTION`
+- `ability:PRIEST:PRAYER_OF_SPIRIT`
+- `ability:PRIEST:PSYCHIC_SCREAM`
+- `ability:PRIEST:RENEW`
+- `ability:PRIEST:RESURRECTION`
+- `ability:PRIEST:SHACKLE_UNDEAD`
+- `ability:PRIEST:SHADOWFORM`
+- `ability:PRIEST:SHADOWGUARD`
+- `ability:PRIEST:SHADOW_PROTECTION`
+- `ability:PRIEST:SHADOW_WORD_DEATH`
+- `ability:PRIEST:SHADOW_WORD_PAIN`
+- `ability:PRIEST:SILENCE`
+- `ability:PRIEST:SMITE`
+- `ability:PRIEST:STARSHARDS`
+- `ability:PRIEST:TOUCH_OF_WEAKNESS`
+- `ability:PRIEST:VAMPIRIC_EMBRACE`
+- `ability:ROGUE:ADRENALINE_RUSH`
+- `ability:ROGUE:AMBUSH`
+- `ability:ROGUE:BACKSTAB`
+- `ability:ROGUE:BLADE_FLURRY`
+- `ability:ROGUE:BLIND`
+- `ability:ROGUE:BLINDING_POWDER`
+- `ability:ROGUE:CHEAP_SHOT`
+- `ability:ROGUE:COLD_BLOOD`
+- `ability:ROGUE:CRIPPLING_POISON`
+- `ability:ROGUE:DEADLY_POISON`
+- `ability:ROGUE:DISARM_TRAP`
+- `ability:ROGUE:DISTRACT`
+- `ability:ROGUE:EVASION`
+- `ability:ROGUE:EVISCERATE`
+- `ability:ROGUE:EXPOSE_ARMOR`
+- `ability:ROGUE:FEINT`
+- `ability:ROGUE:GARROTE`
+- `ability:ROGUE:GHOSTLY_STRIKE`
+- `ability:ROGUE:GOUGE`
+- `ability:ROGUE:HEMORRHAGE`
+- `ability:ROGUE:INSTANT_POISON`
+- `ability:ROGUE:KICK`
+- `ability:ROGUE:KIDNEY_SHOT`
+- `ability:ROGUE:MIND_NUMBING_POISON`
+- `ability:ROGUE:MUTILATE`
+- `ability:ROGUE:PICK_POCKET`
+- `ability:ROGUE:PREMEDITATION`
+- `ability:ROGUE:PREPARATION`
+- `ability:ROGUE:RIPOSTE`
+- `ability:ROGUE:RUPTURE`
+- `ability:ROGUE:SAP`
+- `ability:ROGUE:SINISTER_STRIKE`
+- `ability:ROGUE:SLICE_AND_DICE`
+- `ability:ROGUE:SPRINT`
+- `ability:ROGUE:STEALTH`
+- `ability:ROGUE:VANISH`
+- `ability:ROGUE:VENOM`
+- `ability:ROGUE:WOUND_POISON`
+- `ability:SHAMAN:ANCESTRAL_SPIRIT`
+- `ability:SHAMAN:ASTRAL_RECALL`
+- `ability:SHAMAN:CALL_OF_THE_ANCESTORS`
+- `ability:SHAMAN:CALL_OF_THE_ELEMENTS`
+- `ability:SHAMAN:CALL_OF_THE_SPIRITS`
+- `ability:SHAMAN:CHAIN_HEAL`
+- `ability:SHAMAN:CHAIN_LIGHTNING`
+- `ability:SHAMAN:CURE_DISEASE`
+- `ability:SHAMAN:CURE_POISON`
+- `ability:SHAMAN:DISEASE_CLEANSING_TOTEM`
+- `ability:SHAMAN:EARTHBIND_TOTEM`
+- `ability:SHAMAN:EARTH_SHOCK`
+- `ability:SHAMAN:ELEMENTAL_MASTERY`
+- `ability:SHAMAN:FAR_SIGHT`
+- `ability:SHAMAN:FIRE_NOVA`
+- `ability:SHAMAN:FIRE_RESISTANCE_TOTEM`
+- `ability:SHAMAN:FLAMETONGUE_TOTEM`
+- `ability:SHAMAN:FLAMETONGUE_WEAPON`
+- `ability:SHAMAN:FLAME_SHOCK`
+- `ability:SHAMAN:FROSTBRAND_WEAPON`
+- `ability:SHAMAN:FROST_RESISTANCE_TOTEM`
+- `ability:SHAMAN:FROST_SHOCK`
+- `ability:SHAMAN:GHOST_WOLF`
+- `ability:SHAMAN:GRACE_OF_AIR_TOTEM`
+- `ability:SHAMAN:GROUNDING_TOTEM`
+- `ability:SHAMAN:HEALING_STREAM_TOTEM`
+- `ability:SHAMAN:HEALING_WAVE`
+- `ability:SHAMAN:LAVA_BURST`
+- `ability:SHAMAN:LESSER_HEALING_WAVE`
+- `ability:SHAMAN:LIGHTNING_BOLT`
+- `ability:SHAMAN:LIGHTNING_SHIELD`
+- `ability:SHAMAN:MAGMA_TOTEM`
+- `ability:SHAMAN:MANA_SPRING_TOTEM`
+- `ability:SHAMAN:MANA_TIDE_TOTEM`
+- `ability:SHAMAN:NATURES_SWIFTNESS`
+- `ability:SHAMAN:NATURE_RESISTANCE_TOTEM`
+- `ability:SHAMAN:POISON_CLEANSING_TOTEM`
+- `ability:SHAMAN:PURGE`
+- `ability:SHAMAN:RAGE_OF_THE_FARSEER`
+- `ability:SHAMAN:REINCARNATION`
+- `ability:SHAMAN:RIPTIDE`
+- `ability:SHAMAN:ROCKBITER_WEAPON`
+- `ability:SHAMAN:SEARING_TOTEM`
+- `ability:SHAMAN:SENTRY_TOTEM`
+- `ability:SHAMAN:STONECLAW_TOTEM`
+- `ability:SHAMAN:STONESKIN_TOTEM`
+- `ability:SHAMAN:STORMSTRIKE`
+- `ability:SHAMAN:STRENGTH_OF_EARTH_TOTEM`
+- `ability:SHAMAN:TOTEMIC_PROJECTION`
+- `ability:SHAMAN:TOTEMIC_RECALL`
+- `ability:SHAMAN:TREMOR_TOTEM`
+- `ability:SHAMAN:WATER_BREATHING`
+- `ability:SHAMAN:WATER_SHIELD`
+- `ability:SHAMAN:WATER_WALKING`
+- `ability:SHAMAN:WINDFURY_TOTEM`
+- `ability:SHAMAN:WINDFURY_WEAPON`
+- `ability:SHAMAN:WINDWALL_TOTEM`
+- `ability:WARLOCK:AMPLIFY_CURSE`
+- `ability:WARLOCK:BANE_OF_AGONY`
+- `ability:WARLOCK:BANE_OF_DOOM`
+- `ability:WARLOCK:BANE_OF_HAVOC`
+- `ability:WARLOCK:BANISH`
+- `ability:WARLOCK:CONFLAGRATE`
+- `ability:WARLOCK:CORRUPTION`
+- `ability:WARLOCK:CREATE_FIRESTONE`
+- `ability:WARLOCK:CREATE_HEALTHSTONE`
+- `ability:WARLOCK:CREATE_SOULSTONE`
+- `ability:WARLOCK:CREATE_SPELLSTONE`
+- `ability:WARLOCK:CURSE_OF_EXHAUSTION`
+- `ability:WARLOCK:CURSE_OF_RECKLESSNESS`
+- `ability:WARLOCK:CURSE_OF_THE_ELEMENTS`
+- `ability:WARLOCK:CURSE_OF_TONGUES`
+- `ability:WARLOCK:CURSE_OF_WEAKNESS`
+- `ability:WARLOCK:DEATH_COIL`
+- `ability:WARLOCK:DEMONIC_SACRIFICE`
+- `ability:WARLOCK:DEMON_ARMOR`
+- `ability:WARLOCK:DEMON_SKIN`
+- `ability:WARLOCK:DETECT_INVISIBILITY`
+- `ability:WARLOCK:DRAIN_LIFE`
+- `ability:WARLOCK:DRAIN_MANA`
+- `ability:WARLOCK:DRAIN_SOUL`
+- `ability:WARLOCK:EYE_OF_KILROGG`
+- `ability:WARLOCK:FEAR`
+- `ability:WARLOCK:FEL_DOMINATION`
+- `ability:WARLOCK:HEALTH_FUNNEL`
+- `ability:WARLOCK:HELLFIRE`
+- `ability:WARLOCK:HOWL_OF_TERROR`
+- `ability:WARLOCK:IMMOLATE`
+- `ability:WARLOCK:INCINERATE`
+- `ability:WARLOCK:INFERNO`
+- `ability:WARLOCK:LIFE_TAP`
+- `ability:WARLOCK:RAIN_OF_FIRE`
+- `ability:WARLOCK:RITUAL_OF_DOOM`
+- `ability:WARLOCK:RITUAL_OF_SUMMONING`
+- `ability:WARLOCK:SEARING_PAIN`
+- `ability:WARLOCK:SENSE_DEMONS`
+- `ability:WARLOCK:SHADOWBURN`
+- `ability:WARLOCK:SHADOW_BOLT`
+- `ability:WARLOCK:SHADOW_WARD`
+- `ability:WARLOCK:SIPHON_LIFE`
+- `ability:WARLOCK:SOUL_FIRE`
+- `ability:WARLOCK:SOUL_LINK`
+- `ability:WARLOCK:SUBJUGATE_DEMON`
+- `ability:WARLOCK:SUMMON_FELHUNTER`
+- `ability:WARLOCK:SUMMON_IMP`
+- `ability:WARLOCK:SUMMON_INCUBUS`
+- `ability:WARLOCK:SUMMON_SUCCUBUS`
+- `ability:WARLOCK:SUMMON_VOIDWALKER`
+- `ability:WARLOCK:UNENDING_BREATH`
+- `ability:WARLOCK:WRACK`
+- `ability:WARRIOR:BATTLE_SHOUT`
+- `ability:WARRIOR:BATTLE_STANCE`
+- `ability:WARRIOR:BERSERKER_RAGE`
+- `ability:WARRIOR:BERSERKER_STANCE`
+- `ability:WARRIOR:BLOODRAGE`
+- `ability:WARRIOR:BLOODTHIRST`
+- `ability:WARRIOR:CHALLENGING_SHOUT`
+- `ability:WARRIOR:CHARGE`
+- `ability:WARRIOR:CLEAVE`
+- `ability:WARRIOR:CONCUSSION_BLOW`
+- `ability:WARRIOR:DEATH_WISH`
+- `ability:WARRIOR:DEFENSIVE_STANCE`
+- `ability:WARRIOR:DEMORALIZING_SHOUT`
+- `ability:WARRIOR:DISARM`
+- `ability:WARRIOR:EXECUTE`
+- `ability:WARRIOR:HAMSTRING`
+- `ability:WARRIOR:HEROIC_STRIKE`
+- `ability:WARRIOR:INTERCEPT`
+- `ability:WARRIOR:INTIMIDATING_SHOUT`
+- `ability:WARRIOR:LAST_STAND`
+- `ability:WARRIOR:MOCKING_BLOW`
+- `ability:WARRIOR:MORTAL_STRIKE`
+- `ability:WARRIOR:OVERPOWER`
+- `ability:WARRIOR:PIERCING_HOWL`
+- `ability:WARRIOR:PUMMEL`
+- `ability:WARRIOR:RECKLESSNESS`
+- `ability:WARRIOR:REND`
+- `ability:WARRIOR:RETALIATION`
+- `ability:WARRIOR:REVENGE`
+- `ability:WARRIOR:SHIELD_BASH`
+- `ability:WARRIOR:SHIELD_BLOCK`
+- `ability:WARRIOR:SHIELD_SLAM`
+- `ability:WARRIOR:SHIELD_WALL`
+- `ability:WARRIOR:SLAM`
+- `ability:WARRIOR:SPEARING_STRIKE`
+- `ability:WARRIOR:SUNDER_ARMOR`
+- `ability:WARRIOR:SWEEPING_STRIKES`
+- `ability:WARRIOR:TAUNT`
+- `ability:WARRIOR:THUNDER_CLAP`
+- `ability:WARRIOR:VICTORY_RUSH`
+- `ability:WARRIOR:WHIRLWIND`
+
+## Potentially intentionally silent events
+
+The following are confirmed explicit empty ability registrations. Their empty pools are structurally deliberate registrations; the repository does not establish whether each is editorially complete or intended to remain silent:
+
+- `ability:DRUID:ABOLISH_POISON`
+- `ability:DRUID:AQUATIC_FORM`
+- `ability:DRUID:BARKSKIN`
+- `ability:DRUID:BASH`
+- `ability:DRUID:BEAR_FORM`
+- `ability:DRUID:BERSERK`
+- `ability:DRUID:CAT_FORM`
+- `ability:DRUID:CLAW`
+- `ability:DRUID:COWER`
+- `ability:DRUID:CURE_POISON`
+- `ability:DRUID:DASH`
+- `ability:DRUID:FAERIE_FIRE`
+- `ability:DRUID:FERAL_CHARGE`
+- `ability:DRUID:FEROCIOUS_BITE`
+- `ability:DRUID:FRENZIED_REGENERATION`
+- `ability:DRUID:GROWL`
+- `ability:DRUID:HEALING_TOUCH`
+- `ability:DRUID:INSECT_SWARM`
+- `ability:DRUID:LACERATE`
+- `ability:DRUID:MARK_OF_THE_WILD`
+- `ability:DRUID:MAUL`
+- `ability:DRUID:MOONKIN_FORM`
+- `ability:DRUID:MOON_FIRE`
+- `ability:DRUID:NATURES_GRASP`
+- `ability:DRUID:NATURES_SWIFTNESS`
+- `ability:DRUID:POUNCE`
+- `ability:DRUID:PRIMAL_BITE`
+- `ability:DRUID:PROWL`
+- `ability:DRUID:RAKE`
+- `ability:DRUID:RAVAGE`
+- `ability:DRUID:REGROWTH`
+- `ability:DRUID:REJUVENATION`
+- `ability:DRUID:REMOVE_CURSE`
+- `ability:DRUID:REVIVE`
+- `ability:DRUID:RIP`
+- `ability:DRUID:SHRED`
+- `ability:DRUID:SOOTHE_ANIMAL`
+- `ability:DRUID:STARFIRE`
+- `ability:DRUID:SWIFTMEND`
+- `ability:DRUID:SWIPE`
+- `ability:DRUID:THORNS`
+- `ability:DRUID:TRACK_HUMANOIDS`
+- `ability:DRUID:TRAVEL_FORM`
+- `ability:DRUID:WILD_GROWTH`
+- `ability:DRUID:WRATH`
+- `ability:HUNTER:AUTO_SHOT`
+- `ability:HUNTER:CALL_PET`
+- `ability:HUNTER:DISMISS_PET`
+- `ability:HUNTER:ENCHANTED_FLARE`
+- `ability:HUNTER:FEED_PET`
+- `ability:HUNTER:INTIMIDATION`
+- `ability:HUNTER:LACERATE`
+- `ability:HUNTER:REVIVE_PET`
+- `ability:HUNTER:SNIPER_SHOT`
+- `ability:HUNTER:STRIDER_KICK`
+- `ability:HUNTER:SUMMON_HAWK`
+- `ability:HUNTER:TAME_BEAST`
+- `ability:MAGE:ARCANE_BLAST`
+- `ability:MAGE:ARCANE_WRATH`
+- `ability:MAGE:FROSTFIRE_BOLT`
+- `ability:MAGE:FROST_BLAST`
+- `ability:MAGE:ICE_LANCE`
+- `ability:MAGE:POLYMORPH_PIG`
+- `ability:MAGE:POLYMORPH_TURTLE`
+- `ability:MAGE:TELEPORT_DALARAN`
+- `ability:PALADIN:GREATER_BLESSING_OF_KINGS`
+- `ability:PALADIN:GREATER_BLESSING_OF_LIGHT`
+- `ability:PALADIN:GREATER_BLESSING_OF_WISDOM`
+- `ability:PALADIN:HOLY_STRIKE`
+- `ability:PALADIN:LIGHTS_VIGIL`
+- `ability:PALADIN:MASS_SALVATION`
+- `ability:PALADIN:REVOKE`
+- `ability:PALADIN:SEAL_OF_FURY`
+- `ability:PALADIN:SWIFT_JUDGEMENT`
+- `ability:PALADIN:TEMPLARS_BULWARK`
+- `ability:PALADIN:VOICE_OF_TRUTH`
+- `ability:PRIEST:BINDING_HEAL`
+- `ability:PRIEST:CHASTISE`
+- `ability:PRIEST:CONFOUNDING_FLASH`
+- `ability:PRIEST:CONTINGENCY_PLAN`
+- `ability:PRIEST:DARK_SACRIFICE`
+- `ability:PRIEST:DIVINE_GRACE`
+- `ability:PRIEST:PENANCE`
+- `ability:PRIEST:PRAYER_OF_MENDING`
+- `ability:PRIEST:PRAYER_OF_SHADOW_PROTECTION`
+- `ability:PRIEST:PRAYER_OF_SPIRIT`
+- `ability:PRIEST:SHADOW_WORD_DEATH`
+- `ability:ROGUE:ADRENALINE_RUSH`
+- `ability:ROGUE:AMBUSH`
+- `ability:ROGUE:BACKSTAB`
+- `ability:ROGUE:BLADE_FLURRY`
+- `ability:ROGUE:BLIND`
+- `ability:ROGUE:BLINDING_POWDER`
+- `ability:ROGUE:CHEAP_SHOT`
+- `ability:ROGUE:COLD_BLOOD`
+- `ability:ROGUE:CRIPPLING_POISON`
+- `ability:ROGUE:DEADLY_POISON`
+- `ability:ROGUE:DISTRACT`
+- `ability:ROGUE:EVASION`
+- `ability:ROGUE:EVISCERATE`
+- `ability:ROGUE:EXPOSE_ARMOR`
+- `ability:ROGUE:FEINT`
+- `ability:ROGUE:GARROTE`
+- `ability:ROGUE:GHOSTLY_STRIKE`
+- `ability:ROGUE:GOUGE`
+- `ability:ROGUE:HEMORRHAGE`
+- `ability:ROGUE:INSTANT_POISON`
+- `ability:ROGUE:KICK`
+- `ability:ROGUE:KIDNEY_SHOT`
+- `ability:ROGUE:MIND_NUMBING_POISON`
+- `ability:ROGUE:MUTILATE`
+- `ability:ROGUE:PICK_POCKET`
+- `ability:ROGUE:PREMEDITATION`
+- `ability:ROGUE:PREPARATION`
+- `ability:ROGUE:RIPOSTE`
+- `ability:ROGUE:RUPTURE`
+- `ability:ROGUE:SAP`
+- `ability:ROGUE:SINISTER_STRIKE`
+- `ability:ROGUE:SLICE_AND_DICE`
+- `ability:ROGUE:STEALTH`
+- `ability:ROGUE:VANISH`
+- `ability:ROGUE:VENOM`
+- `ability:ROGUE:WOUND_POISON`
+- `ability:SHAMAN:ASTRAL_RECALL`
+- `ability:SHAMAN:CALL_OF_THE_ANCESTORS`
+- `ability:SHAMAN:CALL_OF_THE_ELEMENTS`
+- `ability:SHAMAN:CALL_OF_THE_SPIRITS`
+- `ability:SHAMAN:ELEMENTAL_MASTERY`
+- `ability:SHAMAN:FAR_SIGHT`
+- `ability:SHAMAN:LAVA_BURST`
+- `ability:SHAMAN:RAGE_OF_THE_FARSEER`
+- `ability:SHAMAN:RIPTIDE`
+- `ability:SHAMAN:TOTEMIC_PROJECTION`
+- `ability:SHAMAN:WATER_BREATHING`
+- `ability:SHAMAN:WATER_WALKING`
+- `ability:WARLOCK:AMPLIFY_CURSE`
+- `ability:WARLOCK:BANE_OF_HAVOC`
+- `ability:WARLOCK:CONFLAGRATE`
+- `ability:WARLOCK:CORRUPTION`
+- `ability:WARLOCK:CREATE_FIRESTONE`
+- `ability:WARLOCK:CREATE_HEALTHSTONE`
+- `ability:WARLOCK:CREATE_SOULSTONE`
+- `ability:WARLOCK:CREATE_SPELLSTONE`
+- `ability:WARLOCK:DEATH_COIL`
+- `ability:WARLOCK:DEMONIC_SACRIFICE`
+- `ability:WARLOCK:DEMON_ARMOR`
+- `ability:WARLOCK:DEMON_SKIN`
+- `ability:WARLOCK:DETECT_INVISIBILITY`
+- `ability:WARLOCK:EYE_OF_KILROGG`
+- `ability:WARLOCK:FEL_DOMINATION`
+- `ability:WARLOCK:HOWL_OF_TERROR`
+- `ability:WARLOCK:INCINERATE`
+- `ability:WARLOCK:INFERNO`
+- `ability:WARLOCK:LIFE_TAP`
+- `ability:WARLOCK:RITUAL_OF_DOOM`
+- `ability:WARLOCK:SHADOWBURN`
+- `ability:WARLOCK:SHADOW_BOLT`
+- `ability:WARLOCK:SHADOW_WARD`
+- `ability:WARLOCK:SIPHON_LIFE`
+- `ability:WARLOCK:SOUL_LINK`
+- `ability:WARLOCK:SUMMON_FELHUNTER`
+- `ability:WARLOCK:SUMMON_INCUBUS`
+- `ability:WARLOCK:WRACK`
+- `ability:WARRIOR:BATTLE_STANCE`
+- `ability:WARRIOR:BERSERKER_RAGE`
+- `ability:WARRIOR:BERSERKER_STANCE`
+- `ability:WARRIOR:BLOODTHIRST`
+- `ability:WARRIOR:CLEAVE`
+- `ability:WARRIOR:CONCUSSION_BLOW`
+- `ability:WARRIOR:DEATH_WISH`
+- `ability:WARRIOR:DEFENSIVE_STANCE`
+- `ability:WARRIOR:DISARM`
+- `ability:WARRIOR:EXECUTE`
+- `ability:WARRIOR:HEROIC_STRIKE`
+- `ability:WARRIOR:INTERCEPT`
+- `ability:WARRIOR:LAST_STAND`
+- `ability:WARRIOR:MORTAL_STRIKE`
+- `ability:WARRIOR:OVERPOWER`
+- `ability:WARRIOR:PIERCING_HOWL`
+- `ability:WARRIOR:PUMMEL`
+- `ability:WARRIOR:RECKLESSNESS`
+- `ability:WARRIOR:RETALIATION`
+- `ability:WARRIOR:REVENGE`
+- `ability:WARRIOR:SHIELD_BLOCK`
+- `ability:WARRIOR:SHIELD_WALL`
+- `ability:WARRIOR:SPEARING_STRIKE`
+- `ability:WARRIOR:SUNDER_ARMOR`
+- `ability:WARRIOR:SWEEPING_STRIKES`
+- `ability:WARRIOR:TAUNT`
+- `ability:WARRIOR:THUNDER_CLAP`
+- `ability:WARRIOR:VICTORY_RUSH`
+- `ability:WARRIOR:WHIRLWIND`
+
+## Unresolved inventory questions and limitations
+
+- Display names are derived mechanically from canonical trigger/ability keys because the active registration schema does not store authored display names.
+- Static inventory can confirm runtime mappings present in source, but not whether WoW Forever delivers the associated events or payloads in live play.
+- User-authored reactions are per-character SavedVariables and are not repository content, so they are outside this repository inventory.
+- No intent is inferred from a missing reaction type. `population_status` describes structure only.
+
+## Validation
+
+Run `python3 scripts/export_content_inventory.py --check` to regenerate in memory and verify the checked-in exports.
