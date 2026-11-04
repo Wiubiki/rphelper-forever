@@ -20,33 +20,17 @@ verified in the live client, and this is not a V1.0-stable release.
 
 ## Installation
 
-1. Extract `RPHelperForever-0.9.0-prerelease.zip`. It contains one folder named
-   `RPHelperForever`.
-2. With the game closed, place that folder under the Forever client's addon
-   directory, illustrated as `<WoW Forever installation>/Interface/AddOns/`.
-   Use the installation location reported by the client or launcher rather than
-   assuming a platform-specific path.
-3. Check that the result is `Interface/AddOns/RPHelperForever/RPHelperForever.toc`. Do not leave
-   an extra wrapper such as `Interface/AddOns/RPHelperForever/RPHelperForever/RPHelperForever.toc`.
-4. Start the client and confirm RPHelper Forever appears in the character-screen addon
-   list. This prerelease still requires live verification of the correct client
-   Interface metadata; if it is marked incompatible or absent, report the client
-   build rather than substituting another WoW flavor.
-5. Log in and use `/rph` to open the addon window.
+## Installation
 
-For an update, close the game and replace the installed `RPHelperForever` addon
-folder. The addon still appears as **RPHelper Forever** in the game.
+1. Visit the [RPHelper Forever Releases page](https://github.com/Wiubiki/rphelper-forever/releases/latest).
+2. Download the addon ZIP file (`RPHelperForever-*.zip`) from the release's **Assets** section. **Do not download GitHub's automatically generated Source code ZIP.**
+3. Extract the ZIP. It should contain a single folder named `RPHelperForever`.
+4. With World of Warcraft Forever closed, copy that folder into your game's `Interface/AddOns/` directory.
+5. Verify the resulting structure is `Interface/AddOns/RPHelperForever/RPHelperForever.toc`, without an additional nested folder.
+6. Launch the game, confirm **RPHelper Forever** appears in the AddOns list, and enable it.
+7. Log into your character and type `/rph` to open the addon.
 
-If updating a prerelease installed as `RPHelper` or `RPHelper Forever`, back up
-each character's SavedVariables first. In that character's actual SavedVariables
-directory, copy the old `RPHelper.lua` or `RPHelper Forever.lua` save file to
-`RPHelperForever.lua` before starting the renamed addon. Keep the `RPHelperDB`
-table inside unchanged. If a destination file already exists, back up both and
-choose which character data to retain rather than overwriting it blindly.
-Remove the old addon program folder so only `RPHelperForever` loads; retain your
-save-file backups. The namespace, reaction IDs, and schema-v2 data are unchanged.
-See [SavedVariables compatibility](docs/savedvariables_architecture.md#addon-identity-and-filename-compatibility)
-for the filename convention and required live-client checks.
+**Updating:** Close the game and replace the existing `RPHelperForever` addon folder with the version from the new release. Do not delete your character's SavedVariables.
 
 ## Origins, Credits and Licensing
 
