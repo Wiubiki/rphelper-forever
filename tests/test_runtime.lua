@@ -34,25 +34,25 @@ local function truthy(value)
 end
 
 RPHelper = {}
-dofile("RPHelper Forever/Core/Defaults.lua")
-dofile("RPHelper Forever/Core/Database.lua")
-dofile("RPHelper Forever/Core/Configuration.lua")
-dofile("RPHelper Forever/Core/KeywordResolvers.lua")
-dofile("RPHelper Forever/Core/DruidForms.lua")
-dofile("RPHelper Forever/Core/ContentEngine.lua")
-dofile("RPHelper Forever/Core/Content.lua")
-dofile("RPHelper Forever/Core/UserContent.lua")
-dofile("RPHelper Forever/Core/RuntimeAPI.lua")
-dofile("RPHelper Forever/Core/Diagnostics.lua")
-dofile("RPHelper Forever/Core/Output.lua")
-dofile("RPHelper Forever/Core/Runtime.lua")
-dofile("RPHelper Forever/Core/Commands.lua")
-dofile("RPHelper Forever/Data/RandomInsults.lua")
-dofile("RPHelper Forever/Data/Generic.lua")
-dofile("RPHelper Forever/Data/Races/Tauren.lua")
-dofile("RPHelper Forever/Data/Classes/Druid.lua")
-dofile("RPHelper Forever/Data/Abilities/Paladin.lua")
-dofile("RPHelper Forever/Data/Abilities/Druid.lua")
+dofile("RPHelperForever/Core/Defaults.lua")
+dofile("RPHelperForever/Core/Database.lua")
+dofile("RPHelperForever/Core/Configuration.lua")
+dofile("RPHelperForever/Core/KeywordResolvers.lua")
+dofile("RPHelperForever/Core/DruidForms.lua")
+dofile("RPHelperForever/Core/ContentEngine.lua")
+dofile("RPHelperForever/Core/Content.lua")
+dofile("RPHelperForever/Core/UserContent.lua")
+dofile("RPHelperForever/Core/RuntimeAPI.lua")
+dofile("RPHelperForever/Core/Diagnostics.lua")
+dofile("RPHelperForever/Core/Output.lua")
+dofile("RPHelperForever/Core/Runtime.lua")
+dofile("RPHelperForever/Core/Commands.lua")
+dofile("RPHelperForever/Data/RandomInsults.lua")
+dofile("RPHelperForever/Data/Generic.lua")
+dofile("RPHelperForever/Data/Races/Tauren.lua")
+dofile("RPHelperForever/Data/Classes/Druid.lua")
+dofile("RPHelperForever/Data/Abilities/Paladin.lua")
+dofile("RPHelperForever/Data/Abilities/Druid.lua")
 
 local function newFrame()
     local frame = { registered = {} }
@@ -173,12 +173,12 @@ test("addon initialization registers combat events", function()
     SlashCmdList = {}
     RPHelperDB = nil
 
-    dofile("RPHelper Forever/RPHelper.lua")
+    dofile("RPHelperForever/RPHelper.lua")
     truthy(frame.registered.ADDON_LOADED)
     truthy(not frame.registered.PLAYER_REGEN_DISABLED)
     frame.OnEvent(frame, "ADDON_LOADED", "DifferentAddon")
     truthy(not frame.registered.PLAYER_REGEN_DISABLED)
-    frame.OnEvent(frame, "ADDON_LOADED", "RPHelper Forever")
+    frame.OnEvent(frame, "ADDON_LOADED", "RPHelperForever")
     truthy(frame.registered.PLAYER_REGEN_DISABLED)
     truthy(frame.registered.PLAYER_REGEN_ENABLED)
     truthy(RPHelperDB)
@@ -786,11 +786,11 @@ local function loadAddon(saved)
     local previousCreateFrame = CreateFrame
     local frame = newFrame()
     CreateFrame = function() return frame end
-    local ok, err = pcall(dofile, "RPHelper Forever/RPHelper.lua")
+    local ok, err = pcall(dofile, "RPHelperForever/RPHelper.lua")
     CreateFrame = previousCreateFrame
     if not ok then error(err, 2) end
     RPHelperDB = saved
-    frame.OnEvent(frame, "ADDON_LOADED", "RPHelper Forever")
+    frame.OnEvent(frame, "ADDON_LOADED", "RPHelperForever")
     truthy(frame.registered.PLAYER_REGEN_DISABLED)
     truthy(frame.registered.PLAYER_REGEN_ENABLED)
     return frame
@@ -1254,10 +1254,10 @@ defensiveTest("addon frame forwards defensive payloads and introduces no dedupli
     local previousCreateFrame = CreateFrame
     local frame = newFrame()
     CreateFrame = function() return frame end
-    local ok, err = pcall(dofile, "RPHelper Forever/RPHelper.lua")
+    local ok, err = pcall(dofile, "RPHelperForever/RPHelper.lua")
     CreateFrame = previousCreateFrame
     if not ok then error(err) end
-    frame.OnEvent(frame, "ADDON_LOADED", "RPHelper Forever")
+    frame.OnEvent(frame, "ADDON_LOADED", "RPHelperForever")
     RPHelper.Runtime.SetAPI(a)
     frame.OnEvent(frame, "PLAYER_REGEN_DISABLED")
     frame.OnEvent(frame, "UNIT_COMBAT", "targettarget", "DODGE", "", 0, 1)
@@ -1326,10 +1326,10 @@ abilityTest("addon frame forwards successful activations to runtime", function(a
     local frame = newFrame()
     local previousCreateFrame = CreateFrame
     CreateFrame = function() return frame end
-    local ok, err = pcall(function() dofile("RPHelper Forever/RPHelper.lua") end)
+    local ok, err = pcall(function() dofile("RPHelperForever/RPHelper.lua") end)
     CreateFrame = previousCreateFrame
     if not ok then error(err) end
-    frame.OnEvent(frame, "ADDON_LOADED", "RPHelper Forever")
+    frame.OnEvent(frame, "ADDON_LOADED", "RPHelperForever")
     RPHelper.Runtime.SetAPI(a)
     truthy(frame.registered.UNIT_SPELLCAST_SUCCEEDED)
     frame.OnEvent(frame, "UNIT_SPELLCAST_SUCCEEDED", "pet", nil, 19750)

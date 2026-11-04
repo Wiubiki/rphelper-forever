@@ -15,12 +15,12 @@ TOC needs an Interface number identifying its WoW flavor.
 
 The local package satisfies the structural part of that guidance:
 
-- one archive root, `RPHelper Forever/`;
-- `RPHelper Forever/RPHelper Forever.toc` with matching name and capitalization;
+- one archive root, `RPHelperForever/`;
+- `RPHelperForever/RPHelperForever.toc` with matching name and capitalization;
 - every manifest-declared Lua file and no development files;
 - deterministic ZIP metadata and ordering; and
 - license, credits, and content-rights notices under
-  `RPHelper Forever/Documentation/`.
+  `RPHelperForever/Documentation/`.
 
 `LEGACY_CONTENT.txt` remains the repository-side detailed inventory: it is not
 needed by the client and the packaged scope/credit notices identify it for
@@ -66,7 +66,7 @@ Official guidance identifies these file-upload fields:
 - related projects/dependencies, when applicable; and
 - automatic or manual release timing.
 
-`RPHelper Forever-0.9.0-prerelease.zip` is the proposed upload filename and can also be
+`RPHelperForever-0.9.0-prerelease.zip` is the proposed upload filename and can also be
 the GitHub Releases asset name. A short unique display name such as
 `RPHelper 0.9.0 prerelease` is sufficient; CurseForge does not require a custom
 display name. The reviewed official guidance does not prescribe a separate WoW

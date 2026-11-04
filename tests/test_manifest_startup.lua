@@ -70,12 +70,14 @@ local function newWidget(frameType, name, parent)
 end
 
 local function readManifest(tocPath)
-    local entries, seen = {}, {}
+    local entries, seen, metadata = {}, {}, {}
     local handle, openError = io.open(tocPath, "r")
     truthy(handle, "cannot open manifest " .. tocPath .. ": " .. tostring(openError))
     for rawLine in handle:lines() do
         local line = rawLine:gsub("\r$", "")
         local trimmed = line:match("^%s*(.-)%s*$")
+        local key, value = line:match("^##%s*([^:]+):%s*(.-)%s*$")
+        if key then metadata[key] = value end
         if trimmed ~= "" and not trimmed:match("^#") then
             truthy(line == trimmed, "invalid surrounding whitespace in TOC entry: " .. line)
             truthy(trimmed:match("^[%w_%-]+/[%w_/%-]+%.lua$") or trimmed:match("^[%w_%-]+%.lua$"),
@@ -83,7 +85,7 @@ local function readManifest(tocPath)
             truthy(not trimmed:match("^/") and not trimmed:match("%.%.") and not trimmed:match("\\"),
                 "unsafe local Lua TOC entry: " .. trimmed)
             truthy(not seen[trimmed], "duplicate Lua TOC entry: " .. trimmed)
-            local file = io.open("RPHelper Forever/" .. trimmed, "r")
+            local file = io.open("RPHelperForever/" .. trimmed, "r")
             truthy(file, "missing Lua file declared by TOC: " .. trimmed)
             file:close()
             seen[trimmed] = true
@@ -92,25 +94,27 @@ local function readManifest(tocPath)
     end
     handle:close()
 
-    local finder = io.popen("find 'RPHelper Forever' -type f -name '*.lua' -print")
+    local finder = io.popen("find RPHelperForever -type f -name '*.lua' -print")
     truthy(finder, "cannot enumerate production Lua files")
     for path in finder:lines() do
-        local entry = path:match("^RPHelper Forever/(.+)$")
+        local entry = path:match("^RPHelperForever/(.+)$")
         if entry and not entry:match("Archive%.lua$") then
             truthy(seen[entry], "production Lua file omitted from TOC: " .. entry)
         end
     end
     local closed, _, status = finder:close()
     truthy(closed or status == 0, "production Lua file enumeration failed")
-    return entries
+    return entries, metadata
 end
 
 test("real manifest loads the complete addon in order and starts all implemented paths", function()
-    local tocPath = "RPHelper Forever/RPHelper Forever.toc"
+    local tocPath = "RPHelperForever/RPHelperForever.toc"
     local addonIdentity = tocPath:match("^([^/]+)/[^/]+%.toc$")
-    equal(addonIdentity, "RPHelper Forever", "unexpected addon identity derived from TOC path")
+    equal(addonIdentity, "RPHelperForever", "unexpected addon identity derived from TOC path")
     equal(tocPath:match("/([^/]+)%.toc$"), addonIdentity, "TOC filename must match the addon folder")
-    local entries = readManifest(tocPath)
+    local entries, metadata = readManifest(tocPath)
+    equal(metadata.Title, "RPHelper Forever", "display name must retain spaces")
+    equal(metadata.SavedVariablesPerCharacter, "RPHelperDB", "character database name must stay stable")
 
     UIParent = newWidget("Frame", "UIParent")
     UISpecialFrames = {}
@@ -142,7 +146,7 @@ test("real manifest loads the complete addon in order and starts all implemented
     RPHelperDB = nil
 
     for index, entry in ipairs(entries) do
-        local chunk, loadError = loadfile("RPHelper Forever/" .. entry)
+        local chunk, loadError = loadfile("RPHelperForever/" .. entry)
         truthy(chunk, "manifest entry " .. index .. " cannot compile (" .. entry .. "): " .. tostring(loadError))
         local loaded, runtimeError = pcall(chunk)
         truthy(loaded, "manifest load failed at entry " .. index .. " (" .. entry .. "): "
@@ -155,10 +159,15 @@ test("real manifest loads the complete addon in order and starts all implemented
     end
     truthy(eventFrame, "RPHelper.lua did not create an ADDON_LOADED event frame")
     truthy(type(eventFrame.scripts.OnEvent) == "function", "addon event frame has no OnEvent callback")
+    for _, otherAddon in ipairs({ "RPHelper", "RPHelper Forever", "UnrelatedAddon" }) do
+        eventFrame.scripts.OnEvent(eventFrame, "ADDON_LOADED", otherAddon)
+        equal(RPHelperDB, nil, "another addon identity must not initialize this addon")
+    end
     eventFrame.scripts.OnEvent(eventFrame, "ADDON_LOADED", addonIdentity)
 
     truthy(type(RPHelperDB) == "table", "ADDON_LOADED did not initialize RPHelperDB")
     equal(RPHelperDB.schemaVersion, 2, "startup did not initialize schema v2")
+    equal(RPHelper.AboutPage.GetVersion(), "0.9.0-prerelease", "metadata must use the technical addon identity")
     truthy(RPHelper.UI and RPHelper.UI.GetWindow and RPHelper.UI.GetWindow(),
         "ADDON_LOADED did not initialize the UI")
     equal(RPHelper.UI.GetWindow():IsShown(), false, "startup UI should be hidden")
@@ -172,9 +181,54 @@ test("real manifest loads the complete addon in order and starts all implemented
     end
 end)
 
+test("renamed startup preserves an existing character database and reaction references", function()
+    local namespace = RPHelper
+    local saved = {
+        schemaVersion = 2,
+        settings = { enabled = false, reactionChance = 0, globalCooldown = 37, dungeonSayMode = "local" },
+        triggers = { dodge = { enabled = false, chance = 0.2 } },
+        abilities = { PALADIN = { FLASH_OF_LIGHT = { chance = 0.03 } } },
+        custom = { nextID = 43, entries = {
+            ["custom:42"] = {
+                scope = { layer = "generic", trigger = "entercombat" },
+                entry = { type = "say", text = "My existing reaction." },
+                sourceDefaultID = "default:generic:0001",
+            },
+        } },
+        disabledDefaults = { ["default:generic:0001"] = true },
+        reactionOverrides = { ["default:generic:0002"] = { weight = 7 } },
+        future = { retained = true },
+    }
+    local function clone(value)
+        if type(value) ~= "table" then return value end
+        local result = {}
+        for key, child in pairs(value) do result[key] = clone(child) end
+        return result
+    end
+    local function same(actual, expected)
+        equal(type(actual), type(expected))
+        if type(expected) ~= "table" then equal(actual, expected); return end
+        for key, value in pairs(expected) do same(actual[key], value) end
+        for key in pairs(actual) do truthy(expected[key] ~= nil, "unexpected persisted field: " .. key) end
+    end
+    local before = clone(saved)
+    RPHelperDB = saved -- Simulate the client loading the copied RPHelperForever.lua save file.
+    local eventFrame
+    for _, frame in ipairs(frames) do
+        if frame.registered.ADDON_LOADED then eventFrame = frame; break end
+    end
+    eventFrame.scripts.OnEvent(eventFrame, "ADDON_LOADED", "RPHelperForever")
+    equal(RPHelper, namespace, "Lua namespace must not be replaced")
+    equal(RPHelperDB, saved, "character database must not be replaced")
+    same(RPHelperDB, before)
+    equal(RPHelper.Configuration.GetSetting("reactionChance"), 0)
+    equal(RPHelper.Configuration.GetSetting("enabled"), false)
+    equal(RPHelper.GetGenericPool("entercombat")[1].defaultID, "default:generic:0001")
+end)
+
 if failures > 0 then
     io.stderr:write(tostring(failures) .. " of " .. tostring(tests) .. " manifest startup tests failed\n")
     os.exit(1)
 end
 
-print(tostring(tests) .. " manifest startup test passed")
+print(tostring(tests) .. " manifest startup tests passed")

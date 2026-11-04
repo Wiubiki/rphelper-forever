@@ -9,8 +9,10 @@ normal loading.
 
 - [ ] Record Forever version/build, full `GetBuildInfo()` evidence, numeric
   Interface value, and exact addon directory (A01).
-- [ ] Confirm `Interface/AddOns/RPHelper Forever/RPHelper Forever.toc`, with no nested duplicate
-  folder (A02).
+- [ ] Confirm `Interface/AddOns/RPHelperForever/RPHelperForever.toc`, with no nested duplicate
+  folder (A02). For an old-name install, copy the backed-up character save file
+  to `RPHelperForever.lua` as documented, then verify original data after reload
+  and a fresh login.
 - [ ] Find RPHelper `0.9.0-prerelease` in the character-screen addon list; record
   any incompatible/missing status without forcing it to load (A03).
 - [ ] Log in with no Lua/load error; use `/rph` to open and close the UI (A04).

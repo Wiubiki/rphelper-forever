@@ -13,7 +13,7 @@ import zipfile
 
 
 REPOSITORY = Path(__file__).resolve().parents[1]
-ADDON_NAME = "RPHelper Forever"
+ADDON_NAME = "RPHelperForever"
 ADDON_DIR = REPOSITORY / ADDON_NAME
 TOC_PATH = ADDON_DIR / f"{ADDON_NAME}.toc"
 DIST_DIR = REPOSITORY / "dist"

@@ -22,6 +22,29 @@ boundaries. The [runtime integration audit](audits/runtime_integration_audit.md)
 is the dated implementation/verification matrix, not a replacement for approved
 product policy.
 
+## Technical paths and inventory checks
+
+The current addon source root is `RPHelperForever/`, with manifest
+`RPHelperForever/RPHelperForever.toc`. Its displayed name is **RPHelper Forever**;
+the Lua namespace and SavedVariable remain `RPHelper` and `RPHelperDB`.
+See [filename compatibility](savedvariables_architecture.md#addon-identity-and-filename-compatibility)
+before updating an installation with an older technical name.
+
+Canonical exports in [content_inventory](content_inventory/) and dated audit and
+provenance inventories retain historical source locators such as `RPHelper/` or
+`RPHelper Forever/`. Resolve those roots to `RPHelperForever/` when navigating
+current source; the old manifest names likewise refer to `RPHelperForever.toc`.
+Historical references inside archived content are retained with that content.
+
+Run `python3 scripts/export_content_inventory.py --check` to validate the active
+catalogue against the canonical exports without changing them. The exporter reads
+the current TOC and source paths, generates into a temporary directory, and
+normalizes only historical source-path metadata and the summary's TOC reference
+for comparison. IDs, reaction text, template choices, ordering, counts, runtime
+mappings, and source line numbers remain significant. Running the exporter
+without `--check` deliberately regenerates the canonical files and should be
+reserved for an intended inventory update.
+
 ## Licensing and attribution
 
 - The repository [MIT License](../LICENSE) applies to independently authored

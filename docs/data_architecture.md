@@ -6,7 +6,7 @@ RPHelper must never require users to edit shipped addon files to preserve custom
 
 ### Shipped data
 
-Lives under `RPHelper Forever/Data/` and is replaced normally when the addon is updated.
+Lives under `RPHelperForever/Data/` and is replaced normally when the addon is updated.
 
 Includes:
 - Default sayings/emotes

@@ -9,24 +9,27 @@ result without running the addon runtime or reading SavedVariables.
 from __future__ import annotations
 
 import csv
+import io
 import json
 import re
 import subprocess
+import tempfile
 from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
-TOC = ROOT / "RPHelper" / "RPHelper.toc"
+ADDON_NAME = "RPHelperForever"
+TOC = ROOT / ADDON_NAME / f"{ADDON_NAME}.toc"
 OUTPUT = ROOT / "docs" / "content_inventory"
 REACTION_TYPES = ("say", "emote", "customemote")
 
 
 LUA_HARNESS = r'''
 local root = arg[1]
-local contentFile = root .. "/RPHelper/Core/Content.lua"
-dofile(root .. "/RPHelper/Core/DruidForms.lua")
+local contentFile = root .. "/RPHelperForever/Core/Content.lua"
+dofile(root .. "/RPHelperForever/Core/DruidForms.lua")
 dofile(contentFile)
 
 local records = {}
@@ -38,7 +41,7 @@ local function dataCallSite()
         local info = debug.getinfo(level, "Sl")
         if not info then break end
         local source = info.source or ""
-        if string.sub(source, 1, 1) == "@" and string.find(source, "/RPHelper/Data/", 1, true) then
+        if string.sub(source, 1, 1) == "@" and string.find(source, "/RPHelperForever/Data/", 1, true) then
             chosenSource = string.sub(source, 2)
             chosenLine = info.currentline
         end
@@ -86,10 +89,10 @@ end
 
 for index = 2, #arg do dofile(root .. "/" .. arg[index]) end
 
-dofile(root .. "/RPHelper/Core/RuntimeAPI.lua")
+dofile(root .. "/RPHelperForever/Core/RuntimeAPI.lua")
 RPHelper.Configuration = RPHelper.Configuration or {}
 RPHelper.Output = RPHelper.Output or {}
-dofile(root .. "/RPHelper/Core/Runtime.lua")
+dofile(root .. "/RPHelperForever/Core/Runtime.lua")
 
 local function escape(value)
     value = string.gsub(value, "\\", "\\\\")
@@ -161,7 +164,7 @@ def manifest_data_files() -> list[str]:
         line = raw.strip().replace("\\", "/")
         if not line or line.startswith("#") or not line.startswith("Data/"):
             continue
-        path = f"RPHelper/{line}"
+        path = f"{ADDON_NAME}/{line}"
         if path.endswith("RandomInsults.lua"):
             continue
         files.append(path)
@@ -252,7 +255,7 @@ def event_type(kind: str, key: str) -> str:
 
 
 def find_runtime_lines() -> dict[str, int]:
-    path = ROOT / "RPHelper" / "Core" / "Runtime.lua"
+    path = ROOT / ADDON_NAME / "Core" / "Runtime.lua"
     lines: dict[str, int] = {}
     pattern = re.compile(r'^\s*([a-z][a-z0-9_]*)\s*=\s*"[^"]+",?\s*$')
     in_table = False
@@ -347,13 +350,13 @@ def build_inventory(raw: dict[str, Any]) -> tuple[list[dict[str, Any]], list[dic
         )
         if kind != "ability" and key in runtime_triggers:
             runtime_source = {
-                "file": "RPHelper/Core/Runtime.lua",
+                "file": f"{ADDON_NAME}/Core/Runtime.lua",
                 "line": runtime_lines.get(key),
                 "config_key": runtime_triggers[key],
             }
         elif kind == "ability":
             runtime_source = {
-                "file": "RPHelper/Core/RuntimeAPI.lua",
+                "file": f"{ADDON_NAME}/Core/RuntimeAPI.lua",
                 "spell_ids": ability_spells.get(owner or "", {}).get(key, []),
             }
         else:
@@ -388,7 +391,7 @@ def build_inventory(raw: dict[str, Any]) -> tuple[list[dict[str, Any]], list[dic
         "active_manifest_data_files": manifest_data_files(),
         "excluded_archive_files": sorted(
             path.relative_to(ROOT).as_posix()
-            for path in (ROOT / "RPHelper" / "Data" / "Abilities").glob("*Archive.lua")
+            for path in (ROOT / ADDON_NAME / "Data" / "Abilities").glob("*Archive.lua")
         ),
         "duplicate_reaction_ids": duplicate_ids,
         "structural_issues": structural_issues,
@@ -396,14 +399,14 @@ def build_inventory(raw: dict[str, Any]) -> tuple[list[dict[str, Any]], list[dic
     return events, flat_reactions, metadata
 
 
-def write_events_csv(events: list[dict[str, Any]]) -> None:
+def write_events_csv(events: list[dict[str, Any]], output: Path) -> None:
     fields = [
         "event_id", "category", "owner", "class_or_race", "druid_form", "event_key", "display_name", "event_type",
         "source_lua_file", "source_line", "runtime_supported", "runtime_config_key",
         "runtime_spell_ids", "explicit_empty_registration", "say_count", "emote_count",
         "customemote_count", "total_reactions", "population_status", "flags",
     ]
-    with (OUTPUT / "events.csv").open("w", encoding="utf-8", newline="") as handle:
+    with (output / "events.csv").open("w", encoding="utf-8", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=fields, lineterminator="\n")
         writer.writeheader()
         for event in events:
@@ -440,13 +443,13 @@ def write_events_csv(events: list[dict[str, Any]]) -> None:
             })
 
 
-def write_reactions_csv(reactions: list[dict[str, Any]]) -> None:
+def write_reactions_csv(reactions: list[dict[str, Any]], output: Path) -> None:
     fields = [
         "event_id", "category", "owner", "class_or_race", "druid_form", "event_key", "reaction_id", "reaction_type",
         "reaction_text", "is_template", "template_choices_json", "source_lua_file",
         "source_line", "reaction_index", "event_order_index",
     ]
-    with (OUTPUT / "reactions.csv").open("w", encoding="utf-8", newline="") as handle:
+    with (output / "reactions.csv").open("w", encoding="utf-8", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=fields, lineterminator="\n")
         writer.writeheader()
         for reaction in reactions:
@@ -490,7 +493,7 @@ def summary_text(events: list[dict[str, Any]], reactions: list[dict[str, Any]], 
     lines = [
         "# Event and reaction inventory summary",
         "",
-        "This inventory reflects the active Lua files loaded by `RPHelper/RPHelper.toc`. "
+        "This inventory reflects the active Lua files loaded by `RPHelperForever/RPHelperForever.toc`. "
         "It excludes adjacent archive files and character SavedVariables/custom content.",
         "Scoped `event_id` values follow the active Library group identity scheme; `event_key` retains the "
         "repository's canonical trigger or ability key and is never derived from a display name.",
@@ -587,35 +590,35 @@ def summary_text(events: list[dict[str, Any]], reactions: list[dict[str, Any]], 
     return "\n".join(lines) + "\n"
 
 
-def payloads() -> dict[str, bytes]:
+def payloads(output: Path = OUTPUT) -> dict[str, bytes]:
     raw = collect()
     events, reactions, metadata = build_inventory(raw)
-    OUTPUT.mkdir(parents=True, exist_ok=True)
+    output.mkdir(parents=True, exist_ok=True)
 
-    # Produce CSV through temporary sibling files so the exact bytes can also be checked.
-    write_events_csv(events)
-    write_reactions_csv(reactions)
+    # Render all formats into the requested output directory.
+    write_events_csv(events, output)
+    write_reactions_csv(reactions, output)
     events_json = {
         "schema_version": 1,
         "scope": "active repository-shipped content",
         "metadata": metadata,
         "events": events,
     }
-    (OUTPUT / "events.json").write_text(
+    (output / "events.json").write_text(
         json.dumps(events_json, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
-    (OUTPUT / "inventory_summary.md").write_text(
+    (output / "inventory_summary.md").write_text(
         summary_text(events, reactions, metadata), encoding="utf-8"
     )
-    return {path.name: path.read_bytes() for path in OUTPUT.iterdir() if path.is_file()}
+    return {path.name: path.read_bytes() for path in output.iterdir() if path.is_file()}
 
 
-def validate() -> None:
-    events_doc = json.loads((OUTPUT / "events.json").read_text(encoding="utf-8"))
+def validate(output: Path = OUTPUT) -> None:
+    events_doc = json.loads((output / "events.json").read_text(encoding="utf-8"))
     events = events_doc["events"]
-    with (OUTPUT / "events.csv").open(encoding="utf-8", newline="") as handle:
+    with (output / "events.csv").open(encoding="utf-8", newline="") as handle:
         event_rows = list(csv.DictReader(handle))
-    with (OUTPUT / "reactions.csv").open(encoding="utf-8", newline="") as handle:
+    with (output / "reactions.csv").open(encoding="utf-8", newline="") as handle:
         reaction_rows = list(csv.DictReader(handle))
 
     event_ids = [event["event_id"] for event in events]
@@ -653,22 +656,71 @@ def validate() -> None:
         assert sum(counts[kind] for kind in REACTION_TYPES) == counts["total"]
 
 
+def current_source_path(value: str) -> str:
+    """Resolve historical addon-directory prefixes only in source metadata."""
+    for historical in ("RPHelper", "RPHelper Forever"):
+        if value.startswith(historical + "/"):
+            return ADDON_NAME + value[len(historical):]
+    return value
+
+
+def comparable_export(name: str, data: bytes) -> Any:
+    """Ignore historical source roots, while keeping content and IDs significant."""
+    if name.endswith(".csv"):
+        reader = csv.DictReader(io.StringIO(data.decode("utf-8")))
+        rows = list(reader)
+        for row in rows:
+            row["source_lua_file"] = current_source_path(row["source_lua_file"])
+        return reader.fieldnames, rows
+    if name == "events.json":
+        document = json.loads(data)
+        metadata = document["metadata"]
+        for key in ("active_manifest_data_files", "excluded_archive_files"):
+            metadata[key] = [current_source_path(path) for path in metadata[key]]
+
+        def normalize_source(source: dict[str, Any] | None) -> None:
+            if source and source.get("file"):
+                source["file"] = current_source_path(source["file"])
+
+        for event in document["events"]:
+            normalize_source(event["source"])
+            normalize_source(event["runtime_source"])
+            for source in event["registration_sources"]:
+                normalize_source(source)
+            for reactions in event["reactions"].values():
+                for reaction in reactions:
+                    normalize_source(reaction["source"])
+        return document
+    text = data.decode("utf-8")
+    for historical in ("RPHelper", "RPHelper Forever"):
+        text = text.replace(f"`{historical}/{historical}.toc`", f"`{ADDON_NAME}/{ADDON_NAME}.toc`")
+    return text
+
+
+def check_exports(output: Path = OUTPUT) -> None:
+    existing = {
+        name: (output / name).read_bytes()
+        for name in ("events.csv", "reactions.csv", "events.json", "inventory_summary.md")
+    }
+    validate(output)
+    with tempfile.TemporaryDirectory(prefix="rphelper-inventory-check-") as temporary:
+        generated = payloads(Path(temporary))
+        validate(Path(temporary))
+    for name, old_bytes in existing.items():
+        assert comparable_export(name, generated[name]) == comparable_export(name, old_bytes), (
+            f"stale generated export: {name}"
+        )
+
+
 def main() -> None:
     import argparse
 
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--check", action="store_true", help="verify exports are current and internally consistent")
+    parser.add_argument("--check", action="store_true", help="verify exports without writing; allow historical source roots")
     args = parser.parse_args()
 
     if args.check:
-        existing = {
-            name: (OUTPUT / name).read_bytes()
-            for name in ("events.csv", "reactions.csv", "events.json", "inventory_summary.md")
-        }
-        generated = payloads()
-        validate()
-        for name, old_bytes in existing.items():
-            assert generated[name] == old_bytes, f"stale generated export: {name}"
+        check_exports()
     else:
         payloads()
         validate()

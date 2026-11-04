@@ -37,42 +37,42 @@ local function poolContainsText(pool, expected)
 end
 
 RPHelper = {}
-dofile("RPHelper Forever/Core/Defaults.lua")
-dofile("RPHelper Forever/Core/Database.lua")
-dofile("RPHelper Forever/Core/Configuration.lua")
-dofile("RPHelper Forever/Core/KeywordResolvers.lua")
-dofile("RPHelper Forever/Core/DruidForms.lua")
-dofile("RPHelper Forever/Core/ContentEngine.lua")
-dofile("RPHelper Forever/Core/Content.lua")
-dofile("RPHelper Forever/Core/UserContent.lua")
-dofile("RPHelper Forever/Data/RandomInsults.lua")
-dofile("RPHelper Forever/Data/Generic.lua")
-dofile("RPHelper Forever/Data/Races/Tauren.lua")
-dofile("RPHelper Forever/Data/Races/Orc.lua")
-dofile("RPHelper Forever/Data/Races/NightElf.lua")
-dofile("RPHelper Forever/Data/Races/Human.lua")
-dofile("RPHelper Forever/Data/Races/Gnome.lua")
-dofile("RPHelper Forever/Data/Races/Dwarf.lua")
-dofile("RPHelper Forever/Data/Races/Undead.lua")
-dofile("RPHelper Forever/Data/Races/Troll.lua")
-dofile("RPHelper Forever/Data/Classes/Warrior.lua")
-dofile("RPHelper Forever/Data/Classes/Rogue.lua")
-dofile("RPHelper Forever/Data/Classes/Hunter.lua")
-dofile("RPHelper Forever/Data/Classes/Shaman.lua")
-dofile("RPHelper Forever/Data/Classes/Druid.lua")
-dofile("RPHelper Forever/Data/Classes/Paladin.lua")
-dofile("RPHelper Forever/Data/Classes/Mage.lua")
-dofile("RPHelper Forever/Data/Classes/Priest.lua")
-dofile("RPHelper Forever/Data/Classes/Warlock.lua")
-dofile("RPHelper Forever/Data/Abilities/Warrior.lua")
-dofile("RPHelper Forever/Data/Abilities/Rogue.lua")
-dofile("RPHelper Forever/Data/Abilities/Hunter.lua")
-dofile("RPHelper Forever/Data/Abilities/Shaman.lua")
-dofile("RPHelper Forever/Data/Abilities/Druid.lua")
-dofile("RPHelper Forever/Data/Abilities/Paladin.lua")
-dofile("RPHelper Forever/Data/Abilities/Mage.lua")
-dofile("RPHelper Forever/Data/Abilities/Priest.lua")
-dofile("RPHelper Forever/Data/Abilities/Warlock.lua")
+dofile("RPHelperForever/Core/Defaults.lua")
+dofile("RPHelperForever/Core/Database.lua")
+dofile("RPHelperForever/Core/Configuration.lua")
+dofile("RPHelperForever/Core/KeywordResolvers.lua")
+dofile("RPHelperForever/Core/DruidForms.lua")
+dofile("RPHelperForever/Core/ContentEngine.lua")
+dofile("RPHelperForever/Core/Content.lua")
+dofile("RPHelperForever/Core/UserContent.lua")
+dofile("RPHelperForever/Data/RandomInsults.lua")
+dofile("RPHelperForever/Data/Generic.lua")
+dofile("RPHelperForever/Data/Races/Tauren.lua")
+dofile("RPHelperForever/Data/Races/Orc.lua")
+dofile("RPHelperForever/Data/Races/NightElf.lua")
+dofile("RPHelperForever/Data/Races/Human.lua")
+dofile("RPHelperForever/Data/Races/Gnome.lua")
+dofile("RPHelperForever/Data/Races/Dwarf.lua")
+dofile("RPHelperForever/Data/Races/Undead.lua")
+dofile("RPHelperForever/Data/Races/Troll.lua")
+dofile("RPHelperForever/Data/Classes/Warrior.lua")
+dofile("RPHelperForever/Data/Classes/Rogue.lua")
+dofile("RPHelperForever/Data/Classes/Hunter.lua")
+dofile("RPHelperForever/Data/Classes/Shaman.lua")
+dofile("RPHelperForever/Data/Classes/Druid.lua")
+dofile("RPHelperForever/Data/Classes/Paladin.lua")
+dofile("RPHelperForever/Data/Classes/Mage.lua")
+dofile("RPHelperForever/Data/Classes/Priest.lua")
+dofile("RPHelperForever/Data/Classes/Warlock.lua")
+dofile("RPHelperForever/Data/Abilities/Warrior.lua")
+dofile("RPHelperForever/Data/Abilities/Rogue.lua")
+dofile("RPHelperForever/Data/Abilities/Hunter.lua")
+dofile("RPHelperForever/Data/Abilities/Shaman.lua")
+dofile("RPHelperForever/Data/Abilities/Druid.lua")
+dofile("RPHelperForever/Data/Abilities/Paladin.lua")
+dofile("RPHelperForever/Data/Abilities/Mage.lua")
+dofile("RPHelperForever/Data/Abilities/Priest.lua")
+dofile("RPHelperForever/Data/Abilities/Warlock.lua")
 
 local Engine = RPHelper.ContentEngine
 
@@ -285,7 +285,7 @@ test("historical catalogue: class files register each empty definition once", fu
     local previous = RPHelper
     local ok, err = pcall(function()
         RPHelper = {}
-        dofile("RPHelper Forever/Core/Content.lua")
+        dofile("RPHelperForever/Core/Content.lua")
         local register = RPHelper.RegisterAbility
         local seen, count = {}, 0
         RPHelper.RegisterAbility = function(class, ability, entry)
@@ -298,7 +298,7 @@ test("historical catalogue: class files register each empty definition once", fu
             return register(class, ability, entry)
         end
         for _, class in ipairs({ "Druid", "Hunter", "Mage", "Paladin", "Priest", "Rogue", "Shaman", "Warlock", "Warrior" }) do
-            dofile("RPHelper Forever/Data/Abilities/" .. class .. ".lua")
+            dofile("RPHelperForever/Data/Abilities/" .. class .. ".lua")
         end
         equal(count, 192)
     end)
@@ -329,7 +329,7 @@ test("Mage reconciliation registers the approved active catalogue", function()
 end)
 
 test("Mage source is grouped and alphabetized by Forever specialization", function()
-    local source = assert(io.open("RPHelper Forever/Data/Abilities/Mage.lua", "r")):read("*a")
+    local source = assert(io.open("RPHelperForever/Data/Abilities/Mage.lua", "r")):read("*a")
     local specializations = {
         "AMPLIFY_MAGIC ARCANE_BLAST ARCANE_BRILLIANCE ARCANE_EXPLOSION ARCANE_INTELLECT ARCANE_MISSILES ARCANE_POWER ARCANE_WRATH BLINK CONJURE_FOOD CONJURE_MANA_AGATE CONJURE_MANA_CITRINE CONJURE_MANA_JADE CONJURE_MANA_RUBY CONJURE_WATER COUNTERSPELL DAMPEN_MAGIC EVOCATION MAGE_ARMOR MANA_SHIELD POLYMORPH POLYMORPH_PIG POLYMORPH_TURTLE PORTAL_DARNASSUS PORTAL_IRONFORGE PORTAL_ORGRIMMAR PORTAL_STORMWIND PORTAL_THUNDER_BLUFF PORTAL_UNDERCITY PRESENCE_OF_MIND REMOVE_LESSER_CURSE SLOW_FALL TELEPORT_DALARAN TELEPORT_DARNASSUS TELEPORT_IRONFORGE TELEPORT_ORGRIMMAR TELEPORT_STORMWIND TELEPORT_THUNDER_BLUFF TELEPORT_UNDERCITY",
         "BLAST_WAVE COMBUSTION FIRE_BLAST FIRE_WARD FIREBALL FLAMESTRIKE FROSTFIRE_BOLT PYROBLAST SCORCH",
@@ -362,7 +362,7 @@ test("Mage source is grouped and alphabetized by Forever specialization", functi
 end)
 
 test("Mage legacy archive preserves six reactions without active registration", function()
-    local archive = dofile("RPHelper Forever/Data/Abilities/MageArchive.lua")
+    local archive = dofile("RPHelperForever/Data/Abilities/MageArchive.lua")
     local expected = {
         DETECT_MAGIC = {
             { "say", "No secrets can hide from me!" },
@@ -455,7 +455,7 @@ test("Hunter reconciliation registers the approved active catalogue", function()
 end)
 
 test("Hunter source is grouped and alphabetized by Forever specialization", function()
-    local source = assert(io.open("RPHelper Forever/Data/Abilities/Hunter.lua", "r")):read("*a")
+    local source = assert(io.open("RPHelperForever/Data/Abilities/Hunter.lua", "r")):read("*a")
     local specializations = {
         "ASPECT_OF_THE_BEAST ASPECT_OF_THE_CHEETAH ASPECT_OF_THE_HAWK ASPECT_OF_THE_MONKEY ASPECT_OF_THE_PACK ASPECT_OF_THE_WILD BEAST_LORE BESTIAL_WRATH CALL_PET DISMISS_PET EAGLE_EYE EYES_OF_THE_BEAST FEED_PET INTIMIDATION MEND_PET REVIVE_PET SCARE_BEAST SUMMON_HAWK TAME_BEAST TRANQUILIZING_SHOT",
         "AIMED_SHOT ARCANE_SHOT AUTO_SHOT CONCUSSIVE_SHOT DISTRACTING_SHOT ENCHANTED_FLARE FLARE HUNTERS_MARK MULTI_SHOT RAPID_FIRE SCATTER_SHOT SCORPID_STING SERPENT_STING SNIPER_SHOT TRUESHOT_AURA VIPER_STING VOLLEY",
@@ -488,7 +488,7 @@ test("Hunter source is grouped and alphabetized by Forever specialization", func
 end)
 
 test("Hunter legacy archive preserves fourteen reactions without active registration", function()
-    local archive = dofile("RPHelper Forever/Data/Abilities/HunterArchive.lua")
+    local archive = dofile("RPHelperForever/Data/Abilities/HunterArchive.lua")
     local expected = {
         ASPECT_OF_THE_WOLF = {
             { "say", "Time to hunt like a true predator!" },
@@ -521,7 +521,7 @@ test("Hunter legacy archive preserves fourteen reactions without active registra
     end
     equal(total, 14)
 
-    local toc = assert(io.open("RPHelper Forever/RPHelper Forever.toc", "r")):read("*a")
+    local toc = assert(io.open("RPHelperForever/RPHelperForever.toc", "r")):read("*a")
     equal(string.find(toc, "HunterArchive.lua", 1, true), nil)
 end)
 
@@ -614,7 +614,7 @@ test("Rogue reconciliation registers the approved active catalogue", function()
 end)
 
 test("Rogue source is grouped alphabetically with one registration per ability", function()
-    local source = assert(io.open("RPHelper Forever/Data/Abilities/Rogue.lua", "r")):read("*a")
+    local source = assert(io.open("RPHelperForever/Data/Abilities/Rogue.lua", "r")):read("*a")
     local specializations = {
         "AMBUSH CHEAP_SHOT COLD_BLOOD EVISCERATE EXPOSE_ARMOR GARROTE KIDNEY_SHOT MUTILATE RUPTURE SLICE_AND_DICE VENOM",
         "ADRENALINE_RUSH BACKSTAB BLADE_FLURRY EVASION FEINT GOUGE KICK RIPOSTE SINISTER_STRIKE SPRINT",
@@ -651,7 +651,7 @@ test("Rogue source is grouped alphabetically with one registration per ability",
         RPHelper.RegisterAbility = function(_, ability)
             registrations[ability] = (registrations[ability] or 0) + 1
         end
-        dofile("RPHelper Forever/Data/Abilities/Rogue.lua")
+        dofile("RPHelperForever/Data/Abilities/Rogue.lua")
         for _, key in ipairs(expected) do equal(registrations[key], 1) end
     end)
     RPHelper = previous
@@ -659,7 +659,7 @@ test("Rogue source is grouped alphabetically with one registration per ability",
 end)
 
 test("Rogue archive preserves inactive identities and General reactions", function()
-    local archive = dofile("RPHelper Forever/Data/Abilities/RogueArchive.lua")
+    local archive = dofile("RPHelperForever/Data/Abilities/RogueArchive.lua")
     local keys = {
         "AGITATING_POISON", "BLADE_FURY", "DEADLY_THROW", "DETECT_TRAPS",
         "EXPLOIT_WEAKNESS", "FLOURISH", "PICK_LOCK", "RELENTLESS_STRIKES",
@@ -678,7 +678,7 @@ test("Rogue archive preserves inactive identities and General reactions", functi
     for _, key in ipairs(keys) do
         if key ~= "SHOOT_BOW" and key ~= "THROW" then equal(#archive[key], 0) end
     end
-    local toc = assert(io.open("RPHelper Forever/RPHelper Forever.toc", "r")):read("*a")
+    local toc = assert(io.open("RPHelperForever/RPHelperForever.toc", "r")):read("*a")
     equal(string.find(toc, "RogueArchive.lua", 1, true), nil)
 end)
 
@@ -792,7 +792,7 @@ test("Paladin reconciliation registers the approved active catalogue", function(
 end)
 
 test("Paladin source ordering headings and registrations match the approved layout", function()
-    local source = assert(io.open("RPHelper Forever/Data/Abilities/Paladin.lua", "r")):read("*a")
+    local source = assert(io.open("RPHelperForever/Data/Abilities/Paladin.lua", "r")):read("*a")
     local groups = {
         "BLESSING_OF_LIGHT BLESSING_OF_WISDOM CLEANSE CONSECRATION DIVINE_FAVOR EXORCISM FLASH_OF_LIGHT GREATER_BLESSING_OF_LIGHT GREATER_BLESSING_OF_WISDOM HAMMER_OF_WRATH HOLY_LIGHT HOLY_SHOCK HOLY_WRATH LAY_ON_HANDS LIGHTS_VIGIL PURIFY REDEMPTION SEAL_OF_LIGHT SEAL_OF_RIGHTEOUSNESS SEAL_OF_WISDOM SENSE_UNDEAD TURN_UNDEAD VOICE_OF_TRUTH",
         "BLESSING_OF_FREEDOM BLESSING_OF_KINGS BLESSING_OF_PROTECTION BLESSING_OF_SACRIFICE CONCENTRATION_AURA DEVOTION_AURA DIVINE_INTERVENTION DIVINE_PROTECTION DIVINE_SHIELD FIRE_RESISTANCE_AURA FROST_RESISTANCE_AURA GREATER_BLESSING_OF_KINGS HAMMER_OF_JUSTICE HOLY_SHIELD MASS_SALVATION REVOKE RIGHTEOUS_FURY SALVATION SEAL_OF_FURY SEAL_OF_JUSTICE SHADOW_RESISTANCE_AURA SWIFT_JUDGEMENT TEMPLARS_BULWARK",
@@ -822,14 +822,14 @@ test("Paladin families have the approved identity counts", function()
 end)
 
 test("Paladin archive preserves displaced reactions and is excluded from the manifest", function()
-    local archive = dofile("RPHelper Forever/Data/Abilities/PaladinArchive.lua")
+    local archive = dofile("RPHelperForever/Data/Abilities/PaladinArchive.lua")
     local expected = { BLESSING_OF_SALVATION = 0, BLESSING_OF_SANCTUARY = 2, BULWARK_OF_THE_RIGHTEOUS = 3, CRUSADER_STRIKE = 3, GREATER_BLESSING_OF_SALVATION = 0, HAND_OF_RECKONING = 3, SANCTITY_AURA = 2, SUMMON_WARHORSE = 2 }
     local keys, reactions = 0, 0
     for key, count in pairs(expected) do truthy(archive[key]);equal(#archive[key], count);keys = keys + 1;reactions = reactions + count end
     local actual = 0;for _ in pairs(archive) do actual = actual + 1 end;equal(actual, keys);equal(reactions, 15)
     equal(archive.CRUSADER_STRIKE[1].text, "For the Light, and for justice!")
     equal(archive.BULWARK_OF_THE_RIGHTEOUS[3].type, "customemote")
-    local toc = assert(io.open("RPHelper Forever/RPHelper Forever.toc", "r")):read("*a");equal(string.find(toc, "PaladinArchive.lua", 1, true), nil)
+    local toc = assert(io.open("RPHelperForever/RPHelperForever.toc", "r")):read("*a");equal(string.find(toc, "PaladinArchive.lua", 1, true), nil)
 end)
 
 test("Paladin Salvation migration preserves settings custom content and exact default IDs", function()
@@ -913,7 +913,7 @@ test("Priest reconciliation registers the approved active catalogue", function()
 end)
 
 test("Priest source ordering headings and registrations match the approved layout", function()
-    local source = assert(io.open("RPHelper Forever/Data/Abilities/Priest.lua", "r")):read("*a")
+    local source = assert(io.open("RPHelperForever/Data/Abilities/Priest.lua", "r")):read("*a")
     local groups = {
         "DISPEL_MAGIC DIVINE_SPIRIT INNER_FIRE INNER_FOCUS LEVITATE MANA_BURN PENANCE POWER_INFUSION POWER_WORD_FORTITUDE POWER_WORD_SHIELD PRAYER_OF_FORTITUDE PRAYER_OF_SPIRIT SHACKLE_UNDEAD",
         "ABOLISH_DISEASE BINDING_HEAL CURE_DISEASE FEAR_WARD FLASH_HEAL GREATER_HEAL HEAL HOLY_FIRE HOLY_NOVA LESSER_HEAL PRAYER_OF_HEALING PRAYER_OF_MENDING RENEW RESURRECTION SMITE",
@@ -951,7 +951,7 @@ test("Priest source ordering headings and registrations match the approved layou
         RPHelper.RegisterAbility = function(_, ability)
             registrations[ability] = (registrations[ability] or 0) + 1
         end
-        dofile("RPHelper Forever/Data/Abilities/Priest.lua")
+        dofile("RPHelperForever/Data/Abilities/Priest.lua")
         for _, key in ipairs(expected) do equal(registrations[key], registrationCounts[key]) end
     end)
     RPHelper = previous;if not ok then error(err) end
@@ -980,7 +980,7 @@ test("Priest historical reactions are restored exactly", function()
 end)
 
 test("Priest archive preserves displaced reactions and is excluded from the manifest", function()
-    local archive = dofile("RPHelper Forever/Data/Abilities/PriestArchive.lua")
+    local archive = dofile("RPHelperForever/Data/Abilities/PriestArchive.lua")
     local keys = { "CHAMPIONS_BOND", "CHAMPIONS_RESOLVE", "CHASTICE", "EMPOWER_CHAMPION", "LIGHTWELL", "PAIN_SPIKE", "PROCLAIM_CHAMPION", "REVIVE_CHAMPION", "SPIRIT_OF_REDEMPTION" }
     local count = 0;for key in pairs(archive) do count = count + 1;truthy(type(archive[key]) == "table") end;equal(count, 9)
     for _, key in ipairs(keys) do truthy(archive[key]) end
@@ -989,7 +989,7 @@ test("Priest archive preserves displaced reactions and is excluded from the mani
     equal(archive.LIGHTWELL[3].type, "customemote")
     equal(archive.SPIRIT_OF_REDEMPTION[3].text, "ascends into a spectral form, continuing to heal allies despite {PP} demise.")
     for _, key in ipairs({ "CHAMPIONS_BOND", "CHAMPIONS_RESOLVE", "CHASTICE", "EMPOWER_CHAMPION", "PAIN_SPIKE", "PROCLAIM_CHAMPION", "REVIVE_CHAMPION" }) do equal(#archive[key], 0) end
-    local toc = assert(io.open("RPHelper Forever/RPHelper Forever.toc", "r")):read("*a")
+    local toc = assert(io.open("RPHelperForever/RPHelperForever.toc", "r")):read("*a")
     equal(string.find(toc, "PriestArchive.lua", 1, true), nil)
 end)
 
@@ -1111,7 +1111,7 @@ test("Warlock reconciliation registers the approved active catalogue", function(
 end)
 
 test("Warlock source is grouped and alphabetized by Forever specialization", function()
-    local source = assert(io.open("RPHelper Forever/Data/Abilities/Warlock.lua", "r")):read("*a")
+    local source = assert(io.open("RPHelperForever/Data/Abilities/Warlock.lua", "r")):read("*a")
     local specializations = {
         "AMPLIFY_CURSE BANE_OF_AGONY BANE_OF_DOOM CORRUPTION CURSE_OF_EXHAUSTION CURSE_OF_RECKLESSNESS CURSE_OF_THE_ELEMENTS CURSE_OF_TONGUES CURSE_OF_WEAKNESS DEATH_COIL DRAIN_LIFE DRAIN_MANA DRAIN_SOUL FEAR HOWL_OF_TERROR LIFE_TAP SIPHON_LIFE WRACK",
         "BANISH CREATE_FIRESTONE CREATE_HEALTHSTONE CREATE_SOULSTONE CREATE_SPELLSTONE DEMONIC_SACRIFICE DEMON_ARMOR DEMON_SKIN DETECT_INVISIBILITY EYE_OF_KILROGG FEL_DOMINATION HEALTH_FUNNEL INFERNO RITUAL_OF_DOOM RITUAL_OF_SUMMONING SENSE_DEMONS SHADOW_WARD SOUL_LINK SUBJUGATE_DEMON SUMMON_FELHUNTER SUMMON_IMP SUMMON_INCUBUS SUMMON_SUCCUBUS SUMMON_VOIDWALKER UNENDING_BREATH",
@@ -1144,7 +1144,7 @@ test("Warlock source is grouped and alphabetized by Forever specialization", fun
 end)
 
 test("Warlock legacy archive preserves identities and Curse of Shadow reactions", function()
-    local archive = dofile("RPHelper Forever/Data/Abilities/WarlockArchive.lua")
+    local archive = dofile("RPHelperForever/Data/Abilities/WarlockArchive.lua")
     local keys = {
         "CURSE_OF_SHADOW", "DARK_HARVEST", "DARK_PACT", "DEMON_PORTAL",
         "DETECT_GREATER_INVISIBILITY", "DETECT_LESSER_INVISIBILITY", "MANA_FUNNEL",
@@ -1164,7 +1164,7 @@ test("Warlock legacy archive preserves identities and Curse of Shadow reactions"
     equal(archive.CURSE_OF_SHADOW[2].text, "grins wickedly at {TARGET}.")
     for index = 2, #keys do equal(#archive[keys[index]], 0) end
 
-    local toc = assert(io.open("RPHelper Forever/RPHelper Forever.toc", "r")):read("*a")
+    local toc = assert(io.open("RPHelperForever/RPHelperForever.toc", "r")):read("*a")
     equal(string.find(toc, "WarlockArchive.lua", 1, true), nil)
 end)
 
@@ -1337,7 +1337,7 @@ test("Warrior reconciliation registers the approved active catalogue", function(
 end)
 
 test("Warrior source is grouped and alphabetized by Forever specialization", function()
-    local source = assert(io.open("RPHelper Forever/Data/Abilities/Warrior.lua", "r")):read("*a")
+    local source = assert(io.open("RPHelperForever/Data/Abilities/Warrior.lua", "r")):read("*a")
     local specializations = {
         "BATTLE_STANCE CHARGE HAMSTRING HEROIC_STRIKE MOCKING_BLOW MORTAL_STRIKE OVERPOWER REND RETALIATION SPEARING_STRIKE SWEEPING_STRIKES THUNDER_CLAP VICTORY_RUSH",
         "BATTLE_SHOUT BERSERKER_RAGE BERSERKER_STANCE BLOODTHIRST CHALLENGING_SHOUT CLEAVE DEATH_WISH DEMORALIZING_SHOUT EXECUTE INTERCEPT INTIMIDATING_SHOUT PIERCING_HOWL PUMMEL RECKLESSNESS SLAM WHIRLWIND",
@@ -1437,7 +1437,7 @@ test("Druid reconciliation registers the approved active catalogue", function()
 end)
 
 test("Druid source is grouped and alphabetized by Forever specialization", function()
-    local source = assert(io.open("RPHelper Forever/Data/Abilities/Druid.lua", "r")):read("*a")
+    local source = assert(io.open("RPHelperForever/Data/Abilities/Druid.lua", "r")):read("*a")
     local specializations = {
         "BARKSKIN ENTANGLING_ROOTS FAERIE_FIRE HIBERNATE HURRICANE INSECT_SWARM MOON_FIRE MOONKIN_FORM NATURES_GRASP SOOTHE_ANIMAL STARFIRE TELEPORT_MOONGLADE THORNS WRATH",
         "AQUATIC_FORM BASH BEAR_FORM BERSERK CAT_FORM CHALLENGING_ROAR CLAW COWER DASH DEMORALIZING_ROAR DIRE_BEAR_FORM ENRAGE FERAL_CHARGE FEROCIOUS_BITE FRENZIED_REGENERATION GROWL LACERATE MAUL POUNCE PRIMAL_BITE PROWL RAKE RAVAGE RIP SHIFTING_POWER SHRED SWIPE TRACK_HUMANOIDS TRAVEL_FORM",
@@ -1620,7 +1620,7 @@ test("Shaman reconciliation registers the approved active catalogue", function()
 end)
 
 test("Shaman source is grouped and alphabetized by Forever specialization", function()
-    local source = assert(io.open("RPHelper Forever/Data/Abilities/Shaman.lua", "r")):read("*a")
+    local source = assert(io.open("RPHelperForever/Data/Abilities/Shaman.lua", "r")):read("*a")
     local specializations = {
         {
             "CALL_OF_THE_ANCESTORS", "CALL_OF_THE_ELEMENTS", "CALL_OF_THE_SPIRITS",
@@ -1672,7 +1672,7 @@ test("Shaman legacy archive preserves 42 reactions without active registration",
         "SPIRIT_LINK", "LIGHTNING_STRIKE", "EARTH_SHIELD", "BLOODLUST",
         "EARTHSHAKER_SLAM", "CALM_ELEMENTS", "TOTEMIC_SLAM", "FERAL_SPIRIT", "HEX",
     }
-    local archive = dofile("RPHelper Forever/Data/Abilities/ShamanArchive.lua")
+    local archive = dofile("RPHelperForever/Data/Abilities/ShamanArchive.lua")
     local parts, count = {}, 0
     for _, key in ipairs(order) do
         equal(RPHelper.Ability.SHAMAN[key], nil)
@@ -2764,11 +2764,11 @@ end)
 customTest("reload and unrelated additions preserve IDs while text edits get new identities", function()
     local previous = RPHelper.Content
     local ok, err = pcall(function()
-        RPHelper.Content = nil; dofile("RPHelper Forever/Core/Content.lua")
+        RPHelper.Content = nil; dofile("RPHelperForever/Core/Content.lua")
         RPHelper.RegisterGeneric("test_reload", { id = "default:test:0022", type = "say", text = "Original." })
         local id = RPHelper.GetGenericPool("test_reload")[1].defaultID
         truthy(User.SetDefaultDisabled(id, true))
-        RPHelper.Content = nil; dofile("RPHelper Forever/Core/Content.lua")
+        RPHelper.Content = nil; dofile("RPHelperForever/Core/Content.lua")
         RPHelper.RegisterGeneric("test_reload", { id = "default:test:0023", type = "say", text = "New addition." })
         RPHelper.RegisterGeneric("test_reload", { id = "default:test:0024", type = "say", text = "Original." })
         equal(RPHelper.GetGenericPool("test_reload")[2].defaultID, id)

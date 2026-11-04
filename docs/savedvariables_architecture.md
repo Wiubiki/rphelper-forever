@@ -36,6 +36,46 @@ work must not alter Druid speech suppression, activity routing,
 probability/frequency, cooldowns, encounter quotas, or successful-dispatch-only
 state consumption.
 
+## Addon identity and filename compatibility
+
+The technical addon identity is `RPHelperForever`: the installation directory and
+manifest are `RPHelperForever/RPHelperForever.toc`, and `ADDON_LOADED` and metadata
+lookups use that identity. The TOC title and in-game display remain **RPHelper Forever**.
+The Lua namespace remains `RPHelper`; the per-character declaration remains
+`## SavedVariablesPerCharacter: RPHelperDB`. Schema version 2, permanent reaction
+IDs, and every persisted field retain their existing meanings. No data migration
+or reset is needed once the client has loaded the existing `RPHelperDB` table.
+
+Changing the technical identity also changes the save-file basename. Keeping the
+global variable name alone does not make the client load a file belonging to an
+old addon identity. The usual WoW convention is a per-character
+`SavedVariables/<addon identity>.lua` file; this is described in the
+[first-hand SavedVariables explanation on the WoW forums](https://us.forums.blizzard.com/en/wow/t/saving-local-variables-between-sessions/380081/2).
+The actual Forever character directory and persistence behavior still require
+live-client verification; do not assume another WoW flavor's installation path.
+
+For a prerelease previously installed as `RPHelper` or `RPHelper Forever`:
+
+1. Exit the client fully and back up that character's actual SavedVariables
+   directory, including existing `.lua` and `.lua.bak` files.
+2. Copy the appropriate `RPHelper.lua` or `RPHelper Forever.lua` save file to
+   `RPHelperForever.lua` in the same character directory. Retain the source and
+   backups. Do not alter the `RPHelperDB` assignment or its contents. If a new-name
+   save file already exists, back up both and choose the intended dataset before
+   replacing anything; this change does not merge character databases.
+3. Install only the `RPHelperForever` program folder, removing the old program
+   folder from `Interface/AddOns` to prevent both versions loading the same global
+   namespace. The addon cannot discover old save files through the normal addon
+   API, so it does not attempt an automatic file transfer.
+4. Log in and verify the original settings, Custom entries, exclusions, and
+   weights. Reload, log out, and log back in to verify persistence under the new
+   filename. Confirm the addon is enabled in the character-screen addon list.
+
+The automated startup test verifies preservation of an already loaded schema-v2
+table, including unknown fields. It cannot prove client filesystem loading or
+writeback. These are explicit live-client checks, not an inferred compatibility
+guarantee for the prerelease.
+
 ## Approved schema version 2
 
 ```lua

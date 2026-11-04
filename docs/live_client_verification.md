@@ -38,7 +38,7 @@ players. Never work around a client restriction. A test result is **Pass**,
 3. Record the exact installation and `Interface/AddOns` directory selected by
    the launcher/client.
 4. Compare the numeric fourth value with the `## Interface` metadata in
-   `RPHelper Forever/RPHelper Forever.toc`.
+   `RPHelperForever/RPHelperForever.toc`.
 
 **Expected:** Authoritative evidence from the running Forever client identifies
 the build and numeric Interface value. The current v0.9 source TOC has no
@@ -56,12 +56,18 @@ output or error; addon directory; a text copy or screenshot of the build display
 
 ### A02 — Install the validated archive
 
-**Prerequisites:** The validated `RPHelper Forever-0.9.0-prerelease.zip` from Milestone
+**Prerequisites:** The validated `RPHelperForever-0.9.0-prerelease.zip` from Milestone
 5B and the addon directory from A01.
 
-**Actions:** Close the game, extract the ZIP, and place its single `RPHelper Forever`
+**Actions:** Close the game, extract the ZIP, and place its single `RPHelperForever`
 folder in `Interface/AddOns`. Confirm the final path is
-`Interface/AddOns/RPHelper Forever/RPHelper Forever.toc`, with no second nested `RPHelper Forever` folder.
+`Interface/AddOns/RPHelperForever/RPHelperForever.toc`, with no second nested `RPHelperForever` folder.
+
+For an old-name prerelease, first follow the
+[save-file copy procedure](savedvariables_architecture.md#addon-identity-and-filename-compatibility).
+Verify that original settings, Custom entries, exclusions, and weights survive
+reload and a fresh login under `RPHelperForever.lua`. Record the actual character
+SavedVariables directory and whether the addon needed to be re-enabled.
 
 **Expected:** One addon folder containing the TOC and all packaged Lua files;
 no repository, test, or audit files are installed.
@@ -297,7 +303,7 @@ the test characters, without account identifiers, and the state that leaked.
 
 **Prerequisites:** B09 passes and the same validated ZIP is available.
 
-**Actions:** Close the game. Replace only `Interface/AddOns/RPHelper` with a fresh
+**Actions:** Close the game. Replace only `Interface/AddOns/RPHelperForever` with a fresh
 extraction of the same validated archive. Do not remove SavedVariables. Restart
 and inspect the original character.
 

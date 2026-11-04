@@ -6,15 +6,18 @@ This checklist prepares a future release; it does not authorize publication.
 
 - [ ] Start from the reviewed release revision with a clean working tree.
 - [ ] Run all Lua suites, including `lua tests/test_manifest_startup.lua`.
-- [ ] Run `find 'RPHelper Forever' tests -type f -name '*.lua' -print0 | xargs -0 luac -p`.
+- [ ] Run `python3 -m unittest discover -s tests -p 'test_*.py'`.
+- [ ] Run `python3 scripts/export_content_inventory.py --check`; canonical exports
+  must remain unchanged.
+- [ ] Run `find RPHelperForever tests -type f -name '*.lua' -print0 | xargs -0 luac -p`.
 - [ ] Run `python3 scripts/package_addon.py build`.
 - [ ] Run `python3 scripts/package_addon.py validate`.
 - [ ] Record the filename, byte size, SHA-256, and 54-member inventory.
 - [ ] Confirm a repeated build reports `unchanged` and retains the same hash.
-- [ ] Inspect the extracted shape: `RPHelper Forever/RPHelper Forever.toc`, never a nested second
-  `RPHelper Forever` folder.
+- [ ] Inspect the extracted shape: `RPHelperForever/RPHelperForever.toc`, never a nested second
+  `RPHelperForever` folder.
 
-Expected filename: `RPHelper Forever-0.9.0-prerelease.zip`.
+Expected filename: `RPHelperForever-0.9.0-prerelease.zip`.
 
 ## Blocking compatibility and rights checks
 
@@ -30,11 +33,14 @@ Expected filename: `RPHelper Forever-0.9.0-prerelease.zip`.
   distribution; do not represent inherited catalogue text as MIT-licensed.
 - [ ] Perform a clean manual install and an update-over-existing-install check
   without deleting per-character SavedVariables.
+- [ ] When updating an old technical addon name, follow the
+  [save-file copy procedure](savedvariables_architecture.md#addon-identity-and-filename-compatibility)
+  and verify original character data after reload and a fresh login.
 
 ## GitHub Releases
 
 - [ ] Use a prerelease, not a stable V1.0 release.
-- [ ] Attach the exact validated `RPHelper Forever-0.9.0-prerelease.zip`.
+- [ ] Attach the exact validated `RPHelperForever-0.9.0-prerelease.zip`.
 - [ ] Verify the uploaded asset's SHA-256 against the local validated archive.
 - [ ] Add short release notes and the confirmed client target; do not claim
   broader compatibility.

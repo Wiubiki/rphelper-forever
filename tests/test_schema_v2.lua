@@ -8,11 +8,11 @@ local function equal(a, b) if a ~= b then error("expected " .. tostring(b) .. ",
 local function truthy(v) if not v then error("expected truthy value", 2) end end
 
 RPHelper = {}
-dofile("RPHelper Forever/Core/Defaults.lua")
-dofile("RPHelper Forever/Core/Database.lua")
-dofile("RPHelper Forever/Core/Configuration.lua")
+dofile("RPHelperForever/Core/Defaults.lua")
+dofile("RPHelperForever/Core/Database.lua")
+dofile("RPHelperForever/Core/Configuration.lua")
 RPHelper.ContentEngine = { ValidateEntry = function() return true end, PrepareCandidate = function(e) return e end }
-dofile("RPHelper Forever/Core/UserContent.lua")
+dofile("RPHelperForever/Core/UserContent.lua")
 local Config, User = RPHelper.Configuration, RPHelper.UserContent
 local scope = { layer = "generic", trigger = "dodge" }
 local entry = { type = "say", text = "Too slow!" }
