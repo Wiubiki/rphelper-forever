@@ -12,7 +12,7 @@ The separate [Shaman talent reference](https://wowforevertalent.com/shaman/refer
 
 The primary pages provide names, recorded ranks, learn levels, tooltip mechanics, and explicit talent acquisition notes, but do **not** expose numeric game spell IDs. Candidate IDs in the CSV therefore come from the repository's earlier research inventories and remain unverified candidates; blank cells are intentional. An empty acquisition field on the source is recorded as “Not stated by source,” not assumed to mean trainer-learned.
 
-Source B is the actual registration path in `RPHelper/Data/Abilities/Shaman.lua`: each `add(...)` call registers one authored reaction through `RPHelper.RegisterAbility`, while the final direct registrations establish definitions with empty shipped pools. It contains **60 canonical definitions and 230 reactions**: 161 `say`, 0 `emote`, and 69 `customemote`; six definitions have empty pools.
+Source B is the actual registration path in `RPHelper Forever/Data/Abilities/Shaman.lua`: each `add(...)` call registers one authored reaction through `RPHelper.RegisterAbility`, while the final direct registrations establish definitions with empty shipped pools. It contains **60 canonical definitions and 230 reactions**: 161 `say`, 0 `emote`, and 69 `customemote`; six definitions have empty pools.
 
 ## Totals
 
@@ -102,7 +102,7 @@ The owner subsequently approved the following production catalogue decisions. Th
 - Apply later beta evidence: Elemental Mastery has returned as the active Elemental capstone, while Lava Burst remains active at 26 points in Elemental. `ELEMENTAL_MASTERY` therefore remains an empty active definition. Current spell IDs, successful-cast payloads, and event behavior for both talents remain unverified, and no production mapping is added.
 - Preserve Reincarnation and its four reactions as a beta-confirmed passive exception. It is present in the catalogue but has no Shaman spell-ID mapping or ordinary spellcasting detection.
 - Remove the empty `ELEMENTAL_FOCUS` definition from the active catalogue because it is a passive/proc talent outside v1 direct-activation scope.
-- Move Bloodlust, Calm Elements, Earthshaker Slam, Earth Shield, Feral Spirit, Hex, Lightning Strike, Spirit Link, and Totemic Slam into the inactive `RPHelper/Data/Abilities/ShamanArchive.lua`. The archive preserves all 42 reactions, their types, text, and per-identity ordering, but is intentionally absent from the addon manifest and performs no registrations.
+- Move Bloodlust, Calm Elements, Earthshaker Slam, Earth Shield, Feral Spirit, Hex, Lightning Strike, Spirit Link, and Totemic Slam into the inactive `RPHelper Forever/Data/Abilities/ShamanArchive.lua`. The archive preserves all 42 reactions, their types, text, and per-identity ordering, but is intentionally absent from the addon manifest and performs no registrations.
 - Continue to exclude all General-tab entries from the v1 Shaman catalogue.
 
 The active Shaman source is organized by the Elemental, Enhancement, and Restoration spellbook specializations, with abilities alphabetized inside each section. Each ability has one heading containing all reactions or its direct empty-definition registration. Every empty definition includes commented, non-executing `say`, `emote`, and `customemote` authoring templates; authored abilities omit those unnecessary templates. The inactive archive remains separate and unloaded.

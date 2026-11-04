@@ -1,8 +1,8 @@
-# RPHelper
+# RPHelper Forever
 
-RPHelper is a roleplaying addon for World of Warcraft: Forever that adds contextual flavour through triggered sayings and emotes.
+RPHelper Forever is a roleplaying addon for World of Warcraft: Forever that adds contextual flavour through triggered sayings and emotes.
 
-The project carries forward the spirit of the original RoleplayingHelper addon. Development by Wiubiki began by adapting and porting that older addon for Turtle WoW, including compatibility work for Turtle-specific races and abilities. RPHelper for WoW Forever is a new implementation for the modern WoW addon environment rather than a direct code port.
+The project carries forward the spirit of the original RoleplayingHelper addon. I began by adapting and porting that older addon for [Turtle WoW](https://github.com/Wiubiki/RPhelper_twow), including compatibility work for Turtle-specific races and abilities. RPHelper Forever is a new implementation for the modern WoW addon environment rather than a direct code port.
 
 ## Goals
 
@@ -20,21 +20,23 @@ verified in the live client, and this is not a V1.0-stable release.
 
 ## Installation
 
-1. Extract `RPHelper-0.9.0-prerelease.zip`. It contains one folder named
-   `RPHelper`.
+1. Extract `RPHelper Forever-0.9.0-prerelease.zip`. It contains one folder named
+   `RPHelper Forever`.
 2. With the game closed, place that folder under the Forever client's addon
    directory, illustrated as `<WoW Forever installation>/Interface/AddOns/`.
    Use the installation location reported by the client or launcher rather than
    assuming a platform-specific path.
-3. Check that the result is `Interface/AddOns/RPHelper/RPHelper.toc`. Do not leave
-   an extra wrapper such as `Interface/AddOns/RPHelper/RPHelper/RPHelper.toc`.
-4. Start the client and confirm RPHelper appears in the character-screen addon
+3. Check that the result is `Interface/AddOns/RPHelper Forever/RPHelper Forever.toc`. Do not leave
+   an extra wrapper such as `Interface/AddOns/RPHelper Forever/RPHelper Forever/RPHelper Forever.toc`.
+4. Start the client and confirm RPHelper Forever appears in the character-screen addon
    list. This prerelease still requires live verification of the correct client
    Interface metadata; if it is marked incompatible or absent, report the client
    build rather than substituting another WoW flavor.
 5. Log in and use `/rph` to open the addon window.
 
-For an update, close the game and replace the installed `RPHelper` addon folder.
+For an update, close the game and replace the installed `RPHelper Forever` addon folder.
+If updating an older prerelease installed as `RPHelper`, remove that old program
+folder before installing `RPHelper Forever` to avoid loading both copies.
 Do not intentionally delete the client's per-character SavedVariables. Those are
 stored separately from the addon program files; back them up before prerelease
 testing when their exact Forever location has been confirmed.

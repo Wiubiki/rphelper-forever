@@ -12,7 +12,7 @@ The retrieved [changelog](https://wowforevertalent.com/changelog/) confirms Fros
 
 The pages expose ranks, learn levels, acquisition notes, cast/channel timing, reagents, and requirements, but not numeric spell IDs. Candidate IDs in the CSV come from the repository's earlier mixed-source inventory and remain unverified; blanks are intentional. Spellbook presence does not prove a readable successful-cast event.
 
-Source B is the actual registration path in `RPHelper/Data/Abilities/Mage.lua`. It defines **54 canonical identities and 134 authored reactions**: 80 `say`, zero `emote`, and 54 `customemote`. Every current definition has authored content; there are **no empty shipped pools**. This research changes none of them.
+Source B is the actual registration path in `RPHelper Forever/Data/Abilities/Mage.lua`. It defines **54 canonical identities and 134 authored reactions**: 80 `say`, zero `emote`, and 54 `customemote`. Every current definition has authored content; there are **no empty shipped pools**. This research changes none of them.
 
 ## Reconciliation totals
 

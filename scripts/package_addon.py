@@ -13,7 +13,7 @@ import zipfile
 
 
 REPOSITORY = Path(__file__).resolve().parents[1]
-ADDON_NAME = "RPHelper"
+ADDON_NAME = "RPHelper Forever"
 ADDON_DIR = REPOSITORY / ADDON_NAME
 TOC_PATH = ADDON_DIR / f"{ADDON_NAME}.toc"
 DIST_DIR = REPOSITORY / "dist"
@@ -100,8 +100,8 @@ def read_manifest() -> tuple[dict[str, str], list[PurePosixPath]]:
         entries.append(entry)
     if not entries:
         raise PackageError("manifest contains no Lua files")
-    if entries[-1] != PurePosixPath(f"{ADDON_NAME}.lua"):
-        raise PackageError(f"manifest startup entry must remain last: {ADDON_NAME}.lua")
+    if entries[-1] != PurePosixPath("RPHelper.lua"):
+        raise PackageError("manifest startup entry must remain last: RPHelper.lua")
     version = metadata.get("Version", "")
     if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]*", version):
         raise PackageError(f"missing or unsafe TOC Version metadata: {version!r}")

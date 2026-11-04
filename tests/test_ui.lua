@@ -128,7 +128,7 @@ UnitRace = function() return "Tauren", "TAUREN" end
 GetShapeshiftFormID = function() return 0 end
 C_AddOns = {
     GetAddOnMetadata = function(addon, field)
-        if addon == "RPHelper" and field == "Version" then return "0.9.0-prerelease" end
+        if addon == "RPHelper Forever" and field == "Version" then return "0.9.0-prerelease" end
     end,
 }
 CreateFrame = function(frameType, name, parent, template)
@@ -140,25 +140,25 @@ CreateFrame = function(frameType, name, parent, template)
 end
 
 RPHelper = {}
-dofile("RPHelper/Core/Defaults.lua")
-dofile("RPHelper/Core/Database.lua")
-dofile("RPHelper/Core/Configuration.lua")
-dofile("RPHelper/Core/KeywordResolvers.lua")
-dofile("RPHelper/Core/DruidForms.lua")
-dofile("RPHelper/Core/ContentEngine.lua")
-dofile("RPHelper/Core/Content.lua")
-dofile("RPHelper/Core/UserContent.lua")
-dofile("RPHelper/Core/RuntimeAPI.lua")
-dofile("RPHelper/Core/Diagnostics.lua")
-dofile("RPHelper/Core/Output.lua")
-dofile("RPHelper/Core/Runtime.lua")
-dofile("RPHelper/UI/Widgets.lua")
-dofile("RPHelper/UI/LibraryData.lua")
-dofile("RPHelper/UI/LibraryEditorData.lua")
-dofile("RPHelper/UI/LibraryPage.lua")
-dofile("RPHelper/UI/LibraryEditorPage.lua")
-dofile("RPHelper/UI/GuidePage.lua")
-dofile("RPHelper/UI/AboutPage.lua")
+dofile("RPHelper Forever/Core/Defaults.lua")
+dofile("RPHelper Forever/Core/Database.lua")
+dofile("RPHelper Forever/Core/Configuration.lua")
+dofile("RPHelper Forever/Core/KeywordResolvers.lua")
+dofile("RPHelper Forever/Core/DruidForms.lua")
+dofile("RPHelper Forever/Core/ContentEngine.lua")
+dofile("RPHelper Forever/Core/Content.lua")
+dofile("RPHelper Forever/Core/UserContent.lua")
+dofile("RPHelper Forever/Core/RuntimeAPI.lua")
+dofile("RPHelper Forever/Core/Diagnostics.lua")
+dofile("RPHelper Forever/Core/Output.lua")
+dofile("RPHelper Forever/Core/Runtime.lua")
+dofile("RPHelper Forever/UI/Widgets.lua")
+dofile("RPHelper Forever/UI/LibraryData.lua")
+dofile("RPHelper Forever/UI/LibraryEditorData.lua")
+dofile("RPHelper Forever/UI/LibraryPage.lua")
+dofile("RPHelper Forever/UI/LibraryEditorPage.lua")
+dofile("RPHelper Forever/UI/GuidePage.lua")
+dofile("RPHelper Forever/UI/AboutPage.lua")
 
 local longReaction = "This deliberately long authored reaction remains intact in the detail view so the player can read every part of its meaning, including the ending that would otherwise disappear from a short list row. "
     .. "The final words remain visible through bounded detail pagination."
@@ -202,8 +202,8 @@ for index = 1, 11 do
     })
 end
 
-dofile("RPHelper/UI/MainWindow.lua")
-dofile("RPHelper/Core/Commands.lua")
+dofile("RPHelper Forever/UI/MainWindow.lua")
+dofile("RPHelper Forever/Core/Commands.lua")
 
 local Config = RPHelper.Configuration
 local UI = RPHelper.UI
@@ -353,7 +353,7 @@ test("About uses metadata fallbacks and keeps external URLs selectable only", fu
 
     C_AddOns = {}
     GetAddOnMetadata = function(addon, field)
-        if addon == "RPHelper" and field == "Version" then return "0.8-legacy-api" end
+        if addon == "RPHelper Forever" and field == "Version" then return "0.8-legacy-api" end
     end
     page:Refresh()
     equal(page.VersionText:GetText(), "Version: 0.8-legacy-api")
@@ -486,7 +486,7 @@ test("saved choices survive UI module reload and reopen", function()
     truthy(Config.SetSetting("enabled", false))
 
     RPHelper.UI = nil
-    dofile("RPHelper/UI/MainWindow.lua")
+    dofile("RPHelper Forever/UI/MainWindow.lua")
     UI = RPHelper.UI
     UI.Initialize()
     UI.Open()
@@ -499,7 +499,7 @@ test("window background uses the older SetTexture color fallback", function()
     omitColorTexture = true
     RPHelper.UI = nil
     local ok, message = pcall(function()
-        dofile("RPHelper/UI/MainWindow.lua")
+        dofile("RPHelper Forever/UI/MainWindow.lua")
         RPHelper.UI.Initialize()
     end)
     omitColorTexture = false
@@ -792,7 +792,7 @@ test("library activation survives UI module reload", function()
     freshDatabase()
     truthy(UserContent.SetDefaultDisabled("default:test:generic:0001", true))
     RPHelper.UI = nil
-    dofile("RPHelper/UI/MainWindow.lua")
+    dofile("RPHelper Forever/UI/MainWindow.lua")
     UI = RPHelper.UI
     UI.Initialize()
     UI.Open("library")
@@ -1530,10 +1530,10 @@ test("addon startup initializes the UI and preserves runtime initialization", fu
     }
     SlashCmdList = {}
     local count = #frames
-    dofile("RPHelper/RPHelper.lua")
+    dofile("RPHelper Forever/RPHelper.lua")
     local eventFrame = frames[count + 1]
     truthy(eventFrame.registered.ADDON_LOADED)
-    eventFrame.scripts.OnEvent(eventFrame, "ADDON_LOADED", "RPHelper")
+    eventFrame.scripts.OnEvent(eventFrame, "ADDON_LOADED", "RPHelper Forever")
     equal(initializedFrame, eventFrame)
     equal(UI.GetWindow():IsShown(), false)
     equal(SLASH_RPHELPER1, "/rph")

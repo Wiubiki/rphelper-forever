@@ -12,7 +12,7 @@ The [changelog](https://wowforevertalent.com/changelog/) records client build 1.
 
 The sources expose names, ranks, levels, acquisition hints, costs, ranges, cast times, cooldowns, requirements, and tooltip effects, but no numeric spell IDs. They have not verified the spells in game. Spellbook presence does not establish learned availability, successful-cast readability, or event semantics.
 
-Repository evidence is the loaded `RPHelper/Data/Abilities/Paladin.lua`, `RPHelper/Data/Classes/Paladin.lua`, `RPHelper/Core/Content.lua`, the earlier coverage audit and inventory, and prior class reconciliation reports.
+Repository evidence is the loaded `RPHelper Forever/Data/Abilities/Paladin.lua`, `RPHelper Forever/Data/Classes/Paladin.lua`, `RPHelper Forever/Core/Content.lua`, the earlier coverage audit and inventory, and prior class reconciliation reports.
 
 ## Reconciliation totals
 

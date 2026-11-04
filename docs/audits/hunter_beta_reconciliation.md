@@ -12,7 +12,7 @@ The retrieved [changelog](https://wowforevertalent.com/changelog/) says talents 
 
 The source exposes ranks, levels, talent acquisition, ranges, timing, cooldowns, and requirements, but not numeric spell IDs. Candidate IDs in the CSV are carried from the earlier mixed-source research inventory and remain unverified; blanks are intentional. Spellbook presence does not prove that `UNIT_SPELLCAST_SUCCEEDED` supplies a readable, attributable event for any identity.
 
-Source B is the actual `RPHelper.RegisterAbility` path in `RPHelper/Data/Abilities/Hunter.lua`. It defines **49 canonical identities and 155 authored reactions**: 106 `say`, one `emote`, and 48 `customemote`. Every definition has authored content; there are **no empty shipped pools**. This research changes none of them.
+Source B is the actual `RPHelper.RegisterAbility` path in `RPHelper Forever/Data/Abilities/Hunter.lua`. It defines **49 canonical identities and 155 authored reactions**: 106 `say`, one `emote`, and 48 `customemote`. Every definition has authored content; there are **no empty shipped pools**. This research changes none of them.
 
 ## Reconciliation totals
 

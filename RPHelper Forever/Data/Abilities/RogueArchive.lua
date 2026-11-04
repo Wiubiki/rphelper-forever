@@ -1,6 +1,6 @@
 -- RPHelper Forever - inactive Rogue ability archive
 --
--- This file is intentionally not loaded by RPHelper.toc. It preserves legacy,
+-- This file is intentionally not loaded by RPHelper Forever.toc. It preserves legacy,
 -- passive and General-tab identities and authored content without runtime
 -- registration.
 

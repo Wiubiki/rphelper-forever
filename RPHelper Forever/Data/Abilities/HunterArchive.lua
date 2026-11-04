@@ -1,6 +1,6 @@
 -- RPHelper Forever - inactive Hunter ability archive
 --
--- This file is intentionally not loaded by RPHelper.toc. It preserves legacy
+-- This file is intentionally not loaded by RPHelper Forever.toc. It preserves legacy
 -- authored content for review and potential recovery without registering the
 -- abilities or reactions in the active catalogue.
 

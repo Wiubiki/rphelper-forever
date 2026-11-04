@@ -3,7 +3,7 @@ RPHelper.AboutPage = RPHelper.AboutPage or {}
 local AboutPage = RPHelper.AboutPage
 
 local Widgets = RPHelper.UIWidgets
-local ADDON_NAME = "RPHelper"
+local ADDON_NAME = "RPHelper Forever"
 local REPOSITORY_URL = "https://github.com/Wiubiki/rphelper-forever"
 local SUPPORT_URL = REPOSITORY_URL .. "/issues"
 

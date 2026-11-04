@@ -1,6 +1,6 @@
 -- RPHelper Forever - inactive Priest ability archive
 --
--- This file is intentionally not loaded by RPHelper.toc. It preserves legacy
+-- This file is intentionally not loaded by RPHelper Forever.toc. It preserves legacy
 -- and passive identities and authored content without runtime registration.
 
 return {

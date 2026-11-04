@@ -12,7 +12,7 @@ The retrieved [changelog](https://wowforevertalent.com/changelog/) confirms the 
 
 The primary pages expose ranks, levels, talent acquisition, reagents, timing, cooldowns, and requirements, but not numeric spell IDs. Candidate IDs in the CSV come from the earlier mixed-source research inventory and remain unverified; blanks are intentional. Spellbook or talent presence does not establish readable successful-cast events.
 
-Source B is the actual `RPHelper.RegisterAbility` path in `RPHelper/Data/Abilities/Warlock.lua`, including its consolidated empty-definition loop. It defines **58 canonical identities and 56 authored reactions**: 48 `say`, two `emote`, and six `customemote`. Twenty-six definitions have reactions and **32 have empty shipped pools**. This research changes none of them.
+Source B is the actual `RPHelper.RegisterAbility` path in `RPHelper Forever/Data/Abilities/Warlock.lua`, including its consolidated empty-definition loop. It defines **58 canonical identities and 56 authored reactions**: 48 `say`, two `emote`, and six `customemote`. Twenty-six definitions have reactions and **32 have empty shipped pools**. This research changes none of them.
 
 ## Reconciliation totals
 

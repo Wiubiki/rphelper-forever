@@ -1,4 +1,4 @@
-## Title: RPHelper
+## Title: RPHelper Forever
 ## Notes: Contextual roleplaying flavour through triggered sayings and emotes.
 ## Author: Wiubiki
 ## Version: 0.9.0-prerelease

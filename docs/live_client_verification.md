@@ -38,7 +38,7 @@ players. Never work around a client restriction. A test result is **Pass**,
 3. Record the exact installation and `Interface/AddOns` directory selected by
    the launcher/client.
 4. Compare the numeric fourth value with the `## Interface` metadata in
-   `RPHelper/RPHelper.toc`.
+   `RPHelper Forever/RPHelper Forever.toc`.
 
 **Expected:** Authoritative evidence from the running Forever client identifies
 the build and numeric Interface value. The current v0.9 source TOC has no
@@ -56,12 +56,12 @@ output or error; addon directory; a text copy or screenshot of the build display
 
 ### A02 — Install the validated archive
 
-**Prerequisites:** The validated `RPHelper-0.9.0-prerelease.zip` from Milestone
+**Prerequisites:** The validated `RPHelper Forever-0.9.0-prerelease.zip` from Milestone
 5B and the addon directory from A01.
 
-**Actions:** Close the game, extract the ZIP, and place its single `RPHelper`
+**Actions:** Close the game, extract the ZIP, and place its single `RPHelper Forever`
 folder in `Interface/AddOns`. Confirm the final path is
-`Interface/AddOns/RPHelper/RPHelper.toc`, with no second nested `RPHelper` folder.
+`Interface/AddOns/RPHelper Forever/RPHelper Forever.toc`, with no second nested `RPHelper Forever` folder.
 
 **Expected:** One addon folder containing the TOC and all packaged Lua files;
 no repository, test, or audit files are installed.

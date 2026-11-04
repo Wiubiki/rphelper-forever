@@ -3,7 +3,7 @@
 ## Scope and method
 
 This read-only audit compares the retained Turtle WoW implementation in
-`../../RPhelper_twow/` with the loaded files listed by `RPHelper/RPHelper.toc` and
+`../../RPhelper_twow/` with the loaded files listed by `RPHelper Forever/RPHelper Forever.toc` and
 Forever's `KeywordResolvers`, `ContentEngine`, runtime context builder, tests,
 and user-content documentation. Historical ability archives are not loaded and
 were excluded from shipped-content counts.
@@ -350,7 +350,7 @@ unit token.
 
 Implemented by `feat/legacy-random-insults` after this audit:
 
-- `RPHelper/Data/RandomInsults.lua` installs a production provider through the
+- `RPHelper Forever/Data/RandomInsults.lua` installs a production provider through the
   existing `ContentEngine.SetInsultProvider` extension point. The file is
   loaded before reaction data and does not register reactions or change default
   identities.

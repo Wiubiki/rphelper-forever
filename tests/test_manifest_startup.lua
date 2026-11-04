@@ -83,7 +83,7 @@ local function readManifest(tocPath)
             truthy(not trimmed:match("^/") and not trimmed:match("%.%.") and not trimmed:match("\\"),
                 "unsafe local Lua TOC entry: " .. trimmed)
             truthy(not seen[trimmed], "duplicate Lua TOC entry: " .. trimmed)
-            local file = io.open("RPHelper/" .. trimmed, "r")
+            local file = io.open("RPHelper Forever/" .. trimmed, "r")
             truthy(file, "missing Lua file declared by TOC: " .. trimmed)
             file:close()
             seen[trimmed] = true
@@ -92,10 +92,10 @@ local function readManifest(tocPath)
     end
     handle:close()
 
-    local finder = io.popen("find RPHelper -type f -name '*.lua' -print")
+    local finder = io.popen("find 'RPHelper Forever' -type f -name '*.lua' -print")
     truthy(finder, "cannot enumerate production Lua files")
     for path in finder:lines() do
-        local entry = path:match("^RPHelper/(.+)$")
+        local entry = path:match("^RPHelper Forever/(.+)$")
         if entry and not entry:match("Archive%.lua$") then
             truthy(seen[entry], "production Lua file omitted from TOC: " .. entry)
         end
@@ -106,9 +106,10 @@ local function readManifest(tocPath)
 end
 
 test("real manifest loads the complete addon in order and starts all implemented paths", function()
-    local tocPath = "RPHelper/RPHelper.toc"
+    local tocPath = "RPHelper Forever/RPHelper Forever.toc"
     local addonIdentity = tocPath:match("^([^/]+)/[^/]+%.toc$")
-    equal(addonIdentity, "RPHelper", "unexpected addon identity derived from TOC path")
+    equal(addonIdentity, "RPHelper Forever", "unexpected addon identity derived from TOC path")
+    equal(tocPath:match("/([^/]+)%.toc$"), addonIdentity, "TOC filename must match the addon folder")
     local entries = readManifest(tocPath)
 
     UIParent = newWidget("Frame", "UIParent")
@@ -141,7 +142,7 @@ test("real manifest loads the complete addon in order and starts all implemented
     RPHelperDB = nil
 
     for index, entry in ipairs(entries) do
-        local chunk, loadError = loadfile("RPHelper/" .. entry)
+        local chunk, loadError = loadfile("RPHelper Forever/" .. entry)
         truthy(chunk, "manifest entry " .. index .. " cannot compile (" .. entry .. "): " .. tostring(loadError))
         local loaded, runtimeError = pcall(chunk)
         truthy(loaded, "manifest load failed at entry " .. index .. " (" .. entry .. "): "

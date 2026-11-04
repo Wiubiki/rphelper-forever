@@ -6,15 +6,15 @@ This checklist prepares a future release; it does not authorize publication.
 
 - [ ] Start from the reviewed release revision with a clean working tree.
 - [ ] Run all Lua suites, including `lua tests/test_manifest_startup.lua`.
-- [ ] Run `find RPHelper tests -type f -name '*.lua' -print0 | xargs -0 luac -p`.
+- [ ] Run `find 'RPHelper Forever' tests -type f -name '*.lua' -print0 | xargs -0 luac -p`.
 - [ ] Run `python3 scripts/package_addon.py build`.
 - [ ] Run `python3 scripts/package_addon.py validate`.
 - [ ] Record the filename, byte size, SHA-256, and 54-member inventory.
 - [ ] Confirm a repeated build reports `unchanged` and retains the same hash.
-- [ ] Inspect the extracted shape: `RPHelper/RPHelper.toc`, never a nested second
-  `RPHelper` folder.
+- [ ] Inspect the extracted shape: `RPHelper Forever/RPHelper Forever.toc`, never a nested second
+  `RPHelper Forever` folder.
 
-Expected filename: `RPHelper-0.9.0-prerelease.zip`.
+Expected filename: `RPHelper Forever-0.9.0-prerelease.zip`.
 
 ## Blocking compatibility and rights checks
 
@@ -34,7 +34,7 @@ Expected filename: `RPHelper-0.9.0-prerelease.zip`.
 ## GitHub Releases
 
 - [ ] Use a prerelease, not a stable V1.0 release.
-- [ ] Attach the exact validated `RPHelper-0.9.0-prerelease.zip`.
+- [ ] Attach the exact validated `RPHelper Forever-0.9.0-prerelease.zip`.
 - [ ] Verify the uploaded asset's SHA-256 against the local validated archive.
 - [ ] Add short release notes and the confirmed client target; do not claim
   broader compatibility.

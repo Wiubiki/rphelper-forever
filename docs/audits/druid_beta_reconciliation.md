@@ -12,7 +12,7 @@ The retrieved [changelog](https://wowforevertalent.com/changelog/) contains no p
 
 The primary pages expose names, ranks, learn levels, acquisition notes, form requirements, and activation mechanics, but not numeric game spell IDs. Candidate IDs in the CSV are supplementary values from the repository's earlier audit inventories and remain unverified candidates. Blank ID cells are intentional. Neither source establishes readable successful-cast events in WoW Forever.
 
-Source B is the actual `RPHelper.RegisterAbility` path in `RPHelper/Data/Abilities/Druid.lua`. It currently defines **55 canonical identities and 28 authored reactions**: 14 `say`, five `emote`, and nine `customemote`; **42 definitions have empty shipped pools**. The research does not change any definition or reaction.
+Source B is the actual `RPHelper.RegisterAbility` path in `RPHelper Forever/Data/Abilities/Druid.lua`. It currently defines **55 canonical identities and 28 authored reactions**: 14 `say`, five `emote`, and nine `customemote`; **42 definitions have empty shipped pools**. The research does not change any definition or reaction.
 
 ## Reconciliation totals
 
@@ -77,9 +77,9 @@ No content transfer is involved today because Savage Bite's shipped pool is empt
 
 The ability catalogue and form reaction pools are separate systems:
 
-- `RPHelper/Data/Abilities/Druid.lua` contains ability-triggered reactions.
-- `RPHelper/Data/Classes/Druid.lua` contains 32 form-specific contextual reactions: 11 Cat, 11 Bear, and 10 Moonkin. Dire Bear intentionally shares the Bear pool.
-- `RPHelper/Core/DruidForms.lua` recognizes Cat, Bear, Dire Bear, Moonkin, Travel, and Aquatic forms, plus Humanoid and Unknown. Recognition of a form does not create a corresponding ability identity.
+- `RPHelper Forever/Data/Abilities/Druid.lua` contains ability-triggered reactions.
+- `RPHelper Forever/Data/Classes/Druid.lua` contains 32 form-specific contextual reactions: 11 Cat, 11 Bear, and 10 Moonkin. Dire Bear intentionally shares the Bear pool.
+- `RPHelper Forever/Core/DruidForms.lua` recognizes Cat, Bear, Dire Bear, Moonkin, Travel, and Aquatic forms, plus Humanoid and Unknown. Recognition of a form does not create a corresponding ability identity.
 
 No form-pool content should be duplicated into Cat Form, Bear Form, Dire Bear Form, Moonkin Form, Travel Form, or Aquatic Form ability pools. Form pools respond to contextual triggers such as entering combat, critical hits, dodges, damage, and leaving combat; an ability pool would respond to a successful activation and has different semantics.
 

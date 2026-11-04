@@ -55,9 +55,9 @@ remain unchanged, and no mapping has yet gained RPHelper live verification.
 | **D — catalogue only** | Authored reactions exist, but there is no reviewed executable detector/mapping path for the current canonical identity. |
 | **E — excluded or deferred** | The mechanism is explicitly outside the current adapter, the shipped pool is empty, or the trigger family is intentionally deferred/unsupported. |
 
-The inventory was derived from the files loaded by [`RPHelper.toc`](../../RPHelper/RPHelper.toc),
+The inventory was derived from the files loaded by [`RPHelper Forever.toc`](../../RPHelper%20Forever/RPHelper%20Forever.toc),
 the canonical definitions and registered pools in `Data/Abilities/*.lua`, the
-runtime allowlist in [`RuntimeAPI.lua`](../../RPHelper/Core/RuntimeAPI.lua), and the
+runtime allowlist in [`RuntimeAPI.lua`](../../RPHelper%20Forever/Core/RuntimeAPI.lua), and the
 prior [ability spell-mapping audit](ability_spell_mapping_audit.md). Archive
 files are not loaded and are not active catalogue definitions. Existing audit
 labels such as “Verified” refer to third-party observations unless explicitly
@@ -77,7 +77,7 @@ this milestone.
 
 | Event | Registration | Production handling | Failure behavior | Verification |
 | --- | --- | --- | --- | --- |
-| `ADDON_LOADED` | Direct on the addon frame at file load | Exact `RPHelper` payload initializes database, slash/UI, then runtime | A direct registration error is not caught | Mocked only; live load pending |
+| `ADDON_LOADED` | Direct on the addon frame at file load | Exact `RPHelper Forever` payload initializes database, slash/UI, then runtime | A direct registration error is not caught | Mocked only; live load pending |
 | `PLAYER_REGEN_DISABLED` | Direct in `Runtime.Initialize` | Maps to `entercombat`; begins encounter before policy evaluation | A direct registration error is not caught | Mocked only; live timing pending |
 | `PLAYER_REGEN_ENABLED` | Direct in `Runtime.Initialize` | Maps to `leavecombat`; evaluates exit before encounter reset | A direct registration error is not caught | Mocked only; live timing pending |
 | `UNIT_COMBAT` | Protected ordinary registration through `RegisterDefensiveEvents` | Classifies only exact readable player `DODGE`, `PARRY`, `BLOCK` during an active encounter | Registration failure disables defensive detection while transitions continue | Mocked only; live registration/payload pending |
@@ -192,7 +192,7 @@ because the success payload is not correlated to a safe relevant target.
 
 | API/event assumption | Current safeguard | Evidence | Required live check |
 | --- | --- | --- | --- |
-| `ADDON_LOADED` identifies `RPHelper` and loaded modules are ready | Exact addon-name check before initialization | Existing behavior and mocked frame test | Current Forever load order and error-free startup |
+| `ADDON_LOADED` identifies `RPHelper Forever` and loaded modules are ready | Exact addon-name check before initialization | Existing behavior and mocked frame test | Current Forever load order and error-free startup |
 | Ordinary `RegisterEvent` accepts combat, unit-combat, and cast-success events | Defensive/ability registration is protected; transition registration is direct | Modern/Forever documentation and mocks | Registration success/failure on target build |
 | `PLAYER_REGEN_DISABLED/ENABLED` are reliable encounter boundaries | Duplicate transitions rejected; current combat queried on init | Established API, no RPHelper live capture | Login/reload in combat, rapid re-entry, delayed feedback |
 | `UNIT_COMBAT(unitTarget, action, ...)` exposes readable exact player/action | Required fields pass `issecretvalue == false`; unused fields ignored | Third-party Forever observations plus mocked classifier | Open world, dungeon, raid/PvP secrecy; aliases; direct/partial block; pets/vehicles |

@@ -43,7 +43,7 @@ source or substitute restricted combat-log events or deprecated APIs.
 Sources inspected: [product specification](../product_spec.md),
 [content-engine contract](../content_engine.md),
 [runtime API assumptions](../runtime_api_assumptions.md),
-`RPHelper/RPHelper.lua`, `Core/Runtime.lua`, `Core/RuntimeAPI.lua`,
+`RPHelper Forever/RPHelper.lua`, `Core/Runtime.lua`, `Core/RuntimeAPI.lua`,
 `Core/Defaults.lua`, and the relevant generic content registrations.
 
 At the initial audit, only combat entry/exit events were registered and forwarded.

@@ -23,7 +23,7 @@ evidence of an initialization failure, incorrect event name, policy-order
 contradiction, persistence overwrite, UI/runtime configuration split, or route
 that bypasses raid or Druid restrictions.
 
-The principal offline coverage gap is that no test reads `RPHelper.toc` and loads
+The principal offline coverage gap is that no test reads `RPHelper Forever.toc` and loads
 the complete addon in exactly that declared order. Existing suites collectively
 load every production Lua file, exercise the entry point, and preserve the same
 dependency ordering in their relevant fixtures, so this is a regression risk
@@ -171,7 +171,7 @@ Initial controlled live-client testing can begin now; no confirmed defect blocks
 it. Before Milestone 5B packaging, perform one small offline follow-up rather than
 a broad test rewrite:
 
-1. Add a manifest-driven mocked smoke test that reads `RPHelper.toc`, loads every
+1. Add a manifest-driven mocked smoke test that reads `RPHelper Forever.toc`, loads every
    declared Lua file exactly once in order, sends `ADDON_LOADED`, and asserts the
    database, UI, slash command, and four event registrations initialize.
 2. In the same focused task, add one end-to-end UI-to-runtime scenario covering a
@@ -196,7 +196,7 @@ Commands were run with Lua 5.5.1 from the audited branch:
 | `lua tests/test_ui.lua` | **PASS — 50 tests** |
 | `lua tests/test_diagnostics.lua` | **PASS — 9 tests** |
 | Total | **PASS — 309 tests, 0 failures** |
-| `luac -p` over `RPHelper/` and `tests/` | **PASS — 62 files, 0 failures** |
+| `luac -p` over `RPHelper Forever/` and `tests/` | **PASS — 62 files, 0 failures** |
 
 Final whitespace, link, protected-file, and diff checks are recorded in the
 generated `tmp/review.txt` review artifact.
@@ -205,7 +205,7 @@ generated `tmp/review.txt` review artifact.
 
 The two actionable offline integration gaps identified above are now covered:
 
-- `tests/test_manifest_startup.lua` parses the real `RPHelper/RPHelper.toc`
+- `tests/test_manifest_startup.lua` parses the real `RPHelper Forever/RPHelper Forever.toc`
   without maintaining a second entry list. It rejects missing, duplicate,
   unsafe, or malformed Lua entries; detects non-archive production Lua files
   omitted from the manifest; loads every declared file in manifest order; and

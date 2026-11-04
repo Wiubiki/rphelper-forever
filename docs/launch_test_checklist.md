@@ -9,7 +9,7 @@ normal loading.
 
 - [ ] Record Forever version/build, full `GetBuildInfo()` evidence, numeric
   Interface value, and exact addon directory (A01).
-- [ ] Confirm `Interface/AddOns/RPHelper/RPHelper.toc`, with no nested duplicate
+- [ ] Confirm `Interface/AddOns/RPHelper Forever/RPHelper Forever.toc`, with no nested duplicate
   folder (A02).
 - [ ] Find RPHelper `0.9.0-prerelease` in the character-screen addon list; record
   any incompatible/missing status without forcing it to load (A03).

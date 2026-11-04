@@ -14,7 +14,7 @@ Candidate IDs are inherited from the earlier mixed-source inventory and are not 
 
 ## Existing RPHelper pet content
 
-`RPHelper/Data/Classes/Hunter.lua` uses `RPHelper.RegisterClass` to define three generic pet-event pools:
+`RPHelper Forever/Data/Classes/Hunter.lua` uses `RPHelper.RegisterClass` to define three generic pet-event pools:
 
 | Trigger | `say` | `emote` | `customemote` | Total |
 | --- | ---: | ---: | ---: | ---: |

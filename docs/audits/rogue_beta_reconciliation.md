@@ -12,7 +12,7 @@ The retrieved [changelog](https://wowforevertalent.com/changelog/) confirms that
 
 The spellbook exposes rank labels, learn levels, talent acquisition, requirements, resources, cast times, cooldowns, and reagents, but no numeric spell IDs. Candidate IDs in the CSV come from the earlier mixed-source audit and remain unverified; blanks are intentional. Spellbook or talent presence does not establish a readable successful-cast event.
 
-Source B is the actual `RPHelper.RegisterAbility` path in `RPHelper/Data/Abilities/Rogue.lua`, including its consolidated empty-definition loop. It defines **49 canonical identities and four authored ability reactions**: two `say`, zero `emote`, and two `customemote`. Four definitions have reactions and **45 have empty shipped pools**. `RPHelper/Data/Classes/Rogue.lua` separately contains **40 class-trigger reactions**: 39 `say` and one `emote`. Research does not reassign either content layer.
+Source B is the actual `RPHelper.RegisterAbility` path in `RPHelper Forever/Data/Abilities/Rogue.lua`, including its consolidated empty-definition loop. It defines **49 canonical identities and four authored ability reactions**: two `say`, zero `emote`, and two `customemote`. Four definitions have reactions and **45 have empty shipped pools**. `RPHelper Forever/Data/Classes/Rogue.lua` separately contains **40 class-trigger reactions**: 39 `say` and one `emote`. Research does not reassign either content layer.
 
 ## Reconciliation totals
 

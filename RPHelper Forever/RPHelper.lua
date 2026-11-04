@@ -5,7 +5,7 @@ frame:RegisterEvent("ADDON_LOADED")
 
 frame:SetScript("OnEvent", function(_, event, ...)
     local addonName = ...
-    if event == "ADDON_LOADED" and addonName == "RPHelper" then
+    if event == "ADDON_LOADED" and addonName == "RPHelper Forever" then
         RPHelper.InitializeDatabase()
 
         SLASH_RPHELPER1 = "/rph"

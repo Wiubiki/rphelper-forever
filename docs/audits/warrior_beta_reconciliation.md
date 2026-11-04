@@ -12,7 +12,7 @@ The retrieved [changelog](https://wowforevertalent.com/changelog/) records the 2
 
 The primary pages expose names, ranks, train levels, acquisition notes, stance and weapon requirements, and activation timing, but not numeric game spell IDs. Candidate IDs in the CSV come from the repository's earlier mixed-source research inventory and remain unverified candidates; blank cells are intentional. Neither source proves readable successful-cast events in WoW Forever.
 
-Source B is the actual `RPHelper.RegisterAbility` path in `RPHelper/Data/Abilities/Warrior.lua`. It defines **43 canonical identities and 21 authored reactions**: six `say`, six `emote`, and nine `customemote`; **31 definitions have empty shipped pools**. This research changes none of them.
+Source B is the actual `RPHelper.RegisterAbility` path in `RPHelper Forever/Data/Abilities/Warrior.lua`. It defines **43 canonical identities and 21 authored reactions**: six `say`, six `emote`, and nine `customemote`; **31 definitions have empty shipped pools**. This research changes none of them.
 
 ## Reconciliation totals
 

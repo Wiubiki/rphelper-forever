@@ -17,7 +17,7 @@ Firebolt, Torment, Suffering, Lash of Pain, Soothing Kiss, and several utility s
 
 ## Existing demon-related content
 
-`RPHelper/Data/Classes/Warlock.lua` registers three generic pet-event pools:
+`RPHelper Forever/Data/Classes/Warlock.lua` registers three generic pet-event pools:
 
 | Trigger | `say` | `emote` | `customemote` | Total |
 | --- | ---: | ---: | ---: | ---: |
