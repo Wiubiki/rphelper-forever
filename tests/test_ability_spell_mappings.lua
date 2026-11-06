@@ -9,18 +9,26 @@ local function test(name, callback)
 end
 
 RPHelper = {}
+dofile("RPHelperForever/Core/Defaults.lua")
+dofile("RPHelperForever/Core/Database.lua")
+dofile("RPHelperForever/Core/Configuration.lua")
+dofile("RPHelperForever/Core/KeywordResolvers.lua")
 dofile("RPHelperForever/Core/DruidForms.lua")
+dofile("RPHelperForever/Core/ContentEngine.lua")
 dofile("RPHelperForever/Core/Content.lua")
+dofile("RPHelperForever/Core/UserContent.lua")
 dofile("RPHelperForever/Core/RuntimeAPI.lua")
-dofile("RPHelperForever/Data/Abilities/Paladin.lua")
-dofile("RPHelperForever/Data/Abilities/Shaman.lua")
+for _, class in ipairs({ "Warrior", "Rogue", "Hunter", "Shaman", "Druid", "Paladin", "Mage", "Priest", "Warlock" }) do
+    dofile("RPHelperForever/Data/Abilities/" .. class .. ".lua")
+end
 dofile("RPHelperForever/Data/AbilitySpellMappings.lua")
 local Mappings = RPHelper.AbilitySpellMappings
+dofile("RPHelperForever/UI/LibraryData.lua")
 
 local function record(id, ability, class)
     if ability == nil then ability = "HEALING_WAVE" end
     return { class = class or "SHAMAN", spellID = id, ability = ability,
-        mechanism = "player_success", evidence = "owner_reported_success", evidenceRef = "test fixture" }
+        mechanism = "player_success", evidence = "owner_reported_success", evidenceTier = "A", evidenceRef = "test fixture" }
 end
 local function rejected(records, reason)
     local index, err = Mappings.BuildIndex(records, RPHelper.Ability)
@@ -28,22 +36,29 @@ local function rejected(records, reason)
     equal(err, reason)
 end
 
-test("bundled records compile to exactly the four authorized class and ID pairs", function()
+test("every bundled record resolves exactly with honest evidence and cross-class isolation", function()
     equal(Mappings.validationError, nil)
-    equal(#Mappings.Records, 4)
-    local expected = { PALADIN = { [19750] = "FLASH_OF_LIGHT", [20288] = "SEAL_OF_RIGHTEOUSNESS" },
-        SHAMAN = { [325] = "LIGHTNING_SHIELD", [547] = "HEALING_WAVE" } }
-    local count = 0
-    for class, spells in pairs(RPHelper.RuntimeAPI.AbilitySpellIDs) do
-        for id, ability in pairs(spells) do
-            equal(ability, expected[class] and expected[class][id])
-            count = count + 1
-        end
-    end
-    equal(count, 4)
+    equal(#Mappings.Records, 1168)
+    local classes = { "WARRIOR", "ROGUE", "HUNTER", "SHAMAN", "DRUID", "PALADIN", "MAGE", "PRIEST", "WARLOCK" }
+    local previousInspection = issecretvalue
+    issecretvalue = function() return false end
+    local observed = 0
     for _, row in ipairs(Mappings.Records) do
-        equal(row.evidence, row.class == "PALADIN" and "third_party_success" or "owner_reported_success")
+        equal(RPHelper.RuntimeAPI.ClassifySpellcastSucceeded("player", nil, row.spellID, row.class), row.ability)
+        equal(row.evidenceTier, row.evidence == "owner_reported_success" and "A" or "B")
+        if row.evidenceTier == "A" then
+            observed = observed + 1
+            equal(row.class, "SHAMAN")
+            equal(row.spellID == 325 or row.spellID == 547, true)
+        end
+        for _, other in ipairs(classes) do
+            equal(RPHelper.RuntimeAPI.ClassifySpellcastSucceeded("player", nil, row.spellID, other),
+                (RPHelper.RuntimeAPI.AbilitySpellIDs[other] or {})[row.spellID])
+        end
+        equal(RPHelper.RuntimeAPI.ClassifySpellcastSucceeded("pet", nil, row.spellID, row.class), nil)
     end
+    equal(observed, 2)
+    issecretvalue = previousInspection
 end)
 
 test("multiple explicit rank records resolve to the same canonical ability", function()
@@ -53,6 +68,39 @@ test("multiple explicit rank records resolve to the same canonical ability", fun
     equal(index.SHAMAN[900001], "HEALING_WAVE")
     equal(index.SHAMAN[900002], "HEALING_WAVE")
     equal(RPHelper.RuntimeAPI.AbilitySpellIDs.SHAMAN[900001], nil)
+end)
+
+test("real reviewed ranks and every mapped Library group share the authoritative index", function()
+    equal(RPHelper.RuntimeAPI.AbilitySpellIDs.MAGE[133], "FIREBALL")
+    equal(RPHelper.RuntimeAPI.AbilitySpellIDs.MAGE[143], "FIREBALL")
+    equal(RPHelper.RuntimeAPI.AbilitySpellIDs.SHAMAN[331], "HEALING_WAVE")
+    equal(RPHelper.RuntimeAPI.AbilitySpellIDs.SHAMAN[547], "HEALING_WAVE")
+    RPHelperDB = nil
+    RPHelper.InitializeDatabase()
+    local pairsSeen, classes = {}, {}
+    for _, row in ipairs(Mappings.Records) do
+        local pair = row.class .. ":" .. row.ability
+        classes[row.class] = true
+        if not pairsSeen[pair] then
+            pairsSeen[pair] = true
+            if #RPHelper.GetAbilityPool(row.class, row.ability) == 0 then
+                local id = RPHelper.UserContent.Add({ layer = "ability", class = row.class, ability = row.ability },
+                    { type = "say", text = "Mapping support fixture." })
+                equal(type(id), "string")
+            end
+        end
+    end
+    for class in pairs(classes) do
+        local model = RPHelper.LibraryData.BuildSection("class", { class = class, race = "HUMAN" })
+        for _, row in ipairs(Mappings.Records) do
+            if row.class == class then
+                local group = RPHelper.LibraryData.FindGroup(model, "ability:" .. class .. ":" .. row.ability)
+                equal(type(group), "table")
+                equal(group.settings.detected, true)
+                equal(group.settings.configKey, row.ability)
+            end
+        end
+    end
 end)
 
 test("duplicate declarations and conflicting assignments both reject the whole index", function()
@@ -98,6 +146,12 @@ test("deferred mechanisms and missing or upgraded evidence cannot compile", func
     rejected({ row }, "missing_evidence")
     row = record(547); row.evidence = "all_ranks_verified"
     rejected({ row }, "missing_evidence")
+    row = record(547); row.evidence = "forever_reviewed"; row.evidenceTier = "A"
+    rejected({ row }, "missing_evidence") -- Source agreement cannot become a live capture.
+    row.evidenceTier = "B"
+    local index, err = Mappings.BuildIndex({ row }, RPHelper.Ability)
+    equal(err, nil)
+    equal(index.SHAMAN[547], "HEALING_WAVE")
 end)
 
 test("invalid bundled data disables mappings atomically without breaking the adapter", function()

@@ -48,9 +48,10 @@ reserved for an intended inventory update.
 The [ability detection architecture proposal](ability_detection_architecture.md)
 and its [verification inventory](audits/ability_detection_verification_inventory.csv)
 describe a proposed expansion path after the first live success-event findings.
-The approved [mapping milestone 1](ability_detection_milestone_1.md) implements
-the static foundation and exactly two Shaman IDs; discovery remains deferred.
-The local test build awaits manual live-client acceptance.
+The owner accepted the two Shaman paths in [milestone 1](ability_detection_milestone_1.md).
+[Milestone 2](ability_detection_milestone_2.md) expands the static data across all
+nine classes with per-ID A/B/C decisions. Its B mappings await manual acceptance;
+discovery remains deferred.
 
 ## Licensing and attribution
 
@@ -72,11 +73,13 @@ The runtime detects five generic triggers: combat entry, combat exit, player
 Dodge, Parry, and direct Block. Offensive `youcrit`, death, resurrection, level,
 killing-blow, monster, pet, and NPC pools may be browsable or authored without a
 production detector. Ability browsing likewise does not imply runtime support:
-only Paladin Flash of Light spell ID `19750`, Seal of Righteousness `20288`,
-Shaman Lightning Shield `325`, and Healing Wave Rank 3 `547` are runtime-mapped.
-These are validated static records in `Data/AbilitySpellMappings.lua`, shared
-by the runtime and Library. Unknown IDs, other ranks, and all other browsable
-abilities remain unmapped. Detected ability status means mapped IDs only.
+the controlled expanded test build maps 1,168 exact IDs across 366 abilities in
+all nine classes. Two Shaman IDs have owner-reported live acceptance; the other
+1,166 use reviewed Forever evidence and are not RPHelper-live-verified. Validated
+static records in `Data/AbilitySpellMappings.lua` are shared by runtime and Library.
+Unknown/excluded IDs remain unmapped. Detected status means mapped IDs only;
+consult the [per-ID decisions](audits/ability_mapping_expansion_review.csv) for
+rank coverage and evidence.
 
 Schema v2 settings and content are character-specific. Built-in catalogue data
 is immutable; disabling or weighting it stores a sparse override, and Modify
@@ -98,8 +101,8 @@ SavedVariables persistence across a real logout, reload, and addon update. See
 [runtime API assumptions](runtime_api_assumptions.md), the [combat audit](audits/combat_trigger_api_audit.md),
 and the [spellcasting audit](spell_casting_api_audit.md). No workaround for
 client restrictions is intended. The TOC uses owner-tested Interface `16001`;
-the two Shaman IDs have reported readable events, while the mapped reaction path
-still needs the [milestone acceptance pass](ability_detection_milestone_1.md#live-client-acceptance).
+the owner accepted the two original Shaman paths. Expanded B mappings still need
+the [milestone 2 samples and acceptance pass](ability_detection_milestone_2.md#recommended-live-samples).
 
 Use the operational [live-client verification guide](live_client_verification.md)
 for reproducible test cases and evidence capture. The compact [launch-session
@@ -136,7 +139,8 @@ The deterministic local package command is
 `python3 scripts/package_addon.py validate`. These prepare an ignored local ZIP
 under `dist/` but do not publish it. Use `build --output <path>` and
 `validate <path>` for a named test archive; milestone 1 uses
-`dist/RPHelperForever-0.9.0-mapping-test.zip`. Keep reports and review artifacts in
+`dist/RPHelperForever-0.9.0-mapping-test.zip`; milestone 2 uses
+`dist/RPHelperForever-0.9.0-mapping-expanded-test.zip`. Keep review artifacts in
 `tmp/`. Required distribution notices remain included; development docs/tests
 are excluded. Marketing copy and screenshots remain outside this
 milestone and should summarize rather than duplicate the in-game Guide.
@@ -170,6 +174,7 @@ dated. No file is proposed for deletion.
 | [runtime_api_assumptions.md](runtime_api_assumptions.md) | Active reference | Keep directly under `docs/`; current adapter and live-test boundaries. |
 | [ability_detection_architecture.md](ability_detection_architecture.md) | Design proposal | Original architecture baseline; static foundation implemented in milestone 1, broader discovery remains a proposal. |
 | [ability_detection_milestone_1.md](ability_detection_milestone_1.md) | Active reference | Four-ID static mapping implementation, evidence limits, local packaging and exact manual acceptance steps. |
+| [ability_detection_milestone_2.md](ability_detection_milestone_2.md) | Active reference | Reviewed nine-class expansion, per-ID A/B/C evidence, exclusions and live samples. |
 | [user_content_runtime.md](user_content_runtime.md) | Active reference | Keep directly under `docs/`; implemented editor/runtime API details. |
 | [curseforge_readiness.md](curseforge_readiness.md) | Active reference | Keep directly under `docs/`; current platform evidence and unresolved submission gates. |
 | [release_checklist.md](release_checklist.md) | Active reference | Keep directly under `docs/`; reproducible prerelease and publication handoff. |
@@ -213,6 +218,8 @@ dated. No file is proposed for deletion.
 | [ability_catalogue_reconciliation_inventory.csv](audits/ability_catalogue_reconciliation_inventory.csv) | Machine-readable inventory | Retain beside its report unchanged. |
 | [ability_spell_mapping_inventory.csv](audits/ability_spell_mapping_inventory.csv) | Machine-readable inventory | Retain beside its report unchanged. |
 | [ability_detection_verification_inventory.csv](audits/ability_detection_verification_inventory.csv) | Machine-readable inventory | Current 474-ability verification queue; candidates and observations remain separate from production mappings. |
+| [ability_mapping_expansion_review.csv](audits/ability_mapping_expansion_review.csv) | Machine-readable inventory | Every milestone 2 class/ID inclusion/exclusion with exact rank and evidence tier. |
+| [ability_mapping_expansion_sources.csv](audits/ability_mapping_expansion_sources.csv) | Machine-readable inventory | Dated source downloads, build limitations and SHA-256 snapshot identities. |
 | [druid_beta_reconciliation.csv](audits/druid_beta_reconciliation.csv) | Machine-readable inventory | Retain beside its report unchanged. |
 | [forever_ability_coverage_inventory.csv](audits/forever_ability_coverage_inventory.csv) | Machine-readable inventory | Retain beside its report unchanged. |
 | [hunter_beta_reconciliation.csv](audits/hunter_beta_reconciliation.csv) | Machine-readable inventory | Retain beside its report unchanged. |

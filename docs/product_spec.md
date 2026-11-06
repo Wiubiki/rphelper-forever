@@ -308,15 +308,17 @@ and a readable player class. Missing/failing secret inspection rejects detection
 unused GUID and cast-bar fields are ignored. Registration failure disables only
 ability detection. No cast-start notification or combat-outcome check is required.
 
-The validated static records in `Data/AbilitySpellMappings.lua` map Paladin
-Flash of Light (`19750`) and Seal of Righteousness (`20288`), based on inherited
-third-party observations, plus Shaman Lightning Shield (`325`) and Healing Wave
-Rank 3 (`547`), based on repeated readable player successes reported by the owner
-on a Tauren Shaman (Interface 16001). Other ranks and variants are not inferred.
-The records load after canonical definitions and compile to the shared runtime/
-Library index. See [milestone 1](ability_detection_milestone_1.md) for evidence,
-validation, and live acceptance. The new mapped reaction path still requires
-manual acceptance; Paladin evidence is not upgraded by the Shaman observations.
+The validated static records in `Data/AbilitySpellMappings.lua` now map 1,168
+exact IDs across 366 ordinary abilities and all nine classes in the controlled
+[milestone 2 test build](ability_detection_milestone_2.md). Only Shaman Lightning
+Shield 325 and Healing Wave Rank 3 547 have owner-reported RPHelper live acceptance
+(A). The other 1,166 IDs use reviewed Forever source evidence (B), including the
+original third-party Paladin observations; they are not RPHelper-live-verified.
+The per-ID review lists unsupported/conflicting candidates separately (C).
+Ranks are explicit, never inferred. Records load after canonical definitions and
+compile to the shared runtime/Library index. The expanded B paths require live
+acceptance before a stable release; the guarded event and policy contracts remain
+unchanged.
 
 Mapped abilities use the same schema-v2 event resolver as generic triggers:
 enabled by default, inheriting the global 5% chance unless a sparse ability

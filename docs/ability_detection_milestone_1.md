@@ -1,5 +1,10 @@
 # Ability detection milestone 1: mapping foundation and Shaman test build
 
+**Later status:** the owner reports successful live acceptance on Interface
+16001 for exact Shaman 325/547, reaction output, chance/shared cooldown, Library
+and settings after `/reload`. The foundation below records milestone 1; current
+coverage and unverified B ranks are documented in [milestone 2](ability_detection_milestone_2.md).
+
 Implementation date: 2026-11-06. Branch: `diagnostics/live-client-ability-events`.
 This is a local test build awaiting human review and manual Forever acceptance;
 no release is authorized. It implements only the static mapping foundation from
