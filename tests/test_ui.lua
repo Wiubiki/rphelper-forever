@@ -204,12 +204,19 @@ end
 
 -- Small synthetic pools keep these groups visible in the fixture Library.
 for class, keys in pairs({ PALADIN = { "SEAL_OF_RIGHTEOUSNESS" },
-    SHAMAN = { "LIGHTNING_SHIELD", "HEALING_WAVE", "LIGHTNING_BOLT" } }) do
+    SHAMAN = { "LIGHTNING_SHIELD", "HEALING_WAVE", "GHOST_WOLF" } }) do
     for _, key in ipairs(keys) do
         RPHelper.RegisterAbility(class, key, { id = "default:test:" .. string.lower(class .. ":" .. key),
             type = "say", text = "Test ability reaction." })
     end
 end
+-- Validate against the real canonical registry without replacing synthetic pools.
+local registerAbility = RPHelper.RegisterAbility
+RPHelper.RegisterAbility = function(class, ability) return registerAbility(class, ability) end
+for _, class in ipairs({ "Warrior", "Rogue", "Hunter", "Shaman", "Druid", "Paladin", "Mage", "Priest", "Warlock" }) do
+    dofile("RPHelperForever/Data/Abilities/" .. class .. ".lua")
+end
+RPHelper.RegisterAbility = registerAbility
 dofile("RPHelperForever/Data/AbilitySpellMappings.lua")
 
 dofile("RPHelperForever/UI/MainWindow.lua")
@@ -702,7 +709,7 @@ test("library maps supported abilities to canonical class and ability settings",
     equal(unsupportedDraft, nil); equal(err, "unsupported_group")
 end)
 
-test("Library support follows all four mapped abilities and explains rank limitations", function()
+test("Library support follows mapped abilities and explains rank limitations", function()
     freshDatabase()
     local shaman = LibraryData.BuildSection("class", { class = "SHAMAN", race = "TAUREN" })
     for _, key in ipairs({ "LIGHTNING_SHIELD", "HEALING_WAVE" }) do
@@ -713,7 +720,7 @@ test("Library support follows all four mapped abilities and explains rank limita
         equal(group.settings.configKey, key)
         truthy(EditorData.NewEventDraft(group))
     end
-    local unsupported = findGroup(shaman, "ability:SHAMAN:LIGHTNING_BOLT")
+    local unsupported = findGroup(shaman, "ability:SHAMAN:GHOST_WOLF")
     equal(unsupported.settings.detected, false)
     equal(EditorData.NewEventDraft(unsupported), nil)
     local paladin = LibraryData.BuildSection("class", { class = "PALADIN", race = "HUMAN" })
@@ -730,7 +737,7 @@ test("Library support follows all four mapped abilities and explains rank limita
         page:SelectGroup("ability:SHAMAN:LIGHTNING_SHIELD")
         truthy(string.find(page.EventState:GetText(), "Detected: mapped IDs only", 1, true))
         equal(page.ModifyGroup:IsEnabled(), true)
-        page:SelectGroup("ability:SHAMAN:LIGHTNING_BOLT")
+        page:SelectGroup("ability:SHAMAN:GHOST_WOLF")
         equal(page.EventState:GetText(), "Not currently detected | Event settings unavailable")
         equal(page.ModifyGroup:IsEnabled(), false)
     end)

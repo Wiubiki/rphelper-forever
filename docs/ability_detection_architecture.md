@@ -1,10 +1,16 @@
 # Ability detection architecture proposal
 
+**Milestone 2 status, 2026-11-06:** the owner reports successful milestone 1
+acceptance of Shaman 325/547. The [reviewed expansion](ability_detection_milestone_2.md)
+implements 1,168 static IDs across 366 abilities, with separate A/B/C evidence.
+The additional B mappings await live acceptance. The original investigation
+below remains a historical baseline, not the current coverage list.
+
 **Milestone 1 status, 2026-11-06:** the owner approved and implementation now
 provides the static mapping foundation plus Shaman 325/547 alongside the existing
 two Paladin IDs. See [implementation and acceptance](ability_detection_milestone_1.md).
 The proposal below records the original investigation baseline; discovery and
-broader mappings remain deferred. The test build awaits live acceptance.
+broader mappings were deferred at that milestone. See the newer status above.
 
 Design snapshot: 2026-11-06, based on `diagnostics/live-client-ability-events`
 at `76cfebf`. **Original investigation and proposal.** No mappings,

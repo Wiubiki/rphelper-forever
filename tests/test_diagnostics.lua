@@ -35,8 +35,9 @@ dofile("RPHelperForever/Data/RandomInsults.lua")
 dofile("RPHelperForever/Data/Generic.lua")
 dofile("RPHelperForever/Data/Races/Human.lua")
 dofile("RPHelperForever/Data/Classes/Paladin.lua")
-dofile("RPHelperForever/Data/Abilities/Paladin.lua")
-dofile("RPHelperForever/Data/Abilities/Shaman.lua")
+for _, class in ipairs({ "Warrior", "Rogue", "Hunter", "Shaman", "Druid", "Paladin", "Mage", "Priest", "Warlock" }) do
+    dofile("RPHelperForever/Data/Abilities/" .. class .. ".lua")
+end
 dofile("RPHelperForever/Data/AbilitySpellMappings.lua")
 
 local function newFrame()

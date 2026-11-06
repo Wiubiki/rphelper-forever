@@ -69,7 +69,8 @@ RPHelper Forever 0.9.0 prerelease prepares the new implementation for controlled
 WoW Forever client verification. It includes contextual reactions, per-character
 schema-v2 settings, the Character Library/editor, Guide/About pages, and opt-in
 session diagnostics. Runtime detection remains intentionally limited to the
-documented generic triggers and four mapped Paladin/Shaman ability IDs. This is not the
+documented generic triggers and reviewed ordinary abilities across nine classes.
+Expanded B IDs still require live acceptance; this is not the
 V1.0 stable release.
 
 ## Launch-day checks

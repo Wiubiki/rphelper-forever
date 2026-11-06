@@ -19856,9 +19856,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          2893
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -19934,9 +19936,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          22812
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -19973,9 +19977,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          5211,
+          6798,
+          8983
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -20129,9 +20137,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          5209
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -20182,9 +20192,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1082,
+          3029,
+          5201,
+          9849,
+          9850
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -20221,9 +20237,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          8998,
+          9000,
+          9892
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -20299,9 +20319,12 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1850,
+          9821
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -20338,9 +20361,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          99,
+          1735,
+          9490,
+          9747,
+          9898
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -20444,9 +20473,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          5229
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -20505,9 +20536,16 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          339,
+          1062,
+          5195,
+          5196,
+          9852,
+          9853
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -20584,9 +20622,14 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          770,
+          778,
+          9749,
+          9907
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -20623,9 +20666,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1238122
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -20701,9 +20746,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          22842
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -20740,9 +20787,12 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          21849,
+          21850
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -20832,9 +20882,21 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          5185,
+          5186,
+          5187,
+          5188,
+          5189,
+          6778,
+          8903,
+          9758,
+          9888,
+          9889,
+          25297
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -20891,9 +20953,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          2637,
+          18657,
+          18658
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -21089,9 +21155,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          29166
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -21169,9 +21237,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          5570
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -21247,9 +21317,17 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1126,
+          5232,
+          5234,
+          6756,
+          8907,
+          9884,
+          9885
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -21364,9 +21442,20 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          8921,
+          8924,
+          8925,
+          8926,
+          8927,
+          8928,
+          8929,
+          9833,
+          9834,
+          9835
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -21403,9 +21492,16 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          16689,
+          16810,
+          16811,
+          16812,
+          16813,
+          17329
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -21442,9 +21538,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          17116
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -21481,9 +21579,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          9005,
+          9823,
+          9827
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -21520,9 +21622,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          407995
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -21559,9 +21663,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          5215,
+          6783,
+          9913
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -21598,9 +21706,14 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1822,
+          1823,
+          1824,
+          9904
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -21637,9 +21750,14 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          6785,
+          6787,
+          9866,
+          9867
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -21680,9 +21798,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          20484,
+          20739,
+          20742,
+          20747,
+          20748
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -21746,9 +21870,19 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          8936,
+          8938,
+          8939,
+          8940,
+          8941,
+          9750,
+          9856,
+          9857,
+          9858
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -21785,9 +21919,21 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          774,
+          1058,
+          1430,
+          2090,
+          2091,
+          3627,
+          8910,
+          9839,
+          9840,
+          9841,
+          25299
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -21824,9 +21970,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          2782
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -21863,9 +22011,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          437138,
+          1237948,
+          1237949,
+          1237950,
+          1237951
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -21902,9 +22056,16 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1079,
+          9492,
+          9493,
+          9752,
+          9894,
+          9896
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -22012,9 +22173,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          5221,
+          6800,
+          8992,
+          9829,
+          9830
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -22051,9 +22218,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          2908,
+          8955,
+          9901
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -22090,9 +22261,17 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          2912,
+          8949,
+          8950,
+          8951,
+          9875,
+          9876,
+          25298
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -22129,9 +22308,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          18562
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -22168,9 +22349,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          769,
+          779,
+          780,
+          9754,
+          9908
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -22211,9 +22398,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          18960
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -22277,9 +22466,16 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          467,
+          782,
+          1075,
+          8914,
+          9756,
+          9910
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -22482,9 +22678,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          408120
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -22521,9 +22719,18 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          5176,
+          5177,
+          5178,
+          5179,
+          5180,
+          6780,
+          8905,
+          9912
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -22568,9 +22775,16 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          19434,
+          20900,
+          20901,
+          20902,
+          20903,
+          20904
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -22664,9 +22878,18 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          3044,
+          14281,
+          14282,
+          14283,
+          14284,
+          14285,
+          14286,
+          14287
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -22778,9 +23001,14 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          13161,
+          1299445,
+          1299446,
+          1299447
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -22866,9 +23094,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          5118
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -22954,9 +23184,17 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          13165,
+          14318,
+          14319,
+          14320,
+          14321,
+          14322,
+          25296
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -23046,9 +23284,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          13163
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "fully populated",
       "reaction_counts": {
@@ -23148,9 +23388,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          13159
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -23236,9 +23478,12 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          20043,
+          20190
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -23363,9 +23608,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1462
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -23451,9 +23698,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          19574
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -23586,9 +23835,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          5116
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -23700,9 +23951,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          19306
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -23788,9 +24041,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          19263
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -23876,9 +24131,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          781,
+          14272,
+          14273
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -24003,9 +24262,16 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          14274,
+          15629,
+          15630,
+          15631,
+          15632,
+          20736
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -24218,9 +24484,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          13813,
+          14316,
+          14317
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -24429,9 +24699,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          5384
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -24588,9 +24860,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1499,
+          14310,
+          14311
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -24659,9 +24935,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          13809
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -24734,9 +25012,14 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1130,
+          14323,
+          14324,
+          14325
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -24822,9 +25105,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          13795,
+          14302,
+          14303,
+          14304,
+          14305
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -24902,9 +25191,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          19577
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -24941,9 +25232,14 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          24118,
+          24119,
+          24120,
+          1299332
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -25076,9 +25372,14 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1495,
+          14269,
+          14270,
+          14271
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -25164,9 +25465,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          2643
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -25252,9 +25555,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          3045
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -25467,9 +25772,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1513,
+          14326,
+          14327
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -25555,9 +25864,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          19503
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -25643,9 +25954,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          3043
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -25731,9 +26044,19 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1978,
+          13549,
+          13550,
+          13551,
+          13552,
+          13553,
+          13554,
+          13555,
+          25295
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -25811,9 +26134,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1310687
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -25850,9 +26175,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1317257
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -25889,9 +26216,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1293241
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -26696,9 +27025,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          19801
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -26784,9 +27115,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1299346
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -26872,9 +27205,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          3034,
+          14279,
+          14280
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -27048,9 +27385,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          2974,
+          14267,
+          14268
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -27136,9 +27477,14 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1008,
+          8455,
+          10169,
+          10170
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -27216,9 +27562,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          400574
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -27263,9 +27611,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          23028
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -27351,9 +27701,16 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1449,
+          8437,
+          8438,
+          8439,
+          10201,
+          10202
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -27439,9 +27796,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1459,
+          1460,
+          1461,
+          10156,
+          10157
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -27615,9 +27978,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          12042
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -27742,9 +28107,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          11113
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -27830,9 +28197,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1953
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -28002,9 +28371,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          12472
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -28077,9 +28448,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          11129
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -28161,9 +28534,14 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          120,
+          8492,
+          10159,
+          10160
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -28232,9 +28610,17 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          587,
+          597,
+          990,
+          6129,
+          10144,
+          10145,
+          28612
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -28303,9 +28689,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          759
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -28374,9 +28762,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          10053
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -28445,9 +28835,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          3552
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -28516,9 +28908,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          10054
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -28587,9 +28981,17 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          5504,
+          5505,
+          5506,
+          6127,
+          10138,
+          10139,
+          10140
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -28662,9 +29064,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          2139
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -28750,9 +29154,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          604,
+          8450,
+          8451,
+          10173,
+          10174
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -28926,9 +29336,22 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          133,
+          143,
+          145,
+          3140,
+          8400,
+          8401,
+          8402,
+          10148,
+          10149,
+          10150,
+          10151,
+          25306
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -29014,9 +29437,17 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          2136,
+          2137,
+          2138,
+          8412,
+          8413,
+          10197,
+          10199
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -29098,9 +29529,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          543,
+          8457,
+          8458,
+          10223,
+          10225
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -29261,9 +29698,21 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          116,
+          205,
+          837,
+          7322,
+          8406,
+          8407,
+          8408,
+          10179,
+          10180,
+          10181,
+          25304
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -29341,9 +29790,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          401502,
+          1237312,
+          1237313
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -29384,9 +29837,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          168,
+          7300,
+          7301
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -29494,9 +29951,14 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          122,
+          865,
+          6131,
+          10230
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -29565,9 +30027,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          6143,
+          8461,
+          8462,
+          10177,
+          28609
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -29636,9 +30104,14 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          7302,
+          7320,
+          10219,
+          10220
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -29707,9 +30180,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          11426
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -29778,9 +30253,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          11958
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -29845,9 +30322,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1312002
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -29892,9 +30371,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          6117,
+          22782,
+          22783
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -29980,9 +30463,16 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1463,
+          8494,
+          8495,
+          10191,
+          10192,
+          10193
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -30068,9 +30558,14 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          118,
+          12824,
+          12825,
+          12826
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -30230,9 +30725,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          11419
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -30301,9 +30798,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          11416
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -30372,9 +30871,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          11417
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -30443,9 +30944,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          10059
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -30514,9 +31017,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          11420
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -30585,9 +31090,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          11418
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -30660,9 +31167,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          12043
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -30748,9 +31257,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          11366
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -30836,9 +31347,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          475
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -30920,9 +31433,17 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          2948,
+          8444,
+          8445,
+          8446,
+          10205,
+          10206,
+          10207
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -30995,9 +31516,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          130
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -31075,9 +31598,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1297659
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -31118,9 +31643,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          3565
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -31189,9 +31716,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          3562
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -31260,9 +31789,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          3567
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -31331,9 +31862,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          3561
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -31402,9 +31935,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          3566
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -31473,9 +32008,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          3563
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -31544,9 +32081,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1044
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -31615,9 +32154,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          20217
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -31757,9 +32298,17 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          19740,
+          19834,
+          19835,
+          19836,
+          19837,
+          19838,
+          25291
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -31828,9 +32377,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1022,
+          5599,
+          10278
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -31899,9 +32452,12 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          6940,
+          20729
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -31970,9 +32526,16 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          19742,
+          19850,
+          19852,
+          19853,
+          19854,
+          25290
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -32041,9 +32604,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          4987
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -32112,9 +32677,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          19746
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -32183,9 +32750,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          20116,
+          20922,
+          20923,
+          20924,
+          26573
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -32254,9 +32827,17 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          465,
+          643,
+          1032,
+          10290,
+          10291,
+          10292,
+          10293
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -32325,9 +32906,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          20216
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -32396,9 +32979,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          19752
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -32467,9 +33052,12 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          498,
+          5573
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -32538,9 +33126,12 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          642,
+          1020
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -32609,9 +33200,16 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          879,
+          5614,
+          5615,
+          10312,
+          10313,
+          10314
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -32680,9 +33278,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          19891,
+          19899,
+          19900
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -32752,7 +33354,12 @@
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
         "spell_ids": [
-          19750
+          19750,
+          19939,
+          19940,
+          19941,
+          19942,
+          19943
         ]
       },
       "runtime_supported": true,
@@ -32824,9 +33431,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          19888,
+          19897,
+          19898
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -32891,9 +33502,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          25898
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -32973,9 +33586,12 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          25782,
+          25916
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -33040,9 +33656,12 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          25894,
+          25918
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -33087,9 +33706,14 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          853,
+          5588,
+          5589,
+          10308
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -33171,9 +33795,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          24239,
+          24274,
+          24275
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -33246,9 +33874,19 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          635,
+          639,
+          647,
+          1026,
+          1042,
+          3472,
+          10328,
+          10329,
+          25292
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -33330,9 +33968,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          20925
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -33401,9 +34041,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1311606
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -33468,9 +34110,18 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          678,
+          679,
+          680,
+          1866,
+          2495,
+          5569,
+          10332,
+          10333
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -33511,9 +34162,12 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          2812,
+          10318
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -33582,9 +34236,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          20271
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -33653,9 +34309,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          633,
+          2800,
+          10310
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -33720,9 +34380,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1310911
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -33802,9 +34464,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1152
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -33873,9 +34537,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          7328,
+          10322,
+          10324,
+          20772,
+          20773
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -33944,9 +34614,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          20066
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -34015,9 +34687,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          7294,
+          10298,
+          10299,
+          10300,
+          10301
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -34125,9 +34803,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          25780
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -34267,9 +34947,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          20375
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -34334,9 +35016,17 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          20163,
+          20419,
+          20421,
+          20422,
+          20423,
+          1311649,
+          1311656
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -34377,9 +35067,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          20164
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -34448,9 +35140,14 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          20165,
+          20347,
+          20348,
+          20349
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -34520,7 +35217,13 @@
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
         "spell_ids": [
-          20288
+          20287,
+          20288,
+          20289,
+          20290,
+          20291,
+          20292,
+          20293
         ]
       },
       "runtime_supported": true,
@@ -34592,9 +35295,16 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          20162,
+          20305,
+          20306,
+          20307,
+          20308,
+          21082
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -34663,9 +35373,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          20166,
+          20356,
+          20357
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -34805,9 +35519,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          19876,
+          19895,
+          19896
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -34872,9 +35590,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1310994
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -34911,9 +35631,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1311015
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -34954,9 +35676,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          2878,
+          5627,
+          10326
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -35068,9 +35794,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          552
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -35312,9 +36040,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          528
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -35545,9 +36275,16 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          2944,
+          19276,
+          19277,
+          19278,
+          19279,
+          19280
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -35633,9 +36370,12 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          527,
+          988
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -35760,9 +36500,14 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          14752,
+          14818,
+          14819,
+          27841
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -35936,9 +36681,16 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          586,
+          9578,
+          9579,
+          9592,
+          10941,
+          10942
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -36024,9 +36776,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          6346
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -36200,9 +36954,17 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          2061,
+          9472,
+          9473,
+          9474,
+          10915,
+          10916,
+          10917
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -36288,9 +37050,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          2060,
+          10963,
+          10964,
+          10965,
+          25314
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -36376,9 +37144,14 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          2054,
+          2055,
+          6063,
+          6064
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -36552,9 +37325,18 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          14914,
+          15261,
+          15262,
+          15263,
+          15264,
+          15265,
+          15266,
+          15267
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -36640,9 +37422,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          15237
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -36728,9 +37512,16 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          588,
+          602,
+          1006,
+          7128,
+          10951,
+          10952
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -36816,9 +37607,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          14751
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -36904,9 +37697,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          2050,
+          2052,
+          2053
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -36992,9 +37789,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1706
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -37080,9 +37879,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          8129,
+          8131,
+          10874,
+          10875,
+          10876
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -37168,9 +37973,19 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          8092,
+          8102,
+          8103,
+          8104,
+          8105,
+          8106,
+          10945,
+          10946,
+          10947
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -37432,9 +38247,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          453,
+          8192,
+          10953
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -37647,9 +38466,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          10060
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -37735,9 +38556,16 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1243,
+          1244,
+          1245,
+          2791,
+          10937,
+          10938
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -37823,9 +38651,20 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          17,
+          592,
+          600,
+          3747,
+          6065,
+          6066,
+          10898,
+          10899,
+          10900,
+          10901
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -37911,9 +38750,12 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          21562,
+          21564
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -37999,9 +38841,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          596,
+          996,
+          10960,
+          10961,
+          25316
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -38079,9 +38927,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          401859
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -38118,9 +38968,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          27683
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -38157,9 +39009,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          27681
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -38204,9 +39058,14 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          8122,
+          8124,
+          10888,
+          10890
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -38292,9 +39151,20 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          139,
+          6074,
+          6075,
+          6076,
+          6077,
+          6078,
+          10927,
+          10928,
+          10929,
+          25315
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -38380,9 +39250,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          2006,
+          2010,
+          10880,
+          10881,
+          20770
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -38468,9 +39344,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          9484,
+          9485,
+          10955
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -38732,9 +39612,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          976,
+          10957,
+          10958
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -38812,9 +39696,14 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1309595,
+          1309633,
+          1309635,
+          1309636
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -38859,9 +39748,18 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          589,
+          594,
+          970,
+          992,
+          2767,
+          10892,
+          10893,
+          10894
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -38947,9 +39845,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          15487
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -39035,9 +39935,18 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          585,
+          591,
+          598,
+          984,
+          1004,
+          6060,
+          10933,
+          10934
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -39299,9 +40208,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          15286
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -39379,9 +40290,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          13750
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -39418,9 +40331,16 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          8676,
+          8724,
+          8725,
+          11267,
+          11268,
+          11269
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -39457,9 +40377,19 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          53,
+          2589,
+          2590,
+          2591,
+          8721,
+          11279,
+          11280,
+          11281,
+          25300
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -39496,9 +40426,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          13877
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -39535,9 +40467,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          2094
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -39613,9 +40547,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1833
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -39652,9 +40588,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          14177
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -39769,9 +40707,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1842
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -39861,9 +40801,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          5277
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -39900,9 +40842,19 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          2098,
+          6760,
+          6761,
+          6762,
+          8623,
+          8624,
+          11299,
+          11300,
+          31016
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -39939,9 +40891,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          8647,
+          8649,
+          8650,
+          11197,
+          11198
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -39978,9 +40936,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1966,
+          6768,
+          8637,
+          11303,
+          25302
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -40017,9 +40981,16 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          703,
+          8631,
+          8632,
+          8633,
+          11289,
+          11290
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -40056,9 +41027,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          14278
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -40095,9 +41068,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1776,
+          1777,
+          8629,
+          11285,
+          11286
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -40134,9 +41113,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          16511
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -40212,9 +41193,14 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1766,
+          1767,
+          1768,
+          1769
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -40251,9 +41237,12 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          408,
+          8643
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -40368,9 +41357,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          921
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -40407,9 +41398,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          14183
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -40446,9 +41439,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          14185
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -40485,9 +41480,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          14251
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -40524,9 +41521,16 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1943,
+          8639,
+          8640,
+          11273,
+          11274,
+          11275
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -40563,9 +41567,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          2070,
+          6770,
+          11297
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -40602,9 +41610,18 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1752,
+          1757,
+          1758,
+          1759,
+          1760,
+          8621,
+          11293,
+          11294
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -40641,9 +41658,12 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          5171,
+          6774
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -40680,9 +41700,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          2983,
+          8696,
+          11305
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -40733,9 +41757,14 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1784,
+          1785,
+          1786,
+          1787
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -40772,9 +41801,12 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1856,
+          1857
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -40909,9 +41941,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          2008,
+          20609,
+          20610,
+          20776,
+          20777
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -41028,9 +42066,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          556
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -41067,9 +42107,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          66843
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -41106,9 +42148,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          66842
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -41145,9 +42189,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          66844
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -41196,9 +42242,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1064,
+          10622,
+          10623
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -41309,9 +42359,14 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          421,
+          930,
+          2860,
+          10605
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -41444,9 +42499,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          2870
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -41566,9 +42623,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          526
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -41680,9 +42739,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          8170
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -41768,9 +42829,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          2484
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -41876,9 +42939,17 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          8042,
+          8044,
+          8045,
+          8046,
+          10412,
+          10413,
+          10414
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -42103,9 +43174,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          408341,
+          408342,
+          408343,
+          408344,
+          408345
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -42178,9 +43255,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          8184,
+          10537,
+          10538
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -42270,9 +43351,14 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          8227,
+          8249,
+          10526,
+          16387
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -42371,9 +43457,16 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          8024,
+          8027,
+          8030,
+          16339,
+          16341,
+          16342
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -42467,9 +43560,16 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          8050,
+          8052,
+          8053,
+          10447,
+          10448,
+          29228
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -42581,9 +43681,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          8033,
+          8038,
+          10456,
+          16355,
+          16356
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -42669,9 +43775,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          8181,
+          10478,
+          10479
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -42765,9 +43875,14 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          8056,
+          8058,
+          10472,
+          10473
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -42988,9 +44103,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          8835,
+          10627,
+          25359
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -43093,9 +44212,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          8177
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -43198,9 +44319,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          5394,
+          6375,
+          6377,
+          10462,
+          10463
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -43308,7 +44435,16 @@
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
         "spell_ids": [
-          547
+          331,
+          332,
+          547,
+          913,
+          939,
+          959,
+          8005,
+          10395,
+          10396,
+          25357
         ]
       },
       "runtime_supported": true,
@@ -43462,9 +44598,16 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          8004,
+          8008,
+          8010,
+          10466,
+          10467,
+          10468
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -43562,9 +44705,20 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          403,
+          529,
+          548,
+          915,
+          943,
+          6041,
+          10391,
+          10392,
+          15207,
+          15208
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -43702,7 +44856,13 @@
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
         "spell_ids": [
-          325
+          324,
+          325,
+          905,
+          945,
+          8134,
+          10431,
+          10432
         ]
       },
       "runtime_supported": true,
@@ -43830,9 +44990,14 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          8190,
+          10585,
+          10586,
+          10587
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -43918,9 +45083,14 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          5675,
+          10495,
+          10496,
+          10497
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -44006,9 +45176,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          16190
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -44094,9 +45266,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          16188
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -44182,9 +45356,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          10595,
+          10600,
+          10601
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -44270,9 +45448,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          8166
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -44366,9 +45546,12 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          370,
+          8012
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -44472,9 +45655,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          425336
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -44616,9 +45801,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          408521
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -44663,9 +45850,17 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          8017,
+          8018,
+          8019,
+          10399,
+          16314,
+          16315,
+          16316
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -44751,9 +45946,16 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          3599,
+          6363,
+          6364,
+          6365,
+          10437,
+          10438
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -44927,9 +46129,16 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          5730,
+          6390,
+          6391,
+          6392,
+          10427,
+          10428
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -45015,9 +46224,16 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          8071,
+          8154,
+          8155,
+          10406,
+          10407,
+          10408
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -45131,9 +46347,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          17364
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -45314,9 +46532,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          8075,
+          8160,
+          8161,
+          10442,
+          25361
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -45454,9 +46678,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          36936
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -45542,9 +46768,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          8143
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -45622,9 +46850,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          131
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -45681,9 +46911,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          408510
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -45800,9 +47032,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          546
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -45851,9 +47085,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          8512,
+          10613,
+          10614
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -45976,9 +47214,14 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          8232,
+          8235,
+          10486,
+          16362
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -46142,9 +47385,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          15107,
+          15111,
+          15112
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -46222,9 +47469,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          18288
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -46261,9 +47510,16 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          980,
+          1014,
+          6217,
+          11711,
+          11712,
+          11713
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -46322,9 +47578,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          603
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "fully populated",
       "reaction_counts": {
@@ -46403,9 +47661,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1225228
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -46442,9 +47702,12 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          710,
+          18647
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -46495,9 +47758,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1293817
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -46534,9 +47799,17 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          172,
+          6222,
+          6223,
+          7648,
+          11671,
+          11672,
+          25311
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -46573,9 +47846,14 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          6366,
+          17951,
+          17952,
+          17953
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -46612,9 +47890,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          5699,
+          6201,
+          6202,
+          11729,
+          11730
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -46651,9 +47935,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          693,
+          20752,
+          20755,
+          20756,
+          20757
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -46690,9 +47980,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          2362,
+          17727,
+          17728
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -46729,9 +48023,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          18223
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -46782,9 +48078,14 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          704,
+          7658,
+          7659,
+          11717
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -46835,9 +48136,14 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          440892,
+          1311676,
+          1311677,
+          1311680
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -46888,9 +48194,12 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1714,
+          11719
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -46941,9 +48250,16 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          702,
+          1108,
+          6205,
+          7646,
+          11707,
+          11708
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -46994,9 +48310,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          6789,
+          17925,
+          17926
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -47033,9 +48353,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          18788
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -47072,9 +48394,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          706,
+          1086,
+          11733,
+          11734,
+          11735
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -47111,9 +48439,12 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          687,
+          696
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -47150,9 +48481,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          132,
+          2970,
+          11743
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -47493,9 +48828,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          5782,
+          6213,
+          6215
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -47559,9 +48898,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          18708
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -47704,9 +49045,12 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          5484,
+          17928
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -47747,9 +49091,18 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          348,
+          707,
+          1094,
+          2941,
+          11665,
+          11667,
+          11668,
+          25309
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -47813,9 +49166,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          412758
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -47891,9 +49246,16 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1454,
+          1455,
+          1456,
+          11687,
+          11688,
+          11689
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -48127,9 +49489,16 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          5676,
+          17919,
+          17920,
+          17921,
+          17922,
+          17923
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -48233,9 +49602,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          17877
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -48272,9 +49643,20 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          686,
+          695,
+          705,
+          1088,
+          1106,
+          7641,
+          11659,
+          11660,
+          11661,
+          25307
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -48311,9 +49693,14 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          6229,
+          11739,
+          11740,
+          28610
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -48350,9 +49737,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          18265
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -48393,9 +49782,12 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          6353,
+          17924
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -48459,9 +49851,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          19028
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -48498,9 +49892,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1098,
+          11725,
+          11726
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -48728,9 +50126,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          713
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -49043,9 +50443,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          5697
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -49135,9 +50537,17 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          5242,
+          6192,
+          6673,
+          11549,
+          11550,
+          11551,
+          25289
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -49227,9 +50637,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          18499
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -49321,9 +50733,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          2687
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -49427,9 +50841,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          23881
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -49466,9 +50882,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1161
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -49531,9 +50949,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          100,
+          6178,
+          11578
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -49663,9 +51085,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          12809
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -49702,9 +51126,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          12328
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -49780,9 +51206,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1160,
+          6190,
+          11554,
+          11555,
+          11556
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -49833,9 +51265,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          676
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -49872,9 +51306,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          5308,
+          20658,
+          20660,
+          20661,
+          20662
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -49911,9 +51351,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1715,
+          7372,
+          7373
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -50003,9 +51447,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          20252,
+          20616,
+          20617
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -50050,9 +51498,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          5246
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -50129,9 +51579,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          12975
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -50168,9 +51620,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          694,
+          7400,
+          7402,
+          20559,
+          20560
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -50221,9 +51679,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          12294
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -50260,9 +51720,14 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          7384,
+          7887,
+          11584,
+          11585
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -50299,9 +51764,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          12323
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -50338,9 +51805,12 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          6552,
+          6554
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -50377,9 +51847,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1719
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -50416,9 +51888,17 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          772,
+          6546,
+          6547,
+          6548,
+          11572,
+          11573,
+          11574
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -50469,9 +51949,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          20230
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -50508,9 +51990,16 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          6572,
+          6574,
+          7379,
+          11600,
+          11601,
+          25288
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -50547,9 +52036,13 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          72,
+          1671,
+          1672
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -50600,9 +52093,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          2565
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -50639,9 +52134,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          23922
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -50692,9 +52189,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          871
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -50731,9 +52230,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1464,
+          8820,
+          11604,
+          11605,
+          1240193
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -50784,9 +52289,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1310222
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -50823,9 +52330,15 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          7386,
+          7405,
+          8380,
+          11596,
+          11597
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -50862,9 +52375,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          12292
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -50940,9 +52455,16 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          6343,
+          8198,
+          8204,
+          8205,
+          11580,
+          11581
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -50979,9 +52501,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          402927
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {
@@ -51018,9 +52542,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          1680
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": true,
       "population_status": "empty",
       "reaction_counts": {

@@ -51,9 +51,9 @@ dofile("RPHelperForever/Data/RandomInsults.lua")
 dofile("RPHelperForever/Data/Generic.lua")
 dofile("RPHelperForever/Data/Races/Tauren.lua")
 dofile("RPHelperForever/Data/Classes/Druid.lua")
-dofile("RPHelperForever/Data/Abilities/Paladin.lua")
-dofile("RPHelperForever/Data/Abilities/Druid.lua")
-dofile("RPHelperForever/Data/Abilities/Shaman.lua")
+for _, class in ipairs({ "Warrior", "Rogue", "Hunter", "Shaman", "Druid", "Paladin", "Mage", "Priest", "Warlock" }) do
+    dofile("RPHelperForever/Data/Abilities/" .. class .. ".lua")
+end
 dofile("RPHelperForever/Data/AbilitySpellMappings.lua")
 
 local function newFrame()
@@ -148,25 +148,21 @@ local function initialize(adapter)
     return frame
 end
 
-test("only the four reviewed production IDs are mapped", function()
+test("only reviewed production records enter the shared index", function()
     local mappings = RPHelper.RuntimeAPI.AbilitySpellIDs
     local count = 0
     for class, spells in pairs(mappings) do
-        truthy(class == "PALADIN" or class == "SHAMAN")
         for id, ability in pairs(spells) do
             count = count + 1
-            truthy((class == "PALADIN" and id == 19750 and ability == "FLASH_OF_LIGHT")
-                or (class == "PALADIN" and id == 20288 and ability == "SEAL_OF_RIGHTEOUSNESS")
-                or (class == "SHAMAN" and id == 325 and ability == "LIGHTNING_SHIELD")
-                or (class == "SHAMAN" and id == 547 and ability == "HEALING_WAVE"))
+            equal(RPHelper.Ability[class][ability], ability)
         end
     end
-    equal(count, 4)
+    equal(count, #RPHelper.AbilitySpellMappings.Records)
     local a = newAdapter("ROGUE", "HUMAN", nil)
     initialize(a)
     truthy(RPHelper.UserContent.Add({ layer = "ability", class = "ROGUE", ability = "EVISCERATE" },
         { type = "say", text = "My custom ability." }))
-    equal(RPHelper.Runtime.HandleEvent("UNIT_SPELLCAST_SUCCEEDED", "player", nil, 2098), false)
+    equal(RPHelper.Runtime.HandleEvent("UNIT_SPELLCAST_SUCCEEDED", "player", nil, 900001), false)
     equal(#a.output, 0)
 end)
 
@@ -1351,7 +1347,7 @@ abilityTest("other units unknown IDs and unsupported variants reject before sele
         for _, unit in ipairs({ "pet", "target", "party1", "vehicle", "Player", "" }) do
             equal(activate(19750, unit), false)
         end
-        for _, id in ipairs({ 1, 19751, 6603, 6803, 2973, 20271 }) do
+        for _, id in ipairs({ 1, 19751, 6603, 6803, 2973, 20154 }) do
             equal(activate(id), false)
         end
     end)
@@ -1360,21 +1356,21 @@ abilityTest("other units unknown IDs and unsupported variants reject before sele
     equal(#a.output, 0)
 end)
 
-abilityTest("Hunter reconciliation adds no pet dispatch or spell mappings", function(a)
+abilityTest("Hunter mapping expansion adds no pet or queued-attack dispatch", function(a)
     equal(RPHelper.Runtime.EventTrigger.petattackstart, nil)
     equal(RPHelper.Runtime.EventTrigger.petattackstop, nil)
     equal(RPHelper.Runtime.EventTrigger.petdies, nil)
-    equal(RPHelper.RuntimeAPI.AbilitySpellIDs.HUNTER, nil)
+    equal(RPHelper.RuntimeAPI.AbilitySpellIDs.HUNTER[2973], nil)
     equal(RPHelper.Runtime.HandleEvent("UNIT_SPELLCAST_SUCCEEDED", "pet", nil, 2973), false)
     equal(RPHelper.Runtime.HandleEvent("UNIT_SPELLCAST_SUCCEEDED", "player", nil, 2973), false)
     equal(#a.output, 0)
 end)
 
-abilityTest("Warlock reconciliation adds no demon dispatch or spell mappings", function(a)
+abilityTest("Warlock mapping expansion adds no demon or channel dispatch", function(a)
     equal(RPHelper.Runtime.EventTrigger.petattackstart, nil)
     equal(RPHelper.Runtime.EventTrigger.petattackstop, nil)
     equal(RPHelper.Runtime.EventTrigger.petdies, nil)
-    equal(RPHelper.RuntimeAPI.AbilitySpellIDs.WARLOCK, nil)
+    equal(RPHelper.RuntimeAPI.AbilitySpellIDs.WARLOCK[1120], nil)
     equal(RPHelper.Runtime.HandleEvent("UNIT_SPELLCAST_SUCCEEDED", "pet", nil, 688), false)
     equal(RPHelper.Runtime.HandleEvent("UNIT_SPELLCAST_SUCCEEDED", "player", nil, 688), false)
     equal(#a.output, 0)
@@ -1886,8 +1882,8 @@ shamanTest("observed IDs dispatch their existing shipped content without name lo
     equal(#RPHelper.GetAbilityPool("SHAMAN", "HEALING_WAVE"), 5)
 end)
 
-shamanTest("other ranks unknown IDs and other classes stay unmapped", function(a)
-    for _, id in ipairs({ 324, 331, 332, 905, 900001, 19750, 20288 }) do
+shamanTest("excluded IDs and other classes stay unmapped", function(a)
+    for _, id in ipairs({ 408439, 1535, 900001, 19750, 20288 }) do
         equal(activate(id), false)
     end
     for _, id in ipairs({ 325, 547 }) do
@@ -1987,6 +1983,30 @@ shamanTest("failed output spends no cooldown and dungeon local preference still 
     truthy(activate(547))
     equal(a.output[1].type, "local")
     equal(#a.output, 1)
+end)
+
+test("reviewed ordinary abilities reach the unchanged policy pipeline across all nine classes", function()
+    local inspect = issecretvalue
+    afterEach(function() issecretvalue = inspect end)
+    issecretvalue = function() return false end
+    local samples = {
+        { "WARRIOR", 2687, "BLOODRAGE" }, { "ROGUE", 2983, "SPRINT" },
+        { "HUNTER", 5116, "CONCUSSIVE_SHOT" }, { "SHAMAN", 325, "LIGHTNING_SHIELD" },
+        { "DRUID", 5209, "CHALLENGING_ROAR" }, { "PALADIN", 19750, "FLASH_OF_LIGHT" },
+        { "MAGE", 133, "FIREBALL" }, { "PRIEST", 2061, "FLASH_HEAL" },
+        { "WARLOCK", 603, "BANE_OF_DOOM" },
+    }
+    for _, sample in ipairs(samples) do
+        local class, id, key = sample[1], sample[2], sample[3]
+        local a = newAdapter(class, "HUMAN", 0)
+        initialize(a)
+        setAbility(class, key, "chance", 0)
+        equal(activate(id), false)
+        equal(#a.output, 0)
+        setAbility(class, key, "chance", 1)
+        if not activate(id) then error(class .. ": " .. key .. " sample did not dispatch") end
+        equal(#a.output, 1)
+    end
 end)
 
 if failures > 0 then
