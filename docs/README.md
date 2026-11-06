@@ -45,6 +45,11 @@ mappings, and source line numbers remain significant. Running the exporter
 without `--check` deliberately regenerates the canonical files and should be
 reserved for an intended inventory update.
 
+The [ability detection architecture proposal](ability_detection_architecture.md)
+and its [verification inventory](audits/ability_detection_verification_inventory.csv)
+describe a proposed expansion path after the first live success-event findings.
+They are awaiting review and do not expand production detection coverage.
+
 ## Licensing and attribution
 
 - The repository [MIT License](../LICENSE) applies to independently authored
@@ -154,6 +159,7 @@ dated. No file is proposed for deletion.
 | [ui_ux_spec.md](ui_ux_spec.md) | Authoritative specification | Keep directly under `docs/`; approved UI behavior. |
 | [forever_ability_reconciliation.md](forever_ability_reconciliation.md) | Authoritative specification | Keep directly under `docs/`; ability-review method, not a runtime allowlist. |
 | [runtime_api_assumptions.md](runtime_api_assumptions.md) | Active reference | Keep directly under `docs/`; current adapter and live-test boundaries. |
+| [ability_detection_architecture.md](ability_detection_architecture.md) | Design proposal | Review exact-ID mapping data, rank verification, and optional guarded discovery; no runtime changes authorized. |
 | [user_content_runtime.md](user_content_runtime.md) | Active reference | Keep directly under `docs/`; implemented editor/runtime API details. |
 | [curseforge_readiness.md](curseforge_readiness.md) | Active reference | Keep directly under `docs/`; current platform evidence and unresolved submission gates. |
 | [release_checklist.md](release_checklist.md) | Active reference | Keep directly under `docs/`; reproducible prerelease and publication handoff. |
@@ -196,6 +202,7 @@ dated. No file is proposed for deletion.
 | --- | --- | --- |
 | [ability_catalogue_reconciliation_inventory.csv](audits/ability_catalogue_reconciliation_inventory.csv) | Machine-readable inventory | Retain beside its report unchanged. |
 | [ability_spell_mapping_inventory.csv](audits/ability_spell_mapping_inventory.csv) | Machine-readable inventory | Retain beside its report unchanged. |
+| [ability_detection_verification_inventory.csv](audits/ability_detection_verification_inventory.csv) | Machine-readable inventory | Current 474-ability verification queue; candidates and observations remain separate from production mappings. |
 | [druid_beta_reconciliation.csv](audits/druid_beta_reconciliation.csv) | Machine-readable inventory | Retain beside its report unchanged. |
 | [forever_ability_coverage_inventory.csv](audits/forever_ability_coverage_inventory.csv) | Machine-readable inventory | Retain beside its report unchanged. |
 | [hunter_beta_reconciliation.csv](audits/hunter_beta_reconciliation.csv) | Machine-readable inventory | Retain beside its report unchanged. |
