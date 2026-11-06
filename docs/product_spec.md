@@ -36,10 +36,14 @@ initialization and is controlled only by:
 - `/rph debug off`
 - `/rph debug status`
 - `/rph debug show`
+- `/rph debug show all`
 - `/rph debug clear`
 - `/rph debug help`
 
-`show` displays the latest ten retained records in sequence order. Capture uses
+`show` displays the latest ten retained records in sequence order; `show all`
+displays the entire retained buffer, at most 100 records. `status` also reports
+ability/defensive registration results and whether the secret-inspection function
+is present (presence does not prove that inspection succeeds). Capture uses
 a 100-record ring buffer, has no timer or polling loop, and continues to observe
 event delivery when the master reaction switch is disabled. Turning capture off
 retains the current records; clearing records does not change the on/off state.
@@ -48,16 +52,25 @@ Diagnostic state and records are never written to `RPHelperDB` or any other
 SavedVariable. Records contain only normalized, already-inspected fields: a
 session sequence number, a safe relative timestamp when available, event and
 activity categories where observed, fixed classification reasons, and approved
-unit/action/class/spell/ability values. They never retain callback argument
-tables, cast GUIDs, names, target identity, chat or combat-log text, spell names,
-or arbitrary object representations. Restricted and malformed fields use fixed
+unit/action/class/spell/ability values. During diagnostic capture only, a readable
+player spell ID may also receive an optional guarded spell-name lookup; only
+inspected, bounded text with chat markup/control characters removed is retained.
+Records never retain callback argument tables, cast GUIDs, character names,
+target identity, chat or combat-log text, or arbitrary object representations.
+Restricted and malformed fields use fixed
 labels or reasons instead of being coerced or displayed.
 
 Capture is passive: it neither invokes a reaction nor changes event registration,
 chance, cooldown, quota, encounter state, selection, or output routing. A record
-shows what the client delivered and how the current classifier interpreted it;
-it is not by itself proof that a mapping is correct or that the server accepted
-an automatic output.
+shows what the client delivered and how the current classifier interpreted it.
+Spellcast records additionally report the first policy rejection, effective
+chance/roll when reached, eligible-pool count when prepared, selection, output
+type, and dispatch success. Eligibility is explicitly `not_evaluated` before
+preparation: capture never constructs pools ahead of the ordinary gates or
+consumes additional random values. `emitted=yes` means the output adapter
+reported success; it does not prove the server accepted a public message.
+See [live-client detection diagnostics](live_client_detection_diagnostics.md)
+for the capture procedure and remaining verification requirements.
 
 ## Output behaviour by context
 

@@ -110,6 +110,26 @@ function API.RegisterAbilityEvents(frame)
     return ok and result ~= false
 end
 
+function API.HasSecretInspection()
+    return type(issecretvalue) == "function"
+end
+
+-- Diagnostic-only, optional lookup. No fallback after failure or restriction,
+-- no cast GUID/target inspection, and no effect on classification or selection.
+function API.GetDiagnosticSpellName(spellID)
+    local safeSpell, state = safeField(spellID)
+    if state ~= "readable" or type(safeSpell) ~= "number" or safeSpell <= 0
+        or safeSpell >= math.huge or safeSpell ~= safeSpell or safeSpell % 1 ~= 0 then return nil end
+    local lookup = type(C_Spell) == "table" and C_Spell.GetSpellName or nil
+    if type(lookup) ~= "function" then lookup = GetSpellInfo end
+    local ok, name = call(lookup, safeSpell)
+    if not ok then return nil end
+    local safeName, nameState = safeField(name)
+    if nameState ~= "readable" or type(safeName) ~= "string" or safeName == "" then return nil end
+    -- Bound memory and prevent chat markup/control characters in local display.
+    return string.sub(string.gsub(safeName, "[|%c]", ""), 1, 128)
+end
+
 -- These APIs are established WoW addon APIs but still require live Forever
 -- verification. Keeping them behind this adapter makes every assumption
 -- replaceable in tests and revisable without changing runtime coordination.

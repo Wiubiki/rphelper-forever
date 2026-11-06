@@ -114,6 +114,7 @@ test("real manifest loads the complete addon in order and starts all implemented
     equal(tocPath:match("/([^/]+)%.toc$"), addonIdentity, "TOC filename must match the addon folder")
     local entries, metadata = readManifest(tocPath)
     equal(metadata.Title, "RPHelper Forever", "display name must retain spaces")
+    equal(metadata.Interface, "16001", "retain the user-verified Forever Interface")
     equal(metadata.SavedVariablesPerCharacter, "RPHelperDB", "character database name must stay stable")
 
     UIParent = newWidget("Frame", "UIParent")

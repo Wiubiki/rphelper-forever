@@ -1,4 +1,5 @@
 ## Title: RPHelper Forever
+## Interface: 16001
 ## Notes: Contextual roleplaying flavour through triggered sayings and emotes.
 ## Author: Wiubiki
 ## Version: 0.9.0-prerelease

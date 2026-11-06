@@ -241,6 +241,7 @@ end
 function ContentEngine.ChooseCandidate(pool, options)
     options = options or {}
     local eligible = ContentEngine.PrepareCandidatePool(pool, options)
+    if type(options.diagnostics) == "table" then options.diagnostics.eligible = #eligible end
     if #eligible == 0 then
         return nil
     end
