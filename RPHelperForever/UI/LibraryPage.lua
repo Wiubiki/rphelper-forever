@@ -364,7 +364,9 @@ function LibraryPage.Create(parent, callbacks)
             if settings.supported then
                 self.EventState:SetText(enabledText(settings.enabled) .. " | Effective chance "
                     .. chanceText(settings.chance) .. " | Priority "
-                    .. (settings.priority and "On" or "Off") .. " | Runtime detector supported")
+                    .. (settings.priority and "On" or "Off")
+                    .. (group.kind == "ability" and " | Detected: mapped IDs only"
+                        or " | Runtime detector supported"))
             else
                 self.EventState:SetText("Not currently detected | Event settings unavailable")
             end

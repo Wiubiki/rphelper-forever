@@ -60,7 +60,7 @@ function Diagnostics.Observe(event, category, detail)
     if not enabled or type(event) ~= "string" or type(category) ~= "string"
         or type(detail) ~= "table" then return false end
 
-    -- Classifiers supply only sanitized primitives. Copy the approved schema so
+    -- Classifiers/runtime supply only sanitized primitives. Copy the approved schema so
     -- callback payload tables or future classifier fields cannot be retained.
     local record = {
         event = event,
@@ -68,9 +68,19 @@ function Diagnostics.Observe(event, category, detail)
         result = type(detail.result) == "string" and detail.result or "classification_unavailable",
         matched = detail.matched == true,
     }
-    for _, key in ipairs({ "trigger", "unit", "action", "spellID", "class", "ability" }) do
+    for _, key in ipairs({ "trigger", "unit", "action", "spellID", "class", "ability",
+        "spellName", "outcome", "outputType" }) do
         local value = detail[key]
         if type(value) == "string" or type(value) == "number" then record[key] = value end
+    end
+    if detail.eligible == "not_evaluated" or (finite(detail.eligible) and detail.eligible >= 0) then
+        record.eligible = detail.eligible
+    end
+    for _, key in ipairs({ "chance", "roll" }) do
+        if finite(detail[key]) then record[key] = detail[key] end
+    end
+    for _, key in ipairs({ "selected", "emitted" }) do
+        if type(detail[key]) == "boolean" then record[key] = detail[key] end
     end
     if finite(detail.time) and detail.time >= 0
         and (lastTime == nil or detail.time >= lastTime) then
@@ -121,8 +131,17 @@ function Diagnostics.Format(record)
         local spell = record.spellID and tostring(record.spellID) or "restricted"
         local class = record.class or "unavailable"
         local ability = record.ability and (" ability=" .. record.ability) or ""
+        local name = record.spellName and (' spellName="' .. record.spellName .. '"') or " spellName=unavailable"
+        local policy = " outcome=" .. (record.outcome or "not_attempted")
+            .. " eligible=" .. tostring(record.eligible or "not_evaluated")
+            .. " selected=" .. (record.selected and "yes" or "no")
+            .. " emitted=" .. (record.emitted and "yes" or "no")
+        if record.outputType then policy = policy .. " type=" .. record.outputType end
+        if record.chance then policy = policy .. " chance=" .. tostring(record.chance) end
+        if record.roll then policy = policy .. " roll=" .. string.format("%.3f", record.roll) end
         return text .. " unit=" .. (record.unit or "restricted") .. " spellID=" .. spell
-            .. " class=" .. class .. ability .. activity .. " result=" .. record.result
+            .. name .. " class=" .. class .. ability .. activity .. " result=" .. record.result
+            .. " matched=" .. (record.matched and "yes" or "no") .. policy
     end
     return text .. " result=" .. record.result
 end

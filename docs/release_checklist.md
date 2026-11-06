@@ -12,7 +12,8 @@ This checklist prepares a future release; it does not authorize publication.
 - [ ] Run `find RPHelperForever tests -type f -name '*.lua' -print0 | xargs -0 luac -p`.
 - [ ] Run `python3 scripts/package_addon.py build`.
 - [ ] Run `python3 scripts/package_addon.py validate`.
-- [ ] Record the filename, byte size, SHA-256, and 54-member inventory.
+- [ ] Record the filename, byte size, SHA-256, and 55-member inventory (including
+  the static mapping-data module and required distribution notices).
 - [ ] Confirm a repeated build reports `unchanged` and retains the same hash.
 - [ ] Inspect the extracted shape: `RPHelperForever/RPHelperForever.toc`, never a nested second
   `RPHelperForever` folder.
@@ -68,7 +69,7 @@ RPHelper Forever 0.9.0 prerelease prepares the new implementation for controlled
 WoW Forever client verification. It includes contextual reactions, per-character
 schema-v2 settings, the Character Library/editor, Guide/About pages, and opt-in
 session diagnostics. Runtime detection remains intentionally limited to the
-documented generic triggers and two mapped Paladin abilities. This is not the
+documented generic triggers and four mapped Paladin/Shaman ability IDs. This is not the
 V1.0 stable release.
 
 ## Launch-day checks

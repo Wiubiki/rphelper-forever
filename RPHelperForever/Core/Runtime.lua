@@ -59,42 +59,50 @@ function Runtime.SetAPI(adapter)
     api = adapter or RPHelper.RuntimeAPI
 end
 
-local function handleReaction(trigger, abilityClass)
+local function handleReaction(trigger, abilityClass, trace)
+    local function reject(reason, activity, now)
+        if trace then trace.outcome = reason end
+        return false, activity, now
+    end
     if not abilityClass and defensiveTriggers[trigger] and not inCombat then return false end
     local key = abilityClass and trigger or Runtime.TriggerConfigKey[trigger]
     if not key then return false end
     local activity = call("GetActivity")
-    if not RPHelper.Output.IsActivityAllowed(activity) then return false, activity end
+    if not RPHelper.Output.IsActivityAllowed(activity) then return reject("activity_blocked", activity) end
 
     -- Encounter quota is the first configurable policy gate. Exit reactions are
     -- evaluated while the encounter is still active and therefore share it.
     local quotaEnabled = setting("encounterQuotaEnabled")
     if quotaEnabled and inCombat
-        and combatOutputs >= setting("maxAutomaticOutputsPerCombat") then return false, activity end
+        and combatOutputs >= setting("maxAutomaticOutputsPerCombat") then return reject("quota", activity) end
 
     local priority = setting("priority", key, abilityClass)
     local now = call("GetTime")
-    if not finite(now) or now < 0 or (lastObserved and now < lastObserved) then return false, activity end
+    if not finite(now) or now < 0 or (lastObserved and now < lastObserved) then
+        return reject("invalid_clock", activity)
+    end
     lastObserved = now
     if not priority and lastGlobal and now - lastGlobal < setting("globalCooldown") then
-        return false, activity, now
+        return reject("cooldown", activity, now)
     end
 
-    if not setting("enabled") or not setting("enabled", key, abilityClass) then
-        return false, activity, now
-    end
+    if not setting("enabled") then return reject("master_disabled", activity, now) end
+    if not setting("enabled", key, abilityClass) then return reject("event_disabled", activity, now) end
 
     local chance = setting("chance", key, abilityClass)
-    if chance <= 0 then return false, activity, now end
+    if trace then trace.chance = chance end
+    if chance <= 0 then return reject("chance_zero", activity, now) end
     if chance < 1 then
         local roll = call("Random")
+        if trace and finite(roll) then trace.roll = roll end
         if not finite(roll) or roll < 0 or roll >= 1 or roll >= chance then
-            return false, activity, now
+            local reason = finite(roll) and roll >= 0 and roll < 1 and "chance" or "invalid_roll"
+            return reject(reason, activity, now)
         end
     end
 
     local class = abilityClass or call("GetPlayerClass")
-    if type(class) ~= "string" or class == "" then return false, activity, now end
+    if type(class) ~= "string" or class == "" then return reject("class_unavailable", activity, now) end
     local race = call("GetPlayerRace")
     if type(race) ~= "string" then race = nil end
     local values = { PLAYER_CLASS = class, PLAYER_RACE = race }
@@ -108,6 +116,9 @@ local function handleReaction(trigger, abilityClass)
         end,
         randomIndex = field(api, "RandomIndex"),
         randomWeight = field(api, "Random"),
+        -- Observe the pool already prepared for this attempt; never prepare a
+        -- second pool or draw extra random values merely for diagnostics.
+        diagnostics = trace,
     }
     local candidate
     if abilityClass then
@@ -115,10 +126,14 @@ local function handleReaction(trigger, abilityClass)
     else
         candidate = RPHelper.ChooseContentCandidate(trigger, race, class, options)
     end
-    if not candidate or not RPHelper.Output.Dispatch(candidate, api, activity,
-        setting("dungeonSayMode")) then
-        return false, activity, now
+    if not candidate then
+        return reject(trace and trace.eligible == 0 and "no_eligible_content" or "selection_failed", activity, now)
     end
+    if trace then trace.selected = true; trace.outputType = candidate.type end
+    if not RPHelper.Output.Dispatch(candidate, api, activity, setting("dungeonSayMode")) then
+        return reject("dispatch_failed", activity, now)
+    end
+    if trace then trace.emitted = true; trace.outcome = "emitted" end
     if not priority then lastGlobal = now end
     if quotaEnabled and inCombat then combatOutputs = combatOutputs + 1 end
     return true, activity, now
@@ -128,10 +143,13 @@ function Runtime.HandleTrigger(trigger)
     return handleReaction(trigger)
 end
 
-local function handleAbility(class, ability)
+local function handleAbility(class, ability, trace)
     if type(class) ~= "string" or type(ability) ~= "string" then return false end
-    if field(field(RPHelper.Ability, class), ability) ~= ability then return false end
-    return handleReaction(ability, class)
+    if field(field(RPHelper.Ability, class), ability) ~= ability then
+        if trace then trace.outcome = "unknown_ability" end
+        return false
+    end
+    return handleReaction(ability, class, trace)
 end
 
 function Runtime.HandleEvent(event, ...)
@@ -144,8 +162,16 @@ function Runtime.HandleEvent(event, ...)
         local class = call("GetPlayerClass")
         local ability, detail = call("ClassifySpellcastSucceeded", unitTarget, castGUID, spellID, class)
         detail = detail or { result = "classification_unavailable", matched = false }
+        local trace
+        if RPHelper.Diagnostics and RPHelper.Diagnostics.IsEnabled() then
+            trace = detail
+            trace.outcome, trace.eligible = "not_attempted", "not_evaluated"
+            trace.selected, trace.emitted = false, false
+            -- Only the classifier's inspected ID reaches the optional name API.
+            if detail.spellID then trace.spellName = call("GetDiagnosticSpellName", detail.spellID) end
+        end
         if not ability then observe(event, "spellcast", detail); return false end
-        local dispatched, activity, now = handleAbility(class, ability)
+        local dispatched, activity, now = handleAbility(class, ability, trace)
         detail.activity, detail.time = activity, now
         observe(event, "spellcast", detail)
         return dispatched
@@ -221,4 +247,13 @@ end
 
 function Runtime.IsInCombat()
     return inCombat
+end
+
+-- Query on demand, including when registration failure means no events arrive.
+function Runtime.GetDetectionStatus()
+    return {
+        abilityEventsRegistered = abilityEventsRegistered,
+        defensiveEventsRegistered = defensiveEventsRegistered,
+        secretInspectionAvailable = call("HasSecretInspection") == true,
+    }
 end

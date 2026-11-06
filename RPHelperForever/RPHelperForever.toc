@@ -1,4 +1,5 @@
 ## Title: RPHelper Forever
+## Interface: 16001
 ## Notes: Contextual roleplaying flavour through triggered sayings and emotes.
 ## Author: Wiubiki
 ## Version: 0.9.0-prerelease
@@ -45,6 +46,7 @@ Data/Abilities/Paladin.lua
 Data/Abilities/Mage.lua
 Data/Abilities/Priest.lua
 Data/Abilities/Warlock.lua
+Data/AbilitySpellMappings.lua
 UI/Widgets.lua
 UI/LibraryData.lua
 UI/LibraryEditorData.lua

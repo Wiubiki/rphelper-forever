@@ -16,7 +16,7 @@ local function printDebugHelp()
     print("/rph debug on")
     print("/rph debug off")
     print("/rph debug status")
-    print("/rph debug show  (latest 10 records)")
+    print("/rph debug show [all]  (latest 10, or all retained records)")
     print("/rph debug clear")
     print("/rph debug help")
 end
@@ -26,7 +26,7 @@ local function handleDebug(rest)
     if type(diagnostics) ~= "table" then printDebugHelp(); return end
     local subcommand, extra = string.match(rest or "", "^(%S*)%s*(.-)$")
     subcommand = string.lower(subcommand or "")
-    if extra ~= "" then printDebugHelp(); return end
+    if extra ~= "" and not (subcommand == "show" and extra == "all") then printDebugHelp(); return end
     if subcommand == "on" then
         diagnostics.SetEnabled(true)
         print("RPHelper diagnostics enabled for this session.")
@@ -36,8 +36,12 @@ local function handleDebug(rest)
     elseif subcommand == "status" then
         print("RPHelper diagnostics are " .. (diagnostics.IsEnabled() and "enabled" or "disabled")
             .. "; " .. diagnostics.Count() .. "/" .. diagnostics.Capacity .. " records retained.")
+        local status = RPHelper.Runtime.GetDetectionStatus()
+        print("RPHelper registration: UNIT_SPELLCAST_SUCCEEDED=" .. tostring(status.abilityEventsRegistered)
+            .. " UNIT_COMBAT=" .. tostring(status.defensiveEventsRegistered)
+            .. " secret inspection function present=" .. tostring(status.secretInspectionAvailable))
     elseif subcommand == "show" then
-        local records = diagnostics.GetRecords(10)
+        local records = diagnostics.GetRecords(extra == "all" and diagnostics.Capacity or 10)
         if #records == 0 then
             print("RPHelper diagnostics have no captured records.")
         else

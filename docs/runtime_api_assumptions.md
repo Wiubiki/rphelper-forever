@@ -30,7 +30,7 @@ Adapter methods fail safely when their underlying global is unavailable. The sha
 | `UNIT_COMBAT` / `RegisterDefensiveEvents(frame)` | Protected ordinary registration; failure leaves combat transitions functional. | Confirm registration and delivery on the actual Forever build. |
 | `issecretvalue` / `ClassifyUnitCombat(unitTarget, action)` | Required fields must inspect as nonsecret strings; exact player DODGE/PARRY/direct BLOCK only. Missing/failing inspection rejects detection; unused fields are ignored. | Confirm readability and attribution in ordinary addon execution, restricted contexts, and encounter-boundary ordering. See [combat audit](audits/combat_trigger_api_audit.md). |
 | `UNIT_SPELLCAST_SUCCEEDED` / `RegisterAbilityEvents(frame)` | Protected ordinary registration; failure disables only ability detection. | Confirm ordinary-addon registration and delivery across activities; no unit-filtered registration assumption. |
-| `issecretvalue` / `ClassifySpellcastSucceeded(unitTarget, castGUID, spellID, class)` | Exact readable player unit, valid readable positive integer ID and readable class; two explicit Paladin mappings. GUID/cast-bar fields ignored. | Verify readability across restricted contexts, rank IDs and duplicate delivery. ID evidence is third-party, not RPHelper live verification; see [spellcasting audit](spell_casting_api_audit.md#6-first-runtime-increment). |
+| `issecretvalue` / `ClassifySpellcastSucceeded(unitTarget, castGUID, spellID, class)` | Exact readable player unit, valid readable positive integer ID and readable class; validated static data maps Paladin 19750/20288 and Shaman 325/547. GUID/cast-bar fields ignored. | Shaman IDs have repeated owner-reported readable successes on Tauren Shaman, Interface 16001; exact build and broader contexts remain unrecorded. Paladin evidence remains third-party. New reaction-path acceptance, restricted contexts, other ranks and duplicate behaviour remain open; see [milestone 1](ability_detection_milestone_1.md). |
 
 Output adapter success means the API invocation completed without an exception
 or explicit false result, not that the server acknowledged delivery. WoW output
@@ -52,11 +52,14 @@ findings. No commit has been created for this work.
 | Malformed saved settings | Startup and registered slash-command tests cover malformed root/settings containers and preservation of recoverable user data. Status uses the effective enabled default; on/off report unsavable settings without replacing malformed containers. General migrations remain deferred. | Pending |
 
 Gameplay event coverage includes combat entry/exit, the three audited defensive
-reactions (active encounters only), and the two mapped Paladin abilities through
-guarded cast-success events. RPHelper verification remains mocked only.
+reactions (active encounters only), and four mapped ability IDs through guarded
+cast-success events. Mapping data is validated after canonical registration in
+`Data/AbilitySpellMappings.lua`; runtime, Library and exporter share
+`RuntimeAPI.AbilitySpellIDs`. Shaman event readability has owner-reported live
+evidence; the new mapped reaction path remains offline-verified pending acceptance.
 Offensive criticals, partial-block flags, and combat-text/combat-log fallbacks
-remain unimplemented. Interface metadata and other trigger families remain
-unimplemented; future post-V1 schema changes will require migrations. The
+remain unimplemented. Interface 16001 is set from owner testing; other trigger
+families remain unimplemented. Future post-V1 schema changes will require migrations. The
 graphical settings window, Character Library/editor, Guide, and About pages are
 implemented. User-content pooling and disabled-default filtering are implemented
 through the existing selection/policy path; see

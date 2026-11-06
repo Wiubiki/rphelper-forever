@@ -36,6 +36,8 @@ dofile("RPHelperForever/Data/Generic.lua")
 dofile("RPHelperForever/Data/Races/Human.lua")
 dofile("RPHelperForever/Data/Classes/Paladin.lua")
 dofile("RPHelperForever/Data/Abilities/Paladin.lua")
+dofile("RPHelperForever/Data/Abilities/Shaman.lua")
+dofile("RPHelperForever/Data/AbilitySpellMappings.lua")
 
 local function newFrame()
     local frame = { registered = {} }
@@ -49,6 +51,8 @@ local function newAdapter()
     adapter.ClassifySpellcastSucceeded = RPHelper.RuntimeAPI.ClassifySpellcastSucceeded
     adapter.RegisterDefensiveEvents = RPHelper.RuntimeAPI.RegisterDefensiveEvents
     adapter.RegisterAbilityEvents = RPHelper.RuntimeAPI.RegisterAbilityEvents
+    adapter.HasSecretInspection = RPHelper.RuntimeAPI.HasSecretInspection
+    adapter.GetDiagnosticSpellName = RPHelper.RuntimeAPI.GetDiagnosticSpellName
     function adapter.GetTime() adapter.policyCalls = adapter.policyCalls + 1; return adapter.policyTime end
     function adapter.GetActivity() return "world" end
     function adapter.GetPlayerClass() return "PALADIN" end
@@ -311,6 +315,321 @@ test("capture adds no output, selection, policy spending, registration, or mappi
     equal(eventCount, 4)
     RPHelper.ChooseAbilityCandidate = oldChoose
     issecretvalue = oldInspect
+end)
+
+local function withInspection(callback)
+    local old = issecretvalue
+    issecretvalue = function() return false end
+    local ok, err = pcall(callback)
+    issecretvalue = old
+    if not ok then error(err, 2) end
+end
+
+local function cast()
+    return RPHelper.Runtime.HandleEvent("UNIT_SPELLCAST_SUCCEEDED", "player", nil, 19750)
+end
+
+local function latest()
+    return RPHelper.Diagnostics.GetRecords(1)[1]
+end
+
+test("each early policy rejection is reported without preparing content", function()
+    withInspection(function()
+        local cases = {
+            { "activity_blocked", function(a) a.GetActivity = function() return "raid" end end },
+            { "activity_blocked", function(a) a.GetActivity = function() return nil end end },
+            { "invalid_clock", function(a) a.policyTime = -1 end },
+            { "invalid_clock", function(a) a.GetTime = function() error("missing") end end },
+            { "master_disabled", function() setSetting("enabled", false) end },
+            { "event_disabled", function() setAbility("FLASH_OF_LIGHT", "enabled", false) end },
+            { "chance_zero", function() setAbility("FLASH_OF_LIGHT", "chance", 0) end },
+            { "chance", function(a)
+                setAbility("FLASH_OF_LIGHT", "chance", 0.2)
+                a.Random = function() return 0.2 end
+            end },
+            { "invalid_roll", function(a)
+                setAbility("FLASH_OF_LIGHT", "chance", 0.2)
+                a.Random = function() return 1 end
+            end },
+        }
+        for _, case in ipairs(cases) do
+            local a = newAdapter()
+            initialize(a)
+            setAbility("FLASH_OF_LIGHT", "chance", 1)
+            case[2](a)
+            RPHelper.Diagnostics.SetEnabled(true)
+            local oldPool, poolCalls = RPHelper.GetAbilityContentPool, 0
+            RPHelper.GetAbilityContentPool = function(...)
+                poolCalls = poolCalls + 1
+                return oldPool(...)
+            end
+            local ok, result = pcall(cast)
+            RPHelper.GetAbilityContentPool = oldPool
+            truthy(ok)
+            equal(result, false)
+            equal(poolCalls, 0)
+            local record = latest()
+            equal(record.result, "mapped")
+            equal(record.outcome, case[1])
+            equal(record.eligible, "not_evaluated")
+            equal(record.selected, false)
+            equal(record.emitted, false)
+            equal(#a.output, 0)
+        end
+    end)
+end)
+
+test("cooldown quota and backward clocks preserve first-gate ordering", function()
+    withInspection(function()
+        local a = newAdapter()
+        initialize(a)
+        setAbility("FLASH_OF_LIGHT", "chance", 1)
+        RPHelper.Diagnostics.SetEnabled(true)
+        truthy(cast())
+        equal(cast(), false)
+        equal(latest().outcome, "cooldown")
+        a.policyTime = -1
+        equal(cast(), false)
+        equal(latest().outcome, "invalid_clock")
+        a.policyTime = 25
+        truthy(cast())
+        a.policyTime = 24
+        equal(cast(), false)
+        equal(latest().outcome, "invalid_clock")
+
+        initialize(a)
+        a.policyTime = 0
+        setSetting("encounterQuotaEnabled", true)
+        setSetting("maxAutomaticOutputsPerCombat", 1)
+        setTrigger("enter_combat", "enabled", false)
+        setAbility("FLASH_OF_LIGHT", "chance", 1)
+        RPHelper.Diagnostics.SetEnabled(true)
+        RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
+        truthy(cast())
+        setSetting("enabled", false)
+        equal(cast(), false)
+        equal(latest().outcome, "quota")
+        equal(latest().eligible, "not_evaluated")
+    end)
+end)
+
+test("eligibility selection dispatch failure and emission are distinct", function()
+    withInspection(function()
+        local a = newAdapter()
+        initialize(a)
+        setAbility("FLASH_OF_LIGHT", "chance", 1)
+        RPHelper.Diagnostics.SetEnabled(true)
+        truthy(cast())
+        local record = latest()
+        equal(record.eligible, 1) -- TARGET-dependent custom emote is ineligible
+        equal(record.selected, true)
+        equal(record.emitted, true)
+        equal(record.outcome, "emitted")
+        equal(record.outputType, "say")
+        truthy(string.find(RPHelper.Diagnostics.Format(record), "matched=yes", 1, true))
+        a.policyTime = 25
+        a.RandomIndex = function() return 0 end
+        equal(cast(), false)
+        equal(latest().eligible, 1)
+        equal(latest().selected, false)
+        equal(latest().outcome, "selection_failed")
+        a.RandomIndex = function() return 1 end
+        a.DisplayLocal = function() error("blocked") end
+        equal(cast(), false)
+        equal(latest().eligible, 1)
+        equal(latest().selected, true)
+        equal(latest().emitted, false)
+        equal(latest().outcome, "dispatch_failed")
+        truthy(RPHelper.Configuration.SetDefaultEnabled("default:ability:paladin:0014", false))
+        equal(cast(), false)
+        equal(latest().eligible, 0)
+        equal(latest().outcome, "no_eligible_content")
+        equal(latest().selected, false)
+    end)
+end)
+
+test("unmapped Shaman spells remain observable with master reactions off", function()
+    withInspection(function()
+        local a = newAdapter()
+        a.GetPlayerClass = function() return "SHAMAN" end
+        a.GetDiagnosticSpellName = function(id) equal(id, 900001); return "Test shield" end
+        initialize(a)
+        setSetting("enabled", false)
+        RPHelper.Diagnostics.SetEnabled(true)
+        RPHelper.Runtime.HandleEvent("UNIT_SPELLCAST_SUCCEEDED", "player", nil, 900001)
+        local record = latest()
+        equal(record.event, "UNIT_SPELLCAST_SUCCEEDED")
+        equal(record.class, "SHAMAN")
+        equal(record.spellID, 900001) -- synthetic fixture, never a production mapping
+        equal(record.spellName, "Test shield")
+        equal(record.result, "unmapped")
+        equal(record.matched, false)
+        equal(record.outcome, "not_attempted")
+        equal(record.eligible, "not_evaluated")
+        equal(a.policyCalls, 0)
+    end)
+end)
+
+test("both observed Shaman IDs report mapped identities and downstream outcomes", function()
+    withInspection(function()
+        for id, ability in pairs({ [325] = "LIGHTNING_SHIELD", [547] = "HEALING_WAVE" }) do
+            local a = newAdapter()
+            a.GetPlayerClass = function() return "SHAMAN" end
+            a.GetPlayerRace = function() return "TAUREN" end
+            a.GetDiagnosticSpellName = function() error("optional lookup unavailable") end
+            initialize(a)
+            truthy(RPHelper.Configuration.SetEventSetting("ability", "SHAMAN", ability, "chance", 1))
+            RPHelper.Diagnostics.SetEnabled(true)
+            setSetting("enabled", false)
+            equal(RPHelper.Runtime.HandleEvent("UNIT_SPELLCAST_SUCCEEDED", "player", nil, id), false)
+            equal(latest().result, "mapped")
+            equal(latest().matched, true)
+            equal(latest().ability, ability)
+            equal(latest().outcome, "master_disabled")
+            equal(latest().eligible, "not_evaluated")
+            setSetting("enabled", true)
+            truthy(RPHelper.Runtime.HandleEvent("UNIT_SPELLCAST_SUCCEEDED", "player", nil, id))
+            equal(latest().class, "SHAMAN")
+            equal(latest().spellID, id)
+            equal(latest().ability, ability)
+            equal(latest().eligible, id == 325 and 6 or 4)
+            equal(latest().selected, true)
+            equal(latest().emitted, true)
+            equal(latest().outcome, "emitted")
+            equal(#a.output, 1)
+            equal(RPHelper.Runtime.HandleEvent("UNIT_SPELLCAST_SUCCEEDED", "player", nil, id), false)
+            equal(latest().outcome, "cooldown")
+            equal(latest().emitted, false)
+            local lines = captureCommand("debug show all")
+            truthy(string.find(table.concat(lines, "\n"), "ability=" .. ability, 1, true))
+        end
+    end)
+end)
+
+test("optional spell names require inspected IDs and inspected bounded text", function()
+    local oldInspect, oldSpell, oldInfo = issecretvalue, C_Spell, GetSpellInfo
+    local ok, err = pcall(function()
+        local hostile = setmetatable({}, { __tostring = function() error("must not stringify") end })
+        local lookupCalls, fallbackCalls = 0, 0
+        issecretvalue = function(value) return value == hostile end
+        C_Spell = { GetSpellName = function()
+            lookupCalls = lookupCalls + 1
+            return "|Hunsafe\n" .. string.rep("a", 200)
+        end }
+        GetSpellInfo = function() fallbackCalls = fallbackCalls + 1; return "Legacy spell" end
+        local name = RPHelper.RuntimeAPI.GetDiagnosticSpellName(19750)
+        equal(#name, 128)
+        equal(string.find(name, "[|%c]"), nil)
+        equal(RPHelper.RuntimeAPI.GetDiagnosticSpellName(hostile), nil)
+        equal(RPHelper.RuntimeAPI.GetDiagnosticSpellName("19750"), nil)
+        equal(lookupCalls, 1)
+        C_Spell.GetSpellName = function() return hostile end
+        equal(RPHelper.RuntimeAPI.GetDiagnosticSpellName(19750), nil)
+        C_Spell.GetSpellName = function() error("restricted lookup") end
+        equal(RPHelper.RuntimeAPI.GetDiagnosticSpellName(19750), nil)
+        equal(fallbackCalls, 0)
+        C_Spell = nil
+        equal(RPHelper.RuntimeAPI.GetDiagnosticSpellName(19750), "Legacy spell")
+        equal(fallbackCalls, 1)
+        GetSpellInfo = nil
+        equal(RPHelper.RuntimeAPI.GetDiagnosticSpellName(19750), nil)
+        issecretvalue = nil
+        equal(RPHelper.RuntimeAPI.GetDiagnosticSpellName(19750), nil)
+    end)
+    issecretvalue, C_Spell, GetSpellInfo = oldInspect, oldSpell, oldInfo
+    if not ok then error(err) end
+end)
+
+test("restricted or wrong-unit events never invoke the name lookup", function()
+    withInspection(function()
+        local a, calls = newAdapter(), 0
+        a.GetDiagnosticSpellName = function() calls = calls + 1 end
+        initialize(a)
+        RPHelper.Diagnostics.SetEnabled(true)
+        RPHelper.Runtime.HandleEvent("UNIT_SPELLCAST_SUCCEEDED", "target", nil, 19750)
+        issecretvalue = function(value) return value == 19750 end
+        cast()
+        equal(latest().result, "spell_restricted")
+        equal(calls, 0)
+    end)
+end)
+
+test("status exposes failed registration and missing inspection without waiting for events", function()
+    withInspection(function()
+        local a = newAdapter()
+        a.RegisterAbilityEvents = function() error("unsupported event") end
+        initialize(a)
+        issecretvalue = nil
+        local messages = captureCommand("debug status")
+        truthy(string.find(messages[2], "UNIT_SPELLCAST_SUCCEEDED=false", 1, true))
+        truthy(string.find(messages[2], "UNIT_COMBAT=true", 1, true))
+        truthy(string.find(messages[2], "inspection function present=false", 1, true))
+        equal(RPHelper.Diagnostics.Count(), 0)
+    end)
+end)
+
+test("show all dumps the bounded buffer only on explicit request", function()
+    initialize(newAdapter())
+    captureCommand("debug on")
+    for index = 1, 105 do
+        RPHelper.Diagnostics.Observe("TEST_EVENT", "combat", { result = "matched" })
+    end
+    captureCommand("debug off")
+    local messages = captureCommand("debug show all")
+    equal(#messages, 101)
+    truthy(string.find(messages[2], "#6 ", 1, true))
+    truthy(string.find(messages[101], "#105 ", 1, true))
+    truthy(#captureCommand("debug show 1000") <= 7)
+end)
+
+test("on and off produce identical runtime calls random draws outputs and policy results", function()
+    withInspection(function()
+        local runs = {}
+        for _, enabled in ipairs({ false, true }) do
+            local a, calls, nameCalls = newAdapter(), {}, 0
+            for _, key in ipairs({ "GetTime", "GetActivity", "GetPlayerClass", "GetPlayerRace",
+                "Random", "RandomIndex", "DisplayLocal", "SendSay", "RunEmote", "SendCustomEmote" }) do
+                local original = a[key]
+                a[key] = function(...)
+                    calls[#calls + 1] = key
+                    return original(...)
+                end
+            end
+            a.GetDiagnosticSpellName = function() nameCalls = nameCalls + 1; return "Flash of Light" end
+            initialize(a)
+            setAbility("FLASH_OF_LIGHT", "chance", 0.2)
+            setTrigger("enter_combat", "enabled", false)
+            setSetting("encounterQuotaEnabled", true)
+            setSetting("maxAutomaticOutputsPerCombat", 2)
+            RPHelper.Diagnostics.SetEnabled(enabled)
+            local results = {}
+            local function attempt(event, ...)
+                results[#results + 1] = tostring(RPHelper.Runtime.HandleEvent(event, ...))
+            end
+            attempt("UNIT_SPELLCAST_SUCCEEDED", "player", nil, 19750)
+            attempt("UNIT_SPELLCAST_SUCCEEDED", "player", nil, 19750) -- cooldown
+            attempt("PLAYER_REGEN_DISABLED")
+            a.policyTime = 25
+            attempt("UNIT_SPELLCAST_SUCCEEDED", "player", nil, 19750)
+            a.policyTime = 50
+            attempt("UNIT_SPELLCAST_SUCCEEDED", "player", nil, 19750)
+            a.policyTime = 75
+            attempt("UNIT_SPELLCAST_SUCCEEDED", "player", nil, 19750) -- quota
+            attempt("PLAYER_REGEN_ENABLED")
+            runs[#runs + 1] = { calls = table.concat(calls, ","),
+                results = table.concat(results, ","), output = table.concat(a.output, ",") }
+            if not enabled then
+                equal(RPHelper.Diagnostics.Count(), 0)
+                equal(nameCalls, 0)
+            else
+                truthy(nameCalls > 0)
+                truthy(RPHelper.Diagnostics.Count() > 0)
+            end
+        end
+        equal(runs[1].calls, runs[2].calls)
+        equal(runs[1].results, runs[2].results)
+        equal(runs[1].output, runs[2].output)
+    end)
 end)
 
 if failures > 0 then

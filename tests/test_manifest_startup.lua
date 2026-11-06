@@ -114,6 +114,7 @@ test("real manifest loads the complete addon in order and starts all implemented
     equal(tocPath:match("/([^/]+)%.toc$"), addonIdentity, "TOC filename must match the addon folder")
     local entries, metadata = readManifest(tocPath)
     equal(metadata.Title, "RPHelper Forever", "display name must retain spaces")
+    equal(metadata.Interface, "16001", "retain the user-verified Forever Interface")
     equal(metadata.SavedVariablesPerCharacter, "RPHelperDB", "character database name must stay stable")
 
     UIParent = newWidget("Frame", "UIParent")
@@ -153,6 +154,12 @@ test("real manifest loads the complete addon in order and starts all implemented
             .. tostring(runtimeError))
     end
 
+    equal(RPHelper.AbilitySpellMappings.validationError, nil, "mapping data must validate after canonical registration")
+    equal(RPHelper.RuntimeAPI.AbilitySpellIDs.SHAMAN[325], "LIGHTNING_SHIELD")
+    equal(RPHelper.RuntimeAPI.AbilitySpellIDs.SHAMAN[547], "HEALING_WAVE")
+    equal(RPHelper.RuntimeAPI.AbilitySpellIDs.PALADIN[19750], "FLASH_OF_LIGHT")
+    equal(RPHelper.RuntimeAPI.AbilitySpellIDs.PALADIN[20288], "SEAL_OF_RIGHTEOUSNESS")
+
     local eventFrame
     for _, frame in ipairs(frames) do
         if frame.registered.ADDON_LOADED then eventFrame = frame; break end
@@ -187,7 +194,9 @@ test("renamed startup preserves an existing character database and reaction refe
         schemaVersion = 2,
         settings = { enabled = false, reactionChance = 0, globalCooldown = 37, dungeonSayMode = "local" },
         triggers = { dodge = { enabled = false, chance = 0.2 } },
-        abilities = { PALADIN = { FLASH_OF_LIGHT = { chance = 0.03 } } },
+        abilities = { PALADIN = { FLASH_OF_LIGHT = { chance = 0.03 } },
+            SHAMAN = { LIGHTNING_SHIELD = { enabled = false, chance = 0.73 },
+                HEALING_WAVE = { priority = true, chance = 0.4 } } },
         custom = { nextID = 43, entries = {
             ["custom:42"] = {
                 scope = { layer = "generic", trigger = "entercombat" },

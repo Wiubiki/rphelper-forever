@@ -29,7 +29,8 @@
       "RPHelper/Data/Abilities/Paladin.lua",
       "RPHelper/Data/Abilities/Mage.lua",
       "RPHelper/Data/Abilities/Priest.lua",
-      "RPHelper/Data/Abilities/Warlock.lua"
+      "RPHelper/Data/Abilities/Warlock.lua",
+      "RPHelper/Data/AbilitySpellMappings.lua"
     ],
     "excluded_archive_files": [
       "RPHelper/Data/Abilities/HunterArchive.lua",
@@ -43306,9 +43307,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          547
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
@@ -43698,9 +43701,11 @@
       ],
       "runtime_source": {
         "file": "RPHelper/Core/RuntimeAPI.lua",
-        "spell_ids": []
+        "spell_ids": [
+          325
+        ]
       },
-      "runtime_supported": false,
+      "runtime_supported": true,
       "explicit_empty_registration": false,
       "population_status": "partially populated",
       "reaction_counts": {
