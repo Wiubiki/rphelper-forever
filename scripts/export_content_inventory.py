@@ -87,9 +87,9 @@ function RPHelper.RegisterAbility(class, ability, entry)
     return originals.ability(class, ability, entry)
 end
 
+dofile(root .. "/RPHelperForever/Core/RuntimeAPI.lua")
 for index = 2, #arg do dofile(root .. "/" .. arg[index]) end
 
-dofile(root .. "/RPHelperForever/Core/RuntimeAPI.lua")
 RPHelper.Configuration = RPHelper.Configuration or {}
 RPHelper.Output = RPHelper.Output or {}
 dofile(root .. "/RPHelperForever/Core/Runtime.lua")

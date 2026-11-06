@@ -1,8 +1,9 @@
 # Temporary live-client detection diagnostics
 
-This diagnostic increment leaves ability detection and the production spell-ID
-allowlist unchanged. The TOC now includes the user-reported, live-tested Forever
-Interface `16001`; the addon version remains `0.9.0-prerelease`.
+The opt-in diagnostic workflow is preserved. Mapping milestone 1 now loads four
+reviewed static IDs, including the two owner-observed Shaman IDs below. The TOC
+uses the user-reported, live-tested Forever Interface `16001`; the addon version
+remains `0.9.0-prerelease`. See the [mapping test build and acceptance procedure](ability_detection_milestone_1.md).
 
 ## Confirmed code findings
 
@@ -16,10 +17,12 @@ Interface `16001`; the addon version remains `0.9.0-prerelease`.
   and a readable supported player class can match. Missing, failing, or
   non-false `issecretvalue` inspection rejects the required value.
 - The entire production allowlist is Paladin `19750 -> FLASH_OF_LIGHT` and
-  `20288 -> SEAL_OF_RIGHTEOUSNESS`. Other ranks and every other class are
-  unmapped. Shaman Lightning Shield, heals, and weapon imbues have authored
-  content but no runtime spell-ID mappings. Raising chance cannot enable them.
-  A spell name is diagnostic metadata only; it never determines a mapping.
+  `20288 -> SEAL_OF_RIGHTEOUSNESS`, plus Shaman `325 -> LIGHTNING_SHIELD` and
+  `547 -> HEALING_WAVE`. `Data/AbilitySpellMappings.lua` validates these records
+  after canonical registration and publishes the index shared by runtime and
+  Library. Other ranks and every other class remain unmapped; weapon imbues are
+  still unmapped. Raising chance cannot enable an unknown ID. A spell name is
+  diagnostic metadata only; it never determines a mapping.
 - Mapped abilities pass through activity, optional encounter quota, valid clock,
   shared global cooldown unless Priority, master/event switches, and effective
   chance before preparing eligible content. Per-event chance replaces global
@@ -60,11 +63,12 @@ Interface `16001`; the addon version remains `0.9.0-prerelease`.
    lines with any existing chat-copy facility, or take screenshots. Include the
    status lines and which casts were attempted. Local diagnostic UI messages
    are not guaranteed to appear in the game's public chat log.
-6. To test the full reaction path on a Paladin, restore master reactions, enable
+6. To test the full reaction path on a Shaman or Paladin, restore master reactions, enable
    the mapped ability, and temporarily set its per-ability chance to 100% through
    the UI. Disable quota for this controlled test, wait out the shared cooldown,
    and use local dungeon Say routing if desired. Test the actual spell rank and
-   check the captured ID against the two mappings above. Repeated casts during
+   check the captured ID against the four mappings above. The Library's
+   **Detected: mapped IDs only** does not mean every rank works. Repeated casts during
    cooldown should produce `outcome=cooldown`, not repeated reactions. Ordinary
    chance can be tested separately; a chance roll at or above the effective
    chance rejects the attempt.
@@ -117,8 +121,13 @@ fallback runs after a lookup fails or returns restricted data.
 
 ## Unresolved live-client questions
 
-- Does ordinary SUCCEEDED registration succeed and deliver notifications for
-  these spells/ranks in Interface 16001, inside and outside combat? Empty
+- The owner confirmed registration, inspection availability and repeated readable
+  player SHAMAN successes for Lightning Shield 325 and Healing Wave Rank 3 547
+  on a Tauren Shaman, Interface 16001. Those samples were unmapped before milestone
+  1; mapped-path output acceptance remains pending. Exact build, complete context
+  matrix and raw capture files were not supplied.
+- Does ordinary SUCCEEDED registration deliver notifications for additional
+  spells/ranks and intended combat/activity contexts? Empty
   captures require the registration/status evidence plus the attempted casts.
 - Does this client's payload actually use the assumed third-position spell ID?
   This diagnostic mode observes the existing success path only. It does not
@@ -140,5 +149,6 @@ fallback runs after a lookup fails or returns restricted data.
 - Are the records readable in the actual chat UI, and do combat samples fit in
   the bounded buffer? Offline tests cannot establish client usability.
 
-All new automated coverage uses mocks. No live-client compatibility, extra
-spell coverage, or API-restriction workaround is claimed by this increment.
+Automated coverage uses mocks. The two Shaman mappings use the owner's reported
+event evidence; offline results do not establish live reaction/output acceptance,
+additional ranks, broader compatibility, or an API-restriction workaround.

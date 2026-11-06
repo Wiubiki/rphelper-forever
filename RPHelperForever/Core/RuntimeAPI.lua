@@ -64,14 +64,8 @@ function API.RegisterDefensiveEvents(frame)
     return ok and result ~= false
 end
 
--- Exact Forever observations only; no inferred ranks or retail normalization.
--- Evidence: docs/spell_casting_api_audit.md, first runtime increment.
-API.AbilitySpellIDs = {
-    PALADIN = {
-        [19750] = "FLASH_OF_LIGHT",
-        [20288] = "SEAL_OF_RIGHTEOUSNESS",
-    },
-}
+-- Populated by Data/AbilitySpellMappings.lua after canonical abilities load.
+API.AbilitySpellIDs = {}
 
 -- GUID and cast-bar fields are intentionally unused, including when secret.
 function API.ClassifySpellcastSucceeded(unitTarget, castGUID, spellID, class)

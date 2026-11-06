@@ -29,7 +29,7 @@ local sections = {
         title = "Character Library",
         pages = {
             "The Library groups this character's content into Generic, Race, and Class sections. Groups represent gameplay events, class abilities, and applicable Druid-form content.\n\nBuilt-in reactions ship with the addon and are read-only. Custom reactions belong to this character. Either kind can be individually enabled or disabled.",
-            "Weight is an integer from 1 to 10 and defaults to 1. It is a relative selection weight among reactions that are already eligible; it does not change event chance.\n\nSupported groups have a runtime detector and editable event settings. Not currently detected means the catalogue can be browsed and customized, but RPHelper has no supported automatic detector for that group. Catalogue abilities are not automatically detected merely because they are listed.",
+            "Weight is an integer from 1 to 10 and defaults to 1. It is a relative selection weight among reactions that are already eligible; it does not change event chance.\n\nSupported groups have a runtime detector and editable event settings. For abilities, Detected means at least one spell ID is mapped; other ranks may remain unmapped. Not currently detected means the catalogue can be browsed and customized, but RPHelper has no supported automatic detector for that group.",
         },
     },
     {

@@ -202,6 +202,16 @@ for index = 1, 11 do
     })
 end
 
+-- Small synthetic pools keep these groups visible in the fixture Library.
+for class, keys in pairs({ PALADIN = { "SEAL_OF_RIGHTEOUSNESS" },
+    SHAMAN = { "LIGHTNING_SHIELD", "HEALING_WAVE", "LIGHTNING_BOLT" } }) do
+    for _, key in ipairs(keys) do
+        RPHelper.RegisterAbility(class, key, { id = "default:test:" .. string.lower(class .. ":" .. key),
+            type = "say", text = "Test ability reaction." })
+    end
+end
+dofile("RPHelperForever/Data/AbilitySpellMappings.lua")
+
 dofile("RPHelperForever/UI/MainWindow.lua")
 dofile("RPHelperForever/Core/Commands.lua")
 
@@ -690,6 +700,42 @@ test("library maps supported abilities to canonical class and ability settings",
     equal(unsupported.chance, nil)
     local unsupportedDraft, err = EditorData.NewEventDraft(unsupportedGroup)
     equal(unsupportedDraft, nil); equal(err, "unsupported_group")
+end)
+
+test("Library support follows all four mapped abilities and explains rank limitations", function()
+    freshDatabase()
+    local shaman = LibraryData.BuildSection("class", { class = "SHAMAN", race = "TAUREN" })
+    for _, key in ipairs({ "LIGHTNING_SHIELD", "HEALING_WAVE" }) do
+        local group = findGroup(shaman, "ability:SHAMAN:" .. key)
+        equal(group.settings.detected, true)
+        equal(group.settings.supported, true)
+        equal(group.settings.configOwner, "SHAMAN")
+        equal(group.settings.configKey, key)
+        truthy(EditorData.NewEventDraft(group))
+    end
+    local unsupported = findGroup(shaman, "ability:SHAMAN:LIGHTNING_BOLT")
+    equal(unsupported.settings.detected, false)
+    equal(EditorData.NewEventDraft(unsupported), nil)
+    local paladin = LibraryData.BuildSection("class", { class = "PALADIN", race = "HUMAN" })
+    for _, key in ipairs({ "FLASH_OF_LIGHT", "SEAL_OF_RIGHTEOUSNESS" }) do
+        equal(findGroup(paladin, "ability:PALADIN:" .. key).settings.detected, true)
+    end
+
+    local oldClass = UnitClass
+    UnitClass = function() return "Shaman", "SHAMAN" end
+    local ok, err = pcall(function()
+        UI.Navigate("library")
+        local page = UI.GetLibraryPage()
+        page:SelectSection("class")
+        page:SelectGroup("ability:SHAMAN:LIGHTNING_SHIELD")
+        truthy(string.find(page.EventState:GetText(), "Detected: mapped IDs only", 1, true))
+        equal(page.ModifyGroup:IsEnabled(), true)
+        page:SelectGroup("ability:SHAMAN:LIGHTNING_BOLT")
+        equal(page.EventState:GetText(), "Not currently detected | Event settings unavailable")
+        equal(page.ModifyGroup:IsEnabled(), false)
+    end)
+    UnitClass = oldClass
+    if not ok then error(err, 2) end
 end)
 
 test("library construction and refresh do not materialize persistence defaults", function()

@@ -247,7 +247,10 @@ def validate(archive_path: Path) -> tuple[str, list[str]]:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     subparsers = parser.add_subparsers(dest="command", required=True)
-    subparsers.add_parser("build", help="build the deterministic prerelease ZIP")
+    build_parser = subparsers.add_parser("build", help="build the deterministic prerelease ZIP")
+    build_parser.add_argument(
+        "--output", "-o", type=Path, help="output ZIP path (default: dist/<addon>-<version>.zip)"
+    )
     validate_parser = subparsers.add_parser(
         "validate", help="validate a built archive"
     )
@@ -256,7 +259,7 @@ def main() -> int:
     )
     args = parser.parse_args()
     if args.command == "build":
-        build(default_archive())
+        build(args.output or default_archive())
     else:
         validate((args.archive or default_archive()).resolve())
     return 0

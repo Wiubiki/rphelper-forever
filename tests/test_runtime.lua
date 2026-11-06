@@ -53,6 +53,8 @@ dofile("RPHelperForever/Data/Races/Tauren.lua")
 dofile("RPHelperForever/Data/Classes/Druid.lua")
 dofile("RPHelperForever/Data/Abilities/Paladin.lua")
 dofile("RPHelperForever/Data/Abilities/Druid.lua")
+dofile("RPHelperForever/Data/Abilities/Shaman.lua")
+dofile("RPHelperForever/Data/AbilitySpellMappings.lua")
 
 local function newFrame()
     local frame = { registered = {} }
@@ -146,18 +148,20 @@ local function initialize(adapter)
     return frame
 end
 
-test("historical reconciliation does not enable additional production ability mappings", function()
+test("only the four reviewed production IDs are mapped", function()
     local mappings = RPHelper.RuntimeAPI.AbilitySpellIDs
     local count = 0
     for class, spells in pairs(mappings) do
-        equal(class, "PALADIN")
+        truthy(class == "PALADIN" or class == "SHAMAN")
         for id, ability in pairs(spells) do
             count = count + 1
-            truthy((id == 19750 and ability == "FLASH_OF_LIGHT")
-                or (id == 20288 and ability == "SEAL_OF_RIGHTEOUSNESS"))
+            truthy((class == "PALADIN" and id == 19750 and ability == "FLASH_OF_LIGHT")
+                or (class == "PALADIN" and id == 20288 and ability == "SEAL_OF_RIGHTEOUSNESS")
+                or (class == "SHAMAN" and id == 325 and ability == "LIGHTNING_SHIELD")
+                or (class == "SHAMAN" and id == 547 and ability == "HEALING_WAVE"))
         end
     end
-    equal(count, 2)
+    equal(count, 4)
     local a = newAdapter("ROGUE", "HUMAN", nil)
     initialize(a)
     truthy(RPHelper.UserContent.Add({ layer = "ability", class = "ROGUE", ability = "EVISCERATE" },
@@ -1858,6 +1862,131 @@ test("customization: Druid custom content cannot bypass form speech suppression"
     truthy(RPHelper.UserContent.Edit(id, scope, { type = "customemote", text = "bares its fangs." }))
     truthy(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"))
     equal(a.output[1].type, "customemote")
+end)
+
+local function shamanTest(name, callback)
+    abilityTest("Shaman " .. name, function(a, frame)
+        a.GetPlayerClass = function() return "SHAMAN" end
+        a.GetPlayerRace = function() return "TAUREN" end
+        setAbility("SHAMAN", "LIGHTNING_SHIELD", "chance", 1)
+        setAbility("SHAMAN", "HEALING_WAVE", "chance", 1)
+        callback(a, frame)
+    end)
+end
+
+shamanTest("observed IDs dispatch their existing shipped content without name lookup", function(a)
+    a.activity = "world"
+    a.GetDiagnosticSpellName = function() error("classification must not query names") end
+    truthy(activate(325))
+    truthy(activate(547))
+    equal(a.output[1].type, "local")
+    equal(a.output[1].text, "The storm guards me!")
+    equal(a.output[2].text, "The ancestors' grace restores.")
+    equal(#RPHelper.GetAbilityPool("SHAMAN", "LIGHTNING_SHIELD"), 6)
+    equal(#RPHelper.GetAbilityPool("SHAMAN", "HEALING_WAVE"), 5)
+end)
+
+shamanTest("other ranks unknown IDs and other classes stay unmapped", function(a)
+    for _, id in ipairs({ 324, 331, 332, 905, 900001, 19750, 20288 }) do
+        equal(activate(id), false)
+    end
+    for _, id in ipairs({ 325, 547 }) do
+        for _, class in ipairs({ "PALADIN", "HUNTER", "DRUID", "WARRIOR", "SHAMANX" }) do
+            equal(RPHelper.RuntimeAPI.ClassifySpellcastSucceeded("player", nil, id, class), nil)
+        end
+        equal(activate(id, "pet"), false)
+        equal(activate(id, "target"), false)
+    end
+    equal(#a.output, 0)
+end)
+
+shamanTest("restricted and malformed payloads fail closed", function(a)
+    local classify = RPHelper.RuntimeAPI.ClassifySpellcastSucceeded
+    for _, id in ipairs({ 325, 547 }) do
+        for _, secret in ipairs({ "player", id, "SHAMAN" }) do
+            issecretvalue = function(value) return value == secret end
+            equal(classify("player", nil, id, "SHAMAN"), nil)
+        end
+    end
+    for _, inspect in ipairs({ false, function() error("unavailable") end, function() return nil end }) do
+        issecretvalue = inspect
+        equal(activate(325), false)
+        equal(activate(547), false)
+    end
+    issecretvalue = function() return false end
+    for _, id in ipairs({ "325", "547", 0, -547, 325.5, math.huge, 0/0, {} }) do
+        equal(activate(id), false)
+    end
+    equal(#a.output, 0)
+    truthy(activate(325))
+end)
+
+shamanTest("replacing chance shared cooldown and Priority apply across abilities", function(a)
+    a.clockStep, a.now, a.roll = 0, 0, 0.2
+    setSetting("reactionChance", 0)
+    setSetting("globalCooldown", 10)
+    setAbility("SHAMAN", "LIGHTNING_SHIELD", "chance", 0.2)
+    equal(activate(325), false)
+    a.roll = 0.199
+    truthy(activate(325))
+    equal(activate(547), false)
+    a.now = 1
+    setAbility("SHAMAN", "HEALING_WAVE", "priority", true)
+    truthy(activate(547))
+    a.now = 9
+    equal(activate(325), false)
+    a.now = 10
+    truthy(activate(325)) -- Priority did not reset or extend the shared cooldown.
+    equal(#a.output, 3)
+end)
+
+shamanTest("master event chance and activity gates reject before content preparation", function(a)
+    local choose = RPHelper.ChooseAbilityCandidate
+    RPHelper.ChooseAbilityCandidate = function() error("preparation should not run") end
+    afterEach(function() RPHelper.ChooseAbilityCandidate = choose end)
+    for id, key in pairs({ [325] = "LIGHTNING_SHIELD", [547] = "HEALING_WAVE" }) do
+        setSetting("enabled", false)
+        equal(activate(id), false)
+        setSetting("enabled", true)
+        setAbility("SHAMAN", key, "enabled", false)
+        equal(activate(id), false)
+        setAbility("SHAMAN", key, "enabled", true)
+        setAbility("SHAMAN", key, "chance", 0)
+        equal(activate(id), false)
+        setAbility("SHAMAN", key, "chance", 1)
+        for _, activity in ipairs({ "raid", "unknown" }) do
+            a.activity = activity
+            equal(activate(id), false)
+        end
+        a.activity = "dungeon"
+    end
+    equal(#a.output, 0)
+end)
+
+shamanTest("encounter quota is shared and out-of-combat casts remain eligible", function(a)
+    enableQuota(1)
+    RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
+    truthy(activate(325))
+    equal(activate(547), false)
+    equal(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_ENABLED"), false)
+    truthy(activate(547))
+    RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
+    truthy(activate(547))
+    equal(activate(325), false)
+    equal(#a.output, 3)
+end)
+
+shamanTest("failed output spends no cooldown and dungeon local preference still applies", function(a)
+    a.clockStep = 0
+    setSetting("dungeonSayMode", "local")
+    local display = a.DisplayLocal
+    a.DisplayLocal = function() return false end
+    equal(activate(325), false)
+    equal(activate(547), false)
+    a.DisplayLocal = display
+    truthy(activate(547))
+    equal(a.output[1].type, "local")
+    equal(#a.output, 1)
 end)
 
 if failures > 0 then

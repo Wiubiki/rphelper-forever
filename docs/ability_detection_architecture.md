@@ -1,7 +1,13 @@
 # Ability detection architecture proposal
 
+**Milestone 1 status, 2026-11-06:** the owner approved and implementation now
+provides the static mapping foundation plus Shaman 325/547 alongside the existing
+two Paladin IDs. See [implementation and acceptance](ability_detection_milestone_1.md).
+The proposal below records the original investigation baseline; discovery and
+broader mappings remain deferred. The test build awaits live acceptance.
+
 Design snapshot: 2026-11-06, based on `diagnostics/live-client-ability-events`
-at `76cfebf`. **Investigation and proposal only; awaiting review.** No mappings,
+at `76cfebf`. **Original investigation and proposal.** No mappings,
 event handling, content, settings, persistence, or output policies change here.
 
 ## Recommendation

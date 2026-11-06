@@ -308,10 +308,15 @@ and a readable player class. Missing/failing secret inspection rejects detection
 unused GUID and cast-bar fields are ignored. Registration failure disables only
 ability detection. No cast-start notification or combat-outcome check is required.
 
-Only Paladin Flash of Light (`19750`) and Seal of Righteousness (`20288`) are
-mapped, based on attributable third-party Forever observations. Other ranks and
-variants are not inferred. See the [spellcasting audit](spell_casting_api_audit.md#6-first-runtime-increment)
-for evidence and pending live checks; this is not RPHelper live verification.
+The validated static records in `Data/AbilitySpellMappings.lua` map Paladin
+Flash of Light (`19750`) and Seal of Righteousness (`20288`), based on inherited
+third-party observations, plus Shaman Lightning Shield (`325`) and Healing Wave
+Rank 3 (`547`), based on repeated readable player successes reported by the owner
+on a Tauren Shaman (Interface 16001). Other ranks and variants are not inferred.
+The records load after canonical definitions and compile to the shared runtime/
+Library index. See [milestone 1](ability_detection_milestone_1.md) for evidence,
+validation, and live acceptance. The new mapped reaction path still requires
+manual acceptance; Paladin evidence is not upgraded by the Shaman observations.
 
 Mapped abilities use the same schema-v2 event resolver as generic triggers:
 enabled by default, inheriting the global 5% chance unless a sparse ability

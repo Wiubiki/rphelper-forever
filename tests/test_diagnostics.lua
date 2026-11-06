@@ -36,6 +36,8 @@ dofile("RPHelperForever/Data/Generic.lua")
 dofile("RPHelperForever/Data/Races/Human.lua")
 dofile("RPHelperForever/Data/Classes/Paladin.lua")
 dofile("RPHelperForever/Data/Abilities/Paladin.lua")
+dofile("RPHelperForever/Data/Abilities/Shaman.lua")
+dofile("RPHelperForever/Data/AbilitySpellMappings.lua")
 
 local function newFrame()
     local frame = { registered = {} }
@@ -465,6 +467,42 @@ test("unmapped Shaman spells remain observable with master reactions off", funct
         equal(record.outcome, "not_attempted")
         equal(record.eligible, "not_evaluated")
         equal(a.policyCalls, 0)
+    end)
+end)
+
+test("both observed Shaman IDs report mapped identities and downstream outcomes", function()
+    withInspection(function()
+        for id, ability in pairs({ [325] = "LIGHTNING_SHIELD", [547] = "HEALING_WAVE" }) do
+            local a = newAdapter()
+            a.GetPlayerClass = function() return "SHAMAN" end
+            a.GetPlayerRace = function() return "TAUREN" end
+            a.GetDiagnosticSpellName = function() error("optional lookup unavailable") end
+            initialize(a)
+            truthy(RPHelper.Configuration.SetEventSetting("ability", "SHAMAN", ability, "chance", 1))
+            RPHelper.Diagnostics.SetEnabled(true)
+            setSetting("enabled", false)
+            equal(RPHelper.Runtime.HandleEvent("UNIT_SPELLCAST_SUCCEEDED", "player", nil, id), false)
+            equal(latest().result, "mapped")
+            equal(latest().matched, true)
+            equal(latest().ability, ability)
+            equal(latest().outcome, "master_disabled")
+            equal(latest().eligible, "not_evaluated")
+            setSetting("enabled", true)
+            truthy(RPHelper.Runtime.HandleEvent("UNIT_SPELLCAST_SUCCEEDED", "player", nil, id))
+            equal(latest().class, "SHAMAN")
+            equal(latest().spellID, id)
+            equal(latest().ability, ability)
+            equal(latest().eligible, id == 325 and 6 or 4)
+            equal(latest().selected, true)
+            equal(latest().emitted, true)
+            equal(latest().outcome, "emitted")
+            equal(#a.output, 1)
+            equal(RPHelper.Runtime.HandleEvent("UNIT_SPELLCAST_SUCCEEDED", "player", nil, id), false)
+            equal(latest().outcome, "cooldown")
+            equal(latest().emitted, false)
+            local lines = captureCommand("debug show all")
+            truthy(string.find(table.concat(lines, "\n"), "ability=" .. ability, 1, true))
+        end
     end)
 end)
 

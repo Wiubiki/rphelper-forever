@@ -909,7 +909,7 @@ Scoped `event_id` values follow the active Library group identity scheme; `event
 - Duplicate authored reaction IDs: **0**.
 - Ambiguous event-to-scope or spell-to-ability mappings: **0 found**.
 - Inconsistent, unsupported, or malformed registered reaction structures: **0**.
-- Events without an active runtime detector or spell mapping: **579**. These remain canonical catalogue/ability definitions but are not currently dispatched automatically.
+- Events without an active runtime detector or spell mapping: **577**. These remain canonical catalogue/ability definitions but are not currently dispatched automatically.
 - Explicit empty ability registrations: **192**. The registration API explicitly supports a `nil` entry as an ability definition with an empty shipped pool.
 - Manifest-excluded ability archive files: **7**. They were inspected for activation status and excluded because the addon manifest does not load them.
 - Parameterized reactions are exported as one authored reaction each. In `reactions.csv`, `reaction_text` contains the exact template and `template_choices_json` contains the exact ordered choice pools; `events.json` retains `template` and `choices` as separate fields.
@@ -1370,11 +1370,9 @@ Scoped `event_id` values follow the active Library group identity scheme; `event
 - `ability:SHAMAN:GRACE_OF_AIR_TOTEM`
 - `ability:SHAMAN:GROUNDING_TOTEM`
 - `ability:SHAMAN:HEALING_STREAM_TOTEM`
-- `ability:SHAMAN:HEALING_WAVE`
 - `ability:SHAMAN:LAVA_BURST`
 - `ability:SHAMAN:LESSER_HEALING_WAVE`
 - `ability:SHAMAN:LIGHTNING_BOLT`
-- `ability:SHAMAN:LIGHTNING_SHIELD`
 - `ability:SHAMAN:MAGMA_TOTEM`
 - `ability:SHAMAN:MANA_SPRING_TOTEM`
 - `ability:SHAMAN:MANA_TIDE_TOTEM`
