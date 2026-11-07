@@ -242,3 +242,7 @@ approved-behavior/implementation contradiction was found during consolidation.
 The remaining gaps are explicitly scoped unimplemented trigger families,
 limited runtime ability mappings, unverified Forever Interface metadata, and
 live-client verification—not silent changes to approved behavior.
+
+The [emote output test build](emote_output_test.md) documents the private world
+emote fallback, honest dispatch diagnostics and controlled live acceptance. Build:
+`python3 scripts/package_addon.py build --output dist/RPHelperForever-0.9.0-emote-output-test.zip`.

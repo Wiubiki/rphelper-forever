@@ -545,7 +545,7 @@ end)
 test("every output route consumes the shared encounter quota including exit", function()
     for _, case in ipairs({
         { "say", "dungeon", "say" }, { "say", "world", "local" },
-        { "emote", "dungeon", "emote" }, { "customemote", "world", "customemote" },
+        { "emote", "dungeon", "emote" }, { "customemote", "world", "local" },
     }) do
         local a = policyAdapter()
         a.activity = case[2]
@@ -630,7 +630,7 @@ test("activity routing preserves local say and both emote types", function()
     for _, kind in ipairs({"emote", "customemote"}) do
         RPHelper.Content.generic.entercombat = { { type = kind, text = "WAVE" } }
         truthy(fire())
-        equal(a.output[#a.output].type, kind)
+        equal(a.output[#a.output].type, "local")
     end
     a.activity = "raid"
     equal(fire(), false)
@@ -1219,10 +1219,10 @@ defensiveTest("defensive routing and Druid suppression use existing preparation"
     equal(defend("DODGE"), false)
     RPHelper.Content.generic.dodge = { { type = "customemote", text = "sidesteps." } }
     truthy(defend("DODGE"))
-    equal(a.output[2].type, "customemote")
+    equal(a.output[2].type, "local")
     RPHelper.Content.generic.block = { { type = "emote", text = "ROAR" } }
     truthy(defend("BLOCK"))
-    equal(a.output[3].type, "emote")
+    equal(a.output[3].type, "local")
     equal(#a.output, 3)
 end)
 
@@ -1775,9 +1775,9 @@ abilityTest("custom say emote and customemote use existing activity routes", fun
     a.activity = "dungeon";truthy(activate(19750));equal(a.output[2].type, "say")
     a.activity = "raid";equal(activate(19750), false)
     truthy(RPHelper.UserContent.Edit(id, scope, { type = "emote", text = "ROAR" }))
-    a.activity = "world";truthy(activate(19750));equal(a.output[3].type, "emote")
+    a.activity = "world";truthy(activate(19750));equal(a.output[3].type, "local")
     truthy(RPHelper.UserContent.Edit(id, scope, { type = "customemote", text = "gestures." }))
-    truthy(activate(19750));equal(a.output[4].type, "customemote")
+    truthy(activate(19750));equal(a.output[4].type, "local")
     a.activity = "unknown";equal(activate(19750), false)
 end)
 
@@ -2007,6 +2007,51 @@ test("reviewed ordinary abilities reach the unchanged policy pipeline across all
         if not activate(id) then error(class .. ": " .. key .. " sample did not dispatch") end
         equal(#a.output, 1)
     end
+end)
+
+shamanTest("Searing Totem private fallback preserves IDs weight cooldown and encounter quota", function(a)
+    a.activity, a.clockStep = "world", 0
+    setAbility("SHAMAN", "SEARING_TOTEM", "chance", 1)
+    truthy(RPHelper.Configuration.SetDefaultEnabled("default:ability:shaman:0045", false))
+    truthy(RPHelper.Configuration.SetDefaultEnabled("default:ability:shaman:0046", false))
+    setDefaultWeight("default:ability:shaman:0047", 10)
+    enableQuota(1)
+    RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED")
+    local display = a.DisplayLocal
+    a.DisplayLocal = function() return false end
+    equal(activate(3599), false) -- failed local output consumes neither quota nor cooldown
+    a.DisplayLocal = display
+    RPHelper.Diagnostics.SetEnabled(true)
+    truthy(activate(3599))
+    equal(a.output[1].type, "local")
+    equal(a.output[1].text, "[Local only - Custom Emote] places a totem that launches bursts of fire at nearby foes.")
+    local record = RPHelper.Diagnostics.GetRecords(1)[1]
+    equal(record.eligible, 1); equal(record.selected, true); equal(record.emitted, true)
+    equal(record.outcome, "local_fallback"); equal(record.route, "local")
+    equal(record.apiStatus, "completed"); equal(record.localDisplayed, true)
+    equal(record.publicDelivery, "not_attempted")
+    equal(activate(3599), false) -- successful private display consumes quota
+    equal(RPHelper.Diagnostics.GetRecords(1)[1].outcome, "quota")
+    setSetting("encounterQuotaEnabled", false)
+    equal(activate(3599), false) -- and shared cooldown
+    equal(RPHelper.Diagnostics.GetRecords(1)[1].outcome, "cooldown")
+    a.now = 5
+    truthy(activate(3599))
+end)
+
+shamanTest("failed dungeon emote plus successful fallback consumes cooldown only once", function(a)
+    a.clockStep = 0
+    setAbility("SHAMAN", "SEARING_TOTEM", "chance", 1)
+    truthy(RPHelper.Configuration.SetDefaultEnabled("default:ability:shaman:0045", false))
+    truthy(RPHelper.Configuration.SetDefaultEnabled("default:ability:shaman:0046", false))
+    a.SendCustomEmote = function() error("blocked (mock)") end
+    local display = a.DisplayLocal
+    a.DisplayLocal = function() return false end
+    equal(activate(3599), false)
+    a.DisplayLocal = display
+    truthy(activate(3599))
+    equal(activate(3599), false)
+    equal(#a.output, 1)
 end)
 
 if failures > 0 then

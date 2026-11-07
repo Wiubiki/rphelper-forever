@@ -35,7 +35,9 @@ remains `0.9.0-prerelease`. See the [mapping test build and acceptance procedure
 - Selection and dispatch can fail independently. Successful output alone spends
   cooldown/quota. Open-world Say uses local `AddMessage`; dungeon Say defaults to
   public SAY unless configured local. Built-in and custom emotes use their
-  ordinary output APIs. Raids and unknown activities suppress reactions.
+  native APIs only in dungeons, with private fallback on observable failure;
+  open-world emotes use labelled private display. Raids and unknown activities
+  suppress reactions.
 - Before this increment, `/rph debug` already retained 100 classified records
   and showed the latest ten, including while master reactions were disabled.
   It did not report policy rejection, eligible count, selection, or dispatch.
@@ -110,7 +112,11 @@ not perform extra clock/activity queries.
 | `no_eligible_content eligible=0` | Preparation ran but no candidate survived, including disabled/unresolvable content. |
 | `selection_failed` | No candidate selected despite reaching preparation, e.g. invalid selection RNG. |
 | `selected=yes emitted=no outcome=dispatch_failed` | A candidate was selected but the ordinary output adapter did not report success. |
-| `selected=yes emitted=yes outcome=emitted` | Adapter acknowledged output; type identifies Say/emote/custom emote. Server visibility still needs observation. |
+| `selected=yes emitted=yes outcome=local_displayed` | Local Say UI insertion completed. |
+| `outcome=local_fallback route=local localDisplayed=yes` | Labelled private emote UI insertion completed. Other players cannot see this fallback. |
+| `outcome=public_unverified publicDelivery=unverified` | Public API call completed; visibility/server delivery was not verified. |
+| `dispatchAttempted`, `apiCompleted`, `apiStatus` | Primary route invocation attempted/completed and completed/error/rejected/unavailable/restricted_result status. |
+| `fallbackReason`, `fallbackStatus` | World policy, or failed public call status; fallbackStatus describes a subsequent private call if one was needed. |
 
 An earlier gate hides later gates; for example cooldown may be reported before
 master-disabled. A spell-name lookup can be missing, fail, or return restricted
@@ -153,3 +159,7 @@ fallback runs after a lookup fails or returns restricted data.
 Automated coverage uses mocks. The two Shaman mappings use the owner's reported
 milestone 1 acceptance report. Expanded B IDs/ranks still require live acceptance;
 offline results establish neither broader compatibility nor a restriction workaround.
+
+The [emote output test procedure](emote_output_test.md) covers Searing Totem
+3599, ordinary Emote, Say comparisons and the remaining API uncertainties.
+`emitted` is retained for workflow compatibility; use route and outcome together.

@@ -55,6 +55,14 @@ local function observe(event, category, detail)
     end
 end
 
+local function reactionTrace(detail)
+    if RPHelper.Diagnostics and RPHelper.Diagnostics.IsEnabled() then
+        detail.outcome, detail.eligible = "not_attempted", "not_evaluated"
+        detail.selected, detail.emitted = false, false
+        return detail
+    end
+end
+
 function Runtime.SetAPI(adapter)
     api = adapter or RPHelper.RuntimeAPI
 end
@@ -130,17 +138,25 @@ local function handleReaction(trigger, abilityClass, trace)
         return reject(trace and trace.eligible == 0 and "no_eligible_content" or "selection_failed", activity, now)
     end
     if trace then trace.selected = true; trace.outputType = candidate.type end
-    if not RPHelper.Output.Dispatch(candidate, api, activity, setting("dungeonSayMode")) then
+    local dispatched, output = RPHelper.Output.Dispatch(candidate, api, activity, setting("dungeonSayMode"))
+    if trace then
+        for name, value in pairs(output) do trace[name] = value end
+    end
+    if not dispatched then
         return reject("dispatch_failed", activity, now)
     end
-    if trace then trace.emitted = true; trace.outcome = "emitted" end
+    if trace then
+        trace.emitted = true -- compatibility field: dispatch, not public delivery
+        trace.outcome = output.localDisplayed and (output.fallbackReason and "local_fallback" or "local_displayed")
+            or "public_unverified"
+    end
     if not priority then lastGlobal = now end
     if quotaEnabled and inCombat then combatOutputs = combatOutputs + 1 end
     return true, activity, now
 end
 
-function Runtime.HandleTrigger(trigger)
-    return handleReaction(trigger)
+function Runtime.HandleTrigger(trigger, trace)
+    return handleReaction(trigger, nil, trace)
 end
 
 local function handleAbility(class, ability, trace)
@@ -162,11 +178,8 @@ function Runtime.HandleEvent(event, ...)
         local class = call("GetPlayerClass")
         local ability, detail = call("ClassifySpellcastSucceeded", unitTarget, castGUID, spellID, class)
         detail = detail or { result = "classification_unavailable", matched = false }
-        local trace
-        if RPHelper.Diagnostics and RPHelper.Diagnostics.IsEnabled() then
-            trace = detail
-            trace.outcome, trace.eligible = "not_attempted", "not_evaluated"
-            trace.selected, trace.emitted = false, false
+        local trace = reactionTrace(detail)
+        if trace then
             -- Only the classifier's inspected ID reaches the optional name API.
             if detail.spellID then trace.spellName = call("GetDiagnosticSpellName", detail.spellID) end
         end
@@ -188,7 +201,7 @@ function Runtime.HandleEvent(event, ...)
         local defensive, detail = call("ClassifyUnitCombat", ...)
         detail = detail or { result = "classification_unavailable", matched = false }
         if not defensiveTriggers[defensive] then observe(event, "defense", detail); return false end
-        local dispatched, activity, now = Runtime.HandleTrigger(defensive)
+        local dispatched, activity, now = Runtime.HandleTrigger(defensive, reactionTrace(detail))
         detail.activity, detail.time = activity, now
         observe(event, "defense", detail)
         return dispatched
@@ -207,18 +220,20 @@ function Runtime.HandleEvent(event, ...)
             return false
         end
         -- The exit reaction belongs to the encounter that is ending.
-        local dispatched, activity, now = Runtime.HandleTrigger(trigger)
-        observe(event, "combat", { trigger = trigger, result = "matched", matched = true,
-            activity = activity, time = now })
+        local detail = { trigger = trigger, result = "matched", matched = true }
+        local dispatched, activity, now = Runtime.HandleTrigger(trigger, reactionTrace(detail))
+        detail.activity, detail.time = activity, now
+        observe(event, "combat", detail)
         inCombat = false
         combatOutputs = 0
         return dispatched
     else
         return false
     end
-    local dispatched, activity, now = Runtime.HandleTrigger(trigger)
-    observe(event, "combat", { trigger = trigger, result = "matched", matched = true,
-        activity = activity, time = now })
+    local detail = { trigger = trigger, result = "matched", matched = true }
+    local dispatched, activity, now = Runtime.HandleTrigger(trigger, reactionTrace(detail))
+    detail.activity, detail.time = activity, now
+    observe(event, "combat", detail)
     return dispatched
 end
 

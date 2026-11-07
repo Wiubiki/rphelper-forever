@@ -69,7 +69,8 @@ function Diagnostics.Observe(event, category, detail)
         matched = detail.matched == true,
     }
     for _, key in ipairs({ "trigger", "unit", "action", "spellID", "class", "ability",
-        "spellName", "outcome", "outputType" }) do
+        "spellName", "outcome", "outputType", "route", "apiStatus", "publicDelivery",
+        "fallbackReason", "fallbackStatus" }) do
         local value = detail[key]
         if type(value) == "string" or type(value) == "number" then record[key] = value end
     end
@@ -79,7 +80,7 @@ function Diagnostics.Observe(event, category, detail)
     for _, key in ipairs({ "chance", "roll" }) do
         if finite(detail[key]) then record[key] = detail[key] end
     end
-    for _, key in ipairs({ "selected", "emitted" }) do
+    for _, key in ipairs({ "selected", "emitted", "dispatchAttempted", "apiCompleted", "localDisplayed" }) do
         if type(detail[key]) == "boolean" then record[key] = detail[key] end
     end
     if finite(detail.time) and detail.time >= 0
@@ -115,33 +116,44 @@ local function prefix(record)
     return text .. " " .. record.event
 end
 
+local function outputFields(record)
+    if not record.outcome then return "" end
+    local policy = " outcome=" .. record.outcome
+        .. " eligible=" .. tostring(record.eligible or "not_evaluated")
+        .. " selected=" .. (record.selected and "yes" or "no")
+        .. " emitted=" .. (record.emitted and "yes" or "no")
+    if record.outputType then policy = policy .. " type=" .. record.outputType end
+    for _, key in ipairs({ "route", "apiStatus", "publicDelivery", "fallbackReason", "fallbackStatus" }) do
+        if record[key] then policy = policy .. " " .. key .. "=" .. record[key] end
+    end
+    for _, key in ipairs({ "dispatchAttempted", "apiCompleted", "localDisplayed" }) do
+        if record[key] ~= nil then policy = policy .. " " .. key .. "=" .. (record[key] and "yes" or "no") end
+    end
+    if record.chance then policy = policy .. " chance=" .. tostring(record.chance) end
+    if record.roll then policy = policy .. " roll=" .. string.format("%.3f", record.roll) end
+    return policy
+end
+
 function Diagnostics.Format(record)
     if type(record) ~= "table" then return "invalid diagnostic record" end
     local text = prefix(record)
     local activity = record.activity and (" activity=" .. record.activity) or ""
     if record.category == "combat" then
         return text .. " trigger=" .. (record.trigger or "unknown") .. activity
-            .. " result=" .. record.result
+            .. " result=" .. record.result .. outputFields(record)
     end
     if record.category == "defense" then
         return text .. " unit=" .. (record.unit or "restricted")
-            .. " action=" .. (record.action or "restricted") .. activity .. " result=" .. record.result
+            .. " action=" .. (record.action or "restricted") .. activity .. " result=" .. record.result .. outputFields(record)
     end
     if record.category == "spellcast" then
         local spell = record.spellID and tostring(record.spellID) or "restricted"
         local class = record.class or "unavailable"
         local ability = record.ability and (" ability=" .. record.ability) or ""
         local name = record.spellName and (' spellName="' .. record.spellName .. '"') or " spellName=unavailable"
-        local policy = " outcome=" .. (record.outcome or "not_attempted")
-            .. " eligible=" .. tostring(record.eligible or "not_evaluated")
-            .. " selected=" .. (record.selected and "yes" or "no")
-            .. " emitted=" .. (record.emitted and "yes" or "no")
-        if record.outputType then policy = policy .. " type=" .. record.outputType end
-        if record.chance then policy = policy .. " chance=" .. tostring(record.chance) end
-        if record.roll then policy = policy .. " roll=" .. string.format("%.3f", record.roll) end
         return text .. " unit=" .. (record.unit or "restricted") .. " spellID=" .. spell
             .. name .. " class=" .. class .. ability .. activity .. " result=" .. record.result
-            .. " matched=" .. (record.matched and "yes" or "no") .. policy
+            .. " matched=" .. (record.matched and "yes" or "no") .. outputFields(record)
     end
     return text .. " result=" .. record.result
 end

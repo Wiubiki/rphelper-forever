@@ -425,7 +425,7 @@ test("eligibility selection dispatch failure and emission are distinct", functio
         equal(record.eligible, 1) -- TARGET-dependent custom emote is ineligible
         equal(record.selected, true)
         equal(record.emitted, true)
-        equal(record.outcome, "emitted")
+        equal(record.outcome, "local_displayed")
         equal(record.outputType, "say")
         truthy(string.find(RPHelper.Diagnostics.Format(record), "matched=yes", 1, true))
         a.policyTime = 25
@@ -496,7 +496,7 @@ test("both observed Shaman IDs report mapped identities and downstream outcomes"
             equal(latest().eligible, id == 325 and 6 or 4)
             equal(latest().selected, true)
             equal(latest().emitted, true)
-            equal(latest().outcome, "emitted")
+            equal(latest().outcome, "local_displayed")
             equal(#a.output, 1)
             equal(RPHelper.Runtime.HandleEvent("UNIT_SPELLCAST_SUCCEEDED", "player", nil, id), false)
             equal(latest().outcome, "cooldown")
@@ -630,6 +630,58 @@ test("on and off produce identical runtime calls random draws outputs and policy
         equal(runs[1].calls, runs[2].calls)
         equal(runs[1].results, runs[2].results)
         equal(runs[1].output, runs[2].output)
+    end)
+end)
+
+test("public completion failure and private fallback survive bounded diagnostic capture", function()
+    withInspection(function()
+        local a = newAdapter()
+        a.GetActivity = function() return "dungeon" end
+        initialize(a)
+        setAbility("FLASH_OF_LIGHT", "chance", 1)
+        RPHelper.Diagnostics.SetEnabled(true)
+        truthy(cast())
+        equal(latest().outcome, "public_unverified")
+        equal(latest().publicDelivery, "unverified")
+        equal(latest().apiCompleted, true)
+        equal(latest().localDisplayed, false)
+        a.policyTime = 25
+        a.SendSay = function() error("blocked") end
+        equal(cast(), false)
+        equal(latest().apiCompleted, false)
+        equal(latest().apiStatus, "error")
+        equal(latest().emitted, false)
+        local formatted = RPHelper.Diagnostics.Format(latest())
+        truthy(string.find(formatted, "dispatchAttempted=yes", 1, true))
+        truthy(string.find(formatted, "apiStatus=error", 1, true))
+        for _ = 1, RPHelper.Diagnostics.Capacity + 2 do cast() end
+        equal(RPHelper.Diagnostics.Count(), RPHelper.Diagnostics.Capacity)
+        equal(latest().apiStatus, "error")
+    end)
+end)
+
+test("ordinary generic and defensive Emote diagnostics identify private output", function()
+    withInspection(function()
+        local a = newAdapter()
+        initialize(a)
+        setTrigger("enter_combat", "chance", 1)
+        setTrigger("dodge", "chance", 1)
+        RPHelper.Diagnostics.SetEnabled(true)
+        local choose = RPHelper.ChooseContentCandidate
+        RPHelper.ChooseContentCandidate = function() return { type = "emote", text = "LAUGH" } end
+        local ok, err = pcall(function()
+            truthy(RPHelper.Runtime.HandleEvent("PLAYER_REGEN_DISABLED"))
+            a.policyTime = 25
+            truthy(RPHelper.Runtime.HandleEvent("UNIT_COMBAT", "player", "DODGE"))
+            for _, record in ipairs(RPHelper.Diagnostics.GetRecords()) do
+                equal(record.selected, true); equal(record.emitted, true)
+                equal(record.outcome, "local_fallback"); equal(record.outputType, "emote")
+                equal(record.route, "local"); equal(record.publicDelivery, "not_attempted")
+                truthy(string.find(RPHelper.Diagnostics.Format(record), "localDisplayed=yes", 1, true))
+            end
+        end)
+        RPHelper.ChooseContentCandidate = choose
+        if not ok then error(err) end
     end)
 end)
 

@@ -68,7 +68,9 @@ chance/roll when reached, eligible-pool count when prepared, selection, output
 type, and dispatch success. Eligibility is explicitly `not_evaluated` before
 preparation: capture never constructs pools ahead of the ordinary gates or
 consumes additional random values. `emitted=yes` means the output adapter
-reported success; it does not prove the server accepted a public message.
+reported successful dispatch; it does not prove the server accepted a public message.
+The emote output test build reports `local_displayed`, `local_fallback`, or
+`public_unverified`, with route, API status and private-display fields.
 See [live-client detection diagnostics](live_client_detection_diagnostics.md)
 for the capture procedure and remaining verification requirements.
 
@@ -79,7 +81,7 @@ RPHelper distinguishes between custom emotes, spoken sayings, and local-only say
 ### Open world
 
 Default:
-- Custom emotes: enabled
+- Custom emotes: enabled through labelled local-only fallback
 - Local sayings: enabled
 - Automated /say: not used
 
@@ -214,8 +216,8 @@ Approved V1 routing is:
 
 | Environment | Say | Emote | Custom Emote |
 | --- | --- | --- | --- |
-| Open world | Local-only | Native WoW emote | Native `/e`-style emote |
-| 5-player instance | `/say` by default; per-character local-only option | Native WoW emote | Native `/e`-style emote |
+| Open world | Local-only | Labelled local-only token fallback | Labelled local-only action text |
+| 5-player instance | `/say` by default; per-character local-only option | Native emote attempt; local fallback on observable failure | Native `/e` attempt; local fallback on observable failure |
 | Raid | Disabled | Disabled | Disabled |
 
 Local-only means UI/chat-frame delivery visible only to the player, not public
@@ -340,8 +342,13 @@ question. Generic combat reactions retain their existing semantics.
 Open-world sayings use a prefixed `[RPHelper]` message in the player's existing
 chat display via `AddMessage`; no chat message is transmitted. Dungeon sayings
 use `SAY` by default and use the same local display when the character's
-`dungeonSayMode` is `"local"`. Custom emotes use `EMOTE`; built-in emotes use
-`DoEmote`. Raids and unknown/inconsistent activity contexts suppress all output
+`dungeonSayMode` is `"local"`. Open-world emotes use explicit local-only
+fallback. In dungeons, custom emotes use `C_ChatInfo.SendChatMessage` with
+`EMOTE` (legacy global only if absent); built-in emotes use
+`C_ChatInfo.PerformEmote` (legacy `DoEmote` only if absent). Observable emote
+failures use private display without retrying public output. Silent client
+rejection remains unobservable. See [emote output test](emote_output_test.md).
+Raids and unknown/inconsistent activity contexts suppress all output
 without an override. Missing local display never falls back to public chat.
 Character-attached local speech bubbles are not implemented.
 

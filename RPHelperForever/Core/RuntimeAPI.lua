@@ -177,19 +177,32 @@ function API.IsPlayerInCombat()
     return not not inCombat
 end
 
+local function outputCall(fn, expectsBoolean, ...)
+    if type(fn) ~= "function" then return false, "unavailable" end
+    local ok, result = pcall(fn, ...)
+    if not ok then return false, "error" end
+    if not usable(result) then return false, "restricted_result" end
+    if result == false or (expectsBoolean and result ~= true) then return false, "rejected" end
+    return true, "completed"
+end
+
+local function chatAPI()
+    local fn = type(C_ChatInfo) == "table" and C_ChatInfo.SendChatMessage or nil
+    return type(fn) == "function" and fn or SendChatMessage
+end
+
 function API.SendSay(text)
-    local ok, result = call(SendChatMessage, text, "SAY")
-    return ok and result ~= false
+    return outputCall(chatAPI(), false, text, "SAY")
 end
 
 function API.RunEmote(token)
-    local ok, result = call(DoEmote, token)
-    return ok and result ~= false
+    local fn = type(C_ChatInfo) == "table" and C_ChatInfo.PerformEmote or nil
+    if type(fn) == "function" then return outputCall(fn, true, token) end
+    return outputCall(DoEmote, false, token)
 end
 
 function API.SendCustomEmote(text)
-    local ok, result = call(SendChatMessage, text, "EMOTE")
-    return ok and result ~= false
+    return outputCall(chatAPI(), false, text, "EMOTE")
 end
 
 -- Unknown/unsupported activities never imply permission to transmit.
@@ -219,10 +232,7 @@ end
 
 -- AddMessage is a local UI operation, never a chat transmission.
 function API.DisplayLocal(text)
-    local ok, result = pcall(function()
-        if not DEFAULT_CHAT_FRAME or type(DEFAULT_CHAT_FRAME.AddMessage) ~= "function" then return false end
-        DEFAULT_CHAT_FRAME:AddMessage("|cffb8a0df[RPHelper]|r " .. text)
-        return true
-    end)
-    return ok and result == true
+    if not DEFAULT_CHAT_FRAME then return false, "unavailable" end
+    return outputCall(DEFAULT_CHAT_FRAME.AddMessage, false, DEFAULT_CHAT_FRAME,
+        "|cffb8a0df[RPHelper]|r " .. text)
 end

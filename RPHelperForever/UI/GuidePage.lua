@@ -55,7 +55,7 @@ local sections = {
         label = "Chat & Restrictions",
         title = "Chat Behaviour and Restrictions",
         pages = {
-            "Open world: Say reactions use an RPHelper-prefixed local chat display visible only to you. They are not sent to other players and do not create an in-world speech bubble. Emote and Custom Emote use native game output when allowed and may be visible to nearby players.\n\nFive-player instances: Say broadcasts to nearby players in /say by default. The Main setting can route only Say to local display instead; it does not change either emote type.",
+            "Open world: Say reactions use an RPHelper-prefixed local chat display visible only to you. They are not sent to other players and do not create an in-world speech bubble. Emote and Custom Emote use a labelled local-only fallback in the open world, visible only to you. Ordinary Emote fallback shows its stored token; it does not play an animation or sound.\n\nFive-player instances: Say broadcasts to nearby players in /say by default. The Main setting can route only Say to local display instead; it does not change either emote type. In dungeons, emotes attempt native output; an observable API failure uses a labelled local-only fallback. A completed public API call does not confirm delivery.",
             "Raids: every automatic RPHelper output is suppressed before normal reaction processing. This is not configurable.\n\nDruids: while shapeshifted, Built-in and Custom Say reactions are ineligible. Emote and Custom Emote remain eligible.\n\nLocal display always means text shown only to this player. RPHelper does not currently implement genuine character-attached local speech bubbles.",
         },
     },

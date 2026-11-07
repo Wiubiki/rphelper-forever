@@ -12,9 +12,9 @@ The minimal runtime core isolates every WoW API dependency in `Core/RuntimeAPI.l
 | `UnitClass("player")` | Stable class file token | Established WoW API; Forever return shape unverified | Confirm the second return remains the canonical file token. |
 | `UnitRace("player")` | Stable race file token | Established WoW API; Forever return shape unverified | Confirm the second return remains the canonical file token, including Forever races. |
 | `GetShapeshiftFormID()` | Druid form-aware selection and speech suppression | Existing isolated implementation; Forever IDs unverified | Confirm availability and all Druid form IDs. Missing/failing calls deliberately raise into the protected form detector so it returns `UNKNOWN`; successful `nil` or `0` means humanoid. |
-| `SendChatMessage(text, "SAY")` | Spoken saying output | Established WoW API; automatic use may be restricted | Confirm automatic-event permission and activity restrictions. |
-| `SendChatMessage(text, "EMOTE")` | Custom `/e` output | Established WoW API; automatic use may be restricted | Confirm automatic-event permission and activity restrictions. |
-| `DoEmote(token)` | Blizzard built-in emote output | Established WoW API; automatic use may be restricted | Confirm token support and automatic-event permission. |
+| `C_ChatInfo.SendChatMessage(text, "SAY")` | Dungeon spoken saying output; legacy global only if absent | Present in mirrored Forever generated documentation; restricted | Confirm automatic-event permission on the installed build. |
+| `C_ChatInfo.SendChatMessage(text, "EMOTE")` | Dungeon custom `/e` attempt; legacy global only if absent | Present in mirrored Forever generated documentation; restricted | Confirm instance permission, visible text and receiving-player visibility. World uses private fallback. |
+| `C_ChatInfo.PerformEmote(token)` | Dungeon built-in emote attempt; legacy `DoEmote` only if absent | Generated documentation specifies boolean success; mirrored UI usage conflicts (see output report) | Confirm return semantics, token support and visible output. World uses private token fallback. |
 
 Adapter methods fail safely when their underlying global is unavailable. The shapeshift adapter deliberately raises on API failure so the existing protected form detector can distinguish failure (`UNKNOWN`) from a legitimate humanoid `nil`/`0` result. Automated tests replace the adapter entirely; live Forever testing remains a separate verification stage.
 
@@ -25,7 +25,7 @@ Adapter methods fail safely when their underlying global is unavailable. The sha
 | --- | --- | --- |
 | `IsInInstance()` | Strict `false, "none"` → world; `true, "party"` → dungeon; `true, "raid"` → raid. Other or failing results are unknown and suppress output. | Confirm Forever return values and instance classification. Raid grouping outside an instance retains world routing. |
 | `GetTime()` | Session monotonic cooldown clock, injectable through the adapter. | Confirm availability and readable values during combat. Backward/nonfinite readings suppress attempts. |
-| `DEFAULT_CHAT_FRAME:AddMessage(text)` | Minimal local-only sayings display with an RPHelper prefix. | Confirm visibility and availability; no public fallback exists. |
+| `DEFAULT_CHAT_FRAME:AddMessage(text)` | Local sayings and explicitly labelled private emote fallback with an RPHelper prefix. | Confirm visibility and availability; no public fallback exists. |
 | `math.random()`, `math.random(size)` | Probability rolls and content selection, separately injectable. | Standard Lua assumptions; no random seed changes. |
 | `UNIT_COMBAT` / `RegisterDefensiveEvents(frame)` | Protected ordinary registration; failure leaves combat transitions functional. | Confirm registration and delivery on the actual Forever build. |
 | `issecretvalue` / `ClassifyUnitCombat(unitTarget, action)` | Required fields must inspect as nonsecret strings; exact player DODGE/PARRY/direct BLOCK only. Missing/failing inspection rejects detection; unused fields are ignored. | Confirm readability and attribution in ordinary addon execution, restricted contexts, and encounter-boundary ordering. See [combat audit](audits/combat_trigger_api_audit.md). |
@@ -33,10 +33,16 @@ Adapter methods fail safely when their underlying global is unavailable. The sha
 | `issecretvalue` / `ClassifySpellcastSucceeded(unitTarget, castGUID, spellID, class)` | Exact readable player unit, valid readable positive integer ID and readable class; validated static data maps 1,168 exact IDs across nine classes. GUID/cast-bar fields ignored. | Shaman IDs have repeated owner-reported readable successes on Tauren Shaman, Interface 16001; exact build and broader contexts remain unrecorded. Paladin evidence remains third-party. Only Shaman 325/547 have owner-reported RPHelper path acceptance; expanded B ranks, restricted contexts and duplicates require live verification; see [milestone 2](ability_detection_milestone_2.md). |
 
 Output adapter success means the API invocation completed without an exception
-or explicit false result, not that the server acknowledged delivery. WoW output
+or explicit false result (the namespaced PerformEmote requires documented true),
+not that the server acknowledged delivery. Missing APIs, exceptions, false and
+restricted results are distinguished; raw errors are discarded. Emote failures
+in dungeons can instead succeed through labelled private AddMessage fallback. WoW output
 APIs commonly return nil on successful invocation; silent server rejection cannot
 be observed here. No restriction bypass or automatic retry is attempted.
 Automatic chat/emote permissions still require live Forever verification.
+Open-world emotes conservatively use local-only fallback without a public API
+attempt. This is a test-build policy, not proof that every native emote is
+prohibited. See [evidence and acceptance procedure](emote_output_test.md).
 
 ## Remediation tracking: feat/runtime-policies
 
